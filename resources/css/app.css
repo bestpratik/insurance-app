@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Sidebar transitions */
+#desktop-sidebar {
+    transition: width 0.3s ease;
+}
+
+/* Sidebar item hover effects */
+.sidebar-item-text {
+    transition: opacity 0.2s ease;
+}
+
+/* Mobile sidebar */
+#mobile-sidebar {
+    transition: opacity 0.3s ease;
+    z-index: 40;
+}
+
+#mobile-sidebar > div:last-child {
+    transition: transform 0.3s ease;
+}
+
+#mobile-sidebar:not(.hidden) > div:last-child {
+    transform: translateX(0);
+}
+
+#mobile-sidebar.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#mobile-sidebar.hidden > div:last-child {
+    transform: translateX(-100%);
+}
+
+/* Toggle button rotation */
+#toggle-sidebar svg {
+    transition: transform 0.3s ease;
+}
+
+/* Collapsed state */
+.md\:w-20 .sidebar-item-text {
+    opacity: 0;
+    width: 0;
+    display: none;
+}
+
+.md\:w-20 .sidebar-logo {
+    display: none;
+}
