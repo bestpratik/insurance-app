@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\PurchaseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('providers', ProviderController::class);
+    Route::resource('insurances', InsuranceController::class);
+    Route::resource('purchases', PurchaseController::class);
 });
 
 require __DIR__.'/auth.php';

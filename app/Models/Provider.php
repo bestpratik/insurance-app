@@ -19,7 +19,7 @@ class Provider extends Model
     ];
 
 
-     public function sluggable(): array
+    public function sluggable(): array
     {
         return [
             'slug' => [
@@ -27,4 +27,6 @@ class Provider extends Model
             ]
         ];
     }
+    
+    
 }

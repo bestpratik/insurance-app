@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Purchase extends Model
 {
+    use Sluggable;
+
     protected $table = 'purchases';
     protected $fillable = [
         'insurance_id',
-        'product_type',
+        'provider_type',
         'policy_no',
         'policy_holder_type',
         'policy_holder_title',
@@ -29,4 +32,21 @@ class Purchase extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    public function insurance(){
+        return $this->belongsTo(Insurance::class, 'insurance_id');
+    }
+
+     public function provider(){
+        return $this->belongsTo(Provider::class, 'provider_type');
+    }
 }
