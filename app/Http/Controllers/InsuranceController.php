@@ -86,7 +86,7 @@ class InsuranceController extends Controller
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
             $insurance->update();
-            return redirect()->route('insurance.pricing',$insurance);
+            return redirect()->route('insurance.pricing',$insurance); 
     }
 
    
