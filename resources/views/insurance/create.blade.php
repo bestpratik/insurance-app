@@ -4,12 +4,12 @@
             Add Insurance
         </h2>
     </x-slot>
-    @if($message = Session::get('message'))
+    <!-- @if($message = Session::get('message'))
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
             {{ $message }}
         </div>
-    @endif
+    @endif -->
 
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
@@ -62,21 +62,44 @@
                     enctype="multipart/form-data">
                     @csrf
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <label class="block">
-                            <span class="text-gray-700">Name</span>
+                            <span class="text-gray-700">Type Of Insurance<span class="text-red-600 text-xl">* </span></span>
+                             <label class="flex items-center space-x-2">
+                                <input type="radio" name="type_of_insurance" class="form-radio" value="New">
+                                <span>New</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal">
+                                <span>Renewal</span>
+                            </label>
+                            @error('type_of_insurance')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
+
+                        </label>
+
+
+                        <label class="block">
+                            <span class="text-gray-700">Name Of Insurance<span class="text-red-600 text-xl">* </span></span>
                             <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
                                 placeholder="Enter name">
+                            @error('name')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">Provider Type</span>
+                            <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
                             <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
                                 <option value="">choose..</option>
                                 @foreach($provider as $row)
                                     <option value="{{ $row->id }}">{{ $row->name }}</option>
                                 @endforeach
                             </select>
+                            @error('provider_type')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
                         </label>
 
                         <label class="block">
@@ -86,22 +109,37 @@
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">Net Premium</span>
-                            <input name="net_premium" type="text"
-                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter..">
+                            <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
+                            <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            @error('validity')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">Commission</span>
-                            <input name="commission" type="text"
-                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter..">
+                            <span class="text-gray-700">From<span class="text-red-600 text-xl">* </span></span>
+                            <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            @error('rent_amount_from')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
                         </label>
+
+                        <label class="block">
+                            <span class="text-gray-700">To<span class="text-red-600 text-xl">* </span></span>
+                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            @error('rent_amount_to')
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            @enderror
+                        </label>
+
+                      
 
                         <label class="block">
                             <span class="text-gray-700">Image</span>
                             <input type="file" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" id="customFile" name="image"
                                 onchange="loadFile(event)">
                         </label>
+                        
                     </div>
 
                     <div class="pt-6 flex justify-center">

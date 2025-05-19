@@ -29,7 +29,12 @@ class InsuranceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+        'type_of_insurance' => 'required',
         'name' => 'required',
+        'provider_type' => 'required',
+        'validity' => 'required',
+        'rent_amount_from' => 'required',
+        'rent_amount_to' => 'required',
        ]);
 
         $insurance = new Insurance;
@@ -45,8 +50,10 @@ class InsuranceController extends Controller
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
         $insurance->prefix = $request->prefix;
-        $insurance->net_premium = $request->net_premium;
-        $insurance->commission = $request->commission;
+        $insurance->type_of_insurance = $request->type_of_insurance;
+        $insurance->validity = $request->validity;
+        $insurance->rent_amount_from = $request->rent_amount_from;
+        $insurance->rent_amount_to = $request->rent_amount_to;
         // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
         // $insurance->ipt = $insurance->gross_premium * 0.12;
         // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
@@ -54,13 +61,32 @@ class InsuranceController extends Controller
         // // dd($insurance);
         $insurance->save();
 
-         return redirect()->route('insurance.pricing',$insurance);
-        // return redirect('insurances')->with('success', 'Insurance created successfully');
+        return redirect()->route('insurance.pricing',$insurance);
+        // return redirect('insurances')->with('message', 'Insurance created successfully');
     }
 
     public function insurance_pricing($id){
         $insurance = Insurance::find($id);
         return view('insurance.pricing', compact('insurance'));
+    }
+
+
+    public function insurance_pricing_submit(Request $request, $id){
+            $request->validate([
+                'net_premium' => 'required',
+                'commission' => 'required',
+            ]);
+
+            $insurance = Insurance::find($id);
+
+            $insurance->net_premium = $request->net_premium;
+            $insurance->commission = $request->commission;
+            $insurance->gross_premium = $request->gross_premium;
+            $insurance->ipt = $request->ipt;
+            $insurance->total_premium = $request->total_premium;
+            $insurance->payable_amount = $request->payable_amount;
+            $insurance->update();
+            return redirect()->route('insurance.pricing',$insurance);
     }
 
    
@@ -113,7 +139,7 @@ class InsuranceController extends Controller
 
         $insurance->save();
 
-        return redirect('insurances')->with('success', 'Insurance updated successfully.');
+        return redirect('insurances')->with('message', 'Insurance updated successfully.');
     }
 
     
@@ -126,9 +152,9 @@ class InsuranceController extends Controller
                 File::delete($destination);
             }
             $insurance->delete();
-            return redirect('insurances')->with('success', 'Insurance deleted successfully');
+            return redirect('insurances')->with('message', 'Insurance deleted successfully');
         }else{
-            return redirect('insurances')->with('success', 'No data find to delete');
+            return redirect('insurances')->with('message', 'No data find to delete');
         }
     }
 }
