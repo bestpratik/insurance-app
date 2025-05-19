@@ -45,7 +45,7 @@
                             <span class="text-gray-700">Gross Premium</span>
                             <input name="gross_premium" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->gross_premium}}" placeholder="Enter.." readonly>
                         </label>
-
+ 
                         <label class="block">
                             <span class="text-gray-700">IPT</span>
                             <input name="ipt" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->ipt}}" placeholder="Enter.." readonly>

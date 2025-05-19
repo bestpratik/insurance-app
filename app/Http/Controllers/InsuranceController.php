@@ -47,14 +47,20 @@ class InsuranceController extends Controller
         $insurance->prefix = $request->prefix;
         $insurance->net_premium = $request->net_premium;
         $insurance->commission = $request->commission;
-        $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
-        $insurance->ipt = $insurance->gross_premium * 0.12;
-        $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
-        $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
-        // dd($insurance);
+        // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
+        // $insurance->ipt = $insurance->gross_premium * 0.12;
+        // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
+        // $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
+        // // dd($insurance);
         $insurance->save();
 
-        return redirect('insurances')->with('success', 'Insurance created successfully');
+         return redirect()->route('insurance.pricing',$insurance);
+        // return redirect('insurances')->with('success', 'Insurance created successfully');
+    }
+
+    public function insurance_pricing($id){
+        $insurance = Insurance::find($id);
+        return view('insurance.pricing', compact('insurance'));
     }
 
    

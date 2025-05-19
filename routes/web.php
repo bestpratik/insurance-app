@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
     Route::resource('purchases', PurchaseController::class);
+    Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
 });
 
 require __DIR__.'/auth.php';
