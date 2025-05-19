@@ -57,33 +57,28 @@
                                     @csrf
 
                                     <label class="block">
-                                        <span class="text-gray-700">Gross Premium</span>
-                                        <input name="gross_premium" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter.." readonly>
+                                        <span class="text-gray-700">Gross Premium (£)</span>
+                                        <input name="gross_premium" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->gross_premium}}" readonly>
                                     </label>
 
                                     <label class="block">
-                                        <span class="text-gray-700">IPT</span>
-                                        <input name="ipt" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter name" readonly>
+                                        <span class="text-gray-700">IPT (£)</span>
+                                        <input name="ipt" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->ipt}}" readonly>
                                     </label>
 
                                     <label class="block">
-                                        <span class="text-gray-700">Total Premium</span>
-                                        <input name="total_premium" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter name" readonly>
+                                        <span class="text-gray-700">Total Premium (£)</span>
+                                        <input name="total_premium" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->total_premium}}" readonly>
                                     </label>
 
                                     <label class="block">
-                                        <span class="text-gray-700">Payable Amount</span>
-                                        <input name="payable_amount" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter name" readonly>
-                                    </label>
-
-                                    <label class="block">
-                                        <span class="text-gray-700">Image</span>
-                                        <input type="file" class="custom-file-input" id="customFile" name="image" onchange="loadFile(event)">
+                                        <span class="text-gray-700">Payable Amount (£)</span>
+                                        <input name="payable_amount" type="text" class="w-full mt-1 p-2 border rounded" value="{{$insurance->payable_amount}}" readonly>
                                     </label>
 
 
                                     <div class="pt-3 d-flex gap-2 justify-content-center">
-                                     <a href="" class="btn btn-light ">
+                                     <a href="{{url('insurances', $insurance->id)}}" class="btn btn-light ">
                                         Previous</a>
                                     <button class="btn btn-primary" type="submit" >
                                         Next

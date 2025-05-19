@@ -24,7 +24,12 @@ class Insurance extends Model
         'image',
         'status',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'type_of_insurance',
+        'rent_amount_from',
+        'rent_amount_to',
+        'details_of_cover',
+        'validity',
     ];
 
     public function sluggable(): array

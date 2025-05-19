@@ -25,6 +25,11 @@ return new class extends Migration
             $table->double('payable_amount')->nullable();
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default(1);
+            $table->string('type_of_insurance')->nullable();
+            $table->double('rent_amount_from')->nullable();
+            $table->double('rent_amount_to')->nullable();
+            $table->longText('details_of_cover')->nullable();
+            $table->text('validity')->nullable();
             $table->timestamps();
         });
     }

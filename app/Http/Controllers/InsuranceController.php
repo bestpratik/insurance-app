@@ -29,7 +29,14 @@ class InsuranceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+        'type_of_insurance' => 'required',
         'name' => 'required',
+        'provider_type' => 'required',
+        'validity' => 'required',
+        'rent_amount_from' => 'required',
+        'rent_amount_to' => 'required',
+        'net_premium' => 'required',
+        'commission' => 'required',
        ]);
 
         $insurance = new Insurance;
@@ -47,20 +54,41 @@ class InsuranceController extends Controller
         $insurance->prefix = $request->prefix;
         $insurance->net_premium = $request->net_premium;
         $insurance->commission = $request->commission;
-        // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
-        // $insurance->ipt = $insurance->gross_premium * 0.12;
-        // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
-        // $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
+
+        $insurance->type_of_insurance = $request->type_of_insurance;
+        $insurance->validity = $request->validity;
+        $insurance->rent_amount_from = $request->rent_amount_from;
+        $insurance->rent_amount_to = $request->rent_amount_to;
+
+        $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
+        $insurance->ipt = $insurance->gross_premium * 0.12;
+        $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
+        $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
+        
         // // dd($insurance);
         $insurance->save();
 
-         return redirect()->route('insurance.pricing',$insurance);
+        return redirect()->route('insurance.pricing',$insurance->id);
         // return redirect('insurances')->with('success', 'Insurance created successfully');
     }
 
     public function insurance_pricing($id){
         $insurance = Insurance::find($id);
         return view('insurance.pricing', compact('insurance'));
+    }
+
+    public function insurance_pricing_submit(Request $request, $id){
+        $request->validate([
+        'gross_premium' => 'required',
+        'ipt' => 'required',
+        'total_premium' => 'required',
+        'payable_amount' => 'required',
+       ]);
+       
+        $insurance = Insurance::find('$id');
+
+       return redirect()->route('insurance.pricing',$insurance->id);
+        
     }
 
    
