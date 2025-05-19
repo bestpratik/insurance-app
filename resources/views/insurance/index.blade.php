@@ -3,9 +3,9 @@
 
         <div class="col-span-12">
             <!-- Table Four -->
-            @if (session('success'))
+            @if (session('message'))
                 <div class="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50  dark:text-green-400">
-                    {{ session('success') }}
+                    {{ session('message') }}
                 </div>
             @endif
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
