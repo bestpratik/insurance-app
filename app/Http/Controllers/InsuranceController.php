@@ -26,7 +26,7 @@ class InsuranceController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $request->validate([
         'type_of_insurance' => 'required',
