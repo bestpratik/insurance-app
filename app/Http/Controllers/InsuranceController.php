@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Insurance;
 use App\Models\Provider;
+use App\Models\Insurancedocument;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
+
 
 class InsuranceController extends Controller
 {
@@ -35,10 +37,6 @@ class InsuranceController extends Controller
         'validity' => 'required',
         'rent_amount_from' => 'required',
         'rent_amount_to' => 'required',
-
-        'net_premium' => 'required',
-        'commission' => 'required',
-
        ]);
 
         $insurance = new Insurance;
@@ -54,33 +52,25 @@ class InsuranceController extends Controller
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
         $insurance->prefix = $request->prefix;
-
-        $insurance->net_premium = $request->net_premium;
-        $insurance->commission = $request->commission;
-
-
         $insurance->type_of_insurance = $request->type_of_insurance;
         $insurance->validity = $request->validity;
         $insurance->rent_amount_from = $request->rent_amount_from;
         $insurance->rent_amount_to = $request->rent_amount_to;
-
         // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
         // $insurance->ipt = $insurance->gross_premium * 0.12;
         // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
         // $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
-        // // dd($insurance);
+        // dd($insurance);
         $insurance->save();
 
-        return redirect()->route('insurance.pricing',$insurance);
+        return redirect()->route('insurance.pricing',$insurance->id);
         // return redirect('insurances')->with('message', 'Insurance created successfully');
-
     }
 
     public function insurance_pricing($id){
         $insurance = Insurance::find($id);
         return view('insurance.pricing', compact('insurance'));
     }
-
 
 
     public function insurance_pricing_submit(Request $request, $id){
@@ -98,10 +88,60 @@ class InsuranceController extends Controller
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
             $insurance->update();
-            return redirect()->route('insurance.pricing',$insurance);
-
+            return redirect()->route('insurance.static.document',$insurance); 
     }
 
+    public function static_document($id){
+        $insurance = Insurance::find($id);
+        $insurancedoc=Insurancedocument::where('insurance_id',$insurance->id)->get();
+        // dd($insurancedoc);
+        return view('insurance.static_doc', compact('insurance','insurancedoc'));
+    }
+
+    public function static_document_submit(Request $request, $id){
+        $request->validate([
+                'title' => 'required',
+                'document' => 'required|mimes:pdf,docx|max:6144',
+            ]);
+
+            $Insurancedocument = new Insurancedocument;
+
+            $Insurancedocument->insurance_id = $id;
+            $Insurancedocument->title = $request->title;
+
+            $destinationPath = public_path('uploads/insurance_document/');
+            if ($request->hasFile('document')) {
+                $file = $request->file('document');
+                
+                $statictitle = str_replace(' ', '_', $Insurancedocument->title);
+                
+                $filename = $statictitle . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $filename);
+                
+                $Insurancedocument->document = $filename;
+            }
+     
+            // dd($Insurancedocument);
+            $Insurancedocument->save();
+            return redirect()->back()->with('message','Static Document Added Successfully!');
+
+            // return redirect()->route('insurance.static.document',$Insurancedocument); 
+    }
+
+    public function static_document_delete($id){
+        $Insurancedocument = Insurancedocument::find($id);
+        if($Insurancedocument)
+        {
+            $destination = public_path('uploads/insurance_document/'.$Insurancedocument->document);
+            if(File::exists($destination))
+            {
+                File::delete($destination);
+            }
+            
+            $Insurancedocument->delete();
+            return redirect()->back();
+        }
+    }
    
     public function show(string $id)
     {

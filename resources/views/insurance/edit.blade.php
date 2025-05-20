@@ -66,17 +66,16 @@
                         <label class="block">
                             <span class="text-gray-700">Type Of Insurance<span class="text-red-600 text-xl">* </span></span>
                              <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="New">
+                                <input type="radio" name="type_of_insurance" class="form-radio" value="New" @if($insurance->type_of_insurance == 'New') checked @endif>
                                 <span>New</span>
                             </label>
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal">
+                                <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal" @if($insurance->type_of_insurance == 'Renewal') checked @endif>
                                 <span>Renewal</span>
                             </label>
                             @error('type_of_insurance')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
-
                         </label>
 
 
@@ -94,7 +93,7 @@
                             <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
                                 <option value="">choose..</option>
                                 @foreach($provider as $row)
-                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    <option value="{{ $row->id }}" @if($row->id == $insurance->provider_type) selected @endif>{{ $row->name }}</option>
                                 @endforeach
                             </select>
                             @error('provider_type')
@@ -139,6 +138,7 @@
                             <input type="file" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" id="customFile" name="image"
                                 onchange="loadFile(event)">
                         </label>
+                         <img src="{{ asset('uploads/insurance/'.$insurance->image ) }}"  style="height:50px;width:75px;">
                         
                     </div>
 

@@ -22,8 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
     Route::resource('purchases', PurchaseController::class);
+
     Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
-    Route::post('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing');
+    Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
+
+    Route::get('insurance/static-doc/{id}', [InsuranceController::class, 'static_document'])->name('insurance.static.document');
+    Route::post('insurance/static/document/submit/{id}', [InsuranceController::class, 'static_document_submit'])->name('insurance.static.document.submit');
+    Route::delete('insurance/static/delete/{id}', [InsuranceController::class, 'static_document_delete'])->name('insurance.static.delete');
+
 });
 
 require __DIR__.'/auth.php';
