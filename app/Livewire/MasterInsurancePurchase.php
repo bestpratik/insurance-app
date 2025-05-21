@@ -14,6 +14,7 @@ class MasterInsurancePurchase extends Component
     public $selectedinsuranceId;
     public $insuranceDetails;
     public $availableInsurances;
+    public $productType;
 
     // Step 2: Property info
     public $insuranceType;
@@ -77,6 +78,7 @@ class MasterInsurancePurchase extends Component
     {
         if ($step == 1) {
             return [
+                'productType' => 'required',
                 'selectedinsuranceId' => 'required|exists:insurances,id',
             ];
         } elseif ($step == 2) {
@@ -162,6 +164,7 @@ class MasterInsurancePurchase extends Component
     {
         $this->summaryData = [
             'Insurance Selected' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
+            'Product Type' => $this->productType,
             'Insurance Type' => $this->insuranceType,
             'Rent Amount' => $this->rentAmount,
             'Property Address' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
@@ -176,7 +179,7 @@ class MasterInsurancePurchase extends Component
             'Tenant Name' => $this->tenantName,
             'Tenant Phone' => $this->tenantPhone,
             'Tenant Email' => $this->tenantEmail,
-            'Payment Method' => ucfirst(str_replace('_', ' ', $this->paymentMethod)),
+            'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
         ];
     }
 
@@ -195,6 +198,7 @@ class MasterInsurancePurchase extends Component
 
         $purchase = new Purchase();
         $purchase->insurance_id = $this->selectedinsuranceId;
+        $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
         $purchase->rent_amount = $this->rentAmount;
         $purchase->door_no = $this->doorNo;

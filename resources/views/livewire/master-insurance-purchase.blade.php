@@ -7,7 +7,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-shield-check class="h-6 w-6 me-2" />
+            <x-heroicon-o-shield-check class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Insurances</span>
         </a>
 
@@ -18,7 +18,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-home class="h-6 w-6 me-2" />
+            <x-heroicon-o-home class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Property Info</span>
         </a>
 
@@ -29,7 +29,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-user class="h-6 w-6 me-2" />
+            <x-heroicon-o-user class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Policy Holder Info</span>
         </a>
 
@@ -40,7 +40,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-document-text class="h-6 w-6 me-2" />
+            <x-heroicon-o-document-text class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Policy Details</span>
         </a>
 
@@ -51,7 +51,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-users class="h-6 w-6 me-2" />
+            <x-heroicon-o-users class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Tenant Details</span>
         </a>
 
@@ -62,7 +62,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-credit-card class="h-6 w-6 me-2" />
+            <x-heroicon-o-credit-card class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Payment Method</span>
         </a>
 
@@ -73,7 +73,7 @@
                @else
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
-            <x-heroicon-o-chart-bar class="h-6 w-6 me-2" />
+            <x-heroicon-o-chart-bar class="h-6 w-6 " />
             <span class="text-sm hidden md:inline">Summary</span>
         </a>
     </nav>
@@ -94,21 +94,24 @@
                         </label>
                         <div class="flex space-x-5">
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
-                                <input type="radio" name="product_type" class="text-blue-600 focus:ring-blue-500"
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
                                     value="Landlord">
                                 <span>Landlord</span>
                             </label>
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
-                                <input type="radio" name="product_type" class="text-blue-600 focus:ring-blue-500"
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
                                     value="Agent">
                                 <span>Agent</span>
                             </label>
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
-                                <input type="radio" name="product_type" class="text-blue-600 focus:ring-blue-500"
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
                                     value="Others">
                                 <span>Others</span>
                             </label>
                         </div>
+                        @error('productType')
+                            <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Insurances (Dropdown) -->
@@ -404,6 +407,7 @@
                 <div class="space-y-4">
                     <p class="font-semibold text-gray-800 mb-1">Payment Method</p>
 
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Select Payment Method <span
                                 class="text-red-600">*</span></label>
@@ -420,7 +424,22 @@
                         @enderror
                     </div>
                 </div>
+                </div>
 
+            @endif
+
+            @if($currentStep === 7)
+                <div class="summary-section p-4">
+                    <h3 class="text-xl font-semibold mb-4">Review Your Summary</h3>
+                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        @foreach($summaryData as $key => $value)
+                            <li class="pb-2">
+                                <h6 class="font-medium">{{ $key }}</h6>
+                                <p>{{ $value }}</p>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
 
 
