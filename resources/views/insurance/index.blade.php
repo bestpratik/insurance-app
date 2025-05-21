@@ -299,6 +299,7 @@
             </div>
             <!-- Table Four -->
         </div>
+        </div>
 </x-app-layout>
 <script type="text/javascript">
     function confirmDelete() {

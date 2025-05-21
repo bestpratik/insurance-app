@@ -225,7 +225,7 @@ class MasterInsurancePurchase extends Component
 
         session()->flash('message', 'Insurance purchase completed successfully!');
 
-        return redirect()->route('insurance.purchase.success');
+        return redirect('purchases');
     }
 
     public function render()
