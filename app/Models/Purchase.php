@@ -12,7 +12,7 @@ class Purchase extends Model
     protected $table = 'purchases';
     protected $fillable = [
         'insurance_id',
-        'provider_type',
+        'product_type',
         'policy_no',
         'policy_holder_type',
         'policy_holder_title',

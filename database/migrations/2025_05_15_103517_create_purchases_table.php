@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('insurance_id');
-            $table->string('provider_type')->nullable();
+            $table->string('product_type')->nullable();
             $table->string('policy_no')->nullable();
             $table->string('policy_holder_type')->nullable();
             $table->string('policy_holder_title')->nullable();
