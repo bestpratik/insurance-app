@@ -45,11 +45,11 @@
                 <x-heroicon-o-credit-card class="mr-3 h-5 w-5 text-gray-400" />
                 <span class="sidebar-item-text">Process & Insurance Policy </span>
             </a>
-            <!-- <a href="" 
+            <a href="{{route('purchase.list')}}" 
                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-blue-50 hover:text-blue-700">
                  <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 text-gray-400" />
                 <span class="sidebar-item-text">Purchase List</span>
-            </a> -->
+            </a>
         </div>
     </div>
 

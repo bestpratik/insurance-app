@@ -96,4 +96,9 @@ class PurchaseController extends Controller
             return redirect('purchases')->with('success', 'No data find to delete'); 
         }
     }
+
+    public function purchaseList(){
+        $purchases = Purchase::where('status', 1)->with('insurance','provider')->get();
+        return view('purchase.list', compact('purchases'));
+    }
 }

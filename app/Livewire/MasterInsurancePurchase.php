@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
+use Carbon\Carbon;
+
 use Illuminate\Validation\Rule;
 
 class MasterInsurancePurchase extends Component
@@ -33,11 +35,17 @@ class MasterInsurancePurchase extends Component
     public $policyholderLastName;
     public $policyholderEmail;
     public $policyholderPhone;
+    public $policyholderCompanyEmail;
+    public $policyholderAlternativePhone;
+    public $policyholderAddress1;
+    public $policyholderAddress2;
+    public $policyholderPostcode;
 
     // Step 4: Policy Details
     public $policyStartDate;
-    public $policyEndDate;
-    public $premiumAmount;
+    public $astStartDate;
+    public $policyTerm;
+    // public $premiumAmount;
 
     // Step 5: Tenant Details
     public $tenantName;
@@ -105,25 +113,29 @@ class MasterInsurancePurchase extends Component
             ];
         } elseif ($step == 3) {
             $rules = [
-                'policyHoldertype' => ['required', Rule::in(['Company', 'Individual'])],
-                'policyholderEmail' => 'required|email',
-                'policyholderPhone' => 'required|string',
+                'policyHoldertype' => ['required', Rule::in(['Company', 'Individual', 'Both'])],
             ];
 
             if ($this->policyHoldertype === 'Company') {
                 $rules['companyName'] = 'required|string';
-            } else {
+                $rules['policyholderCompanyEmail'] = 'required|string';
+                $rules['policyholderPostcode'] = 'required|string';
+                $rules['policyholderPhone'] = 'required|string';
+            } elseif ($this->policyHoldertype === 'Individual') {
                 $rules['policyholderTitle'] = 'required|string';
                 $rules['policyholderFirstName'] = 'required|string';
                 $rules['policyholderLastName'] = 'required|string';
+                $rules['policyholderEmail'] = 'required|string';
+                $rules['policyholderPhone'] = 'required|string';
             }
 
             return $rules;
         } elseif ($step == 4) {
             return [
                     'policyStartDate' => 'required|date',
-                    'policyEndDate' => 'required|date|after_or_equal:policyStartDate',
-                    'premiumAmount' => 'required|numeric|min:0',
+                    'astStartDate' => 'required|date',
+                    'policyTerm' => 'required',
+                    // 'premiumAmount' => 'required|numeric|min:0',
             ];
         } elseif ($step == 5) {
             return [
@@ -133,7 +145,7 @@ class MasterInsurancePurchase extends Component
             ];
         } elseif ($step == 6) {
             return [
-                'paymentMethod' => ['required', Rule::in(['credit_card', 'paypal', 'bank_transfer'])],
+                'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
             ];
         }
 
@@ -163,22 +175,25 @@ class MasterInsurancePurchase extends Component
     public function prepareSummaryData()
     {
         $this->summaryData = [
-            'Insurance Selected' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
-            'Product Type' => $this->productType,
-            'Insurance Type' => $this->insuranceType,
-            'Rent Amount' => $this->rentAmount,
-            'Property Address' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
-            'Policy Holder Type' => $this->policyHoldertype,
-            'Company Name' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
-            'Policy Holder Name' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
-            'Policy Holder Email' => $this->policyholderEmail,
-            'Policy Holder Phone' => $this->policyholderPhone,
-            'Policy Start Date' => $this->policyStartDate,
-            'Policy End Date' => $this->policyEndDate,
-            'Premium Amount' => $this->premiumAmount,
-            'Tenant Name' => $this->tenantName,
-            'Tenant Phone' => $this->tenantPhone,
-            'Tenant Email' => $this->tenantEmail,
+            'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
+            'Product Type:' => $this->productType,
+            'Insurance Type:' => $this->insuranceType,
+            'Rent Amount:' => $this->rentAmount,
+            'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+            'Policy Holder Type:' => $this->policyHoldertype,
+            'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
+            'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+            'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
+            'Policy Holder Email:' => $this->policyholderEmail,
+            'Policy Holder Phone:' => $this->policyholderPhone,
+            'Policy Start Date:' => $this->policyStartDate,
+            'Ast Start Date:' => $this->astStartDate,
+            'Policy Term:' => $this->policyTerm,
+            // 'Policy End Date' => $this->policyEndDate,
+            // 'Premium Amount' => $this->premiumAmount,
+            'Tenant Name:' => $this->tenantName,
+            'Tenant Phone:' => $this->tenantPhone,
+            'Tenant Email:' => $this->tenantEmail,
             'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
         ];
     }
@@ -196,6 +211,13 @@ class MasterInsurancePurchase extends Component
 
         $this->validate($allRules);
 
+        // $insurance = Insurance::find($this->selectedinsuranceId);
+        // $validityDays = $insurance->validity;
+
+        // $policyStart = Carbon::parse($this->policyStartDate);
+        // $policyEnd = $policyStart->copy()->addDays($validityDays);
+        // $this->policyEndDate = $policyEnd->toDateString();
+
         $purchase = new Purchase();
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
@@ -209,15 +231,23 @@ class MasterInsurancePurchase extends Component
 
         $purchase->policy_holder_type = $this->policyHoldertype;
         $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
+        $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
         $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
         $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
         $purchase->policy_holder_email = $this->policyholderEmail;
         $purchase->policy_holder_phone = $this->policyholderPhone;
+        $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
+        $purchase->policy_holder_postcode = $this->policyholderPostcode;
+        $purchase->policy_holder_address_one = $this->policyholderAddress1;
+        $purchase->policy_holder_address_two = $this->policyholderAddress2;
+        $purchase->policy_no = $this->insuranceDetails->prefix.'-'.rand(1000000000,9999999999);
 
         $purchase->policy_start_date = $this->policyStartDate;
-        $purchase->policy_end_date = $this->policyEndDate;
-        $purchase->payable_amount = $this->premiumAmount;
+        // $purchase->policy_end_date = $policyEnd;
+        $purchase->ast_start_date = $this->astStartDate;
+        $purchase->policy_term = $this->policyTerm;
+        // $purchase->payable_amount = $this->premiumAmount;
 
         $purchase->tenant_name = $this->tenantName;
         $purchase->tenant_phone = $this->tenantPhone;

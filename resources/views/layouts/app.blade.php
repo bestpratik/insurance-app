@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'DGPOS') }}</title>
+    <title>{{'Money Wise Plc'}}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -48,7 +48,7 @@
             {{-- <div class="flex flex-col h-full"> --}}
                 <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200">
                     <div class="sidebar-logo flex items-center">
-                        <img src="{{ asset('/img/logo.jpg') }}" alt="logo" class="h-10 object-contain w-[150px]">
+                        <img src="{{asset('logo.jpg')}}" alt="logo" style="max-width: 180px; margin: 0 auto;">
                         {{-- <span class="ml-2 text-xl font-semibold text-gray-900 sidebar-text">
                                 {{ config('app.name', 'Laravel') }}
                             </span> --}}

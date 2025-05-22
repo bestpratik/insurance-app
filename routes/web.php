@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('insurances', InsuranceController::class);
     Route::resource('purchases', PurchaseController::class);
 
+    Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
+
     Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
 

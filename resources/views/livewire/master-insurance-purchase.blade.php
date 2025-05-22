@@ -1,4 +1,10 @@
 <div class="pb-4">
+    @if (session()->has('message'))
+        <div class="mb-4 p-4 text-sm text-green-800 bg-green-100 rounded-lg shadow-sm" role="alert">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <nav class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b">
         {{-- Step 1: Insurances --}}
         <a href="#" class="flex items-center text-center px-4 py-2 transition-all duration-300 font-medium
@@ -245,6 +251,11 @@
                                         value="Individual" class="mr-1">
                                     <label for="policyHoldertypeTwo">Individual</label>
                                 </div>
+                                 <div class="flex items-center">
+                                    <input id="policyHoldertypeThree" type="radio" x-model="policyHoldertype"
+                                        value="Both" class="mr-1">
+                                    <label for="policyHoldertypeThree">Both</label>
+                                </div>
                             </div>
                             @error('policyHoldertype')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
@@ -256,6 +267,14 @@
                             <input type="text" placeholder="Enter..." wire:model="companyName"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('companyName')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
@@ -295,8 +314,8 @@
                             @enderror
                         </div>
 
-                        <div>
-                            <label class="block mb-1">Email <span class="text-red-600">*</span></label>
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
                             <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('policyholderEmail')
@@ -304,14 +323,98 @@
                             @enderror
                         </div>
 
+                          <div x-show="policyHoldertype === 'Both'">
+                            <label class="block font-semibold mb-1">Title</label>
+                            <select wire:model="policyholderTitle"
+                                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Other">Other</option>
+                            </select>
+                           
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">First Name</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                           
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Last Name</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                           
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Contact Email</label>
+                            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company Name</label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                           
+                        </div>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company email</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            
+                        </div>
+
                         <div>
-                            <label class="block mb-1">Phone Number <span class="text-red-600">*</span></label>
+                            <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
                             <input type="text" placeholder="Enter..." wire:model="policyholderPhone"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('policyholderPhone')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div>
+                            <label class="block mb-1">Alternative Phone</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderAlternativePhone"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Address1</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderAddress1"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Address2</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderAddress2"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                           
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Postcode<span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderPostcode')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        
+
+                        
+
                     </div>
                 </div>
 
@@ -335,26 +438,46 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">End Date <span
+                            <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
                                     class="text-red-600">*</span></label>
                             <input type="date"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="policyEndDate">
-                            @error('policyEndDate')
+                                wire:model="astStartDate">
+                            @error('astStartDate')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Premium Amount <span
-                                    class="text-red-600">*</span></label>
-                            <input type="text"
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="premiumAmount">
-                            @error('premiumAmount')
+                          <div class="mb-2">
+                            <label class="block font-semibold mb-1">
+                            Policy Term <span class="text-red-600">*</span>
+                            </label>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center">
+                                    <input id="policyterm1" type="radio" wire:model="policyTerm" value="1"
+                                        class="mr-1">
+                                    <label for="policyterm1">1 Year</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="policyterm2" type="radio" wire:model="policyTerm" value="2"
+                                        class="mr-1">
+                                    <label for="policyterm2">2 Year</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="policyterm3" type="radio" wire:model="policyTerm" value="3"
+                                        class="mr-1">
+                                    <label for="policyterm3">3 Year</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="policyterm4" type="radio" wire:model="policyTerm" value="4"
+                                        class="mr-1">
+                                    <label for="policyterm4">4 Year</label>
+                                </div>
+                            </div>
+                            @error('policyTerm')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+                      
                     </div>
                 </div>
 
@@ -366,8 +489,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Tenant Name <span
-                                    class="text-red-600">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Name<span class="text-red-600 text-lg">*</span></label>
                             <input type="text"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantName">
@@ -377,8 +499,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Tenant Phone <span
-                                    class="text-red-600">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Phone<span class="text-red-600 text-lg">*</span></label>
                             <input type="text"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantPhone">
@@ -388,8 +509,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Tenant Email <span
-                                    class="text-red-600">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Email<span class="text-red-600 text-lg">*</span></label>
                             <input type="email"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantEmail">
@@ -415,8 +535,7 @@
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             wire:model="paymentMethod">
                             <option value="">-- Select Payment Method --</option>
-                            <option value="credit_card">Credit Card</option>
-                            <option value="paypal">Paypal</option>
+                            <option value="pay_later">Paylater</option>
                             <option value="bank_transfer">Bank Transfer</option>
                         </select>
                         @error('paymentMethod')

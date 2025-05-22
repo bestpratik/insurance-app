@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <img src="{{asset('logo.jpg')}}" alt="logo" style="max-width: 200px; margin: 0 auto;">
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
