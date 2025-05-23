@@ -14,7 +14,7 @@
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
             <div class="card-body flex-fill mx-md-4">
-                <nav id="" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
+                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
                     <!-- Active tab -->
                     <a href="#"
                         class=" flex items-center text-center px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium transition-all duration-300">
@@ -141,6 +141,10 @@
                          <img src="{{ asset('uploads/insurance/'.$insurance->image ) }}"  style="height:50px;width:75px;">
                         
                     </div>
+                        <label class="block">
+                           <span class="text-gray-700">Details of cover</span>
+                            <textarea name="details_of_cover" id="" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote" rows="2">{!! $insurance->details_of_cover ?? '' !!}</textarea>
+                        </label>
 
                     <div class="pt-6 flex justify-center">
                     <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
@@ -157,6 +161,30 @@
 
 
 </x-app-layout>
+
+<!-- Summernote) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+     <!-- Summernote) -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            height: 50, 
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const a = document.getElementById("_dm-customWizardSteps"),

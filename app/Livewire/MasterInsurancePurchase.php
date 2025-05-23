@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 use Illuminate\Validation\Rule;
 
-class MasterInsurancePurchase extends Component
+class MasterInsurancePurchase extends Component 
 {
     public $currentStep = 1;
 
@@ -68,7 +68,7 @@ class MasterInsurancePurchase extends Component
         }
     }
 
-    public function updatedSelectedinsuranceId($value)
+    public function updatedSelectedinsuranceId($value) 
     {
         $this->insuranceDetails = Insurance::find($value);
     }
@@ -247,6 +247,7 @@ class MasterInsurancePurchase extends Component
         // $purchase->policy_end_date = $policyEnd;
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->policy_term = $this->policyTerm;
+        $purchase->purchase_date = now();
         // $purchase->payable_amount = $this->premiumAmount;
 
         $purchase->tenant_name = $this->tenantName;

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Add Insurance
+            Insurance Summary
         </h2>
     </x-slot>
     <!-- @if($message = Session::get('message'))
@@ -58,102 +58,104 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form class="px-3 pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{ route('insurances.store') }}"
-                    enctype="multipart/form-data">
-                    @csrf
+                 <form id="_dm-customWizardForm" class="p-xl-3 profile-info" action="" method="post">
+                            @csrf
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <label class="block">
-                            <span class="text-gray-700">Type Of Insurance<span class="text-red-600 text-xl">* </span></span>
-                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="New">
-                                <span>New</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal">
-                                <span>Renewal</span>
-                            </label>
-                            @error('type_of_insurance')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
+                            <div class="row mb-3">
+                                @if($insurance->type_of_insurance ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Type Of Insurance:</span>
+                                    <div>
+                                        {{$insurance->type_of_insurance}}
+                                    </div>
 
-                        </label>
+                                </label>
+                                @endif
 
+                                @if($insurance->insurer_title ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Name Of Insurance:</span>
+                                    <div>
+                                        {{$insurance->insurer_title}}
+                                    </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">Name Of Insurance<span class="text-red-600 text-xl">* </span></span>
-                            <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter name">
-                            @error('name')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
+                                </label>
+                                @endif
+                                
+                            </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
-                            <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
-                                <option value="">choose..</option>
-                                @foreach($provider as $row)
-                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('provider_type')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
+                            <div class="row mb-3">
+                                @if($insurance->prefix ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Prefix:</span>
+                                    <div>
+                                        {{$insurance->prefix}}
+                                    </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">Prefix</span>
-                            <input name="prefix" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter..">
-                        </label>
+                                </label>
+                                @endif
+                                @if($insurance->validity ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Validity (In Days):</span>
+                                    <div>
+                                        {{$insurance->validity}}
+                                    </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
-                            <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
-                            @error('validity')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
+                                </label>
+                                @endif
+                                @if($insurance->provider_id ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Provider:</span>
+                                    <div>
+                                       {{$insurance->provider->name}}
+                                    </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">From<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
-                            @error('rent_amount_from')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
+                                </label>
+                                @endif
+                            </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">To<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
-                            @error('rent_amount_to')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
+                            <div class="row mb-3">
+                                <h5>Rent Amount(£)</h5>
+                                @if($insurance->rent_amount_from ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">From:</span>
+                                    <div>
+                                        {{$insurance->rent_amount_from}}
+                                    </div>
 
-                      
+                                </label>
+                                @endif
+                                @if($insurance->rent_amount_to ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">To:</span>
+                                    <div>
+                                        {{$insurance->rent_amount_to}}
+                                    </div>
 
-                        <label class="block">
-                            <span class="text-gray-700">Image</span>
-                            <input type="file" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" id="customFile" name="image"
-                                onchange="loadFile(event)">
-                        </label>
+                                </label>
+                                @endif
+                            </div>
 
-                    </div>
-                        <label class="block">
-                           <span class="text-gray-700">Details of cover</span>
-                            <textarea name="details_of_cover" id="" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote" rows="2">{{old('details_of_cover')}}</textarea>
-                        </label>
+                            <div class="row mb-3">
+                                @if($insurance->details_of_cover ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700">Details of cover:</span>
+                                    <div>
+                                        {{$insurance->details_of_cover}}
+                                    </div>
 
-                    <div class="pt-6 flex justify-center">
-                    <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
-                    <span class="text-md">Next</span>
-                    <x-heroicon-o-chevron-right class="h-6 w-6" />
-                      </button>
-
-                    </div>
-                </form>
+                                </label>
+                                @endif
+                            </div>
+                          
+                            <div class="pt-3 d-flex gap-2">
+                                <a href="{{route('insurance.email.template',$insurance->id)}}" class="btn btn-light ms-auto">
+                                    Previous</a>
+                                <a href="{{route('insurance.success')}}" class="btn btn-primary" type="submit">
+                                    Submit
+                                </a>
+                            </div>
+                        </form>
 
             </div>
         </div>

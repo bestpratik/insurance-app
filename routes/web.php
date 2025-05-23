@@ -32,6 +32,15 @@ Route::middleware('auth')->group(function () {
     Route::post('insurance/static/document/submit/{id}', [InsuranceController::class, 'static_document_submit'])->name('insurance.static.document.submit');
     Route::delete('insurance/static/delete/{id}', [InsuranceController::class, 'static_document_delete'])->name('insurance.static.delete');
 
+    Route::get('insurance/dynamic-doc/{id}', [InsuranceController::class, 'dynamic_document'])->name('insurance.dynamic.document');
+    Route::post('insurance/dynamic-document/submit/{id}', [InsuranceController::class, 'dynamic_document_submit'])->name('insurance.dynamic.document.submit');
+
+    Route::get('insurance/email-template/{id}', [InsuranceController::class, 'insurance_email_template'])->name('insurance.email.template');
+    Route::post('insurance/email-template/update/{id}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');
+
+    Route::get('insurance/summary/{id}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
+    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
+
 });
 
 require __DIR__.'/auth.php';

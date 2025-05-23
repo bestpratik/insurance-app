@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Insurance;
 use App\Models\Provider;
+use App\Models\Purchase;
 use App\Models\Insurancedocument;
+use App\Models\Insurancedynamicdocument;
+use App\Models\Insuranceemailtemplate;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -56,6 +59,7 @@ class InsuranceController extends Controller
         $insurance->validity = $request->validity;
         $insurance->rent_amount_from = $request->rent_amount_from;
         $insurance->rent_amount_to = $request->rent_amount_to;
+        $insurance->details_of_cover = $request->details_of_cover;
         // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
         // $insurance->ipt = $insurance->gross_premium * 0.12;
         // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
@@ -123,9 +127,9 @@ class InsuranceController extends Controller
      
             // dd($Insurancedocument);
             $Insurancedocument->save();
-            return redirect()->back()->with('message','Static Document Added Successfully!');
+            // return redirect()->back()->with('message','Static Document Added Successfully!');
 
-            // return redirect()->route('insurance.static.document',$Insurancedocument); 
+            return redirect()->route('insurance.static.document',$id); 
     }
 
     public function static_document_delete($id){
@@ -141,6 +145,86 @@ class InsuranceController extends Controller
             $Insurancedocument->delete();
             return redirect()->back();
         }
+    }
+
+    public function dynamic_document($id){  
+        $insurance = Insurance::find($id);
+       
+        $purchase = Purchase::where('insurance_id', $insurance->id)->get();
+        // dd($purchase);
+        $insurancedynamicdoc=Insurancedynamicdocument::where('insurance_id',$insurance->id)->get(); 
+        // dd($insurancedynamicdoc);
+        return view('insurance.dynamic_doc', compact('insurance','insurancedynamicdoc'));
+    }
+
+    public function dynamic_document_submit(Request $request, $id){
+        $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+            ]);
+
+            $insurancedynamicdoc = new Insurancedynamicdocument;
+
+            $insurancedynamicdoc->insurance_id = $id;
+            $insurancedynamicdoc->title = $request->title;
+            $insurancedynamicdoc->header = $request->header;
+            $insurancedynamicdoc->description = $request->description;
+            $insurancedynamicdoc->title = $request->title;
+
+            // dd($Insurancedocument);
+            $insurancedynamicdoc->save();
+            // return redirect()->back()->with('message','Static Document Added Successfully!');
+
+            return redirect()->route('insurance.dynamic.document',$id); 
+    }
+
+    public function insurance_email_template($id){
+        $insurance=Insurance::find($id);
+        // dd($insurance);
+        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->get(); 
+        // dd($insuranceEmailTemplate);
+        return view('insurance.insurance_email_template', compact('insurance','insuranceEmailTemplate'));
+    }
+
+    public function insurance_email_template_update(Request $request, $id){
+        $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+        ]);
+
+
+        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$id)->first();
+    
+        if ($insuranceEmailTemplate != null) {
+           
+           $mailTemplate = Insuranceemailtemplate::where('insurance_id',$id)->first();
+           $mailTemplate->title = $request->title;
+           $mailTemplate->description = $request->description;
+           $mailTemplate->update();
+           return redirect()->route('insurance.email.template',$mailTemplate)->with('message', 'Insurance Mail Template Added Successfully!');
+    
+        } else {
+           
+            $mailTemplate = new Insuranceemailtemplate;
+            $mailTemplate->title = $request->title;
+            $mailTemplate->description = $request->description;
+            $mailTemplate->insurance_id = $id;
+    
+            $mailTemplate->save();
+            return redirect()->route('insurance.email.template',$mailTemplate)->with('message', 'Insurance Mail Template Added Successfully!');
+        }
+
+        // return redirect()->route('insurance.email.template',$insuranceEmailTemplate); 
+    }
+
+    public function insurance_summary($id){
+        $insurance = Insurance::with('provider','purchase')->find($id);
+        // dd($insurance);
+        return view('insurance.insurance_summary', compact('insurance'));
+    }
+
+    function success(){
+        return view('insurance.success');
     }
    
     public function show(string $id)

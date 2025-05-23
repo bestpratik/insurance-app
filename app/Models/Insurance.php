@@ -44,4 +44,9 @@ class Insurance extends Model
     public function provider(){
         return $this->belongsTo(Provider::class, 'provider_type');
     }
+
+    public function purchase(){
+        return $this->belongsTo(Purchase::class, 'id');
+    }
+    
 }
