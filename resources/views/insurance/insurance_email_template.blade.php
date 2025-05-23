@@ -60,7 +60,7 @@
                     enctype="multipart/form-data">
                     @csrf
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                   
 
                             <label class="block">
                                 <span class="text-gray-700">Title<span class="text-red-600 text-xl">* </span></span>
@@ -71,75 +71,75 @@
                                     <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                                 @enderror
                             </label>
-
+ <div class="flex flex-wrap gap-3">
                             <input type="hidden" value="%InsuranceName%" id="insuranceName">
                             <button onclick="myFunction('insuranceName')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance Name</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance Name</button>
 
                             <input type="hidden" value="%policyNo%" id="policyNo"> 
                             <button onclick="myFunction('policyNo')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy No</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy No</button>
                             <input type="hidden" value="%landlordagentName%" id="landlordagentName">
                             <button onclick="myFunction('landlordagentName')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate Name</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate Name</button>
                             <input type="hidden" value="%landlordagentAddress%" id="landlordagentAddress">
                             <button onclick="myFunction('landlordagentAddress')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate Address</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate Address</button>
                             <input type="hidden" value="%riskAddress%" id="riskAddress">
                             <button onclick="myFunction('riskAddress')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk Address</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk Address</button>
                             <input type="hidden" value="%policyStartdate%" id="policyStartdate">
                             <button onclick="myFunction('policyStartdate')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy start date</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy start date</button>
                             <input type="hidden" value="%policyEnddate%" id="policyEnddate">
                             <button onclick="myFunction('policyEnddate')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy end/expiry date</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy end/expiry date</button>
                             <input type="hidden" value="%purchaseDate%" id="purchaseDate">
                             <button onclick="myFunction('purchaseDate')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Purchase date</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Purchase date</button>
                             <input type="hidden" value="%insurerTitle%" id="insurerTitle">
                             <button onclick="myFunction('insurerTitle')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer title</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer title</button>
                             <input type="hidden" value="%insurerDescription%" id="insurerDescription">
                             <button onclick="myFunction('insurerDescription')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer description</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer description</button>
                             <input type="hidden" value="%detailsofCover%" id="detailsofCover">
                             <button onclick="myFunction('detailsofCover')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details of Cover</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details of Cover</button>
                             <input type="hidden" value="%policyTerm%" id="policyTerm">
                             <button onclick="myFunction('policyTerm')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy Term</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy Term</button>
                             
                             <!--New fields added-->
                             <input type="hidden" value="%netAnnualpremium%" id="netAnnualpremium">
                             <button onclick="myFunction('netAnnualpremium')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Net Annual Premium</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Net Annual Premium</button>
 
                             <input type="hidden" value="%insurancePremiumtax%" id="insurancePremiumtax">
                             <button onclick="myFunction('insurancePremiumtax')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance Premium Tax</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance Premium Tax</button>
 
                             <input type="hidden" value="%grossPremium%" id="grossPremium">
                             <button onclick="myFunction('grossPremium')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Gross Premium</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Gross Premium</button>
 
                             <input type="hidden" value="%rentAmount%" id="rentAmount">
                             <button onclick="myFunction('rentAmount')" type="button"
-                                class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent Amount</button>
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent Amount</button>
 
 
+</div>
 
                             <label class="block">
                                 <span class="text-gray-700">Description<span class="text-red-600 text-xl">* </span></span>
-                                <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="description" id=""
-                                    rows="2">{{ old('description') }}</textarea>           
+                                <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="description" id="" >{{ old('description') }}</textarea>           
                                
                                 @error('description')
                                     <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                                 @enderror
                             </label>
                             
-                    </div>
+                 
 
                      <div class="pt-6 flex justify-center space-x-4">
                         <a href="{{route('insurance.email.template',$insurance->id)}}" class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 transition-all duration-300">
@@ -147,7 +147,7 @@
                             <span class="text-md">Previous</span>
                         </a>
 
-                        <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                        <button class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 md:w-[110px] w-[140px] text-white rounded hover:bg-blue-600 transition-all duration-300">
                             <span class="text-md">Save</span>
                             <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
                         </button>

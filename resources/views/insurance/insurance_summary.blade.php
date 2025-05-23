@@ -58,104 +58,104 @@
                         {{ $message }}
                     </div>
                 @endif
-                 <form id="_dm-customWizardForm" class="p-xl-3 profile-info" action="" method="post">
-                            @csrf
+                <form id="_dm-customWizardForm" class="p-6 bg-white rounded shadow" action="" method="post">
+                    @csrf
 
-                            <div class="row mb-3">
-                                @if($insurance->type_of_insurance ?? '')
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        @if($insurance->type_of_insurance ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Type Of Insurance:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->type_of_insurance}}
+                                </div>
+                            </label>
+                        @endif
+
+                        @if($insurance->insurer_title ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Name Of Insurance:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->insurer_title}}
+                                </div>
+                            </label>
+                        @endif
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        @if($insurance->prefix ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Prefix:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->prefix}}
+                                </div>
+                            </label>
+                        @endif
+
+                        @if($insurance->validity ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Validity (In Days):</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->validity}}
+                                </div>
+                            </label>
+                        @endif
+
+                        @if($insurance->provider_id ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Provider:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->provider->name}}
+                                </div>
+                            </label>
+                        @endif
+                    </div>
+
+                    <div class="mb-6">
+                        <h5 class="text-lg font-semibold text-gray-800 mb-2">Rent Amount (£)</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @if($insurance->rent_amount_from ?? '')
                                 <label class="block">
-                                    <span class="text-gray-700">Type Of Insurance:</span>
-                                    <div>
-                                        {{$insurance->type_of_insurance}}
-                                    </div>
-
-                                </label>
-                                @endif
-
-                                @if($insurance->insurer_title ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">Name Of Insurance:</span>
-                                    <div>
-                                        {{$insurance->insurer_title}}
-                                    </div>
-
-                                </label>
-                                @endif
-                                
-                            </div>
-
-                            <div class="row mb-3">
-                                @if($insurance->prefix ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">Prefix:</span>
-                                    <div>
-                                        {{$insurance->prefix}}
-                                    </div>
-
-                                </label>
-                                @endif
-                                @if($insurance->validity ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">Validity (In Days):</span>
-                                    <div>
-                                        {{$insurance->validity}}
-                                    </div>
-
-                                </label>
-                                @endif
-                                @if($insurance->provider_id ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">Provider:</span>
-                                    <div>
-                                       {{$insurance->provider->name}}
-                                    </div>
-
-                                </label>
-                                @endif
-                            </div>
-
-                            <div class="row mb-3">
-                                <h5>Rent Amount(£)</h5>
-                                @if($insurance->rent_amount_from ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">From:</span>
-                                    <div>
+                                    <span class="text-gray-700 font-medium">From:</span>
+                                    <div class="mt-1 text-gray-900">
                                         {{$insurance->rent_amount_from}}
                                     </div>
-
                                 </label>
-                                @endif
-                                @if($insurance->rent_amount_to ?? '')
+                            @endif
+
+                            @if($insurance->rent_amount_to ?? '')
                                 <label class="block">
-                                    <span class="text-gray-700">To:</span>
-                                    <div>
+                                    <span class="text-gray-700 font-medium">To:</span>
+                                    <div class="mt-1 text-gray-900">
                                         {{$insurance->rent_amount_to}}
                                     </div>
-
                                 </label>
-                                @endif
-                            </div>
+                            @endif
+                        </div>
+                    </div>
 
-                            <div class="row mb-3">
-                                @if($insurance->details_of_cover ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700">Details of cover:</span>
-                                    <div>
-                                        {{$insurance->details_of_cover}}
-                                    </div>
+                    @if($insurance->details_of_cover ?? '')
+                        <div class="mb-6">
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">Details of cover:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->details_of_cover}}
+                                </div>
+                            </label>
+                        </div>
+                    @endif
 
-                                </label>
-                                @endif
-                            </div>
-                          
-                            <div class="pt-3 d-flex gap-2">
-                                <a href="{{route('insurance.email.template',$insurance->id)}}" class="btn btn-light ms-auto">
-                                    Previous</a>
-                                <a href="{{route('insurance.success')}}" class="btn btn-primary" type="submit">
-                                    Submit
-                                </a>
-                            </div>
-                        </form>
+                    <div class="pt-4 flex justify-center gap-3">
+                        <a href="{{route('insurance.email.template', $insurance->id)}}"
+                            class="px-4 py-2 bg-gray-100 text-gray-800 rounded hover:bg-gray-200">
+                            Previous
+                        </a>
+                        <a href="{{route('insurance.success')}}"
+                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                            Submit
+                        </a>
+                    </div>
+                </form>
+
 
             </div>
         </div>
@@ -165,15 +165,15 @@
 </x-app-layout>
 
 <!-- Summernote) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-     <!-- Summernote) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+<!-- Summernote) -->
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('.summernote').summernote({
-            height: 50, 
+            height: 50,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
