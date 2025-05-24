@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
+use App\Models\Invoice;
 use Carbon\Carbon;
 
 use Illuminate\Validation\Rule;
@@ -28,7 +29,7 @@ class MasterInsurancePurchase extends Component
     public $postCode;
 
     // Step 3: Policy Holder Info
-    public $policyHoldertype = 'Individual'; // default
+    public $policyHoldertype = 'Individual'; // default 
     public $companyName;
     public $policyholderTitle;
     public $policyholderFirstName;
@@ -55,7 +56,16 @@ class MasterInsurancePurchase extends Component
     // Step 6: Payment Method
     public $paymentMethod;
 
-    // Step 7: Summary data
+    // Step 7: Biling Department
+    public $billingName;
+    public $billingEmail;
+    public $billingPhone;
+    public $billingAddressOne;
+    public $billingAddressTwo;
+    public $billingPostcode;
+    public $ponNo;
+
+    // Step 8: Summary data
     public $summaryData = [];
 
     public function mount()
@@ -147,6 +157,14 @@ class MasterInsurancePurchase extends Component
             return [
                 'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
             ];
+        } elseif ($step == 7) {
+            return [
+                'billingName' => 'required|string',
+                'billingEmail' => 'required|email',
+                'billingPhone' => 'required',
+                'billingAddressOne' => 'required|string',
+                'billingPostcode' => 'required'
+            ];
         }
 
         return [];
@@ -156,10 +174,10 @@ class MasterInsurancePurchase extends Component
     {
         $this->validate($this->rulesForStep($this->currentStep));
 
-        if ($this->currentStep < 7) {
+        if ($this->currentStep < 8) {
             $this->currentStep++;
 
-            if ($this->currentStep === 7) {
+            if ($this->currentStep === 8) {
                 $this->prepareSummaryData();
             }
         }
@@ -174,6 +192,12 @@ class MasterInsurancePurchase extends Component
 
     public function prepareSummaryData()
     {
+         $policyEndDate = $this->policyStartDate
+        ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
+        : '';
+
+        $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
             'Product Type:' => $this->productType,
@@ -186,9 +210,17 @@ class MasterInsurancePurchase extends Component
             'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
             'Policy Holder Email:' => $this->policyholderEmail,
             'Policy Holder Phone:' => $this->policyholderPhone,
-            'Policy Start Date:' => $this->policyStartDate,
-            'Ast Start Date:' => $this->astStartDate,
+            'Policy Start Date:' => Carbon::parse($this->policyStartDate)->format('d F Y'),
+            'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
             'Policy Term:' => $this->policyTerm,
+
+            'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
+            'Billing Name' => $this->billingName,
+            'Billing Email' => $this->billingEmail,
+            'Billing Phone' => $this->billingPhone,
+            'Billing Postcode' => $this->billingPostcode,
+            'Billing Address' => $billingAddress,
+            'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
             'Tenant Name:' => $this->tenantName,
@@ -206,7 +238,8 @@ class MasterInsurancePurchase extends Component
             $this->rulesForStep(3),
             $this->rulesForStep(4),
             $this->rulesForStep(5),
-            $this->rulesForStep(6)
+            $this->rulesForStep(6),
+            $this->rulesForStep(7)
         );
 
         $this->validate($allRules);
@@ -244,7 +277,7 @@ class MasterInsurancePurchase extends Component
         $purchase->policy_no = $this->insuranceDetails->prefix.'-'.rand(1000000000,9999999999);
 
         $purchase->policy_start_date = $this->policyStartDate;
-        // $purchase->policy_end_date = $policyEnd;
+        $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate. ' + '.($this->insuranceDetails->validity - 1).' days'));
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->policy_term = $this->policyTerm;
         $purchase->purchase_date = now();
@@ -258,7 +291,21 @@ class MasterInsurancePurchase extends Component
 
         $purchase->save();
 
-        session()->flash('message', 'Insurance purchase completed successfully!');
+        $invoice = new Invoice();
+        $invoice->purchase_id = $purchase->id;
+        $invoice->billing_name = $this->billingName;
+        $invoice->billing_email = $this->billingEmail;
+        $invoice->billing_phone = $this->billingPhone;
+        $invoice->billing_address_one = $this->billingAddressOne;
+        $invoice->billing_address_two = $this->billingAddressTwo;
+        $invoice->billing_postcode = $this->billingPostcode;
+        $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        $invoice->pon = $this->ponNo;
+
+      
+        $invoice->save();
+
+        session()->flash('message', 'Insurance purchase successfully created!');
 
         return redirect('purchases');
     }
