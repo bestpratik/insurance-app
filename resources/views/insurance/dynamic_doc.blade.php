@@ -4,7 +4,7 @@
             Dynamic Document
         </h2>
     </x-slot>
-    @if($message = Session::get('message'))
+    @if ($message = Session::get('message'))
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
             {{ $message }}
@@ -14,61 +14,27 @@
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
             <div class="card-body flex-fill mx-md-4">
-                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
-                    <!-- Active tab -->
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium transition-all duration-300">
-                        <x-heroicon-o-identification class="h-6 w-6 me-2 text-blue-600" />
-                        <span class="text-sm hidden md:inline">General Details</span>
-                    </a>
-
-                    <!-- Inactive tabs -->
-                    <a href="{{route('insurance.pricing', $insurance->id)}}"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-currency-dollar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Pricing</span>
-                    </a>
-                    <a href="{{route('insurance.static.document', $insurance->id)}}"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Static Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document-text class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Dynamic Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-envelope class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Email Template</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-chart-bar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Summary</span>
-                    </a>
-                </nav>
+                @include('insurance.menu')
 
 
 
 
-                @if($message = Session::get('onboarderror'))
+                @if ($message = Session::get('onboarderror'))
                     <div class="alert alert-success alert-dismissible">
                         {{ $message }}
                     </div>
                 @endif
                 <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
-                    action="{{route('insurance.dynamic.document.submit', $insurance->id)}}"
+                    action="{{ route('insurance.dynamic.document.submit', $insurance->id) }}"
                     enctype="multipart/form-data">
                     @csrf
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div>
 
                         <label class="block">
-                            <span class="text-gray-700">Title<span class="text-red-600 text-xl">* </span></span>
-                            <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text" name="title"
-                                value="{{ old('title') }}" placeholder="Enter.." />
+                            <span class="text-gray-700">Subject<span class="text-red-600 text-xl">* </span></span>
+                            <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text"
+                                name="title" value="{{ old('title') }}" placeholder="Enter Subject.." />
 
                             @error('title')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
@@ -78,8 +44,8 @@
 
                     <label class="block">
                         <span class="text-gray-700">Header</span>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="header"
-                            id="" rows="2">{{ old('header') }}</textarea>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote bg-white" name="header" id=""
+                            rows="2">{{ old('header') }}</textarea>
 
                         @error('header')
                             <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
@@ -157,52 +123,52 @@
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
                             Amount</button>
 
-</div>
-
-                        <label class="block">
-                            <span class="text-gray-700">Description<span class="text-red-600 text-xl">* </span></span>
-                            <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote"
-                                name="description" id="" rows="2">{{ old('description') }}</textarea>
-
-                            @error('description')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
-
-                        <label class="block">
-                            <span class="text-gray-700">Footer</span>
-                            <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote"
-                                name="footer" id="" rows="2">{{ old('footer') }}</textarea>
-
-                            @error('footer')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
-                            @enderror
-                        </label>
-
                     </div>
 
-                    <div class="pt-2 pb-4 flex justify-center space-x-4">
-                        <a href="{{route('insurance.static.document', $insurance->id)}}"
-                            class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 transition-all duration-300">
-                            <x-heroicon-o-chevron-left class="h-6 w-6" />
-                            <span class="text-md">Previous</span>
-                        </a>
+                    <label class="block">
+                        <span class="text-gray-700">Description<span class="text-red-600 text-xl">* </span></span>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="description" id=""
+                            rows="2">{{ old('description') }}</textarea>
 
-                        <button
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
-                            <span class="text-md">Save</span>
-                            <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
-                        </button>
+                        @error('description')
+                            <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </label>
 
-                        <a href="{{route('insurance.email.template', $insurance->id)}}"
-                            class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
-                            <span class="text-md">Next</span>
-                            <x-heroicon-o-chevron-right class="h-6 w-6" />
-                        </a>
-                    </div>
-                </form>
+                    <label class="block">
+                        <span class="text-gray-700">Footer</span>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer" id=""
+                            rows="2">{{ old('footer') }}</textarea>
 
-            
+                        @error('footer')
+                            <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </label>
+
+            </div>
+
+            <div class="pt-2 pb-4 flex justify-center space-x-4">
+                <a href="{{ route('insurance.static.document', $insurance->id) }}"
+                    class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2">
+                    <x-heroicon-o-chevron-left class="h-6 w-6" />
+                    <span class="text-md">Previous</span>
+                </a>
+
+                <button
+                    class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                    <span class="text-md">Save</span>
+                    <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
+                </button>
+
+                <a href="{{ route('insurance.email.template', $insurance->id) }}"
+                    class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
+                    <span class="text-md">Next</span>
+                    <x-heroicon-o-chevron-right class="h-6 w-6" />
+                </a>
+            </div>
+            </form>
+
+
         </div>
     </div>
 
@@ -270,7 +236,7 @@
 
                                             <div>
                                                 <span class="block font-medium text-gray-700 text-theme-sm ">
-                                                    {{$i}}
+                                                    {{ $i }}
                                                 </span>
                                             </div>
                                         </div>
@@ -282,7 +248,7 @@
                                         <div class="flex items-center gap-3">
                                             <div>
                                                 <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                    {{$row->title ?? ''}}
+                                                    {{ $row->title ?? '' }}
                                                 </span>
 
                                             </div>
@@ -303,16 +269,17 @@
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
                                                                     title="Delete"
-                                                                    href="{{ route('insurance.static.delete',$row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                                                    href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
                                                 </a> -->
 
                                     <div class="flex items-center justify-center">
-                                        <form action="{{ route('insurance.static.delete', $row->id) }}" method="POST"
-                                            onsubmit="return confirmDelete()">
+                                        <form action="{{ route('insurance.static.delete', $row->id) }}"
+                                            method="POST" onsubmit="return confirmDelete()">
                                             @csrf
                                             @method('DELETE')
                                             <button title="Delete" class="btn btn-flat btn-sm btn-danger rounded"
-                                                type="submit"><x-heroicon-o-trash class="h-6 w-6 text-red-600" /></button>
+                                                type="submit"><x-heroicon-o-trash
+                                                    class="h-6 w-6 text-red-600" /></button>
                                         </form>
                                     </div>
                                 </td>
@@ -344,7 +311,7 @@
 <!-- Summernote) -->
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.summernote').summernote({
             height: 50,
             toolbar: [

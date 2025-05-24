@@ -19,6 +19,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+
+    <style>
+        .note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable{
+        background: #fff;}
+    </style>
 </head>
 
 <body class="font-sans antialiased bg-gray-100">

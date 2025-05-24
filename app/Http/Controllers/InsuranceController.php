@@ -180,8 +180,7 @@ class InsuranceController extends Controller
 
     public function insurance_email_template($id){
         $insurance=Insurance::find($id);
-        // dd($insurance);
-        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->get(); 
+        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->first(); 
         // dd($insuranceEmailTemplate);
         return view('insurance.insurance_email_template', compact('insurance','insuranceEmailTemplate'));
     }
@@ -191,7 +190,7 @@ class InsuranceController extends Controller
                 'title' => 'required',
                 'description' => 'required',
         ]);
-
+        $insurance=Insurance::find($id);
 
         $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$id)->first();
     
@@ -201,7 +200,7 @@ class InsuranceController extends Controller
            $mailTemplate->title = $request->title;
            $mailTemplate->description = $request->description;
            $mailTemplate->update();
-           return redirect()->route('insurance.summary',$mailTemplate);
+           return redirect()->route('insurance.summary',$insurance->id);
     
         } else {
            
@@ -211,7 +210,7 @@ class InsuranceController extends Controller
             $mailTemplate->insurance_id = $id;
     
             $mailTemplate->save();
-            return redirect()->route('insurance.summary',$mailTemplate);
+            return redirect()->route('insurance.summary',$insurance->id);
         }
 
         // return redirect()->route('insurance.email.template',$insuranceEmailTemplate); 
@@ -237,6 +236,7 @@ class InsuranceController extends Controller
     {
         $provider = Provider::where('status', 1)->get();
         $insurance = Insurance::find($id);
+
         return view('insurance.edit', compact('provider','insurance'));
     }
 
@@ -251,17 +251,16 @@ class InsuranceController extends Controller
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
         $insurance->prefix = $request->prefix;
-        $insurance->net_premium = $request->net_premium;
-        $insurance->commission = $request->commission;
-        $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
-        $insurance->ipt = $insurance->gross_premium * 0.12;
-        $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
-        $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
+        $insurance->type_of_insurance = $request->type_of_insurance;
+        $insurance->validity = $request->validity;
+        $insurance->rent_amount_from = $request->rent_amount_from;
+        $insurance->rent_amount_to = $request->rent_amount_to;
+        $insurance->details_of_cover = $request->details_of_cover;
 
     
 
         if ($request->hasfile('image')) {
-            $destinationPath = public_path('uploads/insurances/'.$insurance->image);
+            $destinationPath = public_path('uploads/insurance/'.$insurance->image);
         
             if (File::exists($destinationPath)) {
                 File::delete($destinationPath);
@@ -269,14 +268,16 @@ class InsuranceController extends Controller
         
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/insurances/'), $filename);
+            $file->move(public_path('uploads/insurance/'), $filename);
         
             $insurance->image = $filename;
         }
 
         $insurance->save();
 
-        return redirect('insurances')->with('message', 'Insurance updated successfully.');
+        return redirect()->route('insurance.pricing',$insurance->id)->with('message', 'Insurance updated successfully.');
+
+        // return redirect('insurances')->with('message', 'Insurance updated successfully.');
     }
 
     

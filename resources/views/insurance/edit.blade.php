@@ -14,41 +14,7 @@
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
             <div class="card-body flex-fill mx-md-4">
-                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
-                    <!-- Active tab -->
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium transition-all duration-300">
-                        <x-heroicon-o-identification class="h-6 w-6 me-2 text-blue-600" />
-                        <span class="text-sm hidden md:inline">General Details</span>
-                    </a>
-
-                    <!-- Inactive tabs -->
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-currency-dollar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Pricing</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Static Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document-text class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Dynamic Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-envelope class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Email Template</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-chart-bar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Summary</span>
-                    </a>
-                </nav>
+                @include('insurance.menu')
 
 
 
@@ -58,9 +24,10 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{ route('insurances.store') }}"
+                <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{ route('insurances.update',$insurance->id) }}"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <label class="block">
