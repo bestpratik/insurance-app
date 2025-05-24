@@ -166,13 +166,13 @@
                                                 class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400">
                                                 <x-heroicon-o-pencil-square class="w-6 h-6 text-gray-700 " />
                                             </a>
-                                            <form action=""
+                                            <!-- <form action=""
                                                     method="POST" onsubmit="return confirmDelete()">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button title="Delete" class="btn btn-flat btn-sm btn-danger rounded"
                                                         type="submit"><i class="fas fa-trash-alt me-1"></i>Delete</button>
-                                            </form>
+                                            </form> -->
                                         </div>
                                     </td>
                                 </tr>

@@ -201,7 +201,7 @@ class InsuranceController extends Controller
            $mailTemplate->title = $request->title;
            $mailTemplate->description = $request->description;
            $mailTemplate->update();
-           return redirect()->route('insurance.email.template',$mailTemplate)->with('message', 'Insurance Mail Template Added Successfully!');
+           return redirect()->route('insurance.summary',$mailTemplate);
     
         } else {
            
@@ -211,7 +211,7 @@ class InsuranceController extends Controller
             $mailTemplate->insurance_id = $id;
     
             $mailTemplate->save();
-            return redirect()->route('insurance.email.template',$mailTemplate)->with('message', 'Insurance Mail Template Added Successfully!');
+            return redirect()->route('insurance.summary',$mailTemplate);
         }
 
         // return redirect()->route('insurance.email.template',$insuranceEmailTemplate); 

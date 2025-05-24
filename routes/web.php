@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('purchases', PurchaseController::class);
 
     Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
+    Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
 
     Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');

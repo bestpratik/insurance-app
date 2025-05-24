@@ -101,4 +101,9 @@ class PurchaseController extends Controller
         $purchases = Purchase::where('status', 1)->with('insurance','provider')->get();
         return view('purchase.list', compact('purchases'));
     }
+
+    public function purchaselist_edit($id){
+        $purchase = Purchase::find('insurance_id', $id)->first();
+        return view('purchase.edit', compact('purchase'));
+    }
 }
