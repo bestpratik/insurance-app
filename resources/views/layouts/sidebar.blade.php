@@ -8,14 +8,7 @@
         <span class="sidebar-item-text">Dashboard</span>
     </a>
 
-    <!-- Provider -->
-    <a href="{{ url('providers') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-              @if (request()->is('providers*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-user-group
-            class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
-        <span class="sidebar-item-text">Provider</span>
-    </a>
+   
 
     <div x-data="{ open: false }">
         <button @click="open = !open"
@@ -36,24 +29,34 @@
             <a href="{{route('insurances.create')}}"
                 class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-blue-50 hover:text-blue-700">
                 <x-heroicon-o-user-plus class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">create an Insurance</span>
+                <span class="sidebar-item-text">create an Insurances</span>
             </a>
             <a href="{{url('insurances')}}"
                 class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-blue-50 hover:text-blue-700">
                 <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">list of Insurance</span>
+                <span class="sidebar-item-text">list of Insurances</span>
             </a>
-            <a href="{{url('purchases')}}"
+            
+        </div>
+        <a href="{{url('purchases')}}"
                 class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-blue-50 hover:text-blue-700">
                 <x-heroicon-o-credit-card class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">Process & Insurance Policy </span>
+                <span class="sidebar-item-text">Process and Insurance Policy </span>
             </a>
             <a href="{{route('purchase.list')}}"
                 class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-blue-50 hover:text-blue-700">
                 <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">Purchase List</span>
+                <span class="sidebar-item-text">Purchased List</span>
             </a>
-        </div>
+
+             <!-- Provider -->
+    <a href="{{ url('providers') }}"
+        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+              @if (request()->is('providers*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-user-group
+            class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
+        <span class="sidebar-item-text">Provider</span>
+    </a>
     </div>
 
     <!-- Insurance -->

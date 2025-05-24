@@ -14,41 +14,7 @@
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
             <div class="card-body flex-fill mx-md-4">
-                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
-                    <!-- Active tab -->
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium transition-all duration-300">
-                        <x-heroicon-o-identification class="h-6 w-6 me-2 text-blue-600" />
-                        <span class="text-sm hidden md:inline">General Details</span>
-                    </a>
-
-                    <!-- Inactive tabs -->
-                    <a href="{{route('insurance.pricing',$insurance->id)}}"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-currency-dollar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Pricing</span>
-                    </a>
-                    <a href="{{route('insurance.static.document',$insurance->id)}}"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Static Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-document-text class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Dynamic Documents</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-envelope class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Email Template</span>
-                    </a>
-                    <a href="#"
-                        class=" flex items-center text-center px-4 py-2 text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500 transition-all duration-300">
-                        <x-heroicon-o-chart-bar class="h-6 w-6 me-2" />
-                        <span class="text-sm hidden md:inline">Summary</span>
-                    </a>
-                </nav>
+                @include('insurance.menu')
 
 
 
@@ -84,20 +50,24 @@
                                     <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                                 @enderror
                             </label>
-                            
-                    </div>
-
-                     <div class="pt-6 flex justify-center space-x-4">
-                        <a href="{{route('insurance.pricing',$insurance->id)}}" class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-600 transition-all duration-300">
-                            <x-heroicon-o-chevron-left class="h-6 w-6" />
-                            <span class="text-md">Previous</span>
-                        </a>
-
-                        <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            <div >
+                                <span class="text-gray-700">&nbsp;</span>
+                                <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px] mt-3  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
                             <span class="text-md">Save</span>
                             <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
                         </button>
 
+                            </div>
+                            
+                    </div>
+
+                     <div class="pt-6 flex justify-center space-x-4">
+                        <a href="{{route('insurance.pricing',$insurance->id)}}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2">
+                            <x-heroicon-o-chevron-left class="h-6 w-6" />
+                            <span class="text-md">Previous</span>
+                        </a>
+
+                        
                         <a href="{{route('insurance.dynamic.document',$insurance->id)}}" class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
                             <span class="text-md">Next</span>
                             <x-heroicon-o-chevron-right class="h-6 w-6" />
