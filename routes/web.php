@@ -40,7 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::post('insurance/email-template/update/{id}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');
 
     Route::get('insurance/summary/{id}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
-    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
+    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
+    
+    Route::get('purchase/edit/{id}', function ($id) {
+    return view('purchase.edit', ['id' => $id]); 
+    })->name('purchase.edit');
 
 });
 

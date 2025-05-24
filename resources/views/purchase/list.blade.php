@@ -162,7 +162,7 @@
 
                                     <td class="px-6 py-3 whitespace-nowrap">
                                         <div class="flex items-center justify-center">
-                                            <a href=""
+                                            <a href="{{route('purchase.edit',$row->id)}}"
                                                 class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400">
                                                 <x-heroicon-o-pencil-square class="w-6 h-6 text-gray-700 " />
                                             </a>
