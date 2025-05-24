@@ -24,7 +24,7 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
+                <form class="pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
                     action="{{ route('insurance.dynamic.document.submit', $insurance->id) }}"
                     enctype="multipart/form-data">
                     @csrf
@@ -32,9 +32,11 @@
                     <div>
 
                         <label class="block">
-                            <span class="text-gray-700">Subject<span class="text-red-600 text-xl">* </span></span>
-                            <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text"
-                                name="title" value="{{ old('title') }}" placeholder="Enter Subject.." />
+                            <span class="text-gray-700">Title<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-400" style="font-size: 14px;">Enter the main topic or title of your
+                                document to help identify its purpose quickly.</p>
+                            <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text" name="title"
+                                value="{{ old('title') }}" placeholder="Enter Title Name.." />
 
                             @error('title')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
@@ -44,14 +46,16 @@
 
                     <label class="block">
                         <span class="text-gray-700">Header</span>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote bg-white" name="header" id=""
-                            rows="2">{{ old('header') }}</textarea>
+                        <p class="text-gray-400" style="font-size: 14px;">Enter your template header.</p>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote bg-white"
+                            name="header" id="" rows="2">{{ old('header') }}</textarea>
 
                         @error('header')
                             <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
                     </label>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-2">
+                        <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their descriptions when filling out your insurance document. These tags will help structure the document content dynamically and ensure consistency.</p>
                         <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
@@ -127,8 +131,9 @@
 
                     <label class="block">
                         <span class="text-gray-700">Description<span class="text-red-600 text-xl">* </span></span>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="description" id=""
-                            rows="2">{{ old('description') }}</textarea>
+                       <p class="text-gray-400" style="font-size: 14px;">Use this area to add detailed notes or explanations about the insurance coverage, terms, or any other important information you want to highlight.</p>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote"
+                            name="description" id="" rows="2">{{ old('description') }}</textarea>
 
                         @error('description')
                             <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
@@ -137,14 +142,21 @@
 
                     <label class="block">
                         <span class="text-gray-700">Footer</span>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer" id=""
-                            rows="2">{{ old('footer') }}</textarea>
+                         <p class="text-gray-400" style="font-size: 14px;">Enter your template footer.</p>
+                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer"
+                            id="" rows="2">{{ old('footer') }}</textarea>
 
                         @error('footer')
                             <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
                     </label>
-
+                    <div class="">
+                        <button
+                            class="flex items-center justify-between text-center rounded-md w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            <span class="text-md">Save</span>
+                            <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
+                        </button>
+                    </div>
             </div>
 
             <div class="pt-2 pb-4 flex justify-center space-x-4">
@@ -154,11 +166,7 @@
                     <span class="text-md">Previous</span>
                 </a>
 
-                <button
-                    class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
-                    <span class="text-md">Save</span>
-                    <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
-                </button>
+
 
                 <a href="{{ route('insurance.email.template', $insurance->id) }}"
                     class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
@@ -172,7 +180,7 @@
         </div>
     </div>
 
-    <div class="col-span-12">
+    <div class="col-span-12 mt-4">
         <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
             <div class="max-w-full overflow-x-auto custom-scrollbar">
                 <table class="min-w-full">
@@ -268,18 +276,17 @@
 
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
-                                                                    title="Delete"
-                                                                    href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
-                                                </a> -->
+                                                                            title="Delete"
+                                                                            href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                                        </a> -->
 
                                     <div class="flex items-center justify-center">
-                                        <form action="{{ route('insurance.static.delete', $row->id) }}"
-                                            method="POST" onsubmit="return confirmDelete()">
+                                        <form action="{{ route('insurance.static.delete', $row->id) }}" method="POST"
+                                            onsubmit="return confirmDelete()">
                                             @csrf
                                             @method('DELETE')
                                             <button title="Delete" class="btn btn-flat btn-sm btn-danger rounded"
-                                                type="submit"><x-heroicon-o-trash
-                                                    class="h-6 w-6 text-red-600" /></button>
+                                                type="submit"><x-heroicon-o-trash class="h-6 w-6 text-red-600" /></button>
                                         </form>
                                     </div>
                                 </td>
@@ -311,7 +318,7 @@
 <!-- Summernote) -->
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.summernote').summernote({
             height: 50,
             toolbar: [
