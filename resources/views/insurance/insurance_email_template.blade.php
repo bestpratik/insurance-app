@@ -147,7 +147,7 @@
                             <span class="text-md">Previous</span>
                         </a>
 
-                        <button class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 md:w-[110px] w-[140px] text-white rounded hover:bg-blue-600 transition-all duration-300">
+                        <!-- <button class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 md:w-[110px] w-[140px] text-white rounded hover:bg-blue-600 transition-all duration-300">
                             <span class="text-md">Save</span>
                             <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
                         </button>
@@ -155,7 +155,12 @@
                         <a href="{{route('insurance.summary',$insurance->id)}}" class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
                             <span class="text-md">Next</span>
                             <x-heroicon-o-chevron-right class="h-6 w-6" />
-                        </a>
+                        </a> -->
+
+                        <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            <span class="text-md">Next</span>
+                            <x-heroicon-o-chevron-right class="h-6 w-6" />
+                        </button>
                     </div>
                 </form>
 
