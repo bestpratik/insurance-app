@@ -56,40 +56,45 @@
                         {{ $message }}
                     </div>
                 @endif
-                
-                <section data-step="finish" class="text-center">
-                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" width="120px" height="120px" viewBox="0 0 52 52">
-                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                    </svg>
-                    <p class="h5">You Have Successfully Updated</p>
-                    <p>
-                       Thank You
-                    </p>
-                    <a href="{{url('insurances')}}" class='btn btn-primary-outline '> Insurances List</a> 
+
+                <section data-step="finish" class="flex justify-center items-center min-h-[300px] my-5">
+                    <div class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+                        <svg class="mx-auto mb-4 text-green-500" xmlns="http://www.w3.org/2000/svg" width="120px"
+                            height="120px" viewBox="0 0 52 52">
+                            <circle class="stroke-current" cx="26" cy="26" r="25" fill="none" stroke-width="2" />
+                            <path class="stroke-current" fill="none" stroke-width="3"
+                                d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">You Have Successfully Updated</h2>
+                        <p class="text-gray-600 mb-6">Thank You</p>
+                        <a href="{{url('insurances')}}"
+                            class="inline-block px-5 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition">
+                            Insurances List
+                        </a>
+                    </div>
                 </section>
 
-                
+
 
             </div>
         </div>
     </div>
     </div>
-            
+
     </div>
 
 </x-app-layout>
 
 <!-- Summernote) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-     <!-- Summernote) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+<!-- Summernote) -->
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('.summernote').summernote({
-            height: 50, 
+            height: 50,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -159,26 +164,25 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script type="text/javascript">
-$('.dropify').dropify();
+    $('.dropify').dropify();
 </script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <script type="text/javascript">
-function myFunction(targetId) {
-    //alert(targetId);
-  / Get the text field /
-  var copyText = document.getElementById(targetId);
+    function myFunction(targetId) {
+        //alert(targetId);
+        / Get the text field /
+        var copyText = document.getElementById(targetId);
 
-  / Select the text field /
-  copyText.select();
-  //copyText.setSelectionRange(0, 99999); / For mobile devices /
+        / Select the text field /
+        copyText.select();
+        //copyText.setSelectionRange(0, 99999); / For mobile devices /
 
-  / Copy the text inside the text field /
-  navigator.clipboard.writeText(copyText.value);
-  
-  / Alert the copied text /
-  swal("Text is coppied "+ copyText.value);
-}
+        / Copy the text inside the text field /
+        navigator.clipboard.writeText(copyText.value);
+
+        / Alert the copied text /
+        swal("Text is coppied " + copyText.value);
+    }
 </script>
-
