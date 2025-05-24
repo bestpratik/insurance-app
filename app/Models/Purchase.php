@@ -49,4 +49,10 @@ class Purchase extends Model
      public function provider(){
         return $this->belongsTo(Provider::class, 'provider_type');
     }
+
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
 }

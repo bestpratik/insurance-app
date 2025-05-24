@@ -42,6 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('insurance/summary/{id}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
     Route::post('/insurance/invoice-submit/{id}', [InsuranceController::class, 'invoiceSubmit'])->name('insurance.invoice.submit');
     Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
+    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
+    
+    Route::get('purchase/edit/{id}', function ($id) {
+    return view('purchase.edit', ['id' => $id]); 
+    })->name('purchase.edit');
 
     Route::get('test-mail', [InsuranceController::class, 'testmail']);
 
