@@ -30,15 +30,17 @@
 
 
                     <label class="block">
-                        <span class="text-gray-700">Title<span class="text-red-600 text-xl">* </span></span>
+                        <span class="text-gray-700">Subject<span class="text-red-600 text-xl">* </span></span>
+                        <p class="text-gray-400" style="font-size: 14px;">Enter the subject line of the email</p>
                         <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text"
-                            name="title" value="{{ old('title',$insuranceEmailTemplate->title ?? '') }}" placeholder="Enter.." />
+                            name="title" value="{{ old('title',$insuranceEmailTemplate->title ?? '') }}" placeholder="Enter email subject.." />
 
                         @error('title')
                             <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
                     </label>
-                    <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-wrap gap-2">
+                         <p class="text-gray-400 w-full" style="font-size: 14px;">Use this area to add detailed notes or explanations about the insurance coverage, terms, or any other important information you want to highlight.</p>
                         <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
