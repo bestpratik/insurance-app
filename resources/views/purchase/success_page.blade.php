@@ -65,7 +65,7 @@
                             <path class="stroke-current" fill="none" stroke-width="3"
                                 d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                         </svg>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance purchase successfully created!</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance successfully purchased!</h2>
                         <p class="text-gray-600 mb-6">Thank You</p>
                         <a href="{{ route('purchase.details', $purchase->id) }}"
                             class="inline-block px-5 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition">
