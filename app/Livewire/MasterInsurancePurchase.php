@@ -305,9 +305,12 @@ class MasterInsurancePurchase extends Component
       
         $invoice->save();
 
-        session()->flash('message', 'Insurance purchase successfully created!');
+        return redirect()->route('purchase.success', ['id' => $purchase->id]);
 
-        return redirect('purchases');
+
+        // session()->flash('message', 'Insurance purchase successfully created!');
+
+        // return redirect()->route('purchase.success');
     }
 
     public function render()

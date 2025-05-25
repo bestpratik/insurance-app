@@ -49,7 +49,12 @@ class Insurance extends Model
         return $this->belongsTo(Purchase::class, 'id');
     }
 
-   
+
+    public function staticdocuments()
+    {
+        return $this->hasMany(Insurancedocument::class, 'insurance_id');
+    }
+
     
 }
 

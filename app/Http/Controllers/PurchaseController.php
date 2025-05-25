@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Purchase;
 use App\Models\Provider;
 use App\Models\Insurance;
+use App\Models\Insurancedocument;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PurchaseController extends Controller
 {
@@ -106,4 +110,46 @@ class PurchaseController extends Controller
         $purchase = Purchase::find('insurance_id', $id)->first();
         return view('purchase.edit', compact('purchase'));
     }
+
+    // public function successPage(){
+    //     $purchase = Purchase::all();
+    //     return view('purchase.success_page',compact('purchase'));
+    // }
+
+    public function successPage($id){
+        // dd($id);
+        $purchase = Purchase::find($id);
+        return view('purchase.success_page', compact('purchase'));
+    }
+
+
+    public function detailsPage($id){
+        
+        $purchase = Purchase::with('insurance.staticdocuments','invoice')->find($id);
+        // dd($purchase);
+        return view('purchase.detail_page', compact('purchase'));
+    }
+
+    public function generateStaticDocumentPdf($id)
+{
+    $doc = Insurancedocument::findOrFail($id);
+
+    $filePath = public_path('uploads/insurance_document/' . $doc->document);
+
+    if (!File::exists($filePath)) {
+        abort(404, 'File not found.');
+    }
+
+    $mime = File::mimeType($filePath);
+
+    // Force download or display in-browser depending on type
+    return Response::make(File::get($filePath), 200, [
+        'Content-Type' => $mime,
+        'Content-Disposition' => 'inline; filename="' . $doc->title . '"'
+    ]);
+}
+
+
+
+
 }

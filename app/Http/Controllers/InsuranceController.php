@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Insurance;
 use App\Models\Provider;
 use App\Models\Purchase;
-use App\Models\Invoice;
 use App\Models\Insurancedocument;
 use App\Models\Insurancedynamicdocument;
 use App\Models\Insuranceemailtemplate;
@@ -226,92 +225,15 @@ class InsuranceController extends Controller
         return view('insurance.insurance_summary', compact('insurance'));
     }
 
-    // public function invoiceSubmit(Request $request, $id){
-    //     $insurance = Insurance::with('provider', 'purchase')->findOrFail($id);
-    //     if ($request->has('is_invoice')) {
-    //         $billingEmail = $insurance->purchase->billing_email ?? null;
-
-    //         if ($billingEmail) {
-    //             Mail::to($billingEmail)->send(new PolicyHolderEmail($insurance));
-    //         }
-    //     }
+    // public function testmail()
+    // {
+    //     dd('Test');
+    //     $emailBody = 'Thank you for submitting your insurance summary. We will process it shortly.';
+    
+    //     Mail::to('anuradham.dbt@gmail.com')->send(new PolicyHolderEmail($emailBody));
 
     //     return redirect()->route('insurance.success')->with('message', 'Insurance summary submitted successfully!');
     // }
-
-//    public function invoiceSubmit(Request $request, $id)
-// {
-//     $insurance = Insurance::with('provider', 'purchase')->findOrFail($id);
-
-//     if ($request->has('is_invoice')) {
-//         // Ensure the purchase relationship exists
-//         $purchase = $insurance->purchase;
-//         if (!$purchase) {
-//             return redirect()->back()->with('error', 'No purchase record associated with this insurance.');
-//         }
-
-//         $invoice = Invoice::where('purchase_id', $purchase->id)->first();
-//         $billingEmail = $invoice->billing_email ?? null;
-
-//         if ($billingEmail) {
-//             $template = Insuranceemailtemplate::where('insurance_id', $insurance->id)->first();
-//             dd($template);
-
-//             if ($template) {
-//                 $placeholders = [
-//                     '%InsuranceName%' => $insurance->name ?? 'N/A',
-//                     '%policyNo%' => $purchase->policy_no ?? 'N/A',
-//                     '%landlordagentName%' => $purchase->policy_holder_name ?? 'N/A',
-//                     '%landlordagentAddress%' => $purchase->policy_holder_address ?? 'N/A',
-//                     '%riskAddress%' => $purchase->property_address ?? 'N/A',
-//                     '%policyStartdate%' => $purchase->policy_start_date ?? 'N/A',
-//                     '%policyEnddate%' => $purchase->policy_end_date ?? 'N/A',
-//                     '%purchaseDate%' => $purchase->purchase_date ?? 'N/A',
-//                     '%insurerTitle%' => $insurance->provider->name ?? 'N/A',
-//                     '%insurerDescription%' => $insurance->provider->description ?? 'N/A',
-//                     '%detailsofCover%' => $insurance->details_of_cover ?? 'N/A',
-//                     '%policyTerm%' => $purchase->policy_term ?? 'N/A',
-
-//                     // Financial fields from insurance table
-//                     '%netAnnualpremium%' => $insurance->net_premium ?? 'N/A',
-//                     '%insurancePremiumtax%' => $insurance->ipt ?? 'N/A',
-//                     '%grossPremium%' => $insurance->gross_premium ?? 'N/A',
-//                     '%rentAmount%' => $purchase->rent_amount ?? 'N/A',
-//                 ];
-
-//                 $emailTitle = str_replace(array_keys($placeholders), array_values($placeholders), $template->title);
-//                 $emailBody = str_replace(array_keys($placeholders), array_values($placeholders), $template->description);
-
-//                 Mail::to('anuradham.dbt@gmail.com')->send(new PolicyHolderEmail($emailTitle, $emailBody));
-//             }
-//         }
-//     }
-
-//     return redirect()->route('insurance.success')->with('message', 'Insurance summary submitted successfully!');
-// }
-
-
-// public function invoiceSubmit(Request $request, $id)
-// {
-    
-//     $emailBody = 'Thank you for submitting your insurance summary. We will process it shortly.';
-   
-//     Mail::to('anuradham.dbt@gmail.com')->send(new PolicyHolderEmail($emailBody));
-
-//     return redirect()->route('insurance.success')->with('message', 'Insurance summary submitted successfully!');
-// }
-
-
-public function testmail()
-{
-  
-    $emailBody = 'Thank you for submitting your insurance summary. We will process it shortly.';
-//    dd($emailBody);
-    Mail::to('sarat.dbt@gmail.com')->send(new PolicyHolderEmail($emailBody));
-
-    return redirect()->route('insurance.success')->with('message', 'Insurance summary submitted successfully!');
-}
-
 
     function success(){
         return view('insurance.success');

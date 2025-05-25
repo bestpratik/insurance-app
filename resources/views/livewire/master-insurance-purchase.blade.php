@@ -623,6 +623,12 @@
                         @enderror
                     </div>
                     
+                    <div>
+                        <label class="block">
+                            <span class="text-sm text-gray-600">Send Invoice</span>
+                            <input type="checkbox" name="is_invoice" class="form-checkbox text-blue-600">
+                        </label>
+                    </div>
                 </div>
             </div>
 

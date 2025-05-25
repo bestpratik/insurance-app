@@ -25,6 +25,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
     Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
+    // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
+    Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
+    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');
+    Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
+
 
     Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
@@ -42,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('insurance/summary/{id}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
     Route::post('/insurance/invoice-submit/{id}', [InsuranceController::class, 'invoiceSubmit'])->name('insurance.invoice.submit');
     Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
-    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
+    // Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
     
     Route::get('purchase/edit/{id}', function ($id) {
     return view('purchase.edit', ['id' => $id]); 
