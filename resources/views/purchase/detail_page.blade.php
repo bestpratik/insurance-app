@@ -245,6 +245,41 @@
                                                
                                             </div>
                                         </div>
+
+                                        <div class="col-md-7">
+                                            <h3 style="font-weight: 500; margin-top: 0;"> Billing Department</h3>
+                                            <table class="table table-bordered tbb" style="margin-bottom: 2em;">
+                                                <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
+                                                    <tr>
+                                                        <th style="color: white;">Billing Name</th>
+                                                        <th style="color: white;">Billing Email</th>
+                                                        <th style="color: white;">Billing Phone</th>
+                                                        <th style="color: white;">Billing Addresss</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td>
+                                                           {{ $purchase->invoice->billing_name }}
+
+                                                        </td>
+                                                        <td>
+                                                           {{ $purchase->invoice->billing_email }}
+
+                                                        </td>
+                                                        <td>
+                                                           {{ $purchase->invoice->billing_phone }}
+
+                                                        </td>
+                                                        <td>
+                                                            {{ $purchase->invoice->billing_address_one }},{{ $purchase->invoice->billing_address_two }},{{ $purchase->invoice->billing_postcode }}
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
