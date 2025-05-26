@@ -112,7 +112,7 @@ class PurchaseEdit extends Component
             $this->billingEmail = $this->purchaseData->invoice->billing_email ?? '';
             $this->billingPhone = $this->purchaseData->invoice->billing_phone ?? '';
             $this->billingAddressOne = $this->purchaseData->invoice->billing_address_one ?? '';
-            $this->billingAddressTwo = $this->purchaseData->invoice->billing_address_two;
+            $this->billingAddressTwo = $this->purchaseData->invoice->billing_address_two ?? '';
             $this->billingPostcode = $this->purchaseData->invoice->billing_postcode ?? '';
             $this->ponNo = $this->purchaseData->invoice->pon ?? '';
 
