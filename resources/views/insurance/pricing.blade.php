@@ -28,7 +28,7 @@
                             <input name="net_premium" type="text"
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter net premium amount .." value="{{$insurance->net_premium}}">
                             @error('net_premium')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5"  style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
@@ -37,7 +37,7 @@
                             <input name="commission" type="text"
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter commission amount .." value="{{$insurance->commission}}">
                             @error('commission')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5"  style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
@@ -58,7 +58,7 @@
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">Payable Amount</span>
+                            <span class="text-gray-700">Billable Amount</span>
                             <input name="payable_amount" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter final amount to be paid" value="{{$insurance->payable_amount}}">
                         </label>
                         
