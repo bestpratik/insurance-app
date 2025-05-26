@@ -58,41 +58,51 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form class="px-3 pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{ route('insurances.store') }}"
-                    enctype="multipart/form-data">
+                <form class="px-3 pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
+                    action="{{ route('insurances.store') }}" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <label class="block">
-                            <span class="text-gray-700">Type Of Insurance<span class="text-red-600 text-xl">* </span></span>
-                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="New">
-                                <span>New</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal">
-                                <span>Renewal</span>
-                            </label>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                        <!-- Type Of Insurance (3 columns on lg screens) -->
+                        <label class="block lg:col-span-4">
+                            <span class="text-gray-700">Type Of Insurance <span
+                                    class="text-red-600 text-xl">*</span></span>
+
+                            <div class="flex items-center space-x-6 mt-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="type_of_insurance" class="form-radio" value="New">
+                                    <span>New</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal">
+                                    <span>Renewal</span>
+                                </label>
+                            </div>
+
                             @error('type_of_insurance')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
-
                         </label>
 
 
-                        <label class="block">
-                            <span class="text-gray-700">Name Of Insurance<span class="text-red-600 text-xl">* </span></span>
+                        <!-- Name Of Insurance (6 columns on lg screens) -->
+                        <label class="block lg:col-span-8">
+                            <span class="text-gray-700">Name Of Insurance <span
+                                    class="text-red-600 text-xl">*</span></span>
                             <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter name">
+                                placeholder="Enter the insurance name...">
                             @error('name')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
                         </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
                         <label class="block">
                             <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
                             <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
-                                <option value="">choose..</option>
+                                <option value="">Select insurance provider..</option>
                                 @foreach($provider as $row)
                                     <option value="{{ $row->id }}">{{ $row->name }}</option>
                                 @endforeach
@@ -103,14 +113,17 @@
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">Prefix</span>
-                            <input name="prefix" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter..">
+                            <span class="text-gray-700">Prefix <span class="text-red-600 text-xl">* </span></span>
+                            <input name="prefix" type="text"
+                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter insurance prefix (e.g., XYZ)..">
                         </label>
+                    </div>
+                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
                         <label class="block">
                             <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
-                            <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            <input name="validity" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded"
+                                placeholder="Enter validity duration (e.g., 365 days)">
                             @error('validity')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
@@ -118,7 +131,8 @@
 
                         <label class="block">
                             <span class="text-gray-700">From<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            <input name="rent_amount_from" type="text" class="w-full border-[#66666660] mt-1 p-2 border rounded"
+                                placeholder="Enter starting price (e.g., €500)">
                             @error('rent_amount_from')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
@@ -126,31 +140,33 @@
 
                         <label class="block">
                             <span class="text-gray-700">To<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter..">
+                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border border-[#66666660] rounded"
+                                placeholder="Enter maximum price (e.g., €5000)">
                             @error('rent_amount_to')
                                 <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
                         </label>
-
-                      
-
                         <label class="block">
                             <span class="text-gray-700">Image</span>
-                            <input type="file" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" id="customFile" name="image"
-                                onchange="loadFile(event)">
+                            <input type="file"
+                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center  cursor-pointer"
+                                id="customFile" name="image" onchange="loadFile(event)">
                         </label>
 
                     </div>
-                        <label class="block">
-                           <span class="text-gray-700">Details of cover</span>
-                            <textarea name="details_of_cover" id="" class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote" rows="2">{{old('details_of_cover')}}</textarea>
-                        </label>
+                    <label class="block">
+                        <span class="text-gray-700">Details of cover</span>
+                        <textarea name="details_of_cover" id=""
+                            class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote"
+                            rows="2">{{old('details_of_cover')}}</textarea>
+                    </label>
 
                     <div class="pt-6 flex justify-center">
-                    <button class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
-                    <span class="text-md">Next</span>
-                    <x-heroicon-o-chevron-right class="h-6 w-6" />
-                      </button>
+                        <button
+                            class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            <span class="text-md">Next</span>
+                            <x-heroicon-o-chevron-right class="h-6 w-6" />
+                        </button>
 
                     </div>
                 </form>
@@ -163,15 +179,15 @@
 </x-app-layout>
 
 <!-- Summernote) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-     <!-- Summernote) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+<!-- Summernote) -->
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('.summernote').summernote({
-            height: 50, 
+            height: 50,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
