@@ -55,7 +55,9 @@
                         @enderror
                     </label>
                     <div class="flex flex-wrap gap-2">
-                        <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their descriptions when filling out your insurance document. These tags will help structure the document content dynamically and ensure consistency.</p>
+                        <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their
+                            descriptions when filling out your insurance document. These tags will help structure the
+                            document content dynamically and ensure consistency.</p>
                         <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
@@ -123,7 +125,9 @@
 
                     <label class="block">
                         <span class="text-gray-700">Description<span class="text-red-600 text-xl">* </span></span>
-                       <p class="text-gray-400" style="font-size: 14px;">Use this area to add detailed notes or explanations about the insurance coverage, terms, or any other important information you want to highlight.</p>
+                        <p class="text-gray-400" style="font-size: 14px;">Use this area to add detailed notes or
+                            explanations about the insurance coverage, terms, or any other important information you
+                            want to highlight.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote"
                             name="description" id="" rows="2">{{ old('description') }}</textarea>
 
@@ -134,7 +138,7 @@
 
                     <label class="block">
                         <span class="text-gray-700">Footer</span>
-                         <p class="text-gray-400" style="font-size: 14px;">Enter your template footer.</p>
+                        <p class="text-gray-400" style="font-size: 14px;">Enter your template footer.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer"
                             id="" rows="2">{{ old('footer') }}</textarea>
 
@@ -146,7 +150,11 @@
                         <button
                             class="flex items-center justify-between text-center rounded-md w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
                             <span class="text-md">Save</span>
-                            <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.25 6.75v-1.5A2.25 2.25 0 0015 3H6.75A2.25 2.25 0 004.5 5.25v13.5A2.25 2.25 0 006.75 21h10.5A2.25 2.25 0 0019.5 18.75V8.25L17.25 6.75zM15 3v4.5H9V3h6z" />
+                            </svg>
                         </button>
                     </div>
             </div>
@@ -268,9 +276,9 @@
 
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
-                                                                            title="Delete"
-                                                                            href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
-                                                        </a> -->
+                                                                                title="Delete"
+                                                                                href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                                            </a> -->
 
                                     <div class="flex items-center justify-center">
                                         <form action="{{ route('insurance.static.delete', $row->id) }}" method="POST"

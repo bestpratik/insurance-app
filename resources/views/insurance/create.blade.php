@@ -67,7 +67,8 @@
                         <label class="block lg:col-span-4">
                             <span class="text-gray-700">Type Of Insurance <span
                                     class="text-red-600 text-xl">*</span></span>
-
+                            <p class="text-gray-500" style="font-size: 12px;"> Choose whether this is a new insurance
+                                policy or a renewal.</p>
                             <div class="flex items-center space-x-6 mt-2">
                                 <label class="flex items-center space-x-2">
                                     <input type="radio" name="type_of_insurance" class="form-radio" value="New">
@@ -80,7 +81,7 @@
                             </div>
 
                             @error('type_of_insurance')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
@@ -89,10 +90,12 @@
                         <label class="block lg:col-span-8">
                             <span class="text-gray-700">Name Of Insurance <span
                                     class="text-red-600 text-xl">*</span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the specific name of the insurance
+                                policy.</p>
                             <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
                                 placeholder="Enter the insurance name...">
                             @error('name')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
                     </div>
@@ -101,6 +104,8 @@
 
                         <label class="block">
                             <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Select the insurance company or provider
+                                offering this policy.</p>
                             <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
                                 <option value="">Select insurance provider..</option>
                                 @foreach($provider as $row)
@@ -108,42 +113,54 @@
                                 @endforeach
                             </select>
                             @error('provider_type')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
                         <label class="block">
                             <span class="text-gray-700">Prefix <span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the short code or abbreviation used
+                                to identify this insurance.</p>
                             <input name="prefix" type="text"
-                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter insurance prefix (e.g., XYZ)..">
+                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
+                                placeholder="Enter insurance prefix (e.g., RSA)">
                         </label>
                     </div>
-                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
                         <label class="block">
                             <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
-                            <input name="validity" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded"
+                            <p class="text-gray-500" style="font-size: 12px;">Specify the duration the insurance is
+                                valid for (e.g., 365 days).</p>
+                            <input name="validity" type="number"
+                                class="w-full mt-1 p-2 border border-[#66666660] rounded"
                                 placeholder="Enter validity duration (e.g., 365 days)">
                             @error('validity')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">From<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_from" type="text" class="w-full border-[#66666660] mt-1 p-2 border rounded"
-                                placeholder="Enter starting price (e.g., €500)">
+                            <span class="text-gray-700">Rent From<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the minimum or base rent amount for this
+                                insurance policy.</p>
+                            <input name="rent_amount_from" type="text"
+                                class="w-full border-[#66666660] mt-1 p-2 border rounded"
+                                placeholder="Enter price (e.g., £-500)">
                             @error('rent_amount_from')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
                         <label class="block">
-                            <span class="text-gray-700">To<span class="text-red-600 text-xl">* </span></span>
-                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border border-[#66666660] rounded"
-                                placeholder="Enter maximum price (e.g., €5000)">
+                            <span class="text-gray-700">Rent To<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the maximum possible rent amount for this
+                                insurance policy.</p>
+                            <input name="rent_amount_to" type="text"
+                                class="w-full mt-1 p-2 border border-[#66666660] rounded"
+                                placeholder="Enter maximum price (e.g., £-5000)">
                             @error('rent_amount_to')
-                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
                         <label class="block">

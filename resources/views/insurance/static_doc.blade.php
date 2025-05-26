@@ -33,6 +33,7 @@
 
                         <label class="block">
                             <span class="text-gray-700">Title<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter a clear, concise title for the document.</p>
                             <input class="w-full mt-1 p-2 border rounded-md border-[#66666660]" type="text" name="title"
                                 value="{{ old('title') }}" placeholder="Enter the document title.." />
 
@@ -43,8 +44,8 @@
 
 
                         <label class="block">
-                            <span class="text-gray-700">Documents<span class="text-red-600 text-xl">* </span> <span
-                                    class="text-gray-400" style="font-size: 12px;">(PDF or DOCX only)</span> </span>
+                            <span class="text-gray-700">Documents<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Upload a valid file in PDF or DOCX format.</p>
 
                             <input type="file" name="document"
                                 class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center  cursor-pointer">
@@ -53,11 +54,16 @@
                             @enderror
                         </label>
                         <div>
-                            <span class="text-gray-700">&nbsp;</span>
+                            <span class="text-gray-700" style="line-height: 40px;">&nbsp;</span>
                             <button
                                 class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px] mt-3  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
                                 <span class="text-md">Save</span>
-                                <x-heroicon-o-arrow-down-tray class="h-6 w-6" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17.25 6.75v-1.5A2.25 2.25 0 0015 3H6.75A2.25 2.25 0 004.5 5.25v13.5A2.25 2.25 0 006.75 21h10.5A2.25 2.25 0 0019.5 18.75V8.25L17.25 6.75zM15 3v4.5H9V3h6z" />
+                                </svg>
+                                <!-- <x-heroicon-o-arrow-down-tray class="h-6 w-6" /> -->
                             </button>
 
                         </div>
@@ -84,8 +90,8 @@
         </div>
     </div>
 
-    <div class="col-span-12">
-        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
+    <div class="col-span-12 mt-4">
+        <div class="overflow-hidden rounded-md border border-gray-200 bg-white pt-4 ">
             <div class="max-w-full overflow-x-auto custom-scrollbar">
                 <table class="min-w-full">
                     <!-- table header start -->
@@ -178,7 +184,7 @@
                                         <div class="flex items-center gap-3">
                                             <div>
                                                 <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
-                                                    <a class="flex items-center" target="_blank" href="{{ $documentUrl }}">
+                                                    <a class="flex items-center border rounded px-4 py-1.5" target="_blank" href="{{ $documentUrl }}">
                                                         @if(in_array(strtolower($extension), ['doc', 'docx']))
                                                             <x-heroicon-o-document-text class="h-6 w-6 text-blue-800 mr-2" />
                                                         @elseif(strtolower($extension) === 'pdf')
@@ -186,7 +192,7 @@
                                                         @else
                                                             <x-heroicon-o-document class="h-6 w-6 text-gray-600 mr-2" />
                                                         @endif
-                                                        <span>Download uploaded document</span>
+                                                        <span>Download</span>
                                                     </a>
                                                 </span>
                                             </div>
@@ -197,9 +203,9 @@
 
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
-                                                                        title="Delete"
-                                                                        href="{{ route('insurance.static.delete',$row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
-                                                    </a> -->
+                                                                            title="Delete"
+                                                                            href="{{ route('insurance.static.delete',$row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                                        </a> -->
 
                                     <div class="flex items-center justify-center">
                                         <form action="{{ route('insurance.static.delete', $row->id) }}" method="POST"
