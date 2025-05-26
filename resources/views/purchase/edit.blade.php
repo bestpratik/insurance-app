@@ -70,3 +70,15 @@
             });
     });
 </script> --}}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    Livewire.on('swal', () => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Purchase and Invoice updated successfully',
+            text: '',
+        });
+    });
+</script>

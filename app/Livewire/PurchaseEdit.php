@@ -16,7 +16,7 @@ class PurchaseEdit extends Component
     public $rentAmount;
     public $selectedinsuranceId;
 
-     public $policyHoldertype = 'Individual'; // default 
+    public $policyHoldertype = 'Individual'; 
     public $companyName;
     public $policyholderTitle;
     public $policyholderFirstName;
@@ -71,6 +71,7 @@ class PurchaseEdit extends Component
         if($purchaseId){
             $this->productType = $this->purchaseData->product_type;
             $this->insuranceType = $this->purchaseData->insurance_type;
+            $this->selectedinsuranceId = $this->purchaseData->insurance_id;
             $this->rentAmount = $this->purchaseData->rent_amount;
             $this->doorNo = $this->purchaseData->door_no;
             $this->addressOne = $this->purchaseData->address_one;
@@ -107,39 +108,90 @@ class PurchaseEdit extends Component
 
 
             //  billing
-            $this->billingName = $this->purchaseData->invoice->billing_name;
-            $this->billingEmail = $this->purchaseData->invoice->billing_email;
-            $this->billingPhone = $this->purchaseData->invoice->billing_phone;
-            $this->billingAddressOne = $this->purchaseData->invoice->billing_address_one;
+            $this->billingName = $this->purchaseData->invoice->billing_name ?? '';
+            $this->billingEmail = $this->purchaseData->invoice->billing_email ?? '';
+            $this->billingPhone = $this->purchaseData->invoice->billing_phone ?? '';
+            $this->billingAddressOne = $this->purchaseData->invoice->billing_address_one ?? '';
             $this->billingAddressTwo = $this->purchaseData->invoice->billing_address_two;
-            $this->billingPostcode = $this->purchaseData->invoice->billing_postcode;
-            $this->ponNo = $this->purchaseData->invoice->pon;
+            $this->billingPostcode = $this->purchaseData->invoice->billing_postcode ?? '';
+            $this->ponNo = $this->purchaseData->invoice->pon ?? '';
 
 
         }
 
-        // dd($purchaseId);
+        //dd($purchaseId);
 
 
     }
 
     public function update()
     {
-        $purchase=Purchase::where('id',$this->purchaseId)->get();
-        // $this->validate([
-        //     // Add your validations as needed
-        //     'productType' => 'required',
-        //     'insuranceType' => 'required',
-        //     'billingName' => 'required',
-        //     'billingEmail' => 'required|email',
-        //     // Add other validations...
-        // ]);
+        $purchase = Purchase::find($this->purchaseId);
+            $this->validate([
+            'productType' => 'required',
+            'selectedinsuranceId' => 'required',
+            'insuranceType' => 'required',
+            'billingName' => 'required',
+            'billingEmail' => 'required|email',
+            'billingPhone' => 'required',
+            'tenantName' => 'required',
+            'tenantPhone' => 'required',
+            'tenantEmail' => 'required|email',
+            'policyStartDate' => 'required',
+            'astStartDate' => 'required',
+            'policyTerm' => 'required',
+            'policyholderPostcode' => 'required',
+            'rentAmount' => 'required',
+            'doorNo' => 'required',
+            'addressOne' => 'required',
+
+        ]);
+
 
         try {
-        
+           
+
+            // dd([
+            //     'product_type' => $this->productType,
+            //     'insurance_type' => $this->insuranceType,
+            //     'selectedinsuranceId' => $this->selectedinsuranceId,
+            //     'rent_amount' => $this->rentAmount,
+            //     'door_no' => $this->doorNo,
+            //     'address_one' => $this->addressOne,
+            //     'address_two' => $this->addressTwo,
+            //     'address_three' => $this->addressThree,
+            //     'post_code' => $this->postCode,
+
+            //     // Policy holder
+            //     'policy_holder_type' => $this->policyHoldertype,
+            //     'company_name' => $this->companyName,
+            //     'policy_holder_company_email' => $this->policyholderCompanyEmail,
+            //     'policy_holder_title' => $this->policyholderTitle,
+            //     'policy_holder_fname' => $this->policyholderFirstName,
+            //     'policy_holder_lname' => $this->policyholderLastName,
+            //     'policy_holder_email' => $this->policyholderEmail,
+            //     'policy_holder_company_phone' => $this->policyholderPhone,
+            //     'policy_holder_alternative_phone' => $this->policyholderAlternativePhone,
+            //     'policy_holder_address_one' => $this->policyholderAddress1,
+            //     'policy_holder_address_two' => $this->policyholderAddress2,
+            //     'policy_holder_postcode' => $this->policyholderPostcode,
+            //     'policy_start_date' => $this->policyStartDate,
+            //     'ast_start_date' => $this->astStartDate,
+            //     'policy_term' => $this->policyTerm,
+
+            //     // Tenant
+            //     'tenant_name' => $this->tenantName,
+            //     'tenant_phone' => $this->tenantPhone,
+            //     'tenant_email' => $this->tenantEmail,
+
+            //     // Payment method
+            //     'payment_method' => $this->paymentMethod,
+            // ]);
+
            $purchase->update([
                 'product_type' => $this->productType,
                 'insurance_type' => $this->insuranceType,
+                'insurance_id' => $this->selectedinsuranceId,
                 'rent_amount' => $this->rentAmount,
                 'door_no' => $this->doorNo,
                 'address_one' => $this->addressOne,
@@ -173,24 +225,30 @@ class PurchaseEdit extends Component
                 'payment_method' => $this->paymentMethod,
             ]);
 
-            $purchase->invoice->update([
-                'billing_name' => $this->billingName,
-                'billing_email' => $this->billingEmail,
-                'billing_phone' => $this->billingPhone,
-                'billing_address_one' => $this->billingAddressOne,
-                'billing_address_two' => $this->billingAddressTwo,
-                'billing_postcode' => $this->billingPostcode,
-                'pon' => $this->ponNo,
-            ]);
+              // Emit browser event for success
+            $this->dispatch('swal');
 
-            session()->flash('success', 'Purchase and invoice updated successfully.');
+            //dd($purchase->invoice);
+
+           if ($purchase->invoice) {
+            $purchase->invoice->update([
+                'billing_name'         => $this->billingName,
+                'billing_email'        => $this->billingEmail,
+                'billing_phone'        => $this->billingPhone,
+                'billing_address_one'  => $this->billingAddressOne,
+                'billing_address_two'  => $this->billingAddressTwo,
+                'billing_postcode'     => $this->billingPostcode,
+                'pon'                  => $this->ponNo,
+            ]);
+        }
+
+
 
         } catch (\Exception $e) {
             
             session()->flash('error', 'Update failed: ' . $e->getMessage());
         }
     }
-
 
     public function render()
     {

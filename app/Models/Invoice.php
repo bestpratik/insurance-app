@@ -17,9 +17,13 @@ class Invoice extends Model
         'billing_name',
         'billing_email',
         'billing_phone',
-        'created_at',
-        'updated_at',
+        'billing_address_one',
+        'billing_address_two',
+        'billing_postcode',
+        'billing_full_addresss',
     ];
+
+
 
     public function purchase()
     {
