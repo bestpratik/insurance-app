@@ -14,7 +14,7 @@
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
             <div class="card-body flex-fill mx-md-4">
-                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b ">
+                <nav id="_dm-customWizardSteps" class="flex justify-center space-x-1 md:space-x-2 mt-3 mb-3 border-b ">
                     <!-- Active tab -->
                     <a href="#"
                         class=" flex items-center text-center px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium transition-all duration-300">

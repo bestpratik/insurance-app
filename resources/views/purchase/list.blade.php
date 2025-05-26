@@ -84,7 +84,7 @@
                         <!-- table body start -->
                         <tbody class="divide-y divide-gray-100 ">
                             @php
-                                $i = 0;
+                                $i = $purchases->firstItem() - 1;
                             @endphp
                         
                            @forelse ($purchases as $row)
@@ -166,6 +166,11 @@
                                                 class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400">
                                                 <x-heroicon-o-pencil-square class="w-6 h-6 text-gray-700 " />
                                             </a>
+
+                                            <a class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400" style="padding: 3px 6px;" href="{{route('purchase.details', $row->id)}}">
+                                                <x-heroicon-o-eye class="w-6 h-6 text-gray-700" />
+                                            </a>
+
                                             <!-- <form action=""
                                                     method="POST" onsubmit="return confirmDelete()">
                                                     @csrf
@@ -188,9 +193,11 @@
                         </tbody>
                         <!-- table body end -->
                     </table>
+                    
                 </div>
+                
             </div>
-            <!-- Table Four -->
+           {{ $purchases->links() }}
         </div>
         </div>
 </x-app-layout>

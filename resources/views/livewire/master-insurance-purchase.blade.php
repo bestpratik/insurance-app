@@ -5,7 +5,7 @@
     </div>
     @endif
 
-    <nav class="flex justify-center space-x-1 md:space-x-8 mt-3 mb-3 border-b">
+    <nav class="flex justify-center space-x-1 md:space-x-2 mt-3 mb-3 border-b">
         {{-- Step 1: Insurances --}}
         <a href="#" class="flex items-center text-center px-4 py-2 transition-all duration-300 font-medium
                @if($currentStep === 1)
@@ -635,18 +635,20 @@
             @endif
 
             @if($currentStep === 8)
-            <div class="summary-section p-4">
-                <h3 class="text-xl font-semibold mb-4">Review Your Summary</h3>
-                <ul class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    @foreach($summaryData as $key => $value)
-                    <li class="pb-2">
-                        <h6 class="font-medium">{{ $key }}</h6>
-                        <p>{{ $value }}</p>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
+                <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
+
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach($summaryData as $key => $value)
+                            <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                                <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
+                                <p class="text-gray-800 text-base">{{ $value }}</p>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
+
 
 
         </div>
