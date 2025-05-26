@@ -102,7 +102,7 @@
                                 <th class="px-6 py-3 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <p class="font-medium text-gray-500 text-theme-xs ">
-                                            Total Premium  
+                                            Total Premium
                                         </p>
                                     </div>
                                 </th>
@@ -110,7 +110,7 @@
                                 <th class="px-6 py-3 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <p class="font-medium text-gray-500 text-theme-xs ">
-                                            Payable Amount  
+                                            Payable Amount
                                         </p>
                                     </div>
                                 </th>
@@ -131,11 +131,11 @@
                             @php
                                 $i = 0;
                             @endphp
-                        
-                           @forelse ($insurances as $row)
-                            @php
-                                $i++;
-                            @endphp
+
+                            @forelse ($insurances as $row)
+                                @php
+                                    $i++;
+                                @endphp
                                 <tr>
                                     <td class="px-6 py-3 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -155,111 +155,7 @@
                                             <div class="flex items-center gap-3">
                                                 <div>
                                                     <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->name}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->provider->name ?? ''}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->prefix}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->net_premium}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->commission}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->gross_premium}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->ipt}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->total_premium}}
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                       {{$row->payable_amount}}
+                                                        {{$row->name}}
                                                     </span>
 
                                                 </div>
@@ -268,28 +164,139 @@
                                     </td>
 
                                     <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center justify-center">
-                                            <a href="{{route('insurances.edit', $row->id)}}"
-                                                class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400">
-                                                <x-heroicon-o-pencil-square class="w-6 h-6 text-gray-700 " />
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->provider->name ?? ''}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->prefix}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->net_premium}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->commission}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->gross_premium}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->ipt}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->total_premium}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
+                                                        {{$row->payable_amount}}
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        <div class="flex items-center justify-center space-x-4">
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('insurances.edit', $row->id) }}"
+                                                class="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
+                                                <x-heroicon-o-pencil-square class="w-5 h-5 mr-1" />
+                                                <span>Edit</span>
                                             </a>
-                                            <form action="{{ route('insurances.destroy', $row->id) }}"
-                                                    method="POST" onsubmit="return confirmDelete()">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button title="Delete" class="btn btn-flat btn-sm btn-danger rounded"
-                                                        type="submit"><i class="fas fa-trash-alt me-1"></i>Delete</button>
+
+                                            <!-- Delete Button -->
+                                            <form action="{{ route('insurances.destroy', $row->id) }}" method="POST"
+                                                onsubmit="return confirmDelete()">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="flex items-center text-red-600 hover:text-red-800 transition-colors">
+                                                    <x-heroicon-o-trash class="w-5 h-5 mr-1" />
+                                                    <span>Delete</span>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                          @empty
+                            @empty
                                 <tr>
                                     <td colspan="9" class="text-center px-6 py-4 text-gray-500 ">
                                         No data found.
                                     </td>
                                 </tr>
-                        @endforelse
+                            @endforelse
 
 
                         </tbody>
@@ -299,7 +306,7 @@
             </div>
             <!-- Table Four -->
         </div>
-        </div>
+    </div>
 </x-app-layout>
 <script type="text/javascript">
     function confirmDelete() {
