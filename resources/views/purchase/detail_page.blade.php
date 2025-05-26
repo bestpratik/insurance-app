@@ -1,290 +1,194 @@
 <x-app-layout>
     <div class="grid grid-cols-12 gap-4 md:gap-6">
         <div class="col-span-12">
-            <!-- Table Four -->
             @if (session('success'))
-            <div class="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50  dark:text-green-400">
+            <div class="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50 dark:text-green-400">
                 {{ session('success') }}
             </div>
             @endif
-            <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
+
+            <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
                 <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
-
                     <div>
-                        <h3 class="text-lg font-semibold  /90">
-                            View Purchase Details
-                        </h3>
+                        <h3 class="text-lg font-semibold text-gray-800">View Purchase Details</h3>
                     </div>
-
                 </div>
 
-                <!-- content here -->
-                <section id="content" class="content">
-                    <div class="content__boxed">
-                        <div class="content__wrap">
-                            <div class="card mt-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="lafe-t-side">
-                                                <h2> Policy Information</h2>
-                                                <hr style="margin: 5px;">
-                                                <table class="table table-borderd" style="font-weight: 400;">
-                                                    <tr>
-                                                        <td style="line-height: 18px;"><b>Insurance Name</b></td>
-                                                        <td>{{  $purchase->insurance->name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="line-height: 18px;"><b>Policy Number</b></td>
-                                                        <td>{{  $purchase->policy_no }}</td>
-                                                    </tr>
+                <!-- Content Start -->
+                <section id="content" class="px-6 pb-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Left Column -->
+                        <div class="lg:col-span-5 space-y-6">
+                            <div>
+                                <h2 class="text-lg font-semibold">Policy Information</h2>
+                                <hr class="my-2 border-gray-300">
+                                <table class="w-full text-sm text-gray-700">
+                                    <tr>
+                                        <td class="py-1 font-medium">Insurance Name</td>
+                                        <td>{{ $purchase->insurance->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-medium">Policy Number</td>
+                                        <td>{{ $purchase->policy_no }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-medium">Purchased By</td>
+                                        <td>{{ auth()->user()->name }}</td>
+                                    </tr>
+                                </table>
+                            </div>
 
-                                                    <tr>
-                                                        <td style="line-height: 18px;"><b>Purchased By</b></td>
-                                                        <td>
-                                                            {{ auth()->user()->name }}
-                                                        </td>
-                                                    </tr>
+                            <div>
+                                <h2 class="text-lg font-semibold">Important Dates</h2>
+                                <hr class="my-2 border-gray-300">
+                                <table class="w-full text-sm text-gray-700">
+                                    <tr>
+                                        <td class="py-1 font-medium">Purchase Date</td>
+                                        <td>{{ $purchase->purchase_date }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
-                                                </table>
-                                                <h2 style="margin-top: 1em;">Important Dates</h2>
-                                                <hr style="margin: 5px;">
-                                                <table class="table table-borderd" style="font-weight: 400;">
-                                                    <tr>
-                                                        <td style="line-height: 18px;"><b>Purchase Date</b></td>
-                                                        <td>
-                                                           {{  $purchase->purchase_date }}
-                                                        </td>
-                                                    </tr>
+                        <!-- Right Column -->
+                        <div class="lg:col-span-7 space-y-6">
+                            <!-- Payment Summary -->
+                            <div>
+                                <h3 class="text-lg font-semibold">Payment Summary</h3>
+                                <table class="w-full text-sm border border-gray-300 rounded-lg overflow-hidden">
+                                    <thead class="bg-gray-800 text-white">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Policy Start Date</th>
+                                            <th class="px-3 py-2 text-left">Policy End Date</th>
+                                            <th class="px-3 py-2 text-left">AST Start Date</th>
+                                            <th class="px-3 py-2 text-left">Purchase Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white">
+                                            <td class="px-3 py-2">{{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}</td>
+                                            <td class="px-3 py-2">{{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}</td>
+                                            <td class="px-3 py-2">{{ \Carbon\Carbon::parse($purchase->ast_start_date)->format('d M Y') }}</td>
+                                            <td class="px-3 py-2">{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                                </table>
-                                            </div>
-
-
+                            <!-- Details -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Landlord/Agency -->
+                                <div>
+                                    <div class="border rounded-lg">
+                                        <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Landlord/Agency Details</div>
+                                        <div class="p-4 text-sm text-gray-700">
+                                            <!-- Add content if needed -->
+                                            <span class="text-gray-500 italic">No details provided</span>
                                         </div>
+                                    </div>
+                                </div>
 
-
-                                        <div class="col-md-7">
-                                            <h3 style="font-weight: 500; margin-top: 0;"> Payment Summary</h3>
-                                            <table class="table table-bordered tbb" style="margin-bottom: 2em;">
-                                                <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                    <tr>
-                                                        <th style="color: white;">Policy Start Date</th>
-                                                        <th style="color: white;">Policy end Date</th>
-                                                        <th style="color: white;">Ast start date</th>
-                                                        <th style="color: white;">Purchase Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    <tr>
-                                                        <td>
-                                                           {{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}
-
-                                                        </td>
-                                                        <td>
-                                                           {{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}
-
-                                                        </td>
-                                                        <td>
-                                                           {{ \Carbon\Carbon::parse($purchase->ast_start_date)->format('d M Y') }}
-
-                                                        </td>
-                                                        <td>
-                                                            {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                            <!---->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Landloard/Agency Details</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                   
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Property Details</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                   {{  $purchase->door_no }},{{  $purchase->address_one }},{{  $purchase->address_two }},{{  $purchase->address_three }},{{  $purchase->post_code }}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Tenant Details</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    {{  $purchase->tenant_name }}</br>
-                                                                    {{  $purchase->tenant_email }}</br>
-                                                                    {{  $purchase->tenant_phone }}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-
-                                                <div class="col-md-12 block-ap" style="margin-top: 2em;">
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Static Policy Documents</th>
-                                                            </tr>
-                                                        </thead>
-                                                        
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    @if($purchase->insurance &&                     $purchase->insurance->staticdocuments->count())
-                                                                        @foreach($purchase->insurance->staticdocuments as $doc)
-                                                                            <div class="hit-blk mb-2">
-                                                                                <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank">
-                                                                                    📄 {{ $doc->title }}
-                                                                                </a>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @else
-                                                                        <div class="text-muted">No static documents available.</div>
-                                                                    @endif
-
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-
-                                                    </table>
-                                                </div>
-
-                                                 <div class="col-md-12 block-ap" style="margin-top: 2em;">
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Dynamic Policy Documents</th>
-                                                            </tr>
-                                                        </thead>
-                                                        
-
-                                                        <tbody>
-                                                             
-                                                                <tr>
-                                                                    <td>
-                                                                        
-
-                                                                        @foreach($purchase->insurance->dynamicdocument as $document)
-                                                                            <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}" class="btn btn-sm btn-primary" target="_blank">
-                                                                                {{ $document->title }}
-                                                                            </a>
-                                                                        @endforeach
-                                                                    </td>
-                                                                </tr>
-                                                        </tbody>
-
-                                                    </table>
-                                                </div>
-
-                                              
-
-                                                
-                                                <div class="col-md-12 block-ap">
-                                                    <table class="table table-bordered tbb">
-                                                        <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                            <tr>
-                                                                <th style="color: white">Invoice</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="hit-blk">
-                                                                        <a href="" target="_blank">
-                                                                            <img src="" style="width:68px; padding:10px">
-                                                                            <span class="text-center">Invoice</span>
-                                                                        </a>
-
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                               
-                                            </div>
+                                <!-- Property Details -->
+                                <div class="space-y-4">
+                                    <div class="border rounded-lg">
+                                        <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Property Details</div>
+                                        <div class="p-4 text-sm text-gray-700">
+                                            {{ $purchase->door_no }}, {{ $purchase->address_one }}, {{ $purchase->address_two }}, {{ $purchase->address_three }}, {{ $purchase->post_code }}
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-7">
-                                            <h3 style="font-weight: 500; margin-top: 0;"> Billing Department</h3>
-                                            <table class="table table-bordered tbb" style="margin-bottom: 2em;">
-                                                <thead style="background:#3e3d3d;color:#fff;font-weight:bold">
-                                                    <tr>
-                                                        <th style="color: white;">Billing Name</th>
-                                                        <th style="color: white;">Billing Email</th>
-                                                        <th style="color: white;">Billing Phone</th>
-                                                        <th style="color: white;">Billing Addresss</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    <tr>
-                                                        <td>
-                                                           {{ $purchase->invoice->billing_name }}
-
-                                                        </td>
-                                                        <td>
-                                                           {{ $purchase->invoice->billing_email }}
-
-                                                        </td>
-                                                        <td>
-                                                           {{ $purchase->invoice->billing_phone }}
-
-                                                        </td>
-                                                        <td>
-                                                            {{ $purchase->invoice->billing_address_one }},{{ $purchase->invoice->billing_address_two }},{{ $purchase->invoice->billing_postcode }}
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
+                                    <div class="border rounded-lg">
+                                        <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Tenant Details</div>
+                                        <div class="p-4 text-sm text-gray-700 space-y-1">
+                                            <div>{{ $purchase->tenant_name }}</div>
+                                            <div>{{ $purchase->tenant_email }}</div>
+                                            <div>{{ $purchase->tenant_phone }}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            <!-- Billing Department -->
+                            <div class="border rounded-lg">
+                                <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Billing Department</div>
+                                <table class="w-full text-sm text-gray-700">
+                                    <thead class="bg-gray-100 text-left">
+                                        <tr>
+                                            <th class="p-2">Billing Name</th>
+                                            <th class="p-2">Billing Email</th>
+                                            <th class="p-2">Billing Phone</th>
+                                            <th class="p-2">Billing Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-2">{{ $purchase->invoice->billing_name }}</td>
+                                            <td class="p-2">{{ $purchase->invoice->billing_email }}</td>
+                                            <td class="p-2">{{ $purchase->invoice->billing_phone }}</td>
+                                            <td class="p-2">
+                                                {{ $purchase->invoice->billing_address_one }},
+                                                {{ $purchase->invoice->billing_address_two }},
+                                                {{ $purchase->invoice->billing_postcode }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Static Policy Documents -->
+                            <div class="border rounded-lg">
+                                <div class="px-4 py-2 font-semibold">Static Policy Documents</div>
+                                <div class="p-4 space-y-2 text-sm">
+                                    @if($purchase->insurance && $purchase->insurance->staticdocuments->count())
+                                    @foreach($purchase->insurance->staticdocuments as $doc)
+                                    <div>
+                                        <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank" class="text-blue-600 hover:underline">
+                                            <x-heroicon-o-document-text class="h-6 w-6 text-red-600 inline" /> {{ $doc->title }}
+                                        </a>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="text-gray-500 italic">No static documents available.</div>
+                                    @endif
+                                </div>
+                            </div>
 
+                            <!-- Dynamic Policy Documents -->
+                            <div class="border rounded-lg">
+                                <div class="px-4 py-2 font-semibold">Dynamic Policy Documents</div>
+                                <div class="p-4 space-x-2">
+                                    @foreach($purchase->insurance->dynamicdocument as $document)
+                                    <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
+                                        target="_blank"
+                                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
+ <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
+
+                                        <span>{{ $document->title }}</span>
+                                    </a>
+                                    @endforeach
+                                </div>
+
+                            </div>
+
+                            <!-- Invoice -->
+                            <div class="">
+                                <h4 class="text-md font-semibold mb-2">Invoice</h4>
+                                <div class="p-4 border border-gray-200 rounded-lg  text-center inline-block">
+                                    <a href="" target="_blank"
+                                        class="inline-flex items-center gap-2 text-blue-600 hover:underline hover:text-blue-800 transition">
+                                        <x-heroicon-o-document-text class="h-6 w-6 text-red-600" />
+                                        Click here to download Invoice
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                 </section>
-                <!-- content here -->
+                <!-- Content End -->
             </div>
-            <!-- Table Four -->
         </div>
     </div>
 </x-app-layout>
+
 <script type="text/javascript">
     function confirmDelete() {
-        return confirm('Are you sure you want to delete this data ?');
+        return confirm('Are you sure you want to delete this data?');
     }
 </script>
