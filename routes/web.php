@@ -23,6 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('insurances', InsuranceController::class);
     Route::resource('purchases', PurchaseController::class);
 
+    /*All Purchase List*/
+    Route::get('/all-purchase-list', function () {
+        return view('purchase.all_list');
+    });
+
     Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
     Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
