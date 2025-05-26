@@ -42,7 +42,7 @@
                                 {{ $insurance->name }}</option>
                         @endforeach
                     </select>
-                    @error('provider_type')
+                    @error('selectedinsuranceId')
                         <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                     @enderror
                 </label>
@@ -466,33 +466,22 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Billing Address One<span
-                            class="text-red-600 text-lg">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">Billing Address One</label>
                     <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="billingAddressOne"
                         id=""></textarea>
-                    @error('billingAddressOne')
-                        <span class="text-sm text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Billing Address Two</label>
                     <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="billingAddressTwo"
                         id=""></textarea>
-                    @error('billingAddressTwo')
-                        <span class="text-sm text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Billing Postcode<span
-                            class="text-red-600 text-lg">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">Billing Postcode</label>
                     <input type="text"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         wire:model="billingPostcode">
-                    @error('billingPostcode')
-                        <span class="text-sm text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
@@ -500,9 +489,6 @@
                     <input type="text"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         wire:model="ponNo">
-                    @error('ponNo')
-                        <span class="text-sm text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
             </div>
@@ -510,7 +496,7 @@
 
 
         <div class="pt-6 flex justify-center">
-            <button type="submit"
+            <button
                 class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
                 <span class="text-md">Update</span>
                 <x-heroicon-o-chevron-right class="h-6 w-6" />
@@ -519,3 +505,10 @@
         </div>
     </form>
 </div>
+
+
+
+
+
+
+
