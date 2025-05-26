@@ -121,13 +121,13 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="p-2">{{ $purchase->invoice->billing_name }}</td>
-                                            <td class="p-2">{{ $purchase->invoice->billing_email }}</td>
-                                            <td class="p-2">{{ $purchase->invoice->billing_phone }}</td>
+                                            <td class="p-2">{{ $purchase->invoice->billing_name ?? '' }}</td>
+                                            <td class="p-2">{{ $purchase->invoice->billing_email ?? '' }}</td>
+                                            <td class="p-2">{{ $purchase->invoice->billing_phone ?? '' }}</td>
                                             <td class="p-2">
-                                                {{ $purchase->invoice->billing_address_one }},
-                                                {{ $purchase->invoice->billing_address_two }},
-                                                {{ $purchase->invoice->billing_postcode }}
+                                                {{ $purchase->invoice->billing_address_one ?? '' }},
+                                                {{ $purchase->invoice->billing_address_two ?? '' }},
+                                                {{ $purchase->invoice->billing_postcode ?? '' }}
                                             </td>
                                         </tr>
                                     </tbody>

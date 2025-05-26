@@ -7,6 +7,8 @@ use App\Models\Insurance;
 use App\Models\Purchase;
 use App\Models\Invoice;
 use Carbon\Carbon;
+use App\Mail\InsuranceBillingEmail;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Validation\Rule;
 
@@ -64,6 +66,9 @@ class MasterInsurancePurchase extends Component
     public $billingAddressTwo;
     public $billingPostcode;
     public $ponNo;
+
+    public $isInvoice;
+    public $curDate;
 
     // Step 8: Summary data
     public $summaryData = [];
@@ -140,7 +145,7 @@ class MasterInsurancePurchase extends Component
             }
 
             return $rules;
-        } elseif ($step == 4) {
+        } elseif ($step == 4) { 
             return [
                     'policyStartDate' => 'required|date',
                     'astStartDate' => 'required|date',
@@ -149,9 +154,9 @@ class MasterInsurancePurchase extends Component
             ];
         } elseif ($step == 5) {
             return [
-                'tenantName' => 'required|string',
-                'tenantPhone' => 'required|string',
-                'tenantEmail' => 'required|email',
+                'tenantName' => 'nullable',
+                'tenantPhone' => 'nullable',
+                'tenantEmail' => 'nullable',
             ];
         } elseif ($step == 6) {
             return [
@@ -202,7 +207,7 @@ class MasterInsurancePurchase extends Component
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
             'Product Type:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
-            'Rent Amount:' => $this->rentAmount,
+            'Rent Amount:' => '£- ' . $this->rentAmount,
             'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
             'Policy Holder Type:' => $this->policyHoldertype,
             'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
@@ -210,9 +215,9 @@ class MasterInsurancePurchase extends Component
             'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
             'Policy Holder Email:' => $this->policyholderEmail,
             'Policy Holder Phone:' => $this->policyholderPhone,
+            'Policy Term:' => $this->policyTerm . ' Year',
             'Policy Start Date:' => Carbon::parse($this->policyStartDate)->format('d F Y'),
             'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
-            'Policy Term:' => $this->policyTerm,
 
             'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
             'Billing Name' => $this->billingName,
@@ -223,9 +228,9 @@ class MasterInsurancePurchase extends Component
             'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
-            'Tenant Name:' => $this->tenantName,
-            'Tenant Phone:' => $this->tenantPhone,
-            'Tenant Email:' => $this->tenantEmail,
+            'Tenant Name:' => $this->tenantName ?? 'N/A',
+            'Tenant Phone:' => $this->tenantPhone ?? 'N/A',
+            'Tenant Email:' => $this->tenantEmail ?? 'N/A',
             'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
         ];
     }
@@ -263,6 +268,7 @@ class MasterInsurancePurchase extends Component
         $purchase->post_code = $this->postCode;
 
         $purchase->policy_holder_type = $this->policyHoldertype;
+        $purchase->policy_holder_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode ;
         $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
         $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
@@ -302,16 +308,74 @@ class MasterInsurancePurchase extends Component
         $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
         $invoice->pon = $this->ponNo;
 
+        $curDate = date('Y-m-d');
+        $payment_due_date = date('Y-m-d', strtotime($curDate. ' + 7 days'));
+        $invoice->payment_due_date = $payment_due_date;
+
+        $invoice->invoice_no = $purchase->id;
+        $invoice->invoice_date  = $curDate;
+            
+
+        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
       
         $invoice->save();
+
+        if ($invoice->is_invoice == 1) {
+
+            $template = "
+                Insurance Name: %InsuranceName%
+                Policy Number: %policyNo%
+                Policy Holder Address: %policyHolderAddress1%
+                Risk Address: %riskAddress%
+                Policy Start Date: %policyStartdate%
+                Policy End Date: %policyEnddate%
+                Purchase Date: %purchaseDate%
+                Policy Term: %policyTerm%
+                Rent Amount: %rentAmount%
+                Billing Name: %billingName%
+                Billing Email: %billingEmail%
+                Billing Phone: %billingPhone%
+                Billing Address: %billingAddress%
+                PON No: %ponNo%
+            ";
+
+            $placeholders = [
+                '%InsuranceName%' => $this->insuranceDetails->name ?? '',
+                '%policyNo%' => $purchase->policy_no,
+                '%policyHolderAddress1%' => trim("{$purchase->policy_holder_address_one} {$purchase->policy_holder_address_two} {$purchase->policy_holder_postcode}"),
+                '%riskAddress%' => trim("{$purchase->door_no} {$purchase->address_one} {$purchase->address_two} {$purchase->address_three} {$purchase->post_code}"),
+                '%policyStartdate%' => Carbon::parse($purchase->policy_start_date)->format('d F Y'),
+                '%policyEnddate%' => Carbon::parse($purchase->policy_end_date)->format('d F Y'),
+                '%purchaseDate%' => Carbon::parse($purchase->purchase_date)->format('d F Y'),
+                '%policyTerm%' => $purchase->policy_term,
+                '%rentAmount%' => $purchase->rent_amount,
+                '%billingName%' => $invoice->billing_name,
+                '%billingEmail%' => $invoice->billing_email,
+                '%billingPhone%' => $invoice->billing_phone,
+                '%billingAddress%' => $invoice->billing_full_addresss,
+                '%ponNo%' => $invoice->pon,
+            ];
+
+            $finalContent = str_replace(array_keys($placeholders), array_values($placeholders), $template);
+            // dd($finalContent);
+            
+            // Mail::raw($finalContent, function ($message) use ($invoice) {
+            //     $message->to($invoice->billing_email)
+            //             ->subject('Your Insurance Purchase Invoice');
+            // });
+
+            Mail::to($invoice->billing_email)->send(new InsuranceBillingEmail($invoice, $finalContent));
+
+        }
 
         return redirect()->route('purchase.success', ['id' => $purchase->id]);
 
 
         // session()->flash('message', 'Insurance purchase successfully created!');
-
         // return redirect()->route('purchase.success');
     }
+
+
 
     public function render()
     {
