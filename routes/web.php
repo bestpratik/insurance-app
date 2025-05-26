@@ -28,8 +28,10 @@ Route::middleware('auth')->group(function () {
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');
-    Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
+    // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
 
+    // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
+    Route::get('/insurance-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
 
     Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');

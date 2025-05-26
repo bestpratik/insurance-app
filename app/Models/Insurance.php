@@ -55,6 +55,9 @@ class Insurance extends Model
         return $this->hasMany(Insurancedocument::class, 'insurance_id');
     }
 
+    public function dynamicdocument(){
+        return $this->hasMany(Insurancedynamicdocument::class, 'insurance_id');
+    }
     
 }
 

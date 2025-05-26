@@ -161,32 +161,17 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <!-- @if($purchase->insurance &&                     $purchase->insurance->staticdocuments->count())
+                                                                    @if($purchase->insurance &&                     $purchase->insurance->staticdocuments->count())
                                                                         @foreach($purchase->insurance->staticdocuments as $doc)
                                                                             <div class="hit-blk mb-2">
-                                                                                <a href="{{ asset('uploads/insurance_document' . $doc->document) }}" target="_blank">
+                                                                                <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank">
                                                                                     📄 {{ $doc->title }}
                                                                                 </a>
                                                                             </div>
                                                                         @endforeach
                                                                     @else
                                                                         <div class="text-muted">No static documents available.</div>
-                                                                    @endif -->
-
-
-                                                                    <td>
-                                                                        @if($purchase->insurance && $purchase->insurance->staticdocuments->count())
-                                                                            @foreach($purchase->insurance->staticdocuments as $doc)
-                                                                                <div class="hit-blk mb-2">
-                                                                                    <a href="{{ route('static.document.generate.pdf', $doc->id) }}" target="_blank">
-                                                                                        📄 {{ $doc->title }}
-                                                                                    </a>
-                                                                                </div>
-                                                                            @endforeach
-                                                                        @else
-                                                                            <div class="text-muted">No static documents available.</div>
-                                                                        @endif
-                                                                    </td>
+                                                                    @endif
 
                                                                 </td>
                                                             </tr>
@@ -205,13 +190,18 @@
                                                         
 
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
+                                                             
+                                                                <tr>
                                                                     <td>
                                                                         
+
+                                                                        @foreach($purchase->insurance->dynamicdocument as $document)
+                                                                            <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}" class="btn btn-sm btn-primary" target="_blank">
+                                                                                {{ $document->title }}
+                                                                            </a>
+                                                                        @endforeach
                                                                     </td>
-                                                                </td>
-                                                            </tr>
+                                                                </tr>
                                                         </tbody>
 
                                                     </table>

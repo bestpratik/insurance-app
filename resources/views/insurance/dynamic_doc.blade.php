@@ -61,12 +61,8 @@
                         <button onclick="myFunction('policyNo')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             No</button>
-                        <input type="hidden" value="%landlordagentName%" id="landlordagentName">
-                        <button onclick="myFunction('landlordagentName')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate
-                            Name</button>
-                        <input type="hidden" value="%landlordagentAddress%" id="landlordagentAddress">
-                        <button onclick="myFunction('landlordagentAddress')" type="button"
+                        <input type="hidden" value="%policyHolderAddress1%" id="policyHolderAddress1">
+                        <button onclick="myFunction('policyHolderAddress1')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate
                             Address</button>
                         <input type="hidden" value="%riskAddress%" id="riskAddress">
@@ -93,10 +89,6 @@
                         <button onclick="myFunction('insurerDescription')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer
                             description</button>
-                        <input type="hidden" value="%detailsofCover%" id="detailsofCover">
-                        <button onclick="myFunction('detailsofCover')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details
-                            of Cover</button>
                         <input type="hidden" value="%policyTerm%" id="policyTerm">
                         <button onclick="myFunction('policyTerm')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy

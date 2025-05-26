@@ -7,6 +7,7 @@ use App\Models\Purchase;
 use App\Models\Provider;
 use App\Models\Insurance;
 use App\Models\Insurancedocument;
+use App\Models\Insurancedynamicdocument;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Response;
@@ -102,7 +103,7 @@ class PurchaseController extends Controller
     }
 
     public function purchaseList(){
-        $purchases = Purchase::where('status', 1)->with('insurance','provider')->get();
+        $purchases = Purchase::where('status', 1)->with('insurance','provider')->paginate(10);
         return view('purchase.list', compact('purchases'));
     }
 
@@ -125,30 +126,90 @@ class PurchaseController extends Controller
 
     public function detailsPage($id){
         
-        $purchase = Purchase::with('insurance.staticdocuments','invoice')->find($id);
+        $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
         // dd($purchase);
         return view('purchase.detail_page', compact('purchase'));
     }
 
-    public function generateStaticDocumentPdf($id)
+    //  public function downloadDynamicDocument($id)
+    // {
+        
+    //     $insurancePurchase = Purchase::with('insurance')->find($id);
+    //     // dd($insurancePurchase);
+
+    //     $dynamicDocument = Insurancedynamicdocument::where('insurance_id', $insurancePurchase->insurance_id)->first();
+    //     // dd($dynamicDocument);
+
+    //     $dynamicValues = [
+    //         '%InsuranceName%' => $insurancePurchase->insurance->name,
+    //         '%policyNo%' => $insurancePurchase->policy_no,
+    //         '%policyHolderAddress1%' => $insurancePurchase->policy_holder_address_one . ' ' . $insurancePurchase->policy_holder_address_two . ' ' . $insurancePurchase->policy_holder_post_code,
+    //         '%riskAddress%' => $insurancePurchase->door_no . ' ' . $insurancePurchase->address_one . ' ' . $insurancePurchase->address_two . ' ' . $insurancePurchase->address_three . ' ' . $insurancePurchase->post_code,
+    //         '%policyStartdate%' => \Carbon\Carbon::parse($insurancePurchase->policy_start_date)->format('d F Y'),
+    //         '%policyEnddate%' => \Carbon\Carbon::parse($insurancePurchase->policy_end_date)->format('d F Y'),
+    //         '%purchaseDate%' => \Carbon\Carbon::parse($insurancePurchase->purchase_date)->format('d F Y'),
+    //         '%insurerTitle%' => $insurancePurchase->insurance->insurer_title ?? '',
+    //         '%insurerDescription%' => $insurancePurchase->insurance->insurer_description ?? '',
+    //         '%policyTerm%' => $insurancePurchase->policy_term,
+    //         '%netAnnualpremium%' => $insurancePurchase->annual_premium,
+    //         '%insurancePremiumtax%' => $insurancePurchase->ipt,
+    //         '%grossPremium%' => $insurancePurchase->selling_price,
+    //         '%rentAmount%' => $insurancePurchase->rent_amount,
+    //     ];
+
+    //     $templateBody = str_replace(array_keys($dynamicValues), array_values($dynamicValues), $dynamicDocument->description);
+
+
+    //     $data = [
+    //         'templateTitle' => $dynamicDocument->title,
+    //         'templateHeader' => $dynamicDocument->header,
+    //         'templateBody' => $templateBody,
+    //         'templateFooter' => $dynamicDocument->footer,
+    //     ];
+
+    //     // return view('purchase.pdfs.insurance_dynamic_document');
+    
+    //     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', compact('data'));
+
+    //     return $pdf->download($dynamicDocument->title . '.pdf');
+    // }
+
+
+    public function downloadDynamicDocument($purchase_id, $document_id)
 {
-    $doc = Insurancedocument::findOrFail($id);
+    $insurancePurchase = Purchase::with('insurance')->findOrFail($purchase_id);
+    $dynamicDocument = Insurancedynamicdocument::findOrFail($document_id);
 
-    $filePath = public_path('uploads/insurance_document/' . $doc->document);
+    $dynamicValues = [
+        '%InsuranceName%' => $insurancePurchase->insurance->name,
+        '%policyNo%' => $insurancePurchase->policy_no,
+        '%policyHolderAddress1%' => $insurancePurchase->policy_holder_address_one . ' ' . $insurancePurchase->policy_holder_address_two . ' ' . $insurancePurchase->policy_holder_post_code,
+        '%riskAddress%' => $insurancePurchase->door_no . ' ' . $insurancePurchase->address_one . ' ' . $insurancePurchase->address_two . ' ' . $insurancePurchase->address_three . ' ' . $insurancePurchase->post_code,
+        '%policyStartdate%' => \Carbon\Carbon::parse($insurancePurchase->policy_start_date)->format('d F Y'),
+        '%policyEnddate%' => \Carbon\Carbon::parse($insurancePurchase->policy_end_date)->format('d F Y'),
+        '%purchaseDate%' => \Carbon\Carbon::parse($insurancePurchase->purchase_date)->format('d F Y'),
+        '%insurerTitle%' => $insurancePurchase->insurance->insurer_title ?? '',
+        '%insurerDescription%' => $insurancePurchase->insurance->insurer_description ?? '',
+        '%policyTerm%' => $insurancePurchase->policy_term,
+        '%netAnnualpremium%' => $insurancePurchase->insurance->net_premium,
+        '%insurancePremiumtax%' => $insurancePurchase->insurance->ipt,
+        '%grossPremium%' => $insurancePurchase->insurance->gross_premium,
+        '%rentAmount%' => $insurancePurchase->rent_amount,
+    ];
 
-    if (!File::exists($filePath)) {
-        abort(404, 'File not found.');
-    }
+    $templateBody = str_replace(array_keys($dynamicValues), array_values($dynamicValues), $dynamicDocument->description);
 
-    $mime = File::mimeType($filePath);
+    $data = [
+        'templateTitle' => $dynamicDocument->title,
+        'templateHeader' => $dynamicDocument->header,
+        'templateBody' => $templateBody,
+        'templateFooter' => $dynamicDocument->footer,
+    ];
 
-    // Force download or display in-browser depending on type
-    return Response::make(File::get($filePath), 200, [
-        'Content-Type' => $mime,
-        'Content-Disposition' => 'inline; filename="' . $doc->title . '"'
-    ]);
+    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', compact('data'));
+
+    return $pdf->download($dynamicDocument->title . '.pdf');
 }
-
 
 
 
