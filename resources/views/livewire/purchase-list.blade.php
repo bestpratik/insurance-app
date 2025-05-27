@@ -168,7 +168,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->insurance->payable_amount }}
+                            {{ $row->insurance->payable_amount ?? '' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance && $row->insurance->provider)
