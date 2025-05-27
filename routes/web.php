@@ -7,7 +7,8 @@ use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PurchaseController;
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/dashboard', function () {

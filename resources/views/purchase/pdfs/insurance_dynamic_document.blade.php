@@ -19,6 +19,8 @@
             '%insurancePremiumtax%' => $data['templatebodyValue'][8],
             '%grossPremium%' => $data['templatebodyValue'][9],
             '%rentAmount%' => $data['templatebodyValue'][10],
+            '%riskAddress%' => $data['templatebodyValue'][11],
+            '%insurerTitle%' => $data['templatebodyValue'][12],
         ];
 
         $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $data['templateBody']);
