@@ -4,7 +4,7 @@
     <title>{{ $data['templateTitle'] }}</title>
 </head> 
 <body>
-    {!! $data['templateHeder'] !!} 
+   
 
     @php
         $placeholders = [

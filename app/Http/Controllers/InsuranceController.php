@@ -99,6 +99,7 @@ class InsuranceController extends Controller
 
     //         //Now send email
 
+<<<<<<< HEAD
     //         $sendToemils = array(
     //             // $purchase->user->email,
     //             //$purchase->invoice->billing_email
@@ -119,6 +120,29 @@ class InsuranceController extends Controller
     //                     $messages->attach($attachment);
     //                 }
     //         });
+=======
+            $sendToemils = array(
+                // $purchase->user->email,
+                //$purchase->invoice->billing_email
+                // 'sujoyinkolkata1@gmail.com'
+                'anuradham.dbt@gmail.com'
+            );
+            $email_subject = 'YOUR POLICY SCHEDULE - MoneyWise PLC';
+            $data = array(
+                'body' => $insurance->insurancemailtemplate->description ?? '', 
+                'bodyValue' => $bodyValue
+                );
+            Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $allDocs, $email_subject){
+                    //$messages->to($user['to']);
+                    $messages->to($sendToemils);
+                    $messages->subject($email_subject);
+                    //$messages->cc(['anuradha.mondal2013@gmail.com']);
+                    $messages->bcc(['anuradha.mondal2013@gmail.com']);
+                    foreach ($allDocs as $attachment) {
+                        $messages->attach($attachment);
+                    }
+            });
+>>>>>>> development
 
 
     //     }
