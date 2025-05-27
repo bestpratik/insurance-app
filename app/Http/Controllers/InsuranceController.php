@@ -94,6 +94,7 @@ class InsuranceController extends Controller
             $insurance->ipt = $request->ipt;
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
+            // dd($insurance);
             $insurance->update();
             return redirect()->route('insurance.static.document',$insurance); 
     }

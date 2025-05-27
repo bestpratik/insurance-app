@@ -44,7 +44,7 @@
                                 <table class="w-full text-sm text-gray-700">
                                     <tr>
                                         <td class="py-1 font-medium">Purchase Date</td>
-                                        <td>{{ $purchase->purchase_date }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}</td>
                                     </tr>
                                 </table>
                             </div>

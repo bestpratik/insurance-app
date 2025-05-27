@@ -329,7 +329,7 @@ class MasterInsurancePurchase extends Component
         $invoice->invoice_date  = $curDate;
             
 
-        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
+        $invoice->is_invoice = $this->isInvoice ? 1 : 0; 
       
         $invoice->save();
 

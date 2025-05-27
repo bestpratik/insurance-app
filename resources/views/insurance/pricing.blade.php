@@ -109,7 +109,7 @@
             const payableAmount = totalPremium - commission;
 
             grossPremiumInput.value = grossPremium.toFixed(2);
-            iptInput.value = ipt.toFixed();
+            iptInput.value = ipt.toFixed(2);
             totalPremiumInput.value = totalPremium.toFixed(2);
             payableAmountInput.value = payableAmount.toFixed();
         }
