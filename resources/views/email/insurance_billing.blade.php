@@ -102,86 +102,30 @@
 </head>
 
 <body>
-  	<div class="container"> 
-  	  @php
-  	  $body = str_replace(
-  	        array(
-  	            '%InsuranceName%', 
-  	            '%policyNo%', 
-  	            '%policyHolderAddress1%', 
-  	            '%riskAddress%', 
-  	            '%policyStartdate%', 
-  	            '%policyEnddate%', 
-  	            '%purchaseDate%', 
-  	            '%policyTerm%',
-                '%netAnnualpremium%',
-                '%insurancePremiumtax%',
-                '%grossPremium%',
-                '%rentAmount%'
-  	            ), 
-  	            $bodyValue, $body);
-  	  @endphp
+  	<div class="container">
+       @php
+        $placeholders = [
+            '%InsuranceName%' => $bodyValue[0],
+            '%policyNo%' => $bodyValue[1],
+            '%policyHolderAddress1%' => $bodyValue[2],
+            '%policyStartdate%' => $bodyValue[3],
+            '%policyEnddate%' => $bodyValue[4],
+            '%purchaseDate%' => $bodyValue[5],
+            '%policyTerm%' => $bodyValue[6],
+            '%netAnnualpremium%' => $bodyValue[7],
+            '%insurancePremiumtax%' => $bodyValue[8],
+            '%grossPremium%' => $bodyValue[9],
+            '%rentAmount%' => $bodyValue[10],
+            '%riskAddress%' => $bodyValue[11],
+            '%insurerTitle%' => $bodyValue[12],
+        ];
+
+        $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $body);
+    @endphp
+
+    {!! $output_string !!}
   	  
-  	  {!! $body !!}
   	</div>
-
-  <div class="container">
-    <div class="header">
-      <img src="https://i.imgur.com/hUZKSme.png" alt="Moneywise Logo">
-      <div class="header-right">
-        <div>Invoice No: <strong>MW-H25-0023JUL</strong></div>
-        <div>Invoice Date: <strong>23rd May 2025</strong></div>
-      </div>
-    </div>
-
-    <table>
-      <tr>
-        <td>
-          <p><strong>FAO:</strong> Birmingham City Council<br>
-       <strong>Address:</strong> Birmingham City Council</p>
-        </td>
-      </tr>
-  <tr>
-    <td colspan="2"><strong>Policy Information</strong></td>
-  </tr>
-  <tr>
-    <td class="left">
-
-
-      <p><span class="label">Policy Number:</span></p>
-      <p>13812978 - ADVANCED</p>
-      <p><span class="label">Insurance:</span> Rent Guarantee and Legal + Contents (Malicious Damage)</p>
-      <p><span class="label">Landlord:</span><br>
-         TEATHER PROPERTY INVESTMENTS LIMITED</p>
-      <p><span class="label">Property Addresses:</span><br>
-         103 Fernley Road, Birmingham, B11 3NL</p>
-    </td>
-    <td class="right">
-      <p><span class="label">Policy Start Date:</span> 23rd May 2025</p>
-      <p><span class="label">Policy End Date:</span> 22nd May 2026</p>
-      <p><span class="label">Unit Price:</span> <span class="orange">£ 718</span></p>
-      <p><span class="label">Payment Status:</span> <span class="red">Unpaid</span></p>
-    </td>
-  </tr>
-</table>
-
-
-    <div class="box">
-      <strong>Payment Instructions:</strong>
-      <p>Please make the payment of £718 to the account below within 3 days of receiving this email unless a dispute has
-        been raised:</p>
-      <p><strong>Account Name:</strong> Moneywise Investments Plc<br>
-        <strong>Account Number:</strong> 00789089<br>
-        <strong>Sort Code:</strong> 56-00-31
-      </p>
-    </div>
-
-    <div class="footer">
-      <p>Moneywise Investments Plc<br>
-        442 Romford Road, London, E7 8DF<br>
-        Company Registration No: 01358056</p>
-    </div>
-  </div>
 
 </body>
 

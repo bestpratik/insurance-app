@@ -24,11 +24,10 @@ class InsuranceController extends Controller
      * Test Email template for dynamic data
      **/
     public function policy_holder_email(){
-        $purchase = Purchase::findorfail(14);
+        $purchase = Purchase::findorfail(23);
         //$purchase = Purchase::findorfail($purchaseId);
         if($purchase){
             $insurance = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($purchase->insurance_id);
-
             //Load all documents
 
             //Load static documents
@@ -47,14 +46,31 @@ class InsuranceController extends Controller
             $pdfDynamicval[] = $insurance->name;
             $pdfDynamicval[] = $purchase->policy_no;
             $pdfDynamicval[] = $purchase->policy_holder_address;
-            $pdfDynamicval[] = $purchase->policy_start_date;
-            $pdfDynamicval[] = $purchase->policy_end_date;
-            $pdfDynamicval[] = $purchase->purchase_date;
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
             $pdfDynamicval[] = $purchase->policy_term;
             $pdfDynamicval[] = $insurance->net_premium;
             $pdfDynamicval[] = $insurance->ipt;
             $pdfDynamicval[] = $insurance->gross_premium;
             $pdfDynamicval[] = $insurance->rent_amount;
+
+            $riskAddress = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
+
+
+            $insurartitle = "";
+            if($purchase->policy_holder_type == 'Company'){
+                $insurartitle = $purchase->company_name;
+            }elseif($purchase->policy_holder_type == 'Individual'){
+                $insurartitle = $purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
+            }else{
+                $insurartitle = $purchase->company_name.'/'.$purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
+            }
+
+            $pdfDynamicval[] = $riskAddress;
+            $pdfDynamicval[] = $insurartitle;
+
+
 
             //Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
@@ -84,26 +100,20 @@ class InsuranceController extends Controller
             $bodyValue[] = $insurance->name;
             $bodyValue[] = $purchase->policy_no;
             $bodyValue[] = $purchase->policy_holder_address;
-            $bodyValue[] = $purchase->door_no.''.$purchase->address_one.' '.$purchase->address_two.''.$purchase->address_three.''.$purchase->post_code;
-            $bodyValue[] = $purchase->policy_start_date;
-            $bodyValue[] = $purchase->policy_end_date;
-            $bodyValue[] = $purchase->purchase_date;
+            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_start_date));
+            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
+            $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
             $bodyValue[] = $purchase->policy_term;
             $bodyValue[] = $insurance->net_premium;
             $bodyValue[] = $insurance->ipt;
             $bodyValue[] = $insurance->gross_premium;
             $bodyValue[] = $insurance->rent_amount;
-
-            //$body = $insurance->insurancemailtemplate->description;
-
+            $bodyValue[] = $riskAddress;
+            $bodyValue[] = $insurartitle;
 
             //Now send email
-
             $sendToemils = array(
-                // $purchase->user->email,
-                //$purchase->invoice->billing_email
-                // 'sujoyinkolkata1@gmail.com'
-                'anuradham.dbt@gmail.com'
+                'sujoyinkolkata1@gmail.com'
             );
             $email_subject = 'YOUR POLICY SCHEDULE - MoneyWise PLC';
             $data = array(
@@ -115,7 +125,7 @@ class InsuranceController extends Controller
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
                     //$messages->cc(['anuradha.mondal2013@gmail.com']);
-                    $messages->bcc(['anuradha.mondal2013@gmail.com']);
+                    $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }

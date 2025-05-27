@@ -333,6 +333,7 @@ class MasterInsurancePurchase extends Component
       
         $invoice->save();
 
+        //Policy holder email send
         $this->send_email_one($purchase->id);
 
 
@@ -344,6 +345,7 @@ class MasterInsurancePurchase extends Component
     }
 
 
+    //Policy holder email
     public function send_email_one($purchaseId){ 
         $purchase = Purchase::with('invoice')->findorfail($purchaseId);
         if($purchase){
@@ -365,14 +367,29 @@ class MasterInsurancePurchase extends Component
             $pdfDynamicval[] = $insurance->name;
             $pdfDynamicval[] = $purchase->policy_no;
             $pdfDynamicval[] = $purchase->policy_holder_address;
-            $pdfDynamicval[] = $purchase->policy_start_date;
-            $pdfDynamicval[] = $purchase->policy_end_date;
-            $pdfDynamicval[] = $purchase->purchase_date;
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
             $pdfDynamicval[] = $purchase->policy_term;
             $pdfDynamicval[] = $insurance->net_premium;
             $pdfDynamicval[] = $insurance->ipt;
             $pdfDynamicval[] = $insurance->gross_premium;
-            $pdfDynamicval[] = $insurance->rent_amount;
+            $pdfDynamicval[] = $purchase->rent_amount;
+
+            $riskAddress = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
+
+
+            $insurartitle = "";
+            if($purchase->policy_holder_type == 'Company'){
+                $insurartitle = $purchase->company_name;
+            }elseif($purchase->policy_holder_type == 'Individual'){
+                $insurartitle = $purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
+            }else{
+                $insurartitle = $purchase->company_name.'/'.$purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
+            }
+
+            $pdfDynamicval[] = $riskAddress;
+            $pdfDynamicval[] = $insurartitle;
 
             // - 2. Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
@@ -399,42 +416,48 @@ class MasterInsurancePurchase extends Component
             //Load dynamic email template
             /*Dynamic Value*/
             $bodyValue = array();
+            /*Dynamic Value*/
             $bodyValue[] = $insurance->name;
             $bodyValue[] = $purchase->policy_no;
             $bodyValue[] = $purchase->policy_holder_address;
-            $bodyValue[] = $purchase->door_no.''.$purchase->address_one.' '.$purchase->address_two.''.$purchase->address_three.''.$purchase->post_code;
-            $bodyValue[] = $purchase->policy_start_date;
-            $bodyValue[] = $purchase->policy_end_date;
-            $bodyValue[] = $purchase->purchase_date;
+            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_start_date));
+            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
+            $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
             $bodyValue[] = $purchase->policy_term;
             $bodyValue[] = $insurance->net_premium;
             $bodyValue[] = $insurance->ipt;
             $bodyValue[] = $insurance->gross_premium;
-            $bodyValue[] = $insurance->rent_amount;
+            $bodyValue[] = $purchase->rent_amount;
+            $bodyValue[] = $riskAddress;
+            $bodyValue[] = $insurartitle;
 
 
             //Now send email
             $sendToemils = array(
-                // $purchase->user->email,
-                //$purchase->invoice->billing_email
-                'sujoyinkolkata1@gmail.com'
+                $purchase->policy_holder_email,
             );
-            $email_subject = 'YOUR POLICY SCHEDULE - MoneyWise PLC';
+            $email_subject = $insurance->insurancemailtemplate->title ?? '';
             $data = array(
                 'body' => $insurance->insurancemailtemplate->description ?? '', 
                 'bodyValue' => $bodyValue
                 );
-            Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $allDocs, $email_subject){
+            
+            try{
+                Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $allDocs, $email_subject){
                     //$messages->to($user['to']);
-                    $messages->to($sendToemils);
-                    $messages->subject($email_subject);
-                    //$messages->cc(['anuradha.mondal2013@gmail.com']);
-                    $messages->bcc(['anuradha.mondal2013@gmail.com']);
-                    foreach ($allDocs as $attachment) {
-                        $messages->attach($attachment);
-                    }
-            });
+                        $messages->to($sendToemils);
+                        $messages->subject($email_subject);
+                        $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                        $messages->bcc(['bestpratik@gmail.com']);
+                        foreach ($allDocs as $attachment) {
+                            $messages->attach($attachment);
+                        }
+                });
 
+                return true;
+            } catch (Exception $e){
+                return $e->getMessage();
+            }
 
         }
         
