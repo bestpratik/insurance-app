@@ -25,15 +25,15 @@
                                 <table class="w-full text-sm text-gray-700">
                                     <tr>
                                         <td class="py-1 font-medium">Insurance Name</td>
-                                        <td>{{ $purchase->insurance->name }}</td>
+                                        <td>{{ $purchase->insurance->name ?? '' }}</td>
                                     </tr>
                                     <tr>
                                         <td class="py-1 font-medium">Policy Number</td>
-                                        <td>{{ $purchase->policy_no }}</td>
+                                        <td>{{ $purchase->policy_no ?? '' }}</td>
                                     </tr>
                                     <tr>
                                         <td class="py-1 font-medium">Purchased By</td>
-                                        <td>{{ auth()->user()->name }}</td>
+                                        <td>{{ auth()->user()->name ?? '' }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -85,16 +85,16 @@
                                             <!-- Add content if needed -->
                                             <!-- <span class="text-gray-500 italic">No details provided</span> -->
                                             @if($purchase->policy_holder_type == 'Company')
-                                                {{ $purchase->company_name }}
+                                                {{ $purchase->company_name ?? '' }}
                                             @elseif($purchase->policy_holder_type == 'Individual')
-                                                {{ $purchase->policy_holder_title }} {{ $purchase->policy_holder_fname }} {{ $purchase->policy_holder_lname }}
+                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
                                             @else
-                                                {{ $purchase->company_name }} <br>
-                                                {{ $purchase->policy_holder_title }} {{ $purchase->policy_holder_fname }} {{ $purchase->policy_holder_lname }}
+                                                {{ $purchase->company_name ?? '' }} <br>
+                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
                                             @endif
                                             </br>
 
-                                            {{ $purchase->policy_holder_address }}
+                                            {{ $purchase->policy_holder_address ?? '' }}
                                         </div>
                                     </div>
                                 </div>
@@ -104,16 +104,16 @@
                                     <div class="border rounded-lg">
                                         <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Property Details</div>
                                         <div class="p-4 text-sm text-gray-700">
-                                            {{ $purchase->door_no }}, {{ $purchase->address_one }}, {{ $purchase->address_two }}, {{ $purchase->address_three }}, {{ $purchase->post_code }}
+                                            {{ $purchase->door_no }}, {{ $purchase->address_one ?? '' }}, {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}, {{ $purchase->post_code ?? '' }}
                                         </div>
                                     </div>
 
                                     <div class="border rounded-lg">
                                         <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Tenant Details</div>
                                         <div class="p-4 text-sm text-gray-700 space-y-1">
-                                            <div>{{ $purchase->tenant_name }}</div>
-                                            <div>{{ $purchase->tenant_email }}</div>
-                                            <div>{{ $purchase->tenant_phone }}</div>
+                                            <div>{{ $purchase->tenant_name ?? '' }}</div>
+                                            <div>{{ $purchase->tenant_email ?? '' }}</div>
+                                            <div>{{ $purchase->tenant_phone ?? '' }}</div>
                                         </div>
                                     </div>
                                 </div>
