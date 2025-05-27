@@ -1,36 +1,31 @@
 
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
     <title>{{ $data['templateTitle'] }}</title>
-    <style>
-        body {
-            font-family: DejaVu Sans, sans-serif;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-        .header, .footer {
-            text-align: center;
-        }
-        .content {
-            margin: 20px 0;
-        }
-    </style>
-</head>
+</head> 
 <body>
-    <div class="header">
-        {!! $data['templateHeader'] !!}
-    </div>
+    {!! $data['templateHeder'] !!} 
 
-    <div class="content">
-        {!! $data['templateBody'] !!}
-    </div>
+    @php
+        $placeholders = [
+            '%InsuranceName%' => $data['templatebodyValue'][0],
+            '%policyNo%' => $data['templatebodyValue'][1],
+            '%policyHolderAddress1%' => $data['templatebodyValue'][2],
+            '%policyStartdate%' => $data['templatebodyValue'][3],
+            '%policyEnddate%' => $data['templatebodyValue'][4],
+            '%purchaseDate%' => $data['templatebodyValue'][5],
+            '%policyTerm%' => $data['templatebodyValue'][6],
+            '%netAnnualpremium%' => $data['templatebodyValue'][7],
+            '%insurancePremiumtax%' => $data['templatebodyValue'][8],
+            '%grossPremium%' => $data['templatebodyValue'][9],
+            '%rentAmount%' => $data['templatebodyValue'][10],
+        ];
 
-    <div class="footer">
-        {!! $data['templateFooter'] !!}
-    </div>
+        $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $data['templateBody']);
+    @endphp
+
+    {!! $output_string !!}
+    
+    {!! $data['templateFooter'] !!}
 </body>
 </html>
-
-

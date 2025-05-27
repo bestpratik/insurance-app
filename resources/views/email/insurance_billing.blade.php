@@ -102,6 +102,28 @@
 </head>
 
 <body>
+  	<div class="container"> 
+  	  @php
+  	  $body = str_replace(
+  	        array(
+  	            '%InsuranceName%', 
+  	            '%policyNo%', 
+  	            '%policyHolderAddress1%', 
+  	            '%riskAddress%', 
+  	            '%policyStartdate%', 
+  	            '%policyEnddate%', 
+  	            '%purchaseDate%', 
+  	            '%policyTerm%',
+                '%netAnnualpremium%',
+                '%insurancePremiumtax%',
+                '%grossPremium%',
+                '%rentAmount%'
+  	            ), 
+  	            $bodyValue, $body);
+  	  @endphp
+  	  
+  	  {!! $body !!}
+  	</div>
 
   <div class="container">
     <div class="header">
