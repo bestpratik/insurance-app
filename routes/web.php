@@ -62,7 +62,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('test-mail', [InsuranceController::class, 'testmail']);
 
+
+
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('policy-holder-email', [InsuranceController::class, 'policy_holder_email']);
 
