@@ -102,7 +102,8 @@ class InsuranceController extends Controller
             $sendToemils = array(
                 // $purchase->user->email,
                 //$purchase->invoice->billing_email
-                'sujoyinkolkata1@gmail.com'
+                // 'sujoyinkolkata1@gmail.com'
+                'anuradham.dbt@gmail.com'
             );
             $email_subject = 'YOUR POLICY SCHEDULE - MoneyWise PLC';
             $data = array(

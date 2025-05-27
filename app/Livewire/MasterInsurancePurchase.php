@@ -333,141 +333,8 @@ class MasterInsurancePurchase extends Component
       
         $invoice->save();
 
-        if ($invoice->is_invoice == 1)
-        {
-                $staticDocs = [];
-                if ($this->insuranceDetails && $this->insuranceDetails->insurancedocument) {
-                    foreach ($this->insuranceDetails->insurancedocument as $docs) {
-                       $filePath = public_path('uploads/' . $docs->document);
-                        if (file_exists($filePath)) {
-                            $staticDocs[] = $filePath;
-                        }     
-                    }
-                }
+        $this->send_email_one($purchase->id);
 
-                //Date format changes
-                $dd_policy_start_date = Carbon::parse($purchase->policy_start_date);
-                $dd_policy_end_date = Carbon::parse($purchase->policy_end_date);
-                $dd_purchase_date = Carbon::parse($purchase->purchase_date);
-                //Dynamic Detaills
-                $dynamic_body_value = array();
-                $dynamic_body_value[] = $purchase->insurance_name;
-                $dynamic_body_value[] = $purchase->policy_no;
-
-                if($purchase->policy_holder_type == 'Company'){
-                    $dynamic_body_value[] = $purchase->company_name;
-                }else{
-                    $dynamic_body_value[] = $purchase->policy_holder_name;
-                }
-                $dynamic_body_value[] = $purchase->policy_holder_address_one.' '.$purchase->policy_holder_address_two.' '.$purchase->policy_holder_post_code;
-                $dynamic_body_value[] = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
-                $dynamic_body_value[] = $dd_policy_start_date->format('d F Y');
-                $dynamic_body_value[] = $dd_policy_end_date->format('d F Y');
-                $dynamic_body_value[] = $dd_purchase_date->format('d F Y');
-                $dynamic_body_value[] = $this->insuranceDetails->insurer_title;
-                $dynamic_body_value[] = $this->insuranceDetails->insurer_description;
-                $dynamic_body_value[] = $this->insuranceDetails->details_of_cover;
-                $dynamic_body_value[] = $purchase->policyTerm;
-
-                $dynamic_body_value[] = $purchase->annual_premium;
-                $dynamic_body_value[] = $purchase->ipt;
-                $dynamic_body_value[] = $purchase->payable_amount;
-                $dynamic_body_value[] = $purchase->rent_amount;
-
-                //Dynamic Documents
-                if($this->insuranceDetails && $this->insuranceDetails->dynamicdocument) 
-                {
-                    foreach($this->insuranceDetails->dynamicdocument as $dydocs) 
-                    {
-                        $file_name = $dydocs->title .rand(11,999999). '.pdf';
-                        $data = array(
-                            'templateTitle' => $dydocs->title,
-                            'templateBody' => $dydocs->description,
-                            'templateHeder' => $dydocs->header,
-                            'templateFooter' => $dydocs->footer,
-                            'templatebodyValue' => $dynamic_body_value
-                        );
-                        $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
-                        $pdfPath = public_path('uploads/dynamicdoc' . $file_name); 
-                        $pdf->save($pdfPath);
-                        if (file_exists($pdfPath)) 
-                        {
-                            $staticDocs[] = $pdfPath;
-                        } 
-                    }
-                }
-
-                //Emails
-                //Get purchaser email & landlord email
-                $sendToemils = array(
-                    // $purchase->user->email,
-                    $purchase->invoice->billing_email
-                );
-                $email_subject = 'YOUR POLICY SCHEDULE - Help2Rent';
-                $user['to'] = 'anuradham.dbt@gmail.com';
-                $data = array(
-                    'body' => $this->insuranceDetails->insurancemailtemplate->description ?? '', 
-                    'bodyValue' => $dynamic_body_value
-                    );
-                // dd($data);
-                Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $staticDocs, $email_subject){
-                    //$messages->to($user['to']);
-                    $messages->to($sendToemils);
-                    $messages->subject($email_subject);
-                    $messages->cc(['anuradha.mondal2013@gmail.com']);
-                    $messages->bcc(['anuradha.mondal2013@gmail.com']);
-                    foreach ($staticDocs as $attachment) {
-                        $messages->attach($attachment);
-                    }
-                });
-            } 
-
-        // if ($invoice->is_invoice == 1) {
-
-        //     $template = "
-        //         Insurance Name: %InsuranceName%
-        //         Policy Number: %policyNo%
-        //         Policy Holder Address: %policyHolderAddress1%
-        //         Risk Address: %riskAddress%
-        //         Policy Start Date: %policyStartdate%
-        //         Policy End Date: %policyEnddate%
-        //         Purchase Date: %purchaseDate%
-        //         Policy Term: %policyTerm%
-        //         Rent Amount: %rentAmount%
-        //         Billing Name: %billingName%
-        //         Billing Email: %billingEmail%
-        //         Billing Phone: %billingPhone%
-        //         Billing Address: %billingAddress%
-        //         PON No: %ponNo%
-        //     ";
-
-        //     $placeholders = [
-        //         '%InsuranceName%' => $this->insuranceDetails->name ?? '',
-        //         '%policyNo%' => $purchase->policy_no,
-        //         '%policyHolderAddress1%' => trim("{$purchase->policy_holder_address_one} {$purchase->policy_holder_address_two} {$purchase->policy_holder_postcode}"),
-        //         '%riskAddress%' => trim("{$purchase->door_no} {$purchase->address_one} {$purchase->address_two} {$purchase->address_three} {$purchase->post_code}"),
-        //         '%policyStartdate%' => Carbon::parse($purchase->policy_start_date)->format('d F Y'),
-        //         '%policyEnddate%' => Carbon::parse($purchase->policy_end_date)->format('d F Y'),
-        //         '%purchaseDate%' => Carbon::parse($purchase->purchase_date)->format('d F Y'),
-        //         '%policyTerm%' => $purchase->policy_term,
-        //         '%rentAmount%' => $purchase->rent_amount,
-        //         '%netAnnualpremium%' => ,
-        //         '%insurancePremiumtax%' => ,
-        //         '%grossPremium%' => ,
-        //         '%rentAmount%' => ,
-        //     ];
-
-        //     $finalContent = str_replace(array_keys($placeholders), array_values($placeholders), $template);
-        //     // dd($finalContent);
-            
-        //     // Mail::raw($finalContent, function ($message) use ($invoice) {
-        //     //     $message->to($invoice->billing_email)
-        //     //             ->subject('Your Insurance Purchase Invoice');
-        //     // });
-
-        //     Mail::to($invoice->billing_email)->send(new InsuranceBillingEmail($invoice, $finalContent));
-
-        // }
 
         return redirect()->route('purchase.success', ['id' => $purchase->id]);
 
@@ -477,7 +344,7 @@ class MasterInsurancePurchase extends Component
     }
 
 
-    public function send_email_one($purchaseId){
+    public function send_email_one($purchaseId){ 
         $purchase = Purchase::with('invoice')->findorfail($purchaseId);
         if($purchase){
             $insurance = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($purchase->insurance_id);
