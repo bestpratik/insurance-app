@@ -58,6 +58,11 @@ class Insurance extends Model
     public function dynamicdocument(){
         return $this->hasMany(Insurancedynamicdocument::class, 'insurance_id');
     }
+
+    public function insurancemailtemplate()
+    {
+        return $this->hasOne(Insuranceemailtemplate::class, 'insurance_id');
+    }
     
 }
 
