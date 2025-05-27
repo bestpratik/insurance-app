@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('insurance/dynamic-doc/{id}', [InsuranceController::class, 'dynamic_document'])->name('insurance.dynamic.document');
     Route::post('insurance/dynamic-document/submit/{id}', [InsuranceController::class, 'dynamic_document_submit'])->name('insurance.dynamic.document.submit');
+    Route::delete('insurance/dynamic/delete/{id}', [InsuranceController::class, 'dynamic_document_delete'])->name('insurance.dynamic.delete');
 
     Route::get('insurance/email-template/{id}', [InsuranceController::class, 'insurance_email_template'])->name('insurance.email.template');
     Route::post('insurance/email-template/update/{id}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');
@@ -62,7 +63,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('test-mail', [InsuranceController::class, 'testmail']);
 
+
+
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('policy-holder-email', [InsuranceController::class, 'policy_holder_email']);
 

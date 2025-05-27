@@ -13,11 +13,123 @@ use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PolicyHolderEmail;
+use PDF;
 
 
 
 class InsuranceController extends Controller
 {
+
+    /**
+     * Test Email template for dynamic data
+     **/
+    public function policy_holder_email(){
+        $purchase = Purchase::findorfail(14);
+        //$purchase = Purchase::findorfail($purchaseId);
+        if($purchase){
+            $insurance = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($purchase->insurance_id);
+
+            //Load all documents
+
+            //Load static documents
+            $allDocs = [];
+            if ($insurance && $insurance->staticdocuments) {
+                foreach ($insurance->staticdocuments as $docs) {
+                    $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                    if (file_exists($filePath)) {
+                        $allDocs[] = $filePath;
+                    }     
+                }
+            }
+
+            //PDFs dynamic value for dynamic documents
+            $pdfDynamicval = array();
+            $pdfDynamicval[] = $insurance->name;
+            $pdfDynamicval[] = $purchase->policy_no;
+            $pdfDynamicval[] = $purchase->policy_holder_address;
+            $pdfDynamicval[] = $purchase->policy_start_date;
+            $pdfDynamicval[] = $purchase->policy_end_date;
+            $pdfDynamicval[] = $purchase->purchase_date;
+            $pdfDynamicval[] = $purchase->policy_term;
+            $pdfDynamicval[] = $insurance->net_premium;
+            $pdfDynamicval[] = $insurance->ipt;
+            $pdfDynamicval[] = $insurance->gross_premium;
+            $pdfDynamicval[] = $insurance->rent_amount;
+
+            //Load dynamic documents
+            if ($insurance && $insurance->dynamicdocument) {
+                foreach ($insurance->dynamicdocument as $dydocs) {
+                    $file_name = $dydocs->title .rand(11,999999). '.pdf';
+
+                    $data = array(
+                        'templateTitle' => $dydocs->title,
+                        'templateBody' => $dydocs->description,
+                        'templateHeder' => $dydocs->header,
+                        'templateFooter' => $dydocs->footer,
+                        'templatebodyValue' => $pdfDynamicval
+                    );
+
+                    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
+                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name); 
+                    $pdf->save($pdfPath);
+                    if (file_exists($pdfPath)) {
+                        $allDocs[] = $pdfPath;
+                    }     
+                }
+            }
+
+            //Load dynamic email template
+            /*Dynamic Value*/
+            $bodyValue = array();
+            $bodyValue[] = $insurance->name;
+            $bodyValue[] = $purchase->policy_no;
+            $bodyValue[] = $purchase->policy_holder_address;
+            $bodyValue[] = $purchase->door_no.''.$purchase->address_one.' '.$purchase->address_two.''.$purchase->address_three.''.$purchase->post_code;
+            $bodyValue[] = $purchase->policy_start_date;
+            $bodyValue[] = $purchase->policy_end_date;
+            $bodyValue[] = $purchase->purchase_date;
+            $bodyValue[] = $purchase->policy_term;
+            $bodyValue[] = $insurance->net_premium;
+            $bodyValue[] = $insurance->ipt;
+            $bodyValue[] = $insurance->gross_premium;
+            $bodyValue[] = $insurance->rent_amount;
+
+            //$body = $insurance->insurancemailtemplate->description;
+
+
+            //Now send email
+
+            $sendToemils = array(
+                // $purchase->user->email,
+                //$purchase->invoice->billing_email
+                'sujoyinkolkata1@gmail.com'
+            );
+            $email_subject = 'YOUR POLICY SCHEDULE - MoneyWise PLC';
+            $data = array(
+                'body' => $insurance->insurancemailtemplate->description ?? '', 
+                'bodyValue' => $bodyValue
+                );
+            Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $allDocs, $email_subject){
+                    //$messages->to($user['to']);
+                    $messages->to($sendToemils);
+                    $messages->subject($email_subject);
+                    //$messages->cc(['anuradha.mondal2013@gmail.com']);
+                    $messages->bcc(['anuradha.mondal2013@gmail.com']);
+                    foreach ($allDocs as $attachment) {
+                        $messages->attach($attachment);
+                    }
+            });
+
+
+        }
+
+
+        
+
+        //return view('email.insurance_billing', compact('bodyValue','body'));
+
+        //dd($purchase);
+    }
     
     public function index()
     {
@@ -94,6 +206,7 @@ class InsuranceController extends Controller
             $insurance->ipt = $request->ipt;
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
+            // dd($insurance);
             $insurance->update();
             return redirect()->route('insurance.static.document',$insurance); 
     }
@@ -179,6 +292,15 @@ class InsuranceController extends Controller
             // return redirect()->back()->with('message','Static Document Added Successfully!');
 
             return redirect()->route('insurance.dynamic.document',$id); 
+    }
+
+    public function dynamic_document_delete($id){
+        $insurancedynamicdoc = Insurancedynamicdocument::find($id);
+        if($insurancedynamicdoc)
+        {
+            $insurancedynamicdoc->delete();
+            return redirect()->back();
+        }
     }
 
     public function insurance_email_template($id){

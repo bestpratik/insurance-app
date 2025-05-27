@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-               <livewire:purchase-list />
+               <livewire:purchase-list /> 
                 
             </div>
         </div>

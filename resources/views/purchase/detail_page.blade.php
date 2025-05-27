@@ -44,7 +44,7 @@
                                 <table class="w-full text-sm text-gray-700">
                                     <tr>
                                         <td class="py-1 font-medium">Purchase Date</td>
-                                        <td>{{ $purchase->purchase_date }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -83,7 +83,18 @@
                                         <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Landlord/Agency Details</div>
                                         <div class="p-4 text-sm text-gray-700">
                                             <!-- Add content if needed -->
-                                            <span class="text-gray-500 italic">No details provided</span>
+                                            <!-- <span class="text-gray-500 italic">No details provided</span> -->
+                                            @if($purchase->policy_holder_type == 'Company')
+                                                {{ $purchase->company_name }}
+                                            @elseif($purchase->policy_holder_type == 'Individual')
+                                                {{ $purchase->policy_holder_title }} {{ $purchase->policy_holder_fname }} {{ $purchase->policy_holder_lname }}
+                                            @else
+                                                {{ $purchase->company_name }} <br>
+                                                {{ $purchase->policy_holder_title }} {{ $purchase->policy_holder_fname }} {{ $purchase->policy_holder_lname }}
+                                            @endif
+                                            </br>
+
+                                            {{ $purchase->policy_holder_address }}
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +120,7 @@
                             </div>
                             <!-- Billing Department -->
                             <div class="border rounded-lg">
-                                <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Billing Department</div>
+                                <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Billing Details</div>
                                 <table class="w-full text-sm text-gray-700">
                                     <thead class="bg-gray-100 text-left">
                                         <tr>
