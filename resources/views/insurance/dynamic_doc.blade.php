@@ -265,17 +265,21 @@
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
                                                                                 title="Delete"
-                                                                                href="{{ route('insurance.static.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                                                                href="{{ route('insurance.dynamic.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
                                                             </a> -->
 
+                                  
                                     <div class="flex items-center justify-center">
-                                        <form action="{{ route('insurance.static.delete', $row->id) }}" method="POST"
-                                            onsubmit="return confirmDelete()">
+                                        <form action="{{ route('insurance.dynamic.delete', $row->id) }}" method="POST"
+                                            class="delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button title="Delete" class="btn btn-flat btn-sm btn-danger rounded"
-                                                type="submit"><x-heroicon-o-trash class="h-6 w-6 text-red-600" /></button>
+                                            <button type="submit" title="Delete"
+                                                class="btn btn-flat btn-sm btn-danger rounded">
+                                                <x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                            </button>
                                         </form>
+
                                     </div>
                                 </td>
 
@@ -299,8 +303,34 @@
 
 </x-app-layout>
 
-<!-- Summernote) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('.delete-form');
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // stop regular form submit
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // continue submit
+                    }
+                });
+            });
+        });
+    });
+</script>
+<!-- Summernote) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
 <!-- Summernote) -->
@@ -359,11 +389,11 @@
     });
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     function confirmDelete() {
         return confirm('Are you sure you want to delete this data ?');
     }
-</script>
+</script> -->
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script

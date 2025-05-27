@@ -294,6 +294,15 @@ class InsuranceController extends Controller
             return redirect()->route('insurance.dynamic.document',$id); 
     }
 
+    public function dynamic_document_delete($id){
+        $insurancedynamicdoc = Insurancedynamicdocument::find($id);
+        if($insurancedynamicdoc)
+        {
+            $insurancedynamicdoc->delete();
+            return redirect()->back();
+        }
+    }
+
     public function insurance_email_template($id){
         $insurance=Insurance::find($id);
         $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->first(); 
