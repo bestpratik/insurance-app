@@ -173,9 +173,9 @@ class InsuranceController extends Controller
 
             $insurancedynamicdoc->insurance_id = $id;
             $insurancedynamicdoc->title = $request->title;
-            $insurancedynamicdoc->header = $request->header;
+            // $insurancedynamicdoc->header = $request->header;
             $insurancedynamicdoc->description = $request->description;
-            $insurancedynamicdoc->title = $request->title;
+            // $insurancedynamicdoc->footer = $request->footer;
 
             // dd($Insurancedocument);
             $insurancedynamicdoc->save();

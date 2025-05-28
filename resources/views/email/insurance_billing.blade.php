@@ -118,6 +118,7 @@
             '%rentAmount%' => $bodyValue[10],
             '%riskAddress%' => $bodyValue[11],
             '%insurerTitle%' => $bodyValue[12],
+            '%detailsofCover%' => $bodyValue[13],
         ];
 
         $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $body);

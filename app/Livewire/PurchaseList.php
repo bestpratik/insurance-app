@@ -23,6 +23,7 @@ class PurchaseList extends Component
     public $purchaseDate;
     public $tenantName;
     public $tenantEmail;
+    public $detailsofCover;
 
 
     public function render()

@@ -386,6 +386,7 @@ class MasterInsurancePurchase extends Component
             $pdfDynamicval[] = $insurance->ipt;
             $pdfDynamicval[] = $insurance->gross_premium;
             $pdfDynamicval[] = $purchase->rent_amount;
+            $pdfDynamicval[] = $insurance->details_of_cover;
 
             $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
 
@@ -441,6 +442,7 @@ class MasterInsurancePurchase extends Component
             $bodyValue[] = $purchase->rent_amount;
             $bodyValue[] = $riskAddress;
             $bodyValue[] = $insurartitle;
+            $bodyValue[] = $insurance->details_of_cover;
 
 
             //Now send email
@@ -458,8 +460,8 @@ class MasterInsurancePurchase extends Component
                     //$messages->to($user['to']); 
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
-                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    $messages->bcc(['bestpratik@gmail.com']);
+                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    // $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -507,8 +509,8 @@ class MasterInsurancePurchase extends Component
             Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) {
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
-                $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->cc(['aadatia@moneywiseplc.co.uk']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 

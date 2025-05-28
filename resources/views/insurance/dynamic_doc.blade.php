@@ -58,7 +58,8 @@
                         <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their
                             descriptions when filling out your insurance document. These tags will help structure the
                             document content dynamically and ensure consistency.</p>
-                        <input type="hidden" value="%InsuranceName%" id="insuranceName">
+                        
+                            <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
                             Name</button>
@@ -67,22 +68,26 @@
                         <button onclick="myFunction('policyNo')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             No</button>
+
                         <input type="hidden" value="%policyHolderAddress1%" id="policyHolderAddress1">
                         <button onclick="myFunction('policyHolderAddress1')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Landlord/Agent/Affiliate
-                            Address</button>
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy Address</button>
+
                         <input type="hidden" value="%policyStartdate%" id="policyStartdate">
                         <button onclick="myFunction('policyStartdate')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             start date</button>
+
                         <input type="hidden" value="%policyEnddate%" id="policyEnddate">
                         <button onclick="myFunction('policyEnddate')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             end/expiry date</button>
+
                         <input type="hidden" value="%purchaseDate%" id="purchaseDate">
                         <button onclick="myFunction('purchaseDate')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Purchase
                             date</button>
+
                         <input type="hidden" value="%policyTerm%" id="policyTerm">
                         <button onclick="myFunction('policyTerm')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
@@ -108,6 +113,20 @@
                         <button onclick="myFunction('rentAmount')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
                             Amount</button>
+
+                         <!-- new add -->
+                        <input type="hidden" value="%riskAddress%" id="riskAddress">
+                        <button onclick="myFunction('riskAddress')" type="button"
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk Address</button>
+
+                        <input type="hidden" value="%insurerTitle%" id="insurerTitle">
+                        <button onclick="myFunction('insurerTitle')" type="button"
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer title</button>
+
+                        <input type="hidden" value="%detailsofCover%" id="detailsofCover">
+                         <button onclick="myFunction('detailsofCover')" type="button"
+                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details of Cover</button>
+
 
                     </div>
 
