@@ -447,8 +447,8 @@ class MasterInsurancePurchase extends Component
                     //$messages->to($user['to']);
                         $messages->to($sendToemils);
                         $messages->subject($email_subject);
-                        $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                        $messages->bcc(['bestpratik@gmail.com']);
+                        $messages->cc(['anuradha.mondal2013@gmail.com']);
+                        $messages->bcc(['sarat.dbt@gmail.com']);
                         foreach ($allDocs as $attachment) {
                             $messages->attach($attachment);
                         }

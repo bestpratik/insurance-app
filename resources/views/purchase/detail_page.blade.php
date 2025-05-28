@@ -183,7 +183,7 @@
                             <div class="">
                                 <h4 class="text-md font-semibold mb-2">Invoice</h4>
                                 <div class="p-4 border border-gray-200 rounded-lg  text-center inline-block">
-                                    <a href="" target="_blank"
+                                    <a href="{{route('insurance.invoice.genarate',$purchase->id)}}" target="_blank"
                                         class="inline-flex items-center gap-2 text-blue-600 hover:underline hover:text-blue-800 transition">
                                         <x-heroicon-o-document-text class="h-6 w-6 text-red-600" />
                                         Click here to download Invoice

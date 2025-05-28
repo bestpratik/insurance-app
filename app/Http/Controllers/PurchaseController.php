@@ -211,6 +211,11 @@ class PurchaseController extends Controller
     return $pdf->download($dynamicDocument->title . '.pdf');
 }
 
+public function downloadInvoice($purchase_id){
+    $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
+    $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    return $pdf->download('policy_invoice.pdf');
+}
 
 
 }

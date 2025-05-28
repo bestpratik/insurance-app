@@ -33,7 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
-    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');
+    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details'); 
+    Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
     // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
 
     // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
