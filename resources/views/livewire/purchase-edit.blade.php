@@ -371,8 +371,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Tenant Name<span
-                            class="text-red-600 text-lg">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">Tenant Name</label>
                     <input type="text"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         wire:model="tenantName">
@@ -382,8 +381,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Tenant Phone<span
-                            class="text-red-600 text-lg">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
                     <input type="text"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         wire:model="tenantPhone">
@@ -393,8 +391,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Tenant Email<span
-                            class="text-red-600 text-lg">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700">Tenant Email</label>
                     <input type="email"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         wire:model="tenantEmail">
