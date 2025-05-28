@@ -177,40 +177,89 @@ class PurchaseController extends Controller
 
     public function downloadDynamicDocument($purchase_id, $document_id)
 {
-    $insurancePurchase = Purchase::with('insurance')->findOrFail($purchase_id);
-    $dynamicDocument = Insurancedynamicdocument::findOrFail($document_id);
+       $purchase = Purchase::with('insurance', 'insurance.dynamicdocument')->findOrFail($purchase_id);
+    $insurance = $purchase->insurance;
 
-    $dynamicValues = [
-        '%InsuranceName%' => $insurancePurchase->insurance->name,
-        '%policyNo%' => $insurancePurchase->policy_no,
-        '%policyHolderAddress1%' => $insurancePurchase->policy_holder_address_one . ' ' . $insurancePurchase->policy_holder_address_two . ' ' . $insurancePurchase->policy_holder_post_code,
-        '%riskAddress%' => $insurancePurchase->door_no . ' ' . $insurancePurchase->address_one . ' ' . $insurancePurchase->address_two . ' ' . $insurancePurchase->address_three . ' ' . $insurancePurchase->post_code,
-        '%policyStartdate%' => \Carbon\Carbon::parse($insurancePurchase->policy_start_date)->format('d F Y'),
-        '%policyEnddate%' => \Carbon\Carbon::parse($insurancePurchase->policy_end_date)->format('d F Y'),
-        '%purchaseDate%' => \Carbon\Carbon::parse($insurancePurchase->purchase_date)->format('d F Y'),
-        '%insurerTitle%' => $insurancePurchase->insurance->insurer_title ?? '',
-        '%insurerDescription%' => $insurancePurchase->insurance->insurer_description ?? '',
-        '%policyTerm%' => $insurancePurchase->policy_term,
-        '%netAnnualpremium%' => $insurancePurchase->insurance->net_premium,
-        '%insurancePremiumtax%' => $insurancePurchase->insurance->ipt,
-        '%grossPremium%' => $insurancePurchase->insurance->gross_premium,
-        '%rentAmount%' => $insurancePurchase->rent_amount,
+    // Prepare dynamic values
+    $pdfDynamicval = [];
+    $pdfDynamicval[] = $insurance->name;
+    $pdfDynamicval[] = $purchase->policy_no;
+    $pdfDynamicval[] = $purchase->policy_holder_address;
+    $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
+    $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
+    $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
+    $pdfDynamicval[] = $purchase->policy_term;
+    $pdfDynamicval[] = $insurance->net_premium;
+    $pdfDynamicval[] = $insurance->ipt;
+    $pdfDynamicval[] = $insurance->gross_premium;
+    $pdfDynamicval[] = $purchase->rent_amount;
+
+    $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
+
+    $insurartitle = "";
+    if ($purchase->policy_holder_type == 'Company') {
+        $insurartitle = $purchase->company_name;
+    } elseif ($purchase->policy_holder_type == 'Individual') {
+        $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+    } else {
+        $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+    }
+
+    $pdfDynamicval[] = $riskAddress;
+    $pdfDynamicval[] = $insurartitle;
+
+    // Placeholder order should match values above
+    $pdfDynamicPlaceholders = [
+        '%InsuranceName%',
+        '%policyNo%',
+        '%policyHolderAddress1%',
+        '%policyStartdate%',
+        '%policyEnddate%',
+        '%purchaseDate%',
+        '%policyTerm%',
+        '%netAnnualpremium%',
+        '%insurancePremiumtax%',
+        '%grossPremium%',
+        '%rentAmount%',
+        '%riskAddress%',
+        '%insurerTitle%',
     ];
 
-    $templateBody = str_replace(array_keys($dynamicValues), array_values($dynamicValues), $dynamicDocument->description);
+    $allDocs = [];
 
-    $data = [
-        'templateTitle' => $dynamicDocument->title,
-        'templateHeader' => $dynamicDocument->header,
-        'templateBody' => $templateBody,
-        'templateFooter' => $dynamicDocument->footer,
-    ];
+    if ($insurance && $insurance->dynamicdocument) {
+        foreach ($insurance->dynamicdocument as $dydocs) {
+            $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
 
-    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', compact('data'));
+            $templateBody = str_replace($pdfDynamicPlaceholders, $pdfDynamicval, $dydocs->description);
 
-    return $pdf->download($dynamicDocument->title . '.pdf');
+            $data = [
+                'templateTitle' => $dydocs->title,
+                'templateHeader' => $dydocs->header,
+                'templateBody' => $templateBody,
+                'templateFooter' => $dydocs->footer,
+                'templatebodyValue' => $pdfDynamicval
+            ];
+
+            $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
+
+            $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
+            $pdf->save($pdfPath);
+
+            if (file_exists($pdfPath)) {
+                $allDocs[] = $pdfPath;
+            }
+        }
+    }
+
+    return $allDocs; 
 }
 
+public function downloadInvoice($purchase_id){
+    $purchase = Purchase::with(['insurance','insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
+    $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    return $pdf->download('policy_invoice.pdf');
+}
 
 
 }
