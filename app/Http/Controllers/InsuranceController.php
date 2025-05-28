@@ -54,7 +54,6 @@ class InsuranceController extends Controller
 
             $riskAddress = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
 
-
             $insurartitle = "";
             if($purchase->policy_holder_type == 'Company'){
                 $insurartitle = $purchase->company_name;
@@ -66,6 +65,7 @@ class InsuranceController extends Controller
 
             $pdfDynamicval[] = $riskAddress;
             $pdfDynamicval[] = $insurartitle;
+            $pdfDynamicval[] = $insurance->details_of_cover;
 
 
 
@@ -81,7 +81,7 @@ class InsuranceController extends Controller
                         'templateFooter' => $dydocs->footer,
                         'templatebodyValue' => $pdfDynamicval
                     );
-                    return view('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
+                    return view('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
 
                     // $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
                     // $pdfPath = public_path('uploads/dynamicdoc' . $file_name); 

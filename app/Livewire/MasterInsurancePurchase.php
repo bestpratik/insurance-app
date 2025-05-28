@@ -386,10 +386,7 @@ class MasterInsurancePurchase extends Component
             $pdfDynamicval[] = $insurance->ipt;
             $pdfDynamicval[] = $insurance->gross_premium;
             $pdfDynamicval[] = $purchase->rent_amount;
-            $pdfDynamicval[] = $insurance->details_of_cover;
-
             $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
-
 
             $insurartitle = "";
             if ($purchase->policy_holder_type == 'Company') {
@@ -402,6 +399,7 @@ class MasterInsurancePurchase extends Component
 
             $pdfDynamicval[] = $riskAddress;
             $pdfDynamicval[] = $insurartitle;
+            $pdfDynamicval[] = $insurance->details_of_cover;
 
             // - 2. Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
@@ -416,7 +414,7 @@ class MasterInsurancePurchase extends Component
                         'templatebodyValue' => $pdfDynamicval
                     );
 
-                    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
+                    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
                     $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {

@@ -25,21 +25,21 @@
 </head>
 <body>
 
-    @if(!empty($data['templateHeader']))
+    {{--@if(!empty($data['templateHeader']))
         <div class="header">
             {!! nl2br(e($data['templateHeader'])) !!}
         </div>
-    @endif
+    @endif--}}
 
     <div class="content">
-        {!! nl2br($data['templateBody']) !!}
+        {!! $data['templateBody'] !!}
     </div>
 
-    @if(!empty($data['templateFooter']))
+    {{--@if(!empty($data['templateFooter']))
         <div class="footer">
             {!! nl2br(e($data['templateFooter'])) !!}
         </div>
-    @endif
+    @endif--}}
 
 </body>
 </html>
