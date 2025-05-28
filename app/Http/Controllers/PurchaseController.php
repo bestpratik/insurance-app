@@ -195,6 +195,11 @@ class PurchaseController extends Controller
         '%insurancePremiumtax%' => $insurancePurchase->insurance->ipt,
         '%grossPremium%' => $insurancePurchase->insurance->gross_premium,
         '%rentAmount%' => $insurancePurchase->rent_amount,
+        // new add
+        '%detailsofCover%' => $insurancePurchase->insurance->details_of_cover,
+        
+
+
     ];
 
     $templateBody = str_replace(array_keys($dynamicValues), array_values($dynamicValues), $dynamicDocument->description);
