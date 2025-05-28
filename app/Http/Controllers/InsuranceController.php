@@ -19,8 +19,7 @@ use PDF;
 
 class InsuranceController extends Controller
 {
-<<<<<<< HEAD
-=======
+
 
        public function policy_holder_email(){
         $purchase = Purchase::findorfail(23);
@@ -143,7 +142,7 @@ class InsuranceController extends Controller
         //dd($purchase);
     }
 
->>>>>>> development
+
     
     public function index()
     {
