@@ -180,6 +180,15 @@ class PurchaseController extends Controller
     $insurancePurchase = Purchase::with('insurance')->findOrFail($purchase_id);
     $dynamicDocument = Insurancedynamicdocument::findOrFail($document_id);
 
+    $insurartitle = "";
+    if ($insurancePurchase->policy_holder_type == 'Company') {
+        $insurartitle = $insurancePurchase->company_name;
+    } elseif ($insurancePurchase->policy_holder_type == 'Individual') {
+        $insurartitle = $insurancePurchase->policy_holder_title . ' ' . $insurancePurchase->policy_holder_fname . ' ' . $insurancePurchase->policy_holder_lname;
+    } else {
+        $insurartitle = $insurancePurchase->company_name . '/' . $insurancePurchase->policy_holder_title . ' ' . $insurancePurchase->policy_holder_fname . ' ' . $insurancePurchase->policy_holder_lname;
+    }
+
     $dynamicValues = [
         '%InsuranceName%' => $insurancePurchase->insurance->name,
         '%policyNo%' => $insurancePurchase->policy_no,
@@ -188,7 +197,7 @@ class PurchaseController extends Controller
         '%policyStartdate%' => \Carbon\Carbon::parse($insurancePurchase->policy_start_date)->format('d F Y'),
         '%policyEnddate%' => \Carbon\Carbon::parse($insurancePurchase->policy_end_date)->format('d F Y'),
         '%purchaseDate%' => \Carbon\Carbon::parse($insurancePurchase->purchase_date)->format('d F Y'),
-        '%insurerTitle%' => $insurancePurchase->insurance->insurer_title ?? '',
+        '%insurerTitle%' => $insurartitle ?? '',
         '%insurerDescription%' => $insurancePurchase->insurance->insurer_description ?? '',
         '%policyTerm%' => $insurancePurchase->policy_term,
         '%netAnnualpremium%' => $insurancePurchase->insurance->net_premium,
