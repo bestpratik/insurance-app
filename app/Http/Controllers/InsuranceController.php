@@ -22,7 +22,7 @@ class InsuranceController extends Controller
 
 
        public function policy_holder_email(){
-        $purchase = Purchase::findorfail(23);
+        $purchase = Purchase::findorfail(28);
         //$purchase = Purchase::findorfail($purchaseId);
         if($purchase){
             $insurance = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($purchase->insurance_id);
