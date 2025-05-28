@@ -8,13 +8,15 @@ use App\Models\Purchase;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use App\Mail\InsuranceBillingEmail;
+use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 use PDF;
 
 
 use Illuminate\Validation\Rule;
 
-class MasterInsurancePurchase extends Component 
+class MasterInsurancePurchase extends Component
 {
     public $currentStep = 1;
 
@@ -80,7 +82,7 @@ class MasterInsurancePurchase extends Component
     public function mount()
     {
         $this->availableInsurances = Insurance::all();
-      
+
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;
             // dd($this->insuranceDetails);
@@ -92,12 +94,14 @@ class MasterInsurancePurchase extends Component
     //     $this->insuranceDetails = Insurance::find($value);
     // }
 
-    public function updatedSelectedinsuranceId($value){
+    public function updatedSelectedinsuranceId($value)
+    {
         $this->fetchInsuranceDetails();
     }
 
-    public function fetchInsuranceDetails(){
-        $this->insuranceDetails = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
+    public function fetchInsuranceDetails()
+    {
+        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
         // dd($this->insuranceDetails);
     }
 
@@ -118,7 +122,7 @@ class MasterInsurancePurchase extends Component
                 'selectedinsuranceId' => 'required|exists:insurances,id',
             ];
         } elseif ($step == 2) {
-             return [
+            return [
                 'insuranceType' => 'required',
                 'rentAmount' => [
                     'required',
@@ -128,7 +132,7 @@ class MasterInsurancePurchase extends Component
                             return;
                         }
                         $minRentAmount = $this->insuranceDetails->rent_amount_from;
-                       
+
                         $maxRentAmount = $this->insuranceDetails->rent_amount_to;
                         if ($value < $minRentAmount || $value > $maxRentAmount) {
                             $fail("The $attribute must be between £$minRentAmount and £$maxRentAmount.");
@@ -158,12 +162,12 @@ class MasterInsurancePurchase extends Component
             }
 
             return $rules;
-        } elseif ($step == 4) { 
+        } elseif ($step == 4) {
             return [
-                    'policyStartDate' => 'required|date',
-                    'astStartDate' => 'required|date',
-                    'policyTerm' => 'required',
-                    // 'premiumAmount' => 'required|numeric|min:0',
+                'policyStartDate' => 'required|date',
+                'astStartDate' => 'required|date',
+                'policyTerm' => 'required',
+                // 'premiumAmount' => 'required|numeric|min:0',
             ];
         } elseif ($step == 5) {
             return [
@@ -210,9 +214,9 @@ class MasterInsurancePurchase extends Component
 
     public function prepareSummaryData()
     {
-         $policyEndDate = $this->policyStartDate
-        ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
-        : '';
+        $policyEndDate = $this->policyStartDate
+            ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
+            : '';
 
         $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
 
@@ -281,7 +285,7 @@ class MasterInsurancePurchase extends Component
         $purchase->post_code = $this->postCode;
 
         $purchase->policy_holder_type = $this->policyHoldertype;
-        $purchase->policy_holder_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode ;
+        $purchase->policy_holder_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
         $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
         $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
@@ -293,10 +297,10 @@ class MasterInsurancePurchase extends Component
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
         $purchase->policy_holder_address_one = $this->policyholderAddress1;
         $purchase->policy_holder_address_two = $this->policyholderAddress2;
-        $purchase->policy_no = $this->insuranceDetails->prefix.'-'.rand(1000000000,9999999999);
+        $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
 
         $purchase->policy_start_date = $this->policyStartDate;
-        $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate. ' + '.($this->insuranceDetails->validity - 1).' days'));
+        $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->policy_term = $this->policyTerm;
         $purchase->purchase_date = now();
@@ -322,19 +326,25 @@ class MasterInsurancePurchase extends Component
         $invoice->pon = $this->ponNo;
 
         $curDate = date('Y-m-d');
-        $payment_due_date = date('Y-m-d', strtotime($curDate. ' + 7 days'));
+        $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
         $invoice->payment_due_date = $payment_due_date;
 
         $invoice->invoice_no = $purchase->id;
         $invoice->invoice_date  = $curDate;
-            
 
-        $invoice->is_invoice = $this->isInvoice ? 1 : 0; 
-      
+
+        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
+
         $invoice->save();
+
+       
 
         //Policy holder email send
         $this->send_email_one($purchase->id);
+        if($invoice->is_invoice == 1){
+
+            $this->send_email_two($purchase->id);
+        }
 
 
         return redirect()->route('purchase.success', ['id' => $purchase->id]);
@@ -346,19 +356,20 @@ class MasterInsurancePurchase extends Component
 
 
     //Policy holder email
-    public function send_email_one($purchaseId){ 
+    public function send_email_one($purchaseId)
+    {
         $purchase = Purchase::with('invoice')->findorfail($purchaseId);
-        if($purchase){
-            $insurance = Insurance::with('staticdocuments','dynamicdocument','insurancemailtemplate')->findOrFail($purchase->insurance_id);
+        if ($purchase) {
+            $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
             //Load all documents
-             // - 1. Load static documents
+            // - 1. Load static documents
             $allDocs = [];
             if ($insurance && $insurance->staticdocuments) {
                 foreach ($insurance->staticdocuments as $docs) {
                     $filePath = public_path('uploads/insurance_document/' . $docs->document);
                     if (file_exists($filePath)) {
                         $allDocs[] = $filePath;
-                    }     
+                    }
                 }
             }
 
@@ -376,16 +387,16 @@ class MasterInsurancePurchase extends Component
             $pdfDynamicval[] = $insurance->gross_premium;
             $pdfDynamicval[] = $purchase->rent_amount;
 
-            $riskAddress = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
+            $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
 
 
             $insurartitle = "";
-            if($purchase->policy_holder_type == 'Company'){
+            if ($purchase->policy_holder_type == 'Company') {
                 $insurartitle = $purchase->company_name;
-            }elseif($purchase->policy_holder_type == 'Individual'){
-                $insurartitle = $purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
-            }else{
-                $insurartitle = $purchase->company_name.'/'.$purchase->policy_holder_title.' '.$purchase->policy_holder_fname.' '.$purchase->policy_holder_lname;
+            } elseif ($purchase->policy_holder_type == 'Individual') {
+                $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+            } else {
+                $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
             }
 
             $pdfDynamicval[] = $riskAddress;
@@ -394,7 +405,7 @@ class MasterInsurancePurchase extends Component
             // - 2. Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
                 foreach ($insurance->dynamicdocument as $dydocs) {
-                    $file_name = $dydocs->title .rand(11,999999). '.pdf';
+                    $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
 
                     $data = array(
                         'templateTitle' => $dydocs->title,
@@ -405,11 +416,11 @@ class MasterInsurancePurchase extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name); 
+                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
-                    }     
+                    }
                 }
             }
 
@@ -438,30 +449,76 @@ class MasterInsurancePurchase extends Component
             );
             $email_subject = $insurance->insurancemailtemplate->title ?? '';
             $data = array(
-                'body' => $insurance->insurancemailtemplate->description ?? '', 
+                'body' => $insurance->insurancemailtemplate->description ?? '',
                 'bodyValue' => $bodyValue
-                );
-            
-            try{
-                Mail::send('email.insurance_billing',$data, function($messages) use ($sendToemils, $allDocs, $email_subject){
+            );
+
+            try {
+                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject) {
                     //$messages->to($user['to']); 
-                        $messages->to($sendToemils);
-                        $messages->subject($email_subject);
-                        $messages->cc(['anuradha.mondal2013@gmail.com']);
-                        $messages->bcc(['sarat.dbt@gmail.com']);
-                        foreach ($allDocs as $attachment) {
-                            $messages->attach($attachment);
-                        }
+                    $messages->to($sendToemils);
+                    $messages->subject($email_subject);
+                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    $messages->bcc(['bestpratik@gmail.com']);
+                    foreach ($allDocs as $attachment) {
+                        $messages->attach($attachment);
+                    }
                 });
 
                 return true;
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 return $e->getMessage();
             }
-
         }
-        
     }
+
+    public function send_email_two($purchaseId)
+    {
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+
+        if (!$purchase) {
+            return 'Purchase not found.';
+        }
+
+        $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+        $pdfContent = $pdf->output();
+
+        // Define filename and path
+        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+        $directory = public_path('uploads/invoice');
+        $filePath = $directory . '/' . $fileName;
+        // dd($filePath);
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
+        }
+
+        file_put_contents($filePath, $pdfContent);
+
+        // Send email
+        $sendToEmails = [$purchase->invoice->billing_email];
+        $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
+        $data = [
+            'body' => 'Dear client,
+                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+        ];
+        // dd($data);?\
+
+        try {
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) {
+                $message->to($sendToEmails);
+                $message->subject($emailSubject);
+                $message->cc(['aadatia@moneywiseplc.co.uk']);
+                $message->bcc(['bestpratik@gmail.com']);
+                $message->attach($filePath);
+            });
+
+            return response()->download($filePath);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+ 
 
 
 

@@ -258,7 +258,22 @@ class PurchaseController extends Controller
 public function downloadInvoice($purchase_id){
     $purchase = Purchase::with(['insurance','insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
-    return $pdf->download('policy_invoice.pdf');
+    // return $pdf->download('policy_invoice.pdf');
+
+    $pdfContent = $pdf->output();
+
+    // Define filename and path
+    $fileName = 'policy_invoice_' . $purchase_id . '.pdf';
+    $directory = public_path('uploads/invoice');
+    $filePath = $directory . '/' . $fileName;
+
+    if (!File::exists($directory)) {
+        File::makeDirectory($directory, 0755, true);
+    }
+
+    file_put_contents($filePath, $pdfContent);
+
+    return response()->download($filePath);
 }
 
 

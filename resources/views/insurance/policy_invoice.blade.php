@@ -119,7 +119,7 @@
        <strong>Address:</strong>
         {{$purchase->invoice->billing_address_one}} 
          @if(!empty($purchase->invoice->billing_address_two))
-           {{$purchase->invoice->billing_address_two}}
+           , {{$purchase->invoice->billing_address_two}}
          @endif
     </p>
         </td>

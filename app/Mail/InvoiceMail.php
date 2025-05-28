@@ -28,6 +28,10 @@ class InvoiceMail extends Mailable
     {
         return new Envelope(
             subject: 'Invoice Mail',
+<<<<<<< HEAD
+=======
+          
+>>>>>>> development
         );
     }
 
