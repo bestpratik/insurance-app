@@ -261,67 +261,67 @@ class InsuranceController extends Controller
     }
 
     
-    // public function edit(string $id)
-    // {
-    //     $provider = Provider::where('status', 1)->get();
-    //     $insurance = Insurance::find($id);
+    public function edit(string $id)
+    {
+        $provider = Provider::where('status', 1)->get();
+        $insurance = Insurance::find($id);
 
-    //     return view('insurance.edit', compact('provider','insurance'));
-    // }
+        return view('insurance.edit', compact('provider','insurance'));
+    }
 
   
-    // public function update(Request $request, string $id)
-    // {
-    //      $request->validate([
-    //         'name'           => 'required',
-    //     ]);
+    public function update(Request $request, string $id)
+    {
+         $request->validate([
+            'name'           => 'required',
+        ]);
 
-    //     $insurance = Insurance::find($id);
-    //     $insurance->name = $request->name;
-    //     $insurance->provider_type = $request->provider_type;
-    //     $insurance->prefix = $request->prefix;
-    //     $insurance->type_of_insurance = $request->type_of_insurance;
-    //     $insurance->validity = $request->validity;
-    //     $insurance->rent_amount_from = $request->rent_amount_from;
-    //     $insurance->rent_amount_to = $request->rent_amount_to;
-    //     $insurance->details_of_cover = $request->details_of_cover;
-
-    
-
-    //     if ($request->hasfile('image')) {
-    //         $destinationPath = public_path('uploads/insurance/'.$insurance->image);
-        
-    //         if (File::exists($destinationPath)) {
-    //             File::delete($destinationPath);
-    //         }
-        
-    //         $file = $request->file('image');
-    //         $filename = time() . '.' . $file->getClientOriginalExtension();
-    //         $file->move(public_path('uploads/insurance/'), $filename);
-        
-    //         $insurance->image = $filename;
-    //     }
-
-    //     $insurance->save();
-
-    //     return redirect()->route('insurance.pricing',$insurance->id)->with('message', 'Insurance updated successfully.');
-
-    //     // return redirect('insurances')->with('message', 'Insurance updated successfully.');
-    // }
+        $insurance = Insurance::find($id);
+        $insurance->name = $request->name;
+        $insurance->provider_type = $request->provider_type;
+        $insurance->prefix = $request->prefix;
+        $insurance->type_of_insurance = $request->type_of_insurance;
+        $insurance->validity = $request->validity;
+        $insurance->rent_amount_from = $request->rent_amount_from;
+        $insurance->rent_amount_to = $request->rent_amount_to;
+        $insurance->details_of_cover = $request->details_of_cover;
 
     
-    // public function destroy(string $id)
-    // {
-    //     $insurance = Insurance::find($id);
-    //     if($insurance){
-    //         $destination = public_path('uploads/insurances/'.$insurance->image);
-    //         if(File::exists($destination)){
-    //             File::delete($destination);
-    //         }
-    //         $insurance->delete();
-    //         return redirect('insurances')->with('message', 'Insurance deleted successfully');
-    //     }else{
-    //         return redirect('insurances')->with('message', 'No data find to delete');
-    //     }
-    // }
+
+        if ($request->hasfile('image')) {
+            $destinationPath = public_path('uploads/insurance/'.$insurance->image);
+        
+            if (File::exists($destinationPath)) {
+                File::delete($destinationPath);
+            }
+        
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/insurance/'), $filename);
+        
+            $insurance->image = $filename;
+        }
+
+        $insurance->save();
+
+        return redirect()->route('insurance.pricing',$insurance->id)->with('message', 'Insurance updated successfully.');
+
+        // return redirect('insurances')->with('message', 'Insurance updated successfully.');
+    }
+
+    
+    public function destroy(string $id)
+    {
+        $insurance = Insurance::find($id);
+        if($insurance){
+            $destination = public_path('uploads/insurances/'.$insurance->image);
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+            $insurance->delete();
+            return redirect('insurances')->with('message', 'Insurance deleted successfully');
+        }else{
+            return redirect('insurances')->with('message', 'No data find to delete');
+        }
+    }
 }
