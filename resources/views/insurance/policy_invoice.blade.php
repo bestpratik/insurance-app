@@ -121,6 +121,7 @@
          @if(!empty($purchase->invoice->billing_address_two))
            , {{$purchase->invoice->billing_address_two}}
          @endif
+         {{$purchase->invoice->billing_postcode}}
     </p>
         </td>
       </tr>
@@ -154,6 +155,8 @@
         @else
             {{$purchase->address_three}}
          @endif
+
+         {{$purchase->post_code}}
         
     </p>
     </td>

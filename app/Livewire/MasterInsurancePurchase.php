@@ -285,9 +285,9 @@ class MasterInsurancePurchase extends Component
         $purchase->address_two = $this->addressTwo;
         $purchase->address_three = $this->addressThree;
         $purchase->post_code = $this->postCode;
-
         $purchase->policy_holder_type = $this->policyHoldertype;
-        $purchase->policy_holder_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
+        $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
+        $purchase->policy_holder_address = $this->policyholderAddress1.' '.$this->policyholderAddress2.' '.$this->policyholderPostcode;
         $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
         $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
@@ -306,7 +306,7 @@ class MasterInsurancePurchase extends Component
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->purchase_date = $this->purchaseDate;
         $purchase->policy_term = $this->policyTerm;
-        $purchase->purchase_date = now();
+        // $purchase->purchase_date = now();
         // $purchase->payable_amount = $this->premiumAmount;
 
         $purchase->tenant_name = $this->tenantName;
