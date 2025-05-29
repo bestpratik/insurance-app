@@ -50,6 +50,7 @@ class MasterInsurancePurchase extends Component
 
     // Step 4: Policy Details
     public $policyStartDate;
+    public $purchaseDate;
     public $astStartDate;
     public $policyTerm;
 
@@ -165,6 +166,7 @@ class MasterInsurancePurchase extends Component
         } elseif ($step == 4) {
             return [
                 'policyStartDate' => 'required|date',
+                'purchaseDate' => 'required|date',
                 'astStartDate' => 'required|date',
                 'policyTerm' => 'required',
                 // 'premiumAmount' => 'required|numeric|min:0',
@@ -302,6 +304,7 @@ class MasterInsurancePurchase extends Component
         $purchase->policy_start_date = $this->policyStartDate;
         $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
+        $purchase->purchase_date = $this->purchaseDate;
         $purchase->policy_term = $this->policyTerm;
         $purchase->purchase_date = now();
         // $purchase->payable_amount = $this->premiumAmount;
@@ -459,8 +462,8 @@ class MasterInsurancePurchase extends Component
                     //$messages->to($user['to']); 
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
-                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    // $messages->bcc(['bestpratik@gmail.com']);
+                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -508,8 +511,8 @@ class MasterInsurancePurchase extends Component
             Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) { 
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
-                // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                // $message->bcc(['bestpratik@gmail.com']);
+                $message->cc(['aadatia@moneywiseplc.co.uk']);
+                $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
