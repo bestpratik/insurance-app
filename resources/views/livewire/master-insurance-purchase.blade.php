@@ -148,7 +148,6 @@
                     @enderror
                 </div>
             </div>
-
             @endif
 
 
@@ -234,7 +233,6 @@
                     </div>
                 </div>
             </div>
-
             @endif
 
 
@@ -693,7 +691,22 @@
             <span wire:loading.remove wire:target="nextStep">Next</span>
             </button>
             @else
-            <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
+            {{--<button type="button" wire:click="submitForm" wire:loading.attr="disabled"
+                class="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition inline-flex items-center gap-2">
+                <span wire:loading wire:target="submitForm" class="inline">
+                    <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    Loading...
+                </span>
+                <span wire:loading.remove wire:target="submitForm">Submit</span>
+            </button>--}}
+        @endif
+
+        @if($currentStep == 8)
+        <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition inline-flex items-center gap-2">
                 <span wire:loading wire:target="submitForm" class="inline">
                     <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -705,7 +718,7 @@
                 </span>
                 <span wire:loading.remove wire:target="submitForm">Submit</span>
             </button>
-            @endif
+        @endif
     </div>
 
 </div>

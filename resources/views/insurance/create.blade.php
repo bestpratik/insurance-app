@@ -93,7 +93,7 @@
                             <p class="text-gray-500" style="font-size: 12px;">Enter the specific name of the insurance
                                 policy.</p>
                             <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter the insurance name...">
+                                placeholder="Enter the insurance name..." value="{{ old('name') }}">
                             @error('name')
                                 <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
@@ -123,7 +123,7 @@
                                 to identify this insurance.</p>
                             <input name="prefix" type="text"
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                                placeholder="Enter insurance prefix (e.g., RSA)">
+                                placeholder="Enter insurance prefix (e.g., RSA)" value="{{ old('prefix') }}">
                         </label>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -134,7 +134,7 @@
                                 valid for (e.g., 365 days).</p>
                             <input name="validity" type="number"
                                 class="w-full mt-1 p-2 border border-[#66666660] rounded"
-                                placeholder="Enter validity duration (e.g., 365 days)">
+                                placeholder="Enter validity duration (e.g., 365 days)" value="{{ old('validity') }}">
                             @error('validity')
                                 <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
@@ -146,7 +146,7 @@
                                 insurance policy.</p>
                             <input name="rent_amount_from" type="text"
                                 class="w-full border-[#66666660] mt-1 p-2 border rounded"
-                                placeholder="Enter price (e.g., £-500)">
+                                placeholder="Enter price (e.g., £-500)" value="{{ old('rent_amount_from') }}">
                             @error('rent_amount_from')
                                 <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
@@ -158,7 +158,7 @@
                                 insurance policy.</p>
                             <input name="rent_amount_to" type="text"
                                 class="w-full mt-1 p-2 border border-[#66666660] rounded"
-                                placeholder="Enter maximum price (e.g., £-5000)">
+                                placeholder="Enter maximum price (e.g., £-5000)" value="{{ old('rent_amount_to') }}">
                             @error('rent_amount_to')
                                 <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror

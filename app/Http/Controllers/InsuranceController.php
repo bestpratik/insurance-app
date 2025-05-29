@@ -219,6 +219,7 @@ class InsuranceController extends Controller
             $insurance->ipt = $request->ipt;
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
+            $insurance->ipt_on_billable_amount = $request->ipt_on_billable_amount;
             // dd($insurance);
             $insurance->update();
             return redirect()->route('insurance.static.document',$insurance); 
@@ -348,14 +349,14 @@ class InsuranceController extends Controller
             $mailTemplate->insurance_id = $id;
     
             $mailTemplate->save();
-            return redirect()->route('insurance.summary',$insurance->id);
+            return redirect()->route('insurance.summary',$insurance->id); 
         }
 
         // return redirect()->route('insurance.email.template',$insuranceEmailTemplate); 
     }
 
     public function insurance_summary($id){
-        $insurance = Insurance::with('provider','purchase')->find($id);
+        $insurance = Insurance::with('provider','purchase','staticdocuments','dynamicdocument','insurancemailtemplate')->find($id);
         // dd($insurance);
         return view('insurance.insurance_summary', compact('insurance')); 
     }
@@ -388,6 +389,7 @@ class InsuranceController extends Controller
     {
         $provider = Provider::where('status', 1)->get();
         $insurance = Insurance::find($id);
+        // dd($insurance);
 
         return view('insurance.edit', compact('provider','insurance'));
     }
