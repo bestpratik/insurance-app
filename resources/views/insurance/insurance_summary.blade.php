@@ -27,28 +27,38 @@
                 <form id="_dm-customWizardForm" class="p-6 bg-white rounded shadow" action="" method="post">
                     @csrf
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        @if($insurance->type_of_insurance ?? '')
-                            <label class="block">
-                                <span class="text-gray-700 font-medium">Type Of Insurance:</span>
-                                <div class="mt-1 text-gray-900">
-                                    {{$insurance->type_of_insurance}}
-                                </div>
-                            </label>
-                        @endif
+                    <div class="mb-6">
+                        <h5 class="text-lg font-semibold text-gray-800 mb-2">General Details</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                        @if($insurance->name ?? '')
-                            <label class="block">
-                                <span class="text-gray-700 font-medium">Name Of Insurance:</span>
-                                <div class="mt-1 text-gray-900">
-                                    {{$insurance->name}}
-                                </div>
-                            </label>
-                        @endif
-                    </div>
+                            @if($insurance->type_of_insurance ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Type Of Insurance:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->type_of_insurance}}
+                                    </div>
+                                </label>
+                            @endif
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        @if($insurance->prefix ?? '')
+                            @if($insurance->name ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Name Of Insurance:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->name}}
+                                    </div>
+                                </label>
+                            @endif
+
+                            @if($insurance->provider_type ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Provider:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->provider->name}}
+                                    </div>
+                                </label>
+                            @endif
+
+                            @if($insurance->prefix ?? '')
                             <label class="block">
                                 <span class="text-gray-700 font-medium">Prefix:</span>
                                 <div class="mt-1 text-gray-900">
@@ -65,16 +75,20 @@
                                 </div>
                             </label>
                         @endif
-
-                        @if($insurance->provider_type ?? '')
+                    
+                        @if($insurance->details_of_cover ?? '')
                             <label class="block">
-                                <span class="text-gray-700 font-medium">Provider:</span>
+                                <span class="text-gray-700 font-medium">Details of cover:</span>
                                 <div class="mt-1 text-gray-900">
-                                    {{$insurance->provider->name}}
+                                    {{$insurance->details_of_cover}}
                                 </div>
                             </label>
                         @endif
+                        </div>
                     </div>
+
+                    
+
 
                     <div class="mb-6">
                         <h5 class="text-lg font-semibold text-gray-800 mb-2">Rent Amount (£)</h5>
@@ -89,6 +103,14 @@
                                 </label>
                             @endif
 
+                            
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h5 class="text-lg font-semibold text-gray-800 mb-2">Pricing</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                             @if($insurance->net_premium ?? '')
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">Net Premium:</span>
@@ -98,21 +120,96 @@
                                 </label>
                             @endif
 
-                          
+                            @if($insurance->commission ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Commission:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->commission}}
+                                    </div>
+                                </label>
+                            @endif
+
+                            @if($insurance->gross_premium ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Gross Premium:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->gross_premium}}
+                                    </div>
+                                </label>
+                            @endif
+
+                            @if($insurance->ipt ?? '')
+                            <label class="block">
+                                <span class="text-gray-700 font-medium">IPT:</span>
+                                <div class="mt-1 text-gray-900">
+                                    {{$insurance->ipt}}
+                                </div>
+                            </label>
+                            @endif
+
+                            @if($insurance->total_premium ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Total Premium:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->total_premium}}
+                                    </div>
+                                </label>
+                            @endif
+                        
+                            @if($insurance->payable_amount ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Billable Amount:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->payable_amount}}
+                                    </div>
+                                </label>
+                            @endif
+
+                            @if($insurance->ipt_on_billable_amount ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">IPT on Billable Amount:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->ipt_on_billable_amount}}
+                                    </div>
+                                </label>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        @if($insurance->details_of_cover ?? '')
-                            <label class="block">
-                                <span class="text-gray-700 font-medium">Details of cover:</span>
-                                <div class="mt-1 text-gray-900">
-                                    {{$insurance->details_of_cover}}
-                                </div>
-                            </label>
-                        @endif
+                    <div class="mb-6">
+                        <h5 class="text-lg font-semibold text-gray-800 mb-2">Static Documents</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="mt-1 text-gray-900">
+                                        @foreach ($insurance->staticdocuments as $row) 
+                                            @php
+                                                $documentUrl = url('/') . '/uploads/insurance_document/' . $row->document;
+                                                $extension = pathinfo($row->document, PATHINFO_EXTENSION);
+                                                
+                                            @endphp
 
+                                            @if($row->document)
+                                                <div class="flex items-center gap-3">
+                                                    <div>
+                                                        <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
+                                                            <a class="flex items-center border rounded px-4 py-1.5" target="_blank" href="{{ $documentUrl }}">
+                                                                @if(in_array(strtolower($extension), ['doc', 'docx']))
+                                                                    <x-heroicon-o-document-text class="h-6 w-6 text-blue-800 mr-2" />
+                                                                @elseif(strtolower($extension) === 'pdf')
+                                                                    <x-heroicon-o-document class="h-6 w-6 text-red-600 mr-2" />
+                                                                @else
+                                                                    <x-heroicon-o-document class="h-6 w-6 text-gray-600 mr-2" />
+                                                                @endif
+                                                                <span>Download</span>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                            </div>
+                        </div>
                     </div>
+
 
                  
 

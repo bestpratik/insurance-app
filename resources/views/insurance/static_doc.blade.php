@@ -143,7 +143,7 @@
                         @endphp
 
 
-                        @forelse ($insurancedoc as $row)
+                        @forelse ($insurancedoc as $row) 
                             @php
                                 $i++;
                             @endphp
