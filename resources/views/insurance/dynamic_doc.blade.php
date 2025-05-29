@@ -240,7 +240,7 @@
                         @endphp
 
 
-                        @forelse ($insurancedynamicdoc as $row)
+                        @forelse ($insurancedynamicdoc as $row) 
                             @php
                                 $i++;
                             @endphp
@@ -274,7 +274,7 @@
                                 <td class="px-6 py-3 whitespace-nowrap">
                                     <div class="flex items-center gap-3">
                                         <div>
-                                            <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
+                                            <span class="text-theme-sm mb-0.5 block font-medium text-gray-700"> 
                                                 {!! $row->description ?? '' !!}
                                             </span>
                                         </div>
