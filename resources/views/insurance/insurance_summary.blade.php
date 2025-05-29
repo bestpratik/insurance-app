@@ -37,11 +37,11 @@
                             </label>
                         @endif
 
-                        @if($insurance->insurer_title ?? '')
+                        @if($insurance->name ?? '')
                             <label class="block">
                                 <span class="text-gray-700 font-medium">Name Of Insurance:</span>
                                 <div class="mt-1 text-gray-900">
-                                    {{$insurance->insurer_title}}
+                                    {{$insurance->name}}
                                 </div>
                             </label>
                         @endif
@@ -66,7 +66,7 @@
                             </label>
                         @endif
 
-                        @if($insurance->provider_id ?? '')
+                        @if($insurance->provider_type ?? '')
                             <label class="block">
                                 <span class="text-gray-700 font-medium">Provider:</span>
                                 <div class="mt-1 text-gray-900">
@@ -79,36 +79,42 @@
                     <div class="mb-6">
                         <h5 class="text-lg font-semibold text-gray-800 mb-2">Rent Amount (£)</h5>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @if($insurance->rent_amount_from ?? '')
-                                <label class="block">
-                                    <span class="text-gray-700 font-medium">From:</span>
-                                    <div class="mt-1 text-gray-900">
-                                        {{$insurance->rent_amount_from}}
-                                    </div>
-                                </label>
-                            @endif
 
-                            @if($insurance->rent_amount_to ?? '')
+                            @if($insurance->purchase->rent_amount ?? '')
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">To:</span>
                                     <div class="mt-1 text-gray-900">
-                                        {{$insurance->rent_amount_to}}
+                                        {{$insurance->purchase->rent_amount ?? ''}}
                                     </div>
                                 </label>
                             @endif
+
+                            @if($insurance->net_premium ?? '')
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Net Premium:</span>
+                                    <div class="mt-1 text-gray-900">
+                                        {{$insurance->net_premium}}
+                                    </div>
+                                </label>
+                            @endif
+
+                          
                         </div>
                     </div>
 
-                    @if($insurance->details_of_cover ?? '')
-                        <div class="mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        @if($insurance->details_of_cover ?? '')
                             <label class="block">
                                 <span class="text-gray-700 font-medium">Details of cover:</span>
                                 <div class="mt-1 text-gray-900">
                                     {{$insurance->details_of_cover}}
                                 </div>
                             </label>
-                        </div>
-                    @endif
+                        @endif
+
+                    </div>
+
+                 
 
                     <div class="pt-4 flex justify-center gap-3">
                         <a href="{{route('insurance.email.template', $insurance->id)}}"

@@ -205,7 +205,8 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 1 <span class="text-red-600">*</span></label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="addressOne" id="" ></textarea>           
+                        <input type="text" placeholder="Enter address..." wire:model="addressOne"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">        
                         @error('addressOne')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
@@ -213,12 +214,14 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 2</label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="addressTwo" id="" ></textarea>
+                        <input type="text" placeholder="Enter address..." wire:model="addressTwo"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">  
                     </div>
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 3</label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="addressThree" id="" ></textarea>
+                        <input type="text" placeholder="Enter address..." wire:model="addressThree"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">  
                     </div>
 
                     <div class="mb-2">
@@ -398,12 +401,14 @@
 
                     <div>
                         <label class="block mb-1">Address1</label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="policyholderAddress1" id="" ></textarea> 
+                        <input type="text" placeholder="Enter address..." wire:model="policyholderAddress1"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                     </div>
 
                     <div>
                         <label class="block mb-1">Address2</label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="policyholderAddress2" id="" ></textarea> 
+                        <input type="text" placeholder="Enter address..." wire:model="policyholderAddress2"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                     </div>
 
                     <div>
@@ -589,7 +594,8 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Billing Address One<span class="text-red-600 text-lg">*</span></label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="billingAddressOne" id="" ></textarea> 
+                        <input type="text" placeholder="Enter address..." wire:model="billingAddressOne"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('billingAddressOne')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
@@ -597,7 +603,8 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Billing Address Two</label>
-                        <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" wire:model="billingAddressTwo" id="" ></textarea> 
+                        <input type="text" placeholder="Enter address..." wire:model="billingAddressTwo"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('billingAddressTwo')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
@@ -689,7 +696,7 @@
             <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition inline-flex items-center gap-2">
                 <span wire:loading wire:target="submitForm" class="inline">
-                    <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -700,29 +707,6 @@
             </button>
             @endif
     </div>
-<!-- Summernote) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-     <!-- Summernote) -->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        
-        $('.summernote').summernote({
-            height: 50, 
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-    });
-</script>
 </div>
 
