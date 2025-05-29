@@ -58,8 +58,8 @@
                         <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their
                             descriptions when filling out your insurance document. These tags will help structure the
                             document content dynamically and ensure consistency.</p>
-                        
-                            <input type="hidden" value="%InsuranceName%" id="insuranceName">
+
+                        <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
                             Name</button>
@@ -71,7 +71,8 @@
 
                         <input type="hidden" value="%policyHolderAddress1%" id="policyHolderAddress1">
                         <button onclick="myFunction('policyHolderAddress1')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy Address</button>
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            Address</button>
 
                         <input type="hidden" value="%policyStartdate%" id="policyStartdate">
                         <button onclick="myFunction('policyStartdate')" type="button"
@@ -114,18 +115,21 @@
                             class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
                             Amount</button>
 
-                         <!-- new add -->
+                        <!-- new add -->
                         <input type="hidden" value="%riskAddress%" id="riskAddress">
                         <button onclick="myFunction('riskAddress')" type="button"
-                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk Address</button>
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk
+                            Address</button>
 
                         <input type="hidden" value="%insurerTitle%" id="insurerTitle">
                         <button onclick="myFunction('insurerTitle')" type="button"
-                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer title</button>
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer
+                            title</button>
 
                         <input type="hidden" value="%detailsofCover%" id="detailsofCover">
-                         <button onclick="myFunction('detailsofCover')" type="button"
-                                class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details of Cover</button>
+                        <button onclick="myFunction('detailsofCover')" type="button"
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details
+                            of Cover</button>
 
 
                     </div>
@@ -196,99 +200,45 @@
                         <tr>
                             <th class="px-6 py-3 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex items-center gap-3">
-                                        <div>
-                                            <span class="block font-medium text-gray-500 text-theme-xs ">
-                                                #
-                                            </span>
-                                        </div>
-                                    </div>
+                                    <span class="block font-medium text-gray-500 text-theme-xs">#</span>
                                 </div>
                             </th>
                             <th class="px-6 py-3 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs ">
-                                        Title
-                                    </p>
-                                </div>
+                                <p class="font-medium text-gray-500 text-theme-xs">Title</p>
                             </th>
-
-                            <th class="px-6 py-3 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs ">
-                                        Document
-                                    </p>
-                                </div>
-                            </th>
-
-                            <th class="px-6 py-3 whitespace-nowrap">
-                                <div class="flex items-center justify-center">
-                                    <p class="font-medium text-gray-500 text-theme-xs ">
-                                        Action
-                                    </p>
-                                </div>
+                            <th class="px-6 py-3 whitespace-nowrap text-center">
+                                <p class="font-medium text-gray-500 text-theme-xs">Action</p>
                             </th>
                         </tr>
                     </thead>
                     <!-- table header end -->
 
                     <!-- table body start -->
-                    <tbody class="divide-y divide-gray-100 ">
-                        @php
-                            $i = 0;
-                            //dd($insurancedoc);
-                        @endphp
-
+                    <tbody class="divide-y divide-gray-100">
+                        @php $i = 0; @endphp
 
                         @forelse ($insurancedynamicdoc as $row)
-                            @php
-                                $i++;
-                            @endphp
+                            @php $i++; @endphp
                             <tr>
                                 <td class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex items-center gap-3">
-
-                                            <div>
-                                                <span class="block font-medium text-gray-700 text-theme-sm ">
-                                                    {{ $i }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <span class="block font-medium text-gray-700 text-theme-sm">{{ $i }}</span>
                                 </td>
 
                                 <td class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex items-center gap-3">
-                                            <div>
-                                                <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                    {{ $row->title ?? '' }}
-                                                </span>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
+                                        {{ $row->title ?? '' }}
+                                    </span>
                                 </td>
 
                                 <td class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center gap-3">
-                                        <div>
-                                            <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
-                                                {!! $row->description ?? '' !!}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
+                                    <div class="flex items-center justify-center gap-3">
+                                        <!-- View Button -->
+                                        <button type="button" class="text-blue-600 hover:text-blue-800"
+                                            data-description="{{ $row->description }}" onclick="openModal(this)">
+                                            <x-heroicon-o-eye class="h-6 w-6" />
+                                        </button>
 
-                                <td class="px-6 py-3 whitespace-nowrap">
-                                    <!-- <a class="btn btn-danger" style="padding: 3px 6px;" onclick="return confirmDelete('Are you sure you want to delete data ?')"
-                                                                                title="Delete"
-                                                                                href="{{ route('insurance.dynamic.delete', $row->id) }}"><x-heroicon-o-trash class="h-6 w-6 text-red-600" />
-                                                            </a> -->
-
-                                  
-                                    <div class="flex items-center justify-center">
+                                                                        <!-- Delete Form -->
                                         <form action="{{ route('insurance.dynamic.delete', $row->id) }}" method="POST"
                                             class="delete-form">
                                             @csrf
@@ -298,28 +248,36 @@
                                                 <x-heroicon-o-trash class="h-6 w-6 text-red-600" />
                                             </button>
                                         </form>
-
                                     </div>
                                 </td>
-
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center px-6 py-4 text-gray-500 ">
+                                <td colspan="3" class="text-center px-6 py-4 text-gray-500">
                                     No data found.
                                 </td>
                             </tr>
                         @endforelse
-
-
                     </tbody>
                     <!-- table body end -->
                 </table>
+
             </div>
         </div>
 
     </div>
 
+
+    <div id="previewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-2xl w-full rounded-lg shadow-lg p-8 relative">
+            <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
+            <div id="modalContent" class="text-gray-800 max-h-[70vh] overflow-y-auto">
+                <!-- Content goes here -->
+            </div>
+        </div>
+    </div>
 </x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -348,6 +306,22 @@
             });
         });
     });
+
+
+
+    function openModal(button) {
+        const description = button.getAttribute('data-description');
+        document.getElementById('modalContent').innerHTML = description;
+        document.getElementById('previewModal').classList.remove('hidden');
+        document.getElementById('previewModal').classList.add('flex');
+    }
+
+    function closeModal() {
+        document.getElementById('previewModal').classList.add('hidden');
+        document.getElementById('previewModal').classList.remove('flex');
+    }
+
+
 </script>
 <!-- Summernote) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
