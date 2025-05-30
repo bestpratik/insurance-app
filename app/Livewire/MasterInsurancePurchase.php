@@ -47,6 +47,7 @@ class MasterInsurancePurchase extends Component
     public $policyholderAddress1;
     public $policyholderAddress2;
     public $policyholderPostcode;
+    public $copyEmail;
 
     // Step 4: Policy Details
     public $policyStartDate;
@@ -68,6 +69,7 @@ class MasterInsurancePurchase extends Component
     // Step 7: Biling Department
     public $billingName;
     public $billingEmail;
+    public $copyBillingEmail;
     public $billingPhone;
     public $billingAddressOne;
     public $billingAddressTwo;
@@ -297,6 +299,13 @@ class MasterInsurancePurchase extends Component
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
+        $this->copyEmail = preg_replace('/[\s,]+/', ' ', $this->copyEmail);
+        $purchase->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyEmail)))
+            ->filter()
+            ->map(fn($email) => trim($email))
+            ->unique()
+            ->implode(',');
+
         $purchase->policy_holder_address_one = $this->policyholderAddress1;
         $purchase->policy_holder_address_two = $this->policyholderAddress2;
         $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
@@ -306,6 +315,18 @@ class MasterInsurancePurchase extends Component
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->purchase_date = $this->purchaseDate;
         $purchase->policy_term = $this->policyTerm;
+
+
+        $purchase->net_premium = $this->insuranceDetails->net_premium;
+        $purchase->commission = $this->insuranceDetails->commission;
+        $purchase->gross_premium = $this->insuranceDetails->gross_premium;
+        $purchase->ipt = $this->insuranceDetails->ipt;
+        $purchase->total_premium = $this->insuranceDetails->total_premium;
+        $purchase->payable_amount = $this->insuranceDetails->payable_amount;
+        $purchase->ipt_on_billable_amount = $this->insuranceDetails->ipt_on_billable_amount;
+
+
+
         // $purchase->purchase_date = now();
         // $purchase->payable_amount = $this->premiumAmount;
 
@@ -321,6 +342,12 @@ class MasterInsurancePurchase extends Component
         $invoice->purchase_id = $purchase->id;
         $invoice->billing_name = $this->billingName;
         $invoice->billing_email = $this->billingEmail;
+        $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
+        $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
+            ->filter()
+            ->map(fn($email) => trim($email))
+            ->unique()
+            ->implode(',');
         $invoice->billing_phone = $this->billingPhone;
         $invoice->billing_address_one = $this->billingAddressOne;
         $invoice->billing_address_two = $this->billingAddressTwo;
@@ -462,8 +489,8 @@ class MasterInsurancePurchase extends Component
                     //$messages->to($user['to']); 
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
-                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    $messages->bcc(['bestpratik@gmail.com']);
+                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    // $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -511,8 +538,8 @@ class MasterInsurancePurchase extends Component
             Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) { 
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
-                $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->cc(['aadatia@moneywiseplc.co.uk']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 

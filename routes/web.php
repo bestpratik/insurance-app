@@ -27,7 +27,11 @@ Route::middleware('auth')->group(function () {
     /*All Purchase List*/
     Route::get('/all-purchase-list', function () {
         return view('purchase.all_list');
-    })->name('purchase.list');
+    })->name('purchase.list'); 
+
+    Route::get('/all-purchase-cancel-list', function () {
+        return view('purchase.all_cancel_list');
+    })->name('purchase.cancel.list'); 
 
     //Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
     Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
@@ -50,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('insurance/dynamic-doc/{id}', [InsuranceController::class, 'dynamic_document'])->name('insurance.dynamic.document');
     Route::post('insurance/dynamic-document/submit/{id}', [InsuranceController::class, 'dynamic_document_submit'])->name('insurance.dynamic.document.submit');
     Route::delete('insurance/dynamic/delete/{id}', [InsuranceController::class, 'dynamic_document_delete'])->name('insurance.dynamic.delete');
+    Route::post('insurance/dynamic/update/{id}/{insurancedynamicdocId}', [InsuranceController::class, 'dynamic_document_update'])->name('insurance.dynamic.update');
 
     Route::get('insurance/email-template/{id}', [InsuranceController::class, 'insurance_email_template'])->name('insurance.email.template');
     Route::post('insurance/email-template/update/{id}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');

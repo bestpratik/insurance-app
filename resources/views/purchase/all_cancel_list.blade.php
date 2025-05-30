@@ -10,26 +10,14 @@
             @endif
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
                 <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
-
                     <div>
                         <h3 class="text-lg font-semibold  /90">
-                            All Purchases
+                            All Cancel Purchases
                         </h3>
                     </div>
-
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <div>
-                            <!-- <a href="{{route('insurances.create')}}"
-                                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500  dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-                                Add
-                            </a> -->
-                        </div>
-                    </div>
                 </div>
-                
 
-
-               <livewire:purchase-list />  
+               <livewire:purchase-cancel-list />  
                 
             </div>
         </div>
