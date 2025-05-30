@@ -49,14 +49,14 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Name</label>
             <input type="text" wire:model.live="tenantName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-         <div class="sm:w-64">
+        <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Email</label>
             <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
 
     </div>
 
-    
+
 
     <!-- Loader -->
     <div wire:loading class="absolute right-3 top-[42px] transform -translate-y-1/2">
@@ -148,7 +148,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200"> 
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($result as $row)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -159,12 +159,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
-                                {{ $row->insurance->name }}
+                            {{ $row->insurance->name }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
-                                {{ $row->insurance->total_premium }}
+                            {{ $row->insurance->total_premium }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -172,7 +172,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance && $row->insurance->provider)
-                                {{ $row->insurance->provider->name }}
+                            {{ $row->insurance->provider->name }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -186,12 +186,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->policy_holder_type == 'Company')
-                                {{ $row->company_name }}
+                            {{ $row->company_name }}
                             @elseif($row->policy_holder_type == 'Individual')
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @else
-                                {{ $row->company_name }} <br>
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            {{ $row->company_name }} <br>
+                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -211,15 +211,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @php
-                                $target_date_one = strtotime($row->purchase_date);
-                                $target_date_two = strtotime($row->policy_start_date);
-                                $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
+                            $target_date_one = strtotime($row->purchase_date);
+                            $target_date_two = strtotime($row->policy_start_date);
+                            $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
                             @endphp
                             @if($days_incepted < -5)
-                            <span class="text-red-500">{{ $days_incepted }} days</span>
-                            @else
-                            <span class="text-green-500">{{ $days_incepted }} days</span>
-                            @endif
+                                <span class="text-red-500">{{ $days_incepted }} days</span>
+                                @else
+                                <span class="text-green-500">{{ $days_incepted }} days</span>
+                                @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
@@ -229,14 +229,14 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
-                                {{ $row->invoice->invoice_no }}
+                            {{ $row->invoice->invoice_no }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->payment_method == 'bank_transfer')
-                                Bank Transfer
+                            Bank Transfer
                             @elseif($row->payment_method == 'pay_later')
-                                Pay later
+                            Pay later
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -247,14 +247,6 @@
                                 <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
-                                
-                                <button wire:click="openCancelModal({{ $row->id }})"
-                                    @if(in_array($row->id, $cancelledPurchases)) disabled @endif
-                                        class="text-red-600 hover:text-red-900 focus:outline-none"
-                                        title="Cancel Purchase">
-                                    <x-heroicon-o-x-mark class="w-5 h-5" />
-                                </button>
-
 
                             </div>
                         </td>
@@ -269,7 +261,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         <div class="px-4 py-3 bg-gray-50 border-t border-gray-200 sm:px-6">
             {{ $result->links() }}
@@ -279,32 +271,4 @@
 
 
 
-    <!-- modal --> 
-@if($showCancelModal)
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-        <button wire:click="closeCancelModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-        </button>
-
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
-
-        <div>
-            <label for="cancelReason" class="block text-gray-700 mb-2">Reason for cancellation:</label>
-            <textarea wire:model="cancelReason" id="cancelReason"
-                      class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                      placeholder="Enter your reason..."></textarea>
-            @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        <div class="mt-6 flex justify-end space-x-4">
-            <button wire:click="closeCancelModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-            <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
-        </div>
-    </div>
 </div>
-@endif
-
-
-</div>
-

@@ -162,7 +162,7 @@
     <td class="right">
       <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}</p>
       <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}</p>
-      <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->insurance->payable_amount ?? ''}} </span></p>
+      <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
       <p><span class="label">Payment Status:</span> <span class="red">
         @if($purchase->payment_method == 'pay_later')
             Unpaid
@@ -177,7 +177,7 @@
 
     <div class="box">
       <strong>Payment Instructions:</strong>
-      <p>Please make the payment of £{{$purchase->insurance->payable_amount ?? ''}} to the account below within 3 days of receiving this email unless a dispute has
+      <p>Please make the payment of £{{$purchase->payable_amount ?? ''}} to the account below within 3 days of receiving this email unless a dispute has
         been raised:</p>
       <p><strong>Account Name:</strong> Moneywise Investments Plc<br>
         <strong>Account Number:</strong> 00789089<br>

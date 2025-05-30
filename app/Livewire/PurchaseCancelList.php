@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Purchase;
+use Livewire\Component;
 use Livewire\WithPagination;
 
-class PurchaseList extends Component
+class PurchaseCancelList extends Component
 {
     use WithPagination;
     public $perPage = 10;
@@ -25,15 +25,10 @@ class PurchaseList extends Component
     public $tenantEmail;
     public $detailsofCover;
 
-    public $showCancelModal = false;
-    public $cancelReason;
-    public $cancelPurchaseId = null;
-    public $cancelledPurchases = [];
-
     public function render()
     {
-        $query = Purchase::with(['insurance.provider','invoice'])->where('status', 1)->whereNull('purchase_status')->orderBy('id', 'desc');
-
+        $query = Purchase::with(['insurance.provider','invoice'])->where('purchase_status', 'Cancelled')->orderBy('id', 'desc');
+       
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
         }
@@ -92,43 +87,10 @@ class PurchaseList extends Component
         }
 
         $purchases = $query->paginate($this->perPage);
-        return view('livewire.purchase-list', [
+
+        return view('livewire.purchase-cancel-list', [
             'result' => $purchases,
         ]);
+
     }
-
-
-public function openCancelModal($purchaseId)
-{
-    $this->cancelPurchaseId = $purchaseId;
-    $this->cancelReason = '';
-    $this->showCancelModal = true;
-}
-
-public function closeCancelModal()
-{
-    $this->showCancelModal = false;
-    $this->cancelPurchaseId = null;
-    $this->cancelReason = '';
-}
-
-public function submitCancellation()
-{
-    $this->validate([
-        'cancelReason' => 'required|string|min:5',
-    ]);
-
-    $purchase = Purchase::find($this->cancelPurchaseId);
-
-    if ($purchase) {
-        $purchase->purchase_status = 'Cancelled'; 
-        $purchase->purchase_cancel_reason = $this->cancelReason; 
-        $purchase->save();
-        $this->cancelledPurchases[] = $this->cancelPurchaseId;
-    }
-
-    session()->flash('message', 'Purchase cancelled successfully.');
-    $this->closeCancelModal();
-}
-
 }

@@ -306,6 +306,25 @@ class InsuranceController extends Controller
             return redirect()->route('insurance.dynamic.document',$id); 
     }
 
+    public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId){
+        $request->validate([
+                'title' => 'string',
+                'description' => 'string',
+            ]);
+
+        $insurancedynamicdoc = Insurancedynamicdocument::find($insurancedynamicdocId, 'id');
+     
+        $insurancedynamicdoc->title = $request->title;
+        $insurancedynamicdoc->description = $request->description;
+
+        $insurancedynamicdoc->update();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Document updated successfully.',
+        ]);
+    }
+
     public function dynamic_document_delete($id){
         $insurancedynamicdoc = Insurancedynamicdocument::find($id);
         if($insurancedynamicdoc)

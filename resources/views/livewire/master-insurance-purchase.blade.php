@@ -414,8 +414,20 @@
                         <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('policyholderPostcode')
-                        <span class="text-sm text-red-600">{{ $message }}</span>
+                        <span class="text-sm text-red-600">{{ $message }}</span> 
                         @enderror
+                    </div>
+
+                    <div>
+                        <label class="block mb-1">Copy email</label>
+                        <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send documents to additional people other than policy holder</p>
+                        <textarea id=""
+                            class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
+                            rows="2"></textarea>
+
+                        <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"> -->
+
                     </div>
 
 
@@ -589,6 +601,14 @@
                         @error('billingEmail')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
+                    </div>
+
+                    <div>
+                        <label class="block mb-1">Copy email</label>
+                        <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send invoice to additional people other than billing email</p>
+                        <textarea id=""
+                            class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyBillingEmail"
+                            rows="2"></textarea>
                     </div>
 
                     <div>
