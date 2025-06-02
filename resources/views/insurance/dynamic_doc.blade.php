@@ -299,6 +299,8 @@
         <form id="editForm" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="insurance_id" id="editInsuranceId" />
+
             <input type="hidden" name="doc_id" id="editDocId" />
 
             <div class="mb-4">
@@ -364,7 +366,7 @@
     }
 </script>
 
-<script>
+<!-- <script>
     function openEditModal(button) {
         const docId = button.getAttribute('data-id'); 
         const insuranceId = button.getAttribute('data-insurance-id');
@@ -427,6 +429,68 @@
     function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
     }
+</script> -->
+
+
+<script>
+    function openEditModal(button) {
+    const docId = button.getAttribute('data-id'); 
+    const insuranceId = button.getAttribute('data-insurance-id');
+    const title = button.getAttribute('data-title');
+    const description = button.getAttribute('data-description');
+
+    document.getElementById('editDocId').value = docId;
+    document.getElementById('editInsuranceId').value = insuranceId;
+    document.getElementById('editTitle').value = title;
+    $('#editDescription').summernote('code', description);
+
+    document.getElementById('editModal').classList.remove('hidden');
+}
+
+
+
+$('#editForm').on('submit', function (e) {
+    e.preventDefault();
+
+    const insuranceId = $('#editInsuranceId').val();
+    const docId = $('#editDocId').val();
+    const form = $(this);
+    const formData = form.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: `/insurance/dynamic/update/${insuranceId}/${docId}`,
+        data: formData,
+        success: function (response) {
+            closeEditModal();
+            form[0].reset();
+            $('#editDescription').summernote('code', '');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated!',
+                text: 'The document has been updated successfully.',
+                timer: 2000,
+                showConfirmButton: false,
+                willClose: () => {
+                    location.reload();
+                }
+            });
+        },
+        error: function (xhr) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Update Failed',
+                text: xhr.responseJSON?.message || 'Something went wrong.',
+            });
+        }
+    });
+});
+
+function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+
 </script>
 
 

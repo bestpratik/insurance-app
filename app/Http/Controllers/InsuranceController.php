@@ -308,24 +308,52 @@ class InsuranceController extends Controller
             return redirect()->route('insurance.dynamic.document',$id); 
     }
 
-    public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId){
-        $request->validate([
-                'title' => 'string',
-                'description' => 'string',
-            ]);
+    // public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId){
+    //     $request->validate([
+    //             'title' => 'string',
+    //             'description' => 'string',
+    //         ]);
 
-        $insurancedynamicdoc = Insurancedynamicdocument::find($insurancedynamicdocId, 'id');
+    //     $insurancedynamicdoc = Insurancedynamicdocument::find($insurancedynamicdocId, 'id');
      
-        $insurancedynamicdoc->title = $request->title;
-        $insurancedynamicdoc->description = $request->description;
+    //     $insurancedynamicdoc->title = $request->title;
+    //     $insurancedynamicdoc->description = $request->description;
 
-        $insurancedynamicdoc->update();
+    //     $insurancedynamicdoc->update();
 
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Document updated successfully.',
+    //     ]);
+    // }
+
+
+    public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId)
+{
+    $request->validate([
+        'title' => 'string',
+        'description' => 'string',
+    ]);
+
+    $insurancedynamicdoc = Insurancedynamicdocument::find($insurancedynamicdocId);
+
+    if (!$insurancedynamicdoc) {
         return response()->json([
-            'status' => 'success',
-            'message' => 'Document updated successfully.',
-        ]);
+            'status' => 'error',
+            'message' => 'Document not found.',
+        ], 404);
     }
+
+    $insurancedynamicdoc->title = $request->title;
+    $insurancedynamicdoc->description = $request->description;
+    // dd($$insurancedynamicdoc);
+    $insurancedynamicdoc->update();
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Document updated successfully.',
+    ]);
+}
 
     public function dynamic_document_delete($id){
         $insurancedynamicdoc = Insurancedynamicdocument::find($id);
