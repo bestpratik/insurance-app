@@ -489,8 +489,8 @@ class MasterInsurancePurchase extends Component
                     //$messages->to($user['to']); 
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
-                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    // $messages->bcc(['bestpratik@gmail.com']);
+                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -538,8 +538,8 @@ class MasterInsurancePurchase extends Component
             Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) { 
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
-                // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                // $message->bcc(['bestpratik@gmail.com']);
+                $message->cc(['aadatia@moneywiseplc.co.uk']);
+                $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
