@@ -239,6 +239,7 @@
                                 Pay later
                             @endif
                         </td>
+
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
                                 <a href="{{route('purchase.edit',$row->id)}}" class="text-indigo-600 hover:text-indigo-900">
@@ -247,6 +248,20 @@
                                 <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
+
+                                <!-- <button wire:click="openResendModal({{ $row->id }})"
+                                    @if(in_array($row->id, $sendMail)) disabled @endif
+                                        class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                        title="Resend Documents">
+                                    <x-heroicon-o-arrow-path class="w-5 h-5" />
+                                </button> -->
+
+                                <button wire:click="openResendModal({{ $row->id }})"
+                                    @if(in_array($row->id, $sendMail)) disabled @endif
+                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                    title="Resend Documents">
+                                    <x-heroicon-o-arrow-path class="w-5 h-5" />
+                                </button>
                                 
                                 <button wire:click="openCancelModal({{ $row->id }})"
                                     @if(in_array($row->id, $cancelledPurchases)) disabled @endif
@@ -279,32 +294,63 @@
 
 
 
-    <!-- modal --> 
-@if($showCancelModal)
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-        <button wire:click="closeCancelModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-        </button>
+    <!--Cancel modal start--> 
+    @if($showCancelModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+            <button wire:click="closeCancelModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
 
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
 
-        <div>
-            <label for="cancelReason" class="block text-gray-700 mb-2">Reason for cancellation:</label>
-            <textarea wire:model="cancelReason" id="cancelReason"
-                      class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                      placeholder="Enter your reason..."></textarea>
-            @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
+            <div>
+                <label for="cancelReason" class="block text-gray-700 mb-2">Reason for cancellation:</label>
+                <textarea wire:model="cancelReason" id="cancelReason"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your reason..."></textarea>
+                @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
 
-        <div class="mt-6 flex justify-end space-x-4">
-            <button wire:click="closeCancelModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-            <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
+            <div class="mt-6 flex justify-end space-x-4">
+                <button wire:click="closeCancelModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
+            </div>
         </div>
     </div>
-</div>
-@endif
+    @endif
+
+    <!--Cancel modal end--> 
+
+
+    <!--Resend modal start--> 
+    @if($showResendDocumentModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+            <button wire:click="closeResendModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
+
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Documents</h2>
+
+            <div>
+                <label for="resendDocument" class="block text-gray-700 mb-2">Emails:</label>
+                <textarea wire:model="resendDocument" id="resendDocument"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your email..."></textarea>
+                @error('resendDocument') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-4">
+                <button wire:click="closeResendModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                <button wire:click="submitResendingDoc" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!--Resend modal end--> 
 
 
 </div>
+
 

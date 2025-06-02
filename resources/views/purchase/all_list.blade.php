@@ -35,3 +35,25 @@
         </div>
         </div>
 </x-app-layout>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Livewire.on('swal:success', data => {
+        Swal.fire({
+            title: 'Documents resend successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
+
+<script>
+    Livewire.on('swal:message', data => {
+        Swal.fire({
+            title: 'Purchase cancelled successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
