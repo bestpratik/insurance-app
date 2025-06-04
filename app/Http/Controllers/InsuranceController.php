@@ -496,4 +496,6 @@ class InsuranceController extends Controller
             return redirect('insurances')->with('message', 'No data find to delete');
         }
     }
+
+ 
 }

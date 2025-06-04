@@ -485,12 +485,15 @@ class MasterInsurancePurchase extends Component
             );
 
             try {
-                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject) {
+                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
                     //$messages->to($user['to']); 
                     $messages->to($sendToemils);
                     $messages->subject($email_subject);
-                    $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    $messages->bcc(['bestpratik@gmail.com']);
+                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                    // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
+                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
+                    $messages->cc($ccEmails);
+                    // $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -535,11 +538,13 @@ class MasterInsurancePurchase extends Component
         // dd($data);?\
 
         try {
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject) { 
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase) { 
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
-                $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->cc(['aadatia@moneywiseplc.co.uk']);
+                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
+                $message->cc($ccEmails);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
