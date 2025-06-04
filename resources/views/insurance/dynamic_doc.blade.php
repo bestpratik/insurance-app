@@ -40,7 +40,7 @@
                         </label>
                     </div>
 
-                    <label class="block">
+                    <!-- <label class="block">
                         <span class="text-gray-700">Header</span>
                         <p class="text-gray-400" style="font-size: 14px;">Enter your template header.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote bg-white"
@@ -49,7 +49,8 @@
                         @error('header')
                         <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
-                    </label>
+                    </label> -->
+
                     <div class="flex flex-wrap gap-2">
                         <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their
                             descriptions when filling out your insurance document. These tags will help structure the
@@ -142,7 +143,7 @@
                         @enderror
                     </label>
 
-                    <label class="block">
+                    <!-- <label class="block"> 
                         <span class="text-gray-700">Footer</span>
                         <p class="text-gray-400" style="font-size: 14px;">Enter your template footer.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer"
@@ -151,7 +152,8 @@
                         @error('footer')
                         <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
-                    </label>
+                    </label> -->
+
                     <div class="">
                         <button
                             class="flex items-center justify-between text-center rounded-md w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
