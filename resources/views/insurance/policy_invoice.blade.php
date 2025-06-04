@@ -108,7 +108,7 @@
       <img src="data:image/png;base64,{{ base64_encode(file_get_contents( "http://insurance.moneywiseplc.co.uk/logo.jpg" )) }}" alt="Moneywise Logo" style="max-width: 180px; margin: 0 auto;">
       <div class="header-right">
         <div>Invoice No: <strong>{{$purchase->invoice->invoice_no ?? ''}}</strong></div>
-        <div>Invoice Date: <strong>{{ \Carbon\Carbon::parse($purchase->invoice->invoice_date)->format('d M Y') }}</strong></div>
+        <div>Invoice Date: <strong>{{ \Carbon\Carbon::parse($purchase->invoice->invoice_date ?? '')->format('d M Y') }}</strong></div>
       </div>
     </div>
     <table>
@@ -160,14 +160,14 @@
     </p>
     </td>
     <td class="right">
-      <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}</p>
-      <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}</p>
+      <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}</p>
+      <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
       <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
       <p><span class="label">Payment Status:</span> <span class="red">
         @if($purchase->payment_method == 'pay_later')
             Unpaid
         @else
-            {{$purchase->payment_method}}
+            {{$purchase->payment_method ?? ''}}
         @endif
       </span></p>
     </td>
@@ -179,7 +179,7 @@
       <strong>Payment Instructions:</strong>
       <p>Please make the payment of £{{$purchase->payable_amount ?? ''}} to the account below within 3 days of receiving this email unless a dispute has
         been raised:</p>
-      <p><strong>Account Name:</strong> Moneywise Investments Plc<br>
+      <p><strong>Account Name:</strong> Moneywise Investments Plc<br> 
         <strong>Account Number:</strong> 00789089<br>
         <strong>Sort Code:</strong> 56-00-31
       </p>
