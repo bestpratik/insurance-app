@@ -262,6 +262,18 @@
                                     title="Resend Documents">
                                     <x-heroicon-o-arrow-path class="w-5 h-5" />
                                 </button>
+
+                                <button wire:click="openResendInvoiceModal({{ $row->id }})"
+                                    @if(in_array($row->id, $sendMail)) disabled @endif
+                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                    title="Resend Invoice">
+                                    <x-heroicon-o-paper-airplane class="w-5 h-5 text-blue-600" />
+                                </button>
+
+                                <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank">
+                                    <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
+                                </a>
+
                                 
                                 <button wire:click="openCancelModal({{ $row->id }})"
                                     @if(in_array($row->id, $cancelledPurchases)) disabled @endif
@@ -351,6 +363,34 @@
     <!--Resend modal end--> 
 
 
-</div>
+      <!--Resend Invoice modal start--> 
+    @if($showResendInvoiceModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+            <button wire:click="closeResendInvoiceModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
+
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Invoice</h2>
+
+            <div>
+                <label for="resendInvoice" class="block text-gray-700 mb-2">Emails:</label>
+                <textarea wire:model="resendInvoice" id="resendInvoice"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your email..."></textarea>
+                @error('resendInvoice') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-4">
+                <button wire:click="closeResendInvoiceModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                <button wire:click="submitResendInvoice" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!--Resend Invoice modal end--> 
+
+
+</div> 
 
 

@@ -29,13 +29,13 @@
                 
 
 
-               <livewire:purchase-list />  
+               <livewire:purchase-list />   
                 
             </div>
         </div>
         </div>
 </x-app-layout>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 <script>
     Livewire.on('swal:success', data => {
         Swal.fire({
@@ -51,6 +51,17 @@
     Livewire.on('swal:message', data => {
         Swal.fire({
             title: 'Purchase cancelled successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
+
+<script>
+    Livewire.on('swal:messages', data => {
+        Swal.fire({
+            title: 'Invoice has been resent successfully!',
             text: data.message,
             icon: 'success',
             confirmButtonText: 'OK'

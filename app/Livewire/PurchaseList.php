@@ -8,6 +8,7 @@ use App\Models\Insurance;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InsuranceBillingEmail;
+use Illuminate\Support\Facades\File;
 use PDF;
 
 class PurchaseList extends Component
@@ -40,6 +41,10 @@ class PurchaseList extends Component
     public $resendDocument;
     public $resendDocPurchaseId = null;
     public $sendMail = [];
+
+    public $showResendInvoiceModal = false;
+    public $resendInvoice;
+    public $resendInvoicePurchaseId = null;
 
     public function render()
     {
@@ -146,7 +151,7 @@ public function submitCancellation()
 }
 
 
-public function openResendModal($purchaseId)
+    public function openResendModal($purchaseId) 
     {
         $this->resendDocPurchaseId = $purchaseId;
         $this->resendDocument = '';
@@ -283,5 +288,184 @@ public function openResendModal($purchaseId)
             return false;
         }
     }
+
+      public function openResendInvoiceModal($purchaseId) 
+    {
+        $this->resendInvoicePurchaseId = $purchaseId;
+        $this->resendInvoice = '';
+        $this->showResendInvoiceModal = true;
+    }
+
+    public function closeResendInvoiceModal()
+    {
+        $this->showResendInvoiceModal = false;
+        $this->resendInvoicePurchaseId = null;
+        $this->resendInvoice = '';
+    }
+
+    // public function submitResendInvoice()
+    // {
+    //     $this->validate([
+    //         'resendInvoice' => 'required|email',
+    //     ]);
+
+    //     $purchase = Purchase::find($this->resendInvoicePurchaseId);
+    //     // dd($purchase);
+    //     if (!$purchase) {
+    //         $this->addError('resendInvoice', 'Purchase not found.');
+    //         return;
+    //     }
+
+    //     $emailList = collect(preg_split('/[\s,]+/', $this->resendInvoice))
+    //         ->filter()
+    //         ->map(fn($email) => trim($email))
+    //         ->unique()
+    //         ->toArray();
+
+    //     if (empty($emailList)) {
+    //         $this->addError('resendInvoice', 'Please enter at least one valid email address.');
+    //         return;
+    //     }
+
+    //     $this->send_email_two($purchase->id, $emailList);
+
+    //     // session()->flash('message', 'Documents resent successfully.');
+    //     // $this->closeResendModal();
+    //     $this->dispatch('swal:success', ['message' => 'Documents resent successfully.']);
+    //     $this->closeResendModal();
+    // }
+
+    // public function send_email_two($purchaseId, $resendEmails = [])
+    // {
+    //     $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+
+    //     if (!$purchase) {
+    //         return 'Purchase not found.';
+    //     }
+
+    //     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    //     $pdfContent = $pdf->output();
+
+    //     $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+    //     $directory = public_path('uploads/invoice');
+    //     $filePath = $directory . '/' . $fileName;
+
+    //     if (!File::exists($directory)) {
+    //         File::makeDirectory($directory, 0755, true);
+    //     }
+
+    //     file_put_contents($filePath, $pdfContent);
+
+    //     // Email details
+    //     $sendToEmails = [$purchase->invoice->billing_email];
+    //     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
+
+    //     $data = [
+    //         'body' => 'Dear client,<br>
+    //                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+    //     ];
+
+    //     try {
+    //         Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase, $resendEmails) {
+    //             $message->to($sendToEmails);
+    //             $message->subject($emailSubject);
+
+    //             $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
+    //             $message->cc($ccEmails);
+
+    //             // $existingCopyEmails = explode(',', $purchase->invoice->copy_email ?? '');
+    //             // $ccEmails = array_filter(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
+    //             // $ccEmails = array_map('trim', $ccEmails);
+    //             // $ccEmails = array_unique($ccEmails);
+
+    //             // $message->cc($ccEmails);
+    //             // $message->bcc(['bestpratik@gmail.com']);
+    //             $message->attach($filePath);
+    //         });
+
+    //         return response()->download($filePath);
+    //     } catch (Exception $e) {
+    //         return $e->getMessage();
+    //     }
+    // }
+
+
+    public function submitResendInvoice()
+{
+    $this->validate([
+        'resendInvoice' => 'required|string',
+    ]);
+
+    $purchase = Purchase::find($this->resendInvoicePurchaseId);
+
+    if (!$purchase) {
+        $this->addError('resendInvoice', 'Purchase not found.');
+        return;
+    }
+
+    $emailList = collect(preg_split('/[\s,]+/', $this->resendInvoice))
+        ->filter(fn($email) => filter_var(trim($email), FILTER_VALIDATE_EMAIL))
+        ->map(fn($email) => trim($email))
+        ->unique()
+        ->values()
+        ->toArray();
+
+    if (empty($emailList)) {
+        $this->addError('resendInvoice', 'Please enter at least one valid email address.');
+        return;
+    }
+
+    $this->send_email_two($purchase->id, $emailList);
+
+    $this->dispatch('swal:messages', ['message' => 'Invoice has been resent successfully!']);
+    $this->closeResendInvoiceModal();
+}
+
+public function send_email_two($purchaseId, $resendEmails = [])
+{
+    $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
+        ->find($purchaseId);
+
+    if (!$purchase) {
+        return;
+    }
+
+    $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    $pdfContent = $pdf->output();
+
+    $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+    $directory = public_path('uploads/invoice');
+    $filePath = $directory . '/' . $fileName;
+
+    if (!File::exists($directory)) {
+        File::makeDirectory($directory, 0755, true);
+    }
+
+    file_put_contents($filePath, $pdfContent);
+
+    $sendToEmails = [$purchase->invoice->billing_email];
+    $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
+
+    $data = [
+        'body' => 'Dear client,<br>Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+    ];
+
+    try {
+        Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase, $resendEmails) {
+            $message->to($sendToEmails);
+            $message->subject($emailSubject);
+
+            $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
+            $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
+
+            $message->cc($ccEmails);
+            $message->attach($filePath);
+        });
+    } catch (Exception $e) {
+        report($e);
+    }
+}
+
+
 
 }

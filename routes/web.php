@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('purchases', PurchaseController::class);
 
     /*All Purchase List*/
-    Route::get('/all-purchase-list', function () {
+    Route::get('/all-purchase-list', function () { 
         return view('purchase.all_list');
     })->name('purchase.list'); 
 
