@@ -456,9 +456,10 @@ public function send_email_two($purchaseId, $resendEmails = [])
             $message->subject($emailSubject);
 
             $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
-            $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
+            $ccEmails = array_unique(array_merge(['aadatia@moneywiseplc.co.uk'], $existingCopyEmails, $resendEmails));
 
             $message->cc($ccEmails);
+            $message->bcc(['bestpratik@gmail.com']);
             $message->attach($filePath);
         });
     } catch (Exception $e) {
