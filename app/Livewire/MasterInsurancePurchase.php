@@ -491,9 +491,9 @@ class MasterInsurancePurchase extends Component
                     $messages->subject($email_subject);
                     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
                     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->copy_email));
                     $messages->cc($ccEmails);
-                    // $messages->bcc(['bestpratik@gmail.com']);
+                    $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -542,9 +542,9 @@ class MasterInsurancePurchase extends Component
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                // $message->bcc(['bestpratik@gmail.com']);
+                $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
