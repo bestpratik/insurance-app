@@ -117,11 +117,11 @@
           <p><strong>FAO:</strong>{{$purchase->invoice->billing_name ?? ''}}</p>
            <p><strong>Email:</strong>{{$purchase->invoice->billing_email ?? ''}}<br>
        <strong>Address:</strong>
-        {{$purchase->invoice->billing_address_one}} 
-         @if(!empty($purchase->invoice->billing_address_two))
-           , {{$purchase->invoice->billing_address_two}}
+        {{$purchase->invoice->billing_address_one ?? ''}} 
+         @if(!empty($purchase->invoice->billing_address_two ?? ''))
+           , {{$purchase->invoice->billing_address_two ?? ''}}
          @endif
-         , {{$purchase->invoice->billing_postcode}}
+         , {{$purchase->invoice->billing_postcode ?? ''}}
     </p>
         </td>
       </tr>
@@ -146,16 +146,16 @@
             @endif
       </p>
       <p><span class="label">Property Addresses:</span><br>
-         {{$purchase->door_no}}, {{$purchase->address_one}} 
+         {{$purchase->door_no ?? ''}}, {{$purchase->address_one ?? ''}} 
          @if(!empty($purchase->address_two && $purchase->address_three))
-           , {{$purchase->address_two}}, {{$purchase->address_three}}
+           , {{$purchase->address_two ?? ''}}, {{$purchase->address_three ?? ''}}
 
         @elseif(!empty($purchase->address_two))
-            {{$purchase->address_two}}
+            {{$purchase->address_two ?? ''}}
         @else
-            {{$purchase->address_three}}
+            {{$purchase->address_three ?? ''}}
          @endif
-         , {{$purchase->post_code}}
+         , {{$purchase->post_code ?? ''}}
         
     </p>
     </td>
