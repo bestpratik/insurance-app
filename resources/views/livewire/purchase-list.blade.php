@@ -317,7 +317,8 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
 
             <div>
-                <label for="cancelReason" class="block text-gray-700 mb-2">Reason for cancellation:</label>
+                <label for="cancelReason" class="block text-gray-700 mb-2"><span
+                                    class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
                 <textarea wire:model="cancelReason" id="cancelReason"
                         class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
                         placeholder="Enter your reason..."></textarea>
@@ -346,7 +347,10 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Documents</h2>
 
             <div>
-                <label for="resendDocument" class="block text-gray-700 mb-2">Emails:</label>
+                
+                <label for="resendDocument" class="block text-gray-700"><span
+                                    class="text-red-600 text-xl">*</span>Emails:</label>
+                <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
                 <textarea wire:model="resendDocument" id="resendDocument"
                         class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
                         placeholder="Enter your email..."></textarea>
@@ -374,7 +378,10 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Invoice</h2>
 
             <div>
-                <label for="resendInvoice" class="block text-gray-700 mb-2">Emails:</label>
+                
+                <label for="resendInvoice" class="block text-gray-700"><span
+                                    class="text-red-600 text-xl">*</span>Emails:</label>
+                <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
                 <textarea wire:model="resendInvoice" id="resendInvoice"
                         class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
                         placeholder="Enter your email..."></textarea>
