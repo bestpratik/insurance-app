@@ -25,7 +25,7 @@
                     </div>
                 @endif
                 <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
-                    action="{{route('insurance.static.document.submit', $insurance->id)}}"
+                    action="{{route('insurance.static.document.submit', $insurance->uuid)}}"
                     enctype="multipart/form-data">
                     @csrf
 
@@ -71,14 +71,14 @@
                     </div>
 
                     <div class="pt-6 flex justify-center space-x-4">
-                        <a href="{{route('insurance.pricing', $insurance->id)}}"
+                        <a href="{{route('insurance.pricing', $insurance->uuid)}}"
                             class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2">
                             <x-heroicon-o-chevron-left class="h-6 w-6" />
                             <span class="text-md">Previous</span>
                         </a>
 
 
-                        <a href="{{route('insurance.dynamic.document', $insurance->id)}}"
+                        <a href="{{route('insurance.dynamic.document', $insurance->uuid)}}"
                             class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
                             <span class="text-md">Next</span>
                             <x-heroicon-o-chevron-right class="h-6 w-6" />

@@ -62,13 +62,16 @@ class PurchaseEdit extends Component
     // Step 8: Summary data
     public $summaryData = [];
 
-    public function mount($purchaseId = null)
+
+
+    public function mount($policyNo = null) 
     {
-        $this->purchaseId=$purchaseId;
-        $this->purchaseData= Purchase::with('invoice')->where('id',$purchaseId)->first();
+      
+        $this->purchaseData= Purchase::with('invoice')->where('policy_no', $policyNo)->firstOrFail();
+        $this->purchaseId = $this->purchaseData->id;
         $this->insuranceList=Insurance::all();
 
-        if($purchaseId){
+        if($this->purchaseId){
             $this->productType = $this->purchaseData->product_type;
             $this->insuranceType = $this->purchaseData->insurance_type;
             $this->selectedinsuranceId = $this->purchaseData->insurance_id;

@@ -25,7 +25,7 @@
                     </div>
                 @endif
                 <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
-                    action="{{ route('insurances.update', $insurance->id) }}" enctype="multipart/form-data">
+                    action="{{ route('insurances.update', $insurance->uuid) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 

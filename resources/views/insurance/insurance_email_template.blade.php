@@ -23,10 +23,10 @@
                     </div>
                 @endif
                 <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
-                    action="{{ route('insurance.email.template.update', $insurance->id) }}"
+                    action="{{ route('insurance.email.template.update', $insurance->uuid) }}"
                     enctype="multipart/form-data">
                     @csrf
-
+                     @method('PUT')
 
 
                     <label class="block">
@@ -125,7 +125,7 @@
 
 
                     <div class="pt-6 flex justify-center space-x-4">
-                        <a href="{{ route('insurance.dynamic.document', $insurance->id) }}"
+                        <a href="{{ route('insurance.dynamic.document', $insurance->uuid) }}" 
                             class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2">
                             <x-heroicon-o-chevron-left class="h-6 w-6" />
                             <span class="text-md">Previous</span>
