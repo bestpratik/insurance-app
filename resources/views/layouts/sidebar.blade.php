@@ -69,7 +69,7 @@
         <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 
         @if (request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Purchased Cancel List</span>
+        <span class="sidebar-item-text">Canceled List</span>
     </a>
 
 

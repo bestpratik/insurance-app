@@ -21,7 +21,7 @@
                     </div>
                 @endif
                 
-                <livewire:purchase-edit :purchaseId="$id"/>        
+                <livewire:purchase-edit :policyNo="$purchase->policy_no"/>    
             </div>
         </div>
     </div>

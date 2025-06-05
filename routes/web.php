@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     })->name('purchase.cancel.list'); 
 
     //Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
-    Route::get('purchase/edit/{id}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
+    Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');  
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details'); 
@@ -44,11 +44,11 @@ Route::middleware('auth')->group(function () {
     // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
     Route::get('/insurance-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
 
-    Route::get('insurance/pricing/{id}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
-    Route::post('insurance/pricing/submit/{id}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
+    Route::get('insurance/pricing/{uuid}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
+    Route::post('insurance/pricing/submit/{uuid}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
 
-    Route::get('insurance/static-doc/{id}', [InsuranceController::class, 'static_document'])->name('insurance.static.document');
-    Route::post('insurance/static/document/submit/{id}', [InsuranceController::class, 'static_document_submit'])->name('insurance.static.document.submit');
+    Route::get('insurance/static-doc/{uuid}', [InsuranceController::class, 'static_document'])->name('insurance.static.document');
+    Route::post('insurance/static/document/submit/{uuid}', [InsuranceController::class, 'static_document_submit'])->name('insurance.static.document.submit');
     Route::delete('insurance/static/delete/{id}', [InsuranceController::class, 'static_document_delete'])->name('insurance.static.delete');
 
     Route::get('insurance/dynamic-doc/{id}', [InsuranceController::class, 'dynamic_document'])->name('insurance.dynamic.document');
@@ -57,9 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::put('insurance/dynamic/update/{id}/{insurancedynamicdocId}', [InsuranceController::class, 'dynamic_document_update'])->name('insurance.dynamic.update');
 
     Route::get('insurance/email-template/{id}', [InsuranceController::class, 'insurance_email_template'])->name('insurance.email.template');
-    Route::post('insurance/email-template/update/{id}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');
+    Route::put('insurance/email-template/update/{uuid}', [InsuranceController::class, 'insurance_email_template_update'])->name('insurance.email.template.update');
 
-    Route::get('insurance/summary/{id}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
+    Route::get('insurance/summary/{uuid}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
     Route::post('/insurance/invoice-submit/{id}', [InsuranceController::class, 'invoiceSubmit'])->name('insurance.invoice.submit');
     Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
     // Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');

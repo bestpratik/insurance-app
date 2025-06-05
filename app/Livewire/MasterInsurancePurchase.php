@@ -413,9 +413,9 @@ class MasterInsurancePurchase extends Component
             $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
             $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
             $pdfDynamicval[] = $purchase->policy_term;
-            $pdfDynamicval[] = $insurance->net_premium;
-            $pdfDynamicval[] = $insurance->ipt;
-            $pdfDynamicval[] = $insurance->gross_premium;
+            $pdfDynamicval[] = $purchase->net_premium;
+            $pdfDynamicval[] = $purchase->ipt;
+            $pdfDynamicval[] = $purchase->gross_premium;
             $pdfDynamicval[] = $purchase->rent_amount;
             $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
 
@@ -465,9 +465,9 @@ class MasterInsurancePurchase extends Component
             $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
             $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
             $bodyValue[] = $purchase->policy_term;
-            $bodyValue[] = $insurance->net_premium;
-            $bodyValue[] = $insurance->ipt;
-            $bodyValue[] = $insurance->gross_premium;
+            $bodyValue[] = $purchase->net_premium;
+            $bodyValue[] = $purchase->ipt;
+            $bodyValue[] = $purchase->gross_premium;
             $bodyValue[] = $purchase->rent_amount;
             $bodyValue[] = $riskAddress;
             $bodyValue[] = $insurartitle;
@@ -491,9 +491,9 @@ class MasterInsurancePurchase extends Component
                     $messages->subject($email_subject);
                     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
                     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->copy_email));
+                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
                     $messages->cc($ccEmails);
-                    $messages->bcc(['bestpratik@gmail.com']);
+                    // $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
                     }
@@ -542,9 +542,9 @@ class MasterInsurancePurchase extends Component
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->invoice->copy_email));
+                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 

@@ -9,27 +9,31 @@ class Insurance extends Model
 {
     use Sluggable;
 
+
     protected $table = 'insurances';
     protected $fillable = [
+        'uuid',
+        'type_of_insurance',
         'name',
-        'provider_type',
         'slug',
+        'provider_type',
         'prefix',
+        'rent_amount_from',
+        'rent_amount_to',
+        'validity',
         'net_premium',
         'commission',
         'gross_premium',
         'ipt',
         'total_premium',
         'payable_amount',
+        'ipt_on_billable_amount',
+        'admin_fee',
+        'details_of_cover',
         'image',
         'status',
         'created_at',
         'updated_at',
-        'type_of_insurance',
-        'rent_amount_from',
-        'rent_amount_to',
-        'details_of_cover',
-        'validity',
     ];
 
     public function sluggable(): array

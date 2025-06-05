@@ -18,7 +18,7 @@
                         {{ $message }}
                     </div>
                 @endif
-                <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{route('insurance.pricing.submit', $insurance->id)}}"
+                <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post" action="{{route('insurance.pricing.submit', $insurance->uuid)}}"
                     enctype="multipart/form-data">
                     @csrf
 
@@ -58,6 +58,11 @@
                         </label>
 
                         <label class="block">
+                            <span class="text-gray-700">Admin Fee</span>
+                            <input name="admin_fee" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter admin fee" value="{{ old('admin_fee', $insurance->admin_fee) }}">
+                        </label>
+
+                        <label class="block">
                             <span class="text-gray-700">Billable Amount</span>
                             <input name="payable_amount" type="number" step="0.01" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter final amount to be paid" value="{{ old('payable_amount', $insurance->payable_amount) }}">
                         </label>
@@ -66,11 +71,11 @@
                             <span class="text-gray-700">IPT on Billable Amount</span>
                             <input name="ipt_on_billable_amount" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter final amount to be paid" value="{{ old('ipt_on_billable_amount', $insurance->ipt_on_billable_amount) }}" readonly>
                         </label>
-                        
+
                     </div>
 
                     <div class="pt-6 flex justify-center space-x-4">
-                        <a class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2" href="{{route('insurances.edit',$insurance->id)}}">
+                        <a class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2" href="{{route('insurances.edit',$insurance->uuid)}}">
                         
                             <x-heroicon-o-chevron-left class="h-6 w-6" />
                             <span class="text-md">Previous</span>
@@ -118,7 +123,8 @@
             iptInput.value = ipt.toFixed(2);
             totalPremiumInput.value = totalPremium.toFixed(2);
             payableAmountInput.value = totalPremiumInput.value; 
-            iptOnPayableAmountInput.value = payableAmountInput.value - ipt;
+            iptOnPayableAmountInput.value = iptInput.value;
+            // iptOnPayableAmountInput.value = payableAmountInput.value - ipt;
         }
 
         netPremiumInput.addEventListener('input', calculatePremiums);

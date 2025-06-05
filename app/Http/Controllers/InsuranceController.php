@@ -14,6 +14,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PolicyHolderEmail;
 use PDF;
+use Illuminate\Support\Str;
 
 
 
@@ -188,30 +189,28 @@ class InsuranceController extends Controller
         $insurance->rent_amount_from = $request->rent_amount_from;
         $insurance->rent_amount_to = $request->rent_amount_to;
         $insurance->details_of_cover = $request->details_of_cover;
-        // $insurance->gross_premium = $insurance->net_premium + $insurance->commission;
-        // $insurance->ipt = $insurance->gross_premium * 0.12;
-        // $insurance->total_premium = $insurance->gross_premium + $insurance->ipt;
-        // $insurance->payable_amount = $insurance->total_premium - $insurance->commission;
+        $insurance->uuid = Str::uuid();
         // dd($insurance);
         $insurance->save();
 
-        return redirect()->route('insurance.pricing',$insurance->id);
+        return redirect()->route('insurance.pricing',$insurance->uuid);
         // return redirect('insurances')->with('message', 'Insurance created successfully');
     }
 
-    public function insurance_pricing($id){
-        $insurance = Insurance::find($id);
+    public function insurance_pricing($uuid){
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+        // dd($insurance);
         return view('insurance.pricing', compact('insurance'));
     }
 
 
-    public function insurance_pricing_submit(Request $request, $id){
+    public function insurance_pricing_submit(Request $request, $uuid){
             $request->validate([
                 'net_premium' => 'required',
                 'commission' => 'required',
             ]);
 
-            $insurance = Insurance::find($id);
+            $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
 
             $insurance->net_premium = $request->net_premium;
             $insurance->commission = $request->commission;
@@ -220,27 +219,31 @@ class InsuranceController extends Controller
             $insurance->total_premium = $request->total_premium;
             $insurance->payable_amount = $request->payable_amount;
             $insurance->ipt_on_billable_amount = $request->ipt_on_billable_amount;
+            $insurance->admin_fee = $request->admin_fee;
             // dd($insurance);
             $insurance->update();
-            return redirect()->route('insurance.static.document',$insurance); 
+            return redirect()->route('insurance.static.document',$insurance->uuid); 
     }
 
-    public function static_document($id){
-        $insurance = Insurance::find($id);
+    public function static_document($uuid){
+        // dd($uuid);
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+        // dd($insurance);
         $insurancedoc=Insurancedocument::where('insurance_id',$insurance->id)->get();
         // dd($insurancedoc);
         return view('insurance.static_doc', compact('insurance','insurancedoc'));
     }
 
-    public function static_document_submit(Request $request, $id){
+    public function static_document_submit(Request $request, $uuid){
         $request->validate([
                 'title' => 'required',
                 'document' => 'required|mimes:pdf,docx|max:6144',
             ]);
-
+            
+            
             $Insurancedocument = new Insurancedocument;
-
-            $Insurancedocument->insurance_id = $id;
+            $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+            $Insurancedocument->insurance_id = $insurance->id;
             $Insurancedocument->title = $request->title;
 
             $destinationPath = public_path('uploads/insurance_document/');
@@ -259,11 +262,11 @@ class InsuranceController extends Controller
             $Insurancedocument->save();
             // return redirect()->back()->with('message','Static Document Added Successfully!');
 
-            return redirect()->route('insurance.static.document',$id); 
+            return redirect()->route('insurance.static.document',$insurance->uuid); 
     }
 
-    public function static_document_delete($id){
-        $Insurancedocument = Insurancedocument::find($id);
+    public function static_document_delete($uuid){
+        $Insurancedocument = Insurancedocument::where('uuid', $uuid)->firstOrFail();
         if($Insurancedocument)
         {
             $destination = public_path('uploads/insurance_document/'.$Insurancedocument->document); 
@@ -277,8 +280,8 @@ class InsuranceController extends Controller
         }
     }
 
-    public function dynamic_document($id){  
-        $insurance = Insurance::find($id);
+    public function dynamic_document($uuid){  
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
        
         $purchase = Purchase::where('insurance_id', $insurance->id)->get();
         // dd($purchase);
@@ -287,7 +290,7 @@ class InsuranceController extends Controller
         return view('insurance.dynamic_doc', compact('insurance','insurancedynamicdoc'));
     }
 
-    public function dynamic_document_submit(Request $request, $id){
+    public function dynamic_document_submit(Request $request, $uuid){
         $request->validate([
                 'title' => 'required',
                 'description' => 'required',
@@ -295,7 +298,8 @@ class InsuranceController extends Controller
 
             $insurancedynamicdoc = new Insurancedynamicdocument;
 
-            $insurancedynamicdoc->insurance_id = $id;
+            $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+            $insurancedynamicdoc->insurance_id = $insurance->id;
             $insurancedynamicdoc->title = $request->title;
             // $insurancedynamicdoc->header = $request->header;
             $insurancedynamicdoc->description = $request->description;
@@ -305,7 +309,7 @@ class InsuranceController extends Controller
             $insurancedynamicdoc->save();
             // return redirect()->back()->with('message','Static Document Added Successfully!');
 
-            return redirect()->route('insurance.dynamic.document',$id); 
+            return redirect()->route('insurance.dynamic.document',$insurance->uuid); 
     }
 
     // public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId){
@@ -328,7 +332,7 @@ class InsuranceController extends Controller
     // }
 
 
-    public function dynamic_document_update(Request $request, $id, $insurancedynamicdocId)
+    public function dynamic_document_update(Request $request, $uuid, $insurancedynamicdocId)
 {
     $request->validate([
         'title' => 'string',
@@ -336,6 +340,7 @@ class InsuranceController extends Controller
     ]);
 
     $insurancedynamicdoc = Insurancedynamicdocument::find($insurancedynamicdocId);
+    
 
     if (!$insurancedynamicdoc) {
         return response()->json([
@@ -364,46 +369,51 @@ class InsuranceController extends Controller
         }
     }
 
-    public function insurance_email_template($id){
-        $insurance=Insurance::find($id);
-        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->first(); 
-        // dd($insuranceEmailTemplate);
+    public function insurance_email_template($uuid){
+        $insurance=Insurance::where('uuid', $uuid)->firstOrFail();
+        $insuranceEmailTemplate=Insuranceemailtemplate::where('id',$insurance->id)->first(); 
+        // dd($insurance);
         return view('insurance.insurance_email_template', compact('insurance','insuranceEmailTemplate'));
     }
 
-    public function insurance_email_template_update(Request $request, $id){
+    public function insurance_email_template_update(Request $request, $uuid){
         $request->validate([
                 'title' => 'required',
                 'description' => 'required',
         ]);
-        $insurance=Insurance::find($id);
-
-        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$id)->first();
+       
+    
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+        // dd($insurance);
+        $insuranceEmailTemplate = Insuranceemailtemplate::where('insurance_id', $insurance->id)->first();
+    //    dd($insuranceEmailTemplate);
+        // // $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->first();
     
         if ($insuranceEmailTemplate != null) {
            
-           $mailTemplate = Insuranceemailtemplate::where('insurance_id',$id)->first();
+           $mailTemplate = Insuranceemailtemplate::where('insurance_id',$insurance->id)->first();
            $mailTemplate->title = $request->title;
            $mailTemplate->description = $request->description;
            $mailTemplate->update();
-           return redirect()->route('insurance.summary',$insurance->id);
+           return redirect()->route('insurance.summary',$insurance->uuid);
     
         } else {
            
             $mailTemplate = new Insuranceemailtemplate;
             $mailTemplate->title = $request->title;
             $mailTemplate->description = $request->description;
-            $mailTemplate->insurance_id = $id;
+            $mailTemplate->insurance_id = $uuid;
     
             $mailTemplate->save();
             return redirect()->route('insurance.summary',$insurance->id); 
         }
 
+
         // return redirect()->route('insurance.email.template',$insuranceEmailTemplate); 
     }
 
-    public function insurance_summary($id){
-        $insurance = Insurance::with('provider','purchase','staticdocuments','dynamicdocument','insurancemailtemplate')->find($id);
+    public function insurance_summary($uuid){
+        $insurance = Insurance::where('uuid', $uuid)->with('provider','purchase','staticdocuments','dynamicdocument','insurancemailtemplate')->firstOrFail();
         // dd($insurance);
         return view('insurance.insurance_summary', compact('insurance')); 
     }
@@ -432,23 +442,23 @@ class InsuranceController extends Controller
     }
 
     
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
         $provider = Provider::where('status', 1)->get();
-        $insurance = Insurance::find($id);
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
         // dd($insurance);
 
         return view('insurance.edit', compact('provider','insurance'));
     }
 
   
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
          $request->validate([
             'name'           => 'required',
         ]);
 
-        $insurance = Insurance::find($id);
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
         $insurance->prefix = $request->prefix;
@@ -457,6 +467,7 @@ class InsuranceController extends Controller
         $insurance->rent_amount_from = $request->rent_amount_from;
         $insurance->rent_amount_to = $request->rent_amount_to;
         $insurance->details_of_cover = $request->details_of_cover;
+ 
 
     
 
@@ -476,15 +487,15 @@ class InsuranceController extends Controller
 
         $insurance->save();
 
-        return redirect()->route('insurance.pricing',$insurance->id)->with('message', 'Insurance updated successfully.');
+        return redirect()->route('insurance.pricing',$insurance->uuid)->with('message', 'Insurance updated successfully.');
 
         // return redirect('insurances')->with('message', 'Insurance updated successfully.');
     }
 
     
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $insurance = Insurance::find($id);
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
         if($insurance){
             $destination = public_path('uploads/insurances/'.$insurance->image);
             if(File::exists($destination)){
