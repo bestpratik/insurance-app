@@ -70,6 +70,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('test-mail', [InsuranceController::class, 'testmail']);
 
+    /*Datewise Purchase Report*/
+    Route::get('/date-wise-purchase-report', function () { 
+        return view('purchase.datewise_report');
+    })->name('purchase.datewise');
+
 
 
 });
