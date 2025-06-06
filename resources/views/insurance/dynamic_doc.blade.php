@@ -579,7 +579,7 @@
 <script type="text/javascript">
     $('.dropify').dropify();
 </script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     function myFunction(targetId) {
         //alert(targetId);
