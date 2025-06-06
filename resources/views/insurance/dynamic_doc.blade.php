@@ -22,7 +22,7 @@
                 </div>
                 @endif
                 <form class="pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
-                    action="{{ route('insurance.dynamic.document.submit', $insurance->id) }}"
+                    action="{{ route('insurance.dynamic.document.submit', $insurance->uuid) }}"
                     enctype="multipart/form-data">
                     @csrf
 
@@ -40,7 +40,7 @@
                         </label>
                     </div>
 
-                    <label class="block">
+                    <!-- <label class="block">
                         <span class="text-gray-700">Header</span>
                         <p class="text-gray-400" style="font-size: 14px;">Enter your template header.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote bg-white"
@@ -49,7 +49,8 @@
                         @error('header')
                         <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
-                    </label>
+                    </label> -->
+
                     <div class="flex flex-wrap gap-2">
                         <p class="text-gray-400" style="font-size: 14px;">You can use the following field tags and their
                             descriptions when filling out your insurance document. These tags will help structure the
@@ -142,7 +143,7 @@
                         @enderror
                     </label>
 
-                    <label class="block">
+                    <!-- <label class="block"> 
                         <span class="text-gray-700">Footer</span>
                         <p class="text-gray-400" style="font-size: 14px;">Enter your template footer.</p>
                         <textarea class="w-full mt-1 p-2 border rounded-md border-[#66666660] summernote" name="footer"
@@ -151,7 +152,8 @@
                         @error('footer')
                         <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
-                    </label>
+                    </label> -->
+
                     <div class="">
                         <button
                             class="flex items-center justify-between text-center rounded-md w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
@@ -166,7 +168,7 @@
 
 
                     <div class="pt-2 pb-4 flex justify-center space-x-4">
-                        <a href="{{ route('insurance.static.document', $insurance->id) }}"
+                        <a href="{{ route('insurance.static.document', $insurance->uuid) }}"
                             class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md shadow hover:bg-gray-200 transition inline-flex items-center gap-2">
                             <x-heroicon-o-chevron-left class="h-6 w-6" />
                             <span class="text-md">Previous</span>
@@ -174,7 +176,7 @@
 
 
 
-                        <a href="{{ route('insurance.email.template', $insurance->id) }}"
+                        <a href="{{ route('insurance.email.template', $insurance->uuid) }}"
                             class="flex items-center justify-between text-center rounded-md md:w-[110px] w-[140px]  px-3 py-2 bg-green-800 text-white rounded hover:bg-green-600 transition-all duration-300">
                             <span class="text-md">Next</span>
                             <x-heroicon-o-chevron-right class="h-6 w-6" />

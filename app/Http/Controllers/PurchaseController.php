@@ -107,10 +107,13 @@ class PurchaseController extends Controller
         return view('purchase.list', compact('purchases'));
     }
 
-    public function purchaselist_edit($id){
-        $purchase = Purchase::find('insurance_id', $id)->first();
+    public function purchaselist_edit($policy_no){ 
+        $purchase = Purchase::where('policy_no', $policy_no)->firstOrFail();
         return view('purchase.edit', compact('purchase'));
     }
+
+
+
 
     // public function successPage(){
     //     $purchase = Purchase::all();

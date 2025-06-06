@@ -227,9 +227,9 @@ public function submitCancellation()
             date('jS F Y', strtotime($purchase->policy_end_date)),
             date('jS F Y', strtotime($purchase->purchase_date)),
             $purchase->policy_term,
-            $insurance->net_premium,
-            $insurance->ipt,
-            $insurance->gross_premium,
+            $purchase->net_premium,
+            $purchase->ipt,
+            $purchase->gross_premium,
             $purchase->rent_amount,
         ];
 

@@ -69,7 +69,16 @@
         <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 
         @if (request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Purchased Cancel List</span>
+        <span class="sidebar-item-text">Canceled List</span>
+    </a>
+
+    <a href="{{ route('purchase.datewise') }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
+    @if (request()->is('date-wise-purchase-report')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 
+        @if (request()->is('date-wise-purchase-report')) text-white 
+        @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Purchased List (Datewise)</span>
     </a>
 
 

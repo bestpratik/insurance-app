@@ -242,10 +242,10 @@
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
-                                <a href="{{route('purchase.edit',$row->id)}}" class="text-indigo-600 hover:text-indigo-900">
+                                <a href="{{route('purchase.edit',$row->policy_no)}}" class="text-indigo-600 hover:text-indigo-900" title="Edit">
                                     <x-heroicon-o-pencil-square class="w-5 h-5" />
                                 </a>
-                                <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900">
+                                <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900" title="Details View">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
 
@@ -270,7 +270,7 @@
                                     <x-heroicon-o-paper-airplane class="w-5 h-5 text-blue-600" />
                                 </button>
 
-                                <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank">
+                                <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">
                                     <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
                                 </a>
 
