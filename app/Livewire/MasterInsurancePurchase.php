@@ -485,19 +485,43 @@ class MasterInsurancePurchase extends Component
             );
 
             try {
-                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
-                    //$messages->to($user['to']); 
-                    $messages->to($sendToemils);
-                    $messages->subject($email_subject);
-                    // $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                    // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
-                    $messages->cc($ccEmails);
-                    // $messages->bcc(['bestpratik@gmail.com']);
-                    foreach ($allDocs as $attachment) {
-                        $messages->attach($attachment);
+
+                 $copyEmails = explode(',', $purchase->copy_email);
+                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                        return filter_var($email, FILTER_VALIDATE_EMAIL);
+                    });
+
+                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+
+                    foreach ($sendToemils as $email) {
+                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            throw new \Exception("Invalid To Email: $email");
+                        }
                     }
-                });
+
+                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $ccEmails) {
+                        $messages->to($sendToemils);
+                        $messages->subject($email_subject);
+                        $messages->cc($ccEmails);
+
+                        foreach ($allDocs as $attachment) {
+                            $messages->attach($attachment);
+                        }
+                    });
+
+                // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
+                //     //$messages->to($user['to']); 
+                //     $messages->to($sendToemils);
+                //     $messages->subject($email_subject);
+                //     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
+                //     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
+                //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
+                //     $messages->cc($ccEmails);
+                //     // $messages->bcc(['bestpratik@gmail.com']);
+                //     foreach ($allDocs as $attachment) {
+                //         $messages->attach($attachment);
+                //     }
+                // });
 
                 return true;
             } catch (Exception $e) {

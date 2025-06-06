@@ -104,7 +104,7 @@ class PurchaseList extends Component
         }
 
         if (!empty($this->tenantEmail)) {
-            $query->where('tenant_email', $this->tenantEmail);
+            $query->where('tenant_email', $this->tenantEmail); 
         }
 
         $purchases = $query->paginate($this->perPage);
