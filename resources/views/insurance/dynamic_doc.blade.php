@@ -5,10 +5,10 @@
         </h2>
     </x-slot>
     @if ($message = Session::get('message'))
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-        {{ $message }}
-    </div>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+            {{ $message }}
+        </div>
     @endif
 
     <div class="card bg-white rounded-lg border">
@@ -17,9 +17,9 @@
                 @include('insurance.menu')
 
                 @if ($message = Session::get('onboarderror'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ $message }}
-                </div>
+                    <div class="alert alert-success alert-dismissible">
+                        {{ $message }}
+                    </div>
                 @endif
                 <form class="pb-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
                     action="{{ route('insurance.dynamic.document.submit', $insurance->uuid) }}"
@@ -35,7 +35,7 @@
                                 value="{{ old('title') }}" placeholder="Enter Title Name.." />
 
                             @error('title')
-                            <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                                <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                             @enderror
                         </label>
                     </div>
@@ -58,74 +58,74 @@
 
                         <input type="hidden" value="%InsuranceName%" id="insuranceName">
                         <button onclick="myFunction('insuranceName')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
                             Name</button>
 
                         <input type="hidden" value="%policyNo%" id="policyNo">
                         <button onclick="myFunction('policyNo')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             No</button>
 
                         <input type="hidden" value="%policyHolderAddress1%" id="policyHolderAddress1">
                         <button onclick="myFunction('policyHolderAddress1')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             Address</button>
 
                         <input type="hidden" value="%policyStartdate%" id="policyStartdate">
                         <button onclick="myFunction('policyStartdate')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             start date</button>
 
                         <input type="hidden" value="%policyEnddate%" id="policyEnddate">
                         <button onclick="myFunction('policyEnddate')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             end/expiry date</button>
 
                         <input type="hidden" value="%purchaseDate%" id="purchaseDate">
                         <button onclick="myFunction('purchaseDate')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Purchase
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Purchase
                             date</button>
 
                         <input type="hidden" value="%policyTerm%" id="policyTerm">
                         <button onclick="myFunction('policyTerm')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Policy
                             Term</button>
 
                         <!--New fields added-->
                         <input type="hidden" value="%netAnnualpremium%" id="netAnnualpremium">
                         <button onclick="myFunction('netAnnualpremium')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Net
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Net
                             Annual Premium</button>
 
                         <input type="hidden" value="%insurancePremiumtax%" id="insurancePremiumtax">
                         <button onclick="myFunction('insurancePremiumtax')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurance
                             Premium Tax</button>
 
                         <input type="hidden" value="%grossPremium%" id="grossPremium">
                         <button onclick="myFunction('grossPremium')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Gross
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Gross
                             Premium</button>
 
                         <input type="hidden" value="%rentAmount%" id="rentAmount">
                         <button onclick="myFunction('rentAmount')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
                             Amount</button>
 
                         <!-- new add -->
                         <input type="hidden" value="%riskAddress%" id="riskAddress">
                         <button onclick="myFunction('riskAddress')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Risk
                             Address</button>
 
                         <input type="hidden" value="%insurerTitle%" id="insurerTitle">
                         <button onclick="myFunction('insurerTitle')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Insurer
                             title</button>
 
                         <input type="hidden" value="%detailsofCover%" id="detailsofCover">
                         <button onclick="myFunction('detailsofCover')" type="button"
-                            class="flex items-center justify-between text-center rounded-md  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Details
                             of Cover</button>
 
                     </div>
@@ -139,7 +139,7 @@
                             name="description" id="" rows="2">{{ old('description') }}</textarea>
 
                         @error('description')
-                        <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
+                            <p class="text-theme-xs text-red-500 mt-1.5">{{ $message }}</p>
                         @enderror
                     </label>
 
@@ -214,60 +214,57 @@
                     <tbody class="divide-y divide-gray-100">
                         @php $i = 0; @endphp
                         @forelse ($insurancedynamicdoc as $row)
-                        @php $i++; @endphp
+                            @php $i++; @endphp
 
-                        <tr>
-                            <td class="px-6 py-3 whitespace-nowrap">
-                                <span class="block font-medium text-gray-700 text-theme-sm">{{ $i }}</span>
-                            </td>
+                            <tr>
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <span class="block font-medium text-gray-700 text-theme-sm">{{ $i }}</span>
+                                </td>
 
-                            <td class="px-6 py-3 whitespace-nowrap">
-                                <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
-                                    {{ $row->title ?? '' }}
-                                </span>
-                            </td>
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700">
+                                        {{ $row->title ?? '' }}
+                                    </span>
+                                </td>
 
-                            <td class="px-6 py-3 whitespace-nowrap">
+                                <td class="px-6 py-3 whitespace-nowrap">
 
-                                <div class="flex items-center justify-center gap-3">
-                                    <!-- edit button -->
-                                    <button type="button"
-                                        class="text-yellow-600 hover:text-yellow-800"
-                                        data-id="{{ $row->id }}"
-                                        data-insurance-id="{{ $row->insurance_id }}"
-                                        data-title="{{ $row->title }}"
-                                        data-description="{{ $row->description }}"
-                                        onclick="openEditModal(this)">
-                                        <x-heroicon-o-pencil-square class="h-6 w-6" />
-                                    </button>
-
-
-                                    <!-- View Button -->
-                                    <button type="button" class="text-blue-600 hover:text-blue-800"
-                                        data-description="{{ $row->description }}" onclick="openModal(this)">
-                                        <x-heroicon-o-eye class="h-6 w-6" />
-                                    </button>
-
-
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('insurance.dynamic.delete', $row->id) }}" method="POST"
-                                        class="delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" title="Delete"
-                                            class="btn btn-flat btn-sm btn-danger rounded">
-                                            <x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                    <div class="flex items-center justify-center gap-3">
+                                        <!-- edit button -->
+                                        <button type="button" class="text-yellow-600 hover:text-yellow-800"
+                                            data-id="{{ $row->id }}" data-insurance-id="{{ $row->insurance_id }}"
+                                            data-title="{{ $row->title }}" data-description="{{ $row->description }}"
+                                            onclick="openEditModal(this)">
+                                            <x-heroicon-o-pencil-square class="h-6 w-6" />
                                         </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+
+
+                                        <!-- View Button -->
+                                        <button type="button" class="text-blue-600 hover:text-blue-800"
+                                            data-description="{{ $row->description }}" onclick="openModal(this)">
+                                            <x-heroicon-o-eye class="h-6 w-6" />
+                                        </button>
+
+
+                                        <!-- Delete Form -->
+                                        <form action="{{ route('insurance.dynamic.delete', $row->id) }}" method="POST"
+                                            class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" title="Delete"
+                                                class="btn btn-flat btn-sm btn-danger rounded">
+                                                <x-heroicon-o-trash class="h-6 w-6 text-red-600" />
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="3" class="text-center px-6 py-4 text-gray-500">
-                                No data found.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="3" class="text-center px-6 py-4 text-gray-500">
+                                    No data found.
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                     <!-- table body end -->
@@ -293,47 +290,47 @@
     <!-- edit modal -->
 
     <div id="editModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white max-w-2xl w-full rounded-lg shadow-lg p-8 relative">
-        <button onclick="closeEditModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-        </button>
+        <div class="bg-white max-w-2xl w-full rounded-lg shadow-lg p-8 relative">
+            <button onclick="closeEditModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
 
-        <form id="editForm" method="POST">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="insurance_id" id="editInsuranceId" />
+            <form id="editForm" method="POST" class="text-gray-800 max-h-[70vh] overflow-y-auto">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="insurance_id" id="editInsuranceId" />
 
-            <input type="hidden" name="doc_id" id="editDocId" />
+                <input type="hidden" name="doc_id" id="editDocId" />
 
-            <div class="mb-4">
-                <label class="block text-gray-700">Title</label>
-                <input type="text" id="editTitle" name="title" class="w-full border p-2 rounded">
-            </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Title</label>
+                    <input type="text" id="editTitle" name="title" class="w-full border p-2 rounded">
+                </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700">Description</label>
-                <textarea id="editDescription" name="description" rows="4"
-                    class="w-full border p-2 rounded summernote"></textarea>
-            </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Description</label>
+                    <textarea id="editDescription" name="description" rows="4"
+                        class="w-full border p-2 rounded summernote min-h-[10vh]"></textarea>
+                </div>
 
-            <div class="flex justify-end">
-                <button type="submit"
-                    class="px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition">Update</button>
-            </div>
-        </form>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-4 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition">Update</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 </x-app-layout>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const deleteForms = document.querySelectorAll('.delete-form');
 
         deleteForms.forEach(form => {
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 e.preventDefault(); // stop regular form submit
                 Swal.fire({
                     title: 'Are you sure?',
@@ -360,12 +357,18 @@
         document.getElementById('modalContent').innerHTML = description;
         document.getElementById('previewModal').classList.remove('hidden');
         document.getElementById('previewModal').classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
         document.getElementById('previewModal').classList.add('hidden');
         document.getElementById('previewModal').classList.remove('flex');
+        document.body.style.overflow = '';
     }
+
+
+
+
 </script>
 
 <!-- <script>
@@ -436,60 +439,60 @@
 
 <script>
     function openEditModal(button) {
-    const docId = button.getAttribute('data-id'); 
-    const insuranceId = button.getAttribute('data-insurance-id');
-    const title = button.getAttribute('data-title');
-    const description = button.getAttribute('data-description');
+        const docId = button.getAttribute('data-id');
+        const insuranceId = button.getAttribute('data-insurance-id');
+        const title = button.getAttribute('data-title');
+        const description = button.getAttribute('data-description');
 
-    document.getElementById('editDocId').value = docId;
-    document.getElementById('editInsuranceId').value = insuranceId;
-    document.getElementById('editTitle').value = title;
-    $('#editDescription').summernote('code', description);
+        document.getElementById('editDocId').value = docId;
+        document.getElementById('editInsuranceId').value = insuranceId;
+        document.getElementById('editTitle').value = title;
+        $('#editDescription').summernote('code', description);
 
-    document.getElementById('editModal').classList.remove('hidden');
-}
+        document.getElementById('editModal').classList.remove('hidden');
+    }
 
 
 
-$('#editForm').on('submit', function (e) {
-    e.preventDefault();
+    $('#editForm').on('submit', function (e) {
+        e.preventDefault();
 
-    const insuranceId = $('#editInsuranceId').val();
-    const docId = $('#editDocId').val();
-    const form = $(this);
-    const formData = form.serialize();
+        const insuranceId = $('#editInsuranceId').val();
+        const docId = $('#editDocId').val();
+        const form = $(this);
+        const formData = form.serialize();
 
-    $.ajax({
-        type: 'POST',
-        url: `/insurance/dynamic/update/${insuranceId}/${docId}`,
-        data: formData,
-        success: function (response) {
-            closeEditModal();
-            form[0].reset();
-            $('#editDescription').summernote('code', '');
+        $.ajax({
+            type: 'POST',
+            url: `/insurance/dynamic/update/${insuranceId}/${docId}`,
+            data: formData,
+            success: function (response) {
+                closeEditModal();
+                form[0].reset();
+                $('#editDescription').summernote('code', '');
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Updated!',
-                text: 'The document has been updated successfully.',
-                timer: 2000,
-                showConfirmButton: false,
-                willClose: () => {
-                    location.reload();
-                }
-            });
-        },
-        error: function (xhr) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Update Failed',
-                text: xhr.responseJSON?.message || 'Something went wrong.',
-            });
-        }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'The document has been updated successfully.',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        location.reload();
+                    }
+                });
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: xhr.responseJSON?.message || 'Something went wrong.',
+                });
+            }
+        });
     });
-});
 
-function closeEditModal() {
+    function closeEditModal() {
         document.getElementById('editModal').classList.add('hidden');
     }
 
@@ -502,9 +505,9 @@ function closeEditModal() {
 <!-- Summernote) -->
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.summernote').summernote({
-            height: 50,
+            height: 200,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -577,8 +580,6 @@ function closeEditModal() {
     $('.dropify').dropify();
 </script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
 <script type="text/javascript">
     function myFunction(targetId) {
         //alert(targetId);
