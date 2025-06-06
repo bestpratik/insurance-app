@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('insurancedynamicdocuments', function (Blueprint $table) {
+        Schema::create('insuranceemailtemplates', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('insurance_id')->nullable();
-            $table->string('title');
-            $table->longText('header');
-            $table->longText('description');
-            $table->longText('footer');
+            $table->string('title')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('insurancedynamicdocuments');
+        Schema::dropIfExists('insuranceemailtemplates');
     }
 };
