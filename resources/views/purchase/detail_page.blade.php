@@ -170,9 +170,9 @@
                                     <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
                                         target="_blank"
                                         class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
- <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
+                                        <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
 
-                                        <span>{{ $document->title }}</span>
+                                        <span>{{ $document->title ?? ''}}</span>
                                     </a>
                                     @endforeach
                                 </div>

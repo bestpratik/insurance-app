@@ -167,7 +167,7 @@
         @if($purchase->payment_method == 'pay_later')
             Unpaid
         @else
-            {{$purchase->payment_method ?? ''}}
+            {{$purchase->payment_method ?? ''}} 
         @endif
       </span></p>
     </td>
