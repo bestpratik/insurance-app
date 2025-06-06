@@ -579,7 +579,7 @@
 <script type="text/javascript">
     $('.dropify').dropify();
 </script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     function myFunction(targetId) {
         //alert(targetId);
@@ -588,7 +588,7 @@
 
         / Select the text field /
         copyText.select();
-        //copyText.setSelectionRange(0, 99999); / For mobile devices /
+        //copyText.setSelectionRange(0, 99999); / For  mobile devices /
 
         / Copy the text inside the text field /
         navigator.clipboard.writeText(copyText.value);
