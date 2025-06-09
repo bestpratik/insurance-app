@@ -5,15 +5,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     //return view('welcome');
     return redirect('/login');
 });
 
-Route::get('/dashboard', function () {
+/*Route::get('/dashboard', function () {
     return view('dashboard'); 
-})->middleware(['auth', 'verified'])->name('dashboard');  
+})->middleware(['auth', 'verified'])->name('dashboard'); 
+*/ 
+
+Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
