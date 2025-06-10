@@ -1,9 +1,10 @@
-<div>
-    <h4 class="text-2xl font-semibold text-gray-800 mb-6">Policy sold in 7 days</h4>
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
-            <select wire:model.live="perPage">
+<div class="mt-5">
+   
+    <div class="bg-white rounded-lg p-6 shadow overflow-hidden">
+         <h4 class="text-xl font-bold text-start">Policy sold in 7 days</h4>
+        <div class="sm:w-64 my-3">
+            <label for="storeFilter" class="text-sm font-medium text-gray-700 mb-1">Per Page</label>
+            <select wire:model.live="perPage" class="pbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 inline min-w-[60px] py-1">
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
