@@ -21,6 +21,7 @@
                 </div>
             </div>
 
+           
             <livewire:dashboard-component /> 
 
         </div>

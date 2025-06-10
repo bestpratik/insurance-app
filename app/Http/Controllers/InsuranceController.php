@@ -265,8 +265,8 @@ class InsuranceController extends Controller
             return redirect()->route('insurance.static.document',$insurance->uuid); 
     }
 
-    public function static_document_delete($uuid){
-        $Insurancedocument = Insurancedocument::where('uuid', $uuid)->firstOrFail();
+    public function static_document_delete($id){
+        $Insurancedocument = Insurancedocument::find($id);
         if($Insurancedocument)
         {
             $destination = public_path('uploads/insurance_document/'.$Insurancedocument->document); 
@@ -278,6 +278,7 @@ class InsuranceController extends Controller
             $Insurancedocument->delete();
             return redirect()->back();
         }
+
     }
 
     public function dynamic_document($uuid){  
@@ -371,8 +372,9 @@ class InsuranceController extends Controller
 
     public function insurance_email_template($uuid){
         $insurance=Insurance::where('uuid', $uuid)->firstOrFail();
-        $insuranceEmailTemplate=Insuranceemailtemplate::where('id',$insurance->id)->first(); 
         // dd($insurance);
+        $insuranceEmailTemplate=Insuranceemailtemplate::where('insurance_id',$insurance->id)->first(); 
+        // dd($insuranceEmailTemplate);
         return view('insurance.insurance_email_template', compact('insurance','insuranceEmailTemplate'));
     }
 
@@ -394,6 +396,7 @@ class InsuranceController extends Controller
            $mailTemplate = Insuranceemailtemplate::where('insurance_id',$insurance->id)->first();
            $mailTemplate->title = $request->title;
            $mailTemplate->description = $request->description;
+        //    dd($mailTemplate);
            $mailTemplate->update();
            return redirect()->route('insurance.summary',$insurance->uuid);
     
@@ -403,9 +406,9 @@ class InsuranceController extends Controller
             $mailTemplate->title = $request->title;
             $mailTemplate->description = $request->description;
             $mailTemplate->insurance_id = $insurance->id;
-    
+            // dd($mailTemplate);
             $mailTemplate->save();
-            return redirect()->route('insurance.summary',$insurance->id); 
+            return redirect()->route('insurance.summary',$insurance->uuid); 
         }
 
 

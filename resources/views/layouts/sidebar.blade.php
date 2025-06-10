@@ -51,7 +51,7 @@
         <x-heroicon-o-credit-card class="mr-3 h-5 w-5 
         @if (request()->is('purchases') && !request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Process An Insurance Policy</span>
+        <span class="sidebar-item-text">Process an Insurance Policy</span>
     </a>
 
     <a href="{{ route('purchase.list') }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
@@ -69,7 +69,7 @@
         <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 
         @if (request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Canceled List</span>
+        <span class="sidebar-item-text">Cancelled List</span>
     </a>
 
     <a href="{{ route('purchase.datewise') }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 

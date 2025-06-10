@@ -1,5 +1,5 @@
 <div>
-
+    <h4 class="text-2xl font-semibold text-gray-800 mb-6">Policy sold in 7 days</h4>
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
