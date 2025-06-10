@@ -37,7 +37,7 @@
                         </div>
                         <div>
                             <div class="text-lg font-bold">{{$this->unPaidPurchase}}</div>
-                            <div class="text-sm text-gray-500">Pending Claims</div>
+                            <div class="text-sm text-gray-500">Pending Payments</div>
                         </div>
                     </div>
                 </div>
