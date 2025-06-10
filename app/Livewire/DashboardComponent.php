@@ -15,7 +15,14 @@ class DashboardComponent extends Component
     use WithPagination;
     public $perPage = 10;
 
-     public function render()
+    public $showPaymentCheckModal = false;
+    public $checkPayment;
+    public $checkPaymentPurchaseId = null;
+    public $paymentMethod;
+    public $paymentStatus;
+
+
+    public function render()
     {
         $query = Purchase::with(['insurance.provider','invoice'])
                 ->where('status', 1)
@@ -30,12 +37,17 @@ class DashboardComponent extends Component
             'result' => $purchases,
         ]);
     }
-    public $showPaymentCheckModal = false;
-    public $checkPayment;
-    public $checkPaymentPurchaseId = null;
+
     public function openPaymentCheckModal($purchaseId) 
     {
         $this->checkPaymentPurchaseId = $purchaseId;
+
+        $purchase = Purchase::find($purchaseId);
+        if ($purchase) {
+            $this->paymentStatus = $purchase->payment_status; 
+            $this->paymentMethod = $purchase->payment_method;
+        }
+
         $this->checkPayment = '';
         $this->showPaymentCheckModal = true;
     }
@@ -45,6 +57,29 @@ class DashboardComponent extends Component
         $this->showPaymentCheckModal = false;
         $this->checkPaymentPurchaseId = null;
         $this->checkPayment = '';
+    }
+
+    public function submitPaymentCheckModal()
+    {
+        $this->validate([
+            'paymentMethod' => 'required',
+            'paymentStatus' => 'required',
+        ]);
+
+        $purchase = Purchase::find($this->checkPaymentPurchaseId);
+
+        if ($purchase) {
+            $purchase->payment_method = $this->paymentMethod;
+            $purchase->payment_status = $this->paymentStatus; 
+            $purchase->save();
+
+            $this->dispatch('swal:success', [
+                'message' => 'Payment information updated successfully!'
+            ]);
+
+        }
+
+        $this->closePaymentCheckModal();
     }
 
     #[Computed]

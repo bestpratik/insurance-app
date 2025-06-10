@@ -46,6 +46,13 @@ class PurchaseList extends Component
     public $resendInvoice;
     public $resendInvoicePurchaseId = null;
 
+
+    public $showPaymentCheckModal = false;
+    public $checkPayment;
+    public $checkPaymentPurchaseId = null;
+    public $paymentMethod;
+    public $paymentStatus;
+
     public function render()
     {
         $query = Purchase::with(['insurance.provider','invoice'])->where('status', 1)->whereNull('purchase_status')->orderBy('id', 'desc');
@@ -465,6 +472,51 @@ public function send_email_two($purchaseId, $resendEmails = [])
     } catch (Exception $e) {
         report($e);
     }
+}
+
+
+public function openPaymentCheckModal($purchaseId) 
+{
+    $this->checkPaymentPurchaseId = $purchaseId;
+
+    $purchase = Purchase::find($purchaseId);
+    if ($purchase) {
+        $this->paymentStatus = $purchase->payment_status; 
+        $this->paymentMethod = $purchase->payment_method;
+    }
+
+    $this->checkPayment = '';
+    $this->showPaymentCheckModal = true;
+}
+
+public function closePaymentCheckModal()
+{
+    $this->showPaymentCheckModal = false;
+    $this->checkPaymentPurchaseId = null;
+    $this->checkPayment = '';
+}
+
+public function submitPaymentCheckModal()
+{
+    $this->validate([
+        'paymentMethod' => 'required',
+        'paymentStatus' => 'required',
+    ]);
+
+    $purchase = Purchase::find($this->checkPaymentPurchaseId);
+
+    if ($purchase) {
+        $purchase->payment_method = $this->paymentMethod;
+        $purchase->payment_status = $this->paymentStatus; 
+        $purchase->save();
+
+        $this->dispatch('swal:successs', [
+            'message' => 'Payment information updated successfully!'
+        ]);
+
+    }
+
+    $this->closePaymentCheckModal();
 }
 
 

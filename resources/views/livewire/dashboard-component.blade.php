@@ -1,5 +1,5 @@
 <div>
-              <!-- Table Section -->
+
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
@@ -208,33 +208,88 @@
     </div>
 
 
-    <!-- modal  -->
+        <!-- modal  -->
+    @if($showPaymentCheckModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+                <button wire:click="closePaymentCheckModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+                </button>
 
-     @if($showPaymentCheckModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-            <button wire:click="closePaymentCheckModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-            </button>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-3">Check Payment</h2>
 
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Check Payment</h2>
+                <div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-2">
+                            <label class="block font-semibold mb-2 w-full">Select Payment Method</label>
+                            <div class="flex items-center space-x-6">
+                                <!-- Pay Later -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="pay_later" wire:model="paymentMethod"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{asset('paylater.jpg')}}" alt="Pay Later" class="h-20 mb-1" />
+                                    </div>
+                                </label>
 
-            <div>
-                
-                <label for="checkPayment" class="block text-gray-700"><span
-                                    class="text-red-600 text-xl">*</span>Payment Method:</label>
-               
-                @error('checkPayment') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+                                <!-- Bank Transfer -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="bank_transfer" wire:model="paymentMethod"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{asset('bank-transper.jpg')}}" alt="Bank Transfer" class="h-20 mb-1" />
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="mt-6 flex justify-end space-x-4">
-                <button wire:click="closePaymentCheckModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-                <button wire:click="submitResendInvoice" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
-            </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="mb-2">
+                            <label class="block font-semibold mb-2">Payment Status</label>
+                            <div class="flex items-center space-x-6">
+                                <!-- Paid -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentStatus" value="1" wire:model="paymentStatus"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-center text-green-800">Paid</span>
+                                    </div>
+                                </label>
+
+                                <!-- Unpaid -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentStatus" value="0" wire:model="paymentStatus"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-center text-red-800">Unpaid</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <button wire:click="closePaymentCheckModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                        <button wire:click="submitPaymentCheckModal" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                    </div>
+                </div>
         </div>
-    </div>
     @endif
     <!-- modal  -->
+
+    
 </div>
 
 <script>
@@ -251,3 +306,5 @@
         }
     });
 </script>
+
+

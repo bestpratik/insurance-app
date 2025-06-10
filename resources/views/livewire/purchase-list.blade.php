@@ -49,14 +49,14 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Name</label>
             <input type="text" wire:model.live="tenantName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-         <div class="sm:w-64">
+        <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Email</label>
             <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
 
     </div>
 
-    
+
 
     <!-- Loader -->
     <div wire:loading class="absolute right-3 top-[42px] transform -translate-y-1/2">
@@ -148,7 +148,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200"> 
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($result as $row)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -159,12 +159,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
-                                {{ $row->insurance->name }}
+                            {{ $row->insurance->name }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
-                                {{ $row->insurance->total_premium }}
+                            {{ $row->insurance->total_premium }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -172,7 +172,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance && $row->insurance->provider)
-                                {{ $row->insurance->provider->name }}
+                            {{ $row->insurance->provider->name }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -186,12 +186,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->policy_holder_type == 'Company')
-                                {{ $row->company_name }}
+                            {{ $row->company_name }}
                             @elseif($row->policy_holder_type == 'Individual')
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @else
-                                {{ $row->company_name }} <br>
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            {{ $row->company_name }} <br>
+                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -211,15 +211,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @php
-                                $target_date_one = strtotime($row->purchase_date);
-                                $target_date_two = strtotime($row->policy_start_date);
-                                $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
+                            $target_date_one = strtotime($row->purchase_date);
+                            $target_date_two = strtotime($row->policy_start_date);
+                            $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
                             @endphp
                             @if($days_incepted < -5)
-                            <span class="text-red-500">{{ $days_incepted }} days</span>
-                            @else
-                            <span class="text-green-500">{{ $days_incepted }} days</span>
-                            @endif
+                                <span class="text-red-500">{{ $days_incepted }} days</span>
+                                @else
+                                <span class="text-green-500">{{ $days_incepted }} days</span>
+                                @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
@@ -229,14 +229,14 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
-                                {{ $row->invoice->invoice_no }}
+                            {{ $row->invoice->invoice_no }}
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->payment_method == 'bank_transfer')
-                                Bank Transfer
+                            Bank Transfer
                             @elseif($row->payment_method == 'pay_later')
-                                Pay later
+                            Pay later
                             @endif
                         </td>
 
@@ -274,11 +274,16 @@
                                     <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
                                 </a>
 
-                                
+                                <button wire:click="openPaymentCheckModal({{ $row->id }})"
+                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                    title="Check Payment">
+                                    <x-heroicon-o-check-circle class="w-5 h-5 text-green-600" />
+                                </button>
+
                                 <button wire:click="openCancelModal({{ $row->id }})"
                                     @if(in_array($row->id, $cancelledPurchases)) disabled @endif
-                                        class="text-red-600 hover:text-red-900 focus:outline-none"
-                                        title="Cancel Purchase">
+                                    class="text-red-600 hover:text-red-900 focus:outline-none"
+                                    title="Cancel Purchase">
                                     <x-heroicon-o-x-mark class="w-5 h-5" />
                                 </button>
 
@@ -296,7 +301,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         <div class="px-4 py-3 bg-gray-50 border-t border-gray-200 sm:px-6">
             {{ $result->links() }}
@@ -306,7 +311,7 @@
 
 
 
-    <!--Cancel modal start--> 
+    <!--Cancel modal start-->
     @if($showCancelModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
@@ -318,10 +323,10 @@
 
             <div>
                 <label for="cancelReason" class="block text-gray-700 mb-2"><span
-                                    class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
+                        class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
                 <textarea wire:model="cancelReason" id="cancelReason"
-                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="Enter your reason..."></textarea>
+                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter your reason..."></textarea>
                 @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
@@ -333,10 +338,10 @@
     </div>
     @endif
 
-    <!--Cancel modal end--> 
+    <!--Cancel modal end-->
 
 
-    <!--Resend modal start--> 
+    <!--Resend modal start-->
     @if($showResendDocumentModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
@@ -347,13 +352,13 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Documents</h2>
 
             <div>
-                
+
                 <label for="resendDocument" class="block text-gray-700"><span
-                                    class="text-red-600 text-xl">*</span>Emails:</label>
+                        class="text-red-600 text-xl">*</span>Emails:</label>
                 <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
                 <textarea wire:model="resendDocument" id="resendDocument"
-                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="Enter your email..."></textarea>
+                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter your email..."></textarea>
                 @error('resendDocument') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
@@ -364,10 +369,10 @@
         </div>
     </div>
     @endif
-    <!--Resend modal end--> 
+    <!--Resend modal end-->
 
 
-      <!--Resend Invoice modal start--> 
+    <!--Resend Invoice modal start-->
     @if($showResendInvoiceModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
@@ -378,13 +383,13 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Invoice</h2>
 
             <div>
-                
+
                 <label for="resendInvoice" class="block text-gray-700"><span
-                                    class="text-red-600 text-xl">*</span>Emails:</label>
+                        class="text-red-600 text-xl">*</span>Emails:</label>
                 <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
                 <textarea wire:model="resendInvoice" id="resendInvoice"
-                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="Enter your email..."></textarea>
+                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter your email..."></textarea>
                 @error('resendInvoice') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
@@ -395,9 +400,90 @@
         </div>
     </div>
     @endif
-    <!--Resend Invoice modal end--> 
+    <!--Resend Invoice modal end-->
 
 
-</div> 
+    <!-- modal  -->
+    @if($showPaymentCheckModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+                <button wire:click="closePaymentCheckModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+                </button>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-3">Check Payment</h2>
+
+                <div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-2">
+                            <label class="block font-semibold mb-2 w-full">Select Payment Method</label>
+                            <div class="flex items-center space-x-6">
+                                <!-- Pay Later -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="pay_later" wire:model="paymentMethod"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{asset('paylater.jpg')}}" alt="Pay Later" class="h-20 mb-1" />
+                                    </div>
+                                </label>
+
+                                <!-- Bank Transfer -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="bank_transfer" wire:model="paymentMethod"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{asset('bank-transper.jpg')}}" alt="Bank Transfer" class="h-20 mb-1" />
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="mb-2">
+                            <label class="block font-semibold mb-2">Payment Status</label>
+                            <div class="flex items-center space-x-6">
+                                <!-- Paid -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentStatus" value="1" wire:model="paymentStatus"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-center text-green-800">Paid</span>
+                                    </div>
+                                </label>
+
+                                <!-- Unpaid -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentStatus" value="0" wire:model="paymentStatus"
+                                        class="peer hidden" />
+                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="text-sm font-medium text-center text-red-800">Unpaid</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <button wire:click="closePaymentCheckModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                        <button wire:click="submitPaymentCheckModal" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                    </div>
+                </div>
+        </div>
+    @endif
+    <!-- modal  -->
+
+
+
+    </div>
