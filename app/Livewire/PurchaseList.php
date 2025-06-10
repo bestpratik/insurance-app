@@ -498,10 +498,10 @@ public function closePaymentCheckModal()
 
 public function submitPaymentCheckModal()
 {
-    $this->validate([
-        'paymentMethod' => 'required',
-        'paymentStatus' => 'required',
-    ]);
+    // $this->validate([
+    //     'paymentMethod' => 'required',
+    //     'paymentStatus' => 'required',
+    // ]);
 
     $purchase = Purchase::find($this->checkPaymentPurchaseId);
 
