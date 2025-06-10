@@ -324,6 +324,7 @@ class MasterInsurancePurchase extends Component
         $purchase->total_premium = $this->insuranceDetails->total_premium;
         $purchase->payable_amount = $this->insuranceDetails->payable_amount;
         $purchase->ipt_on_billable_amount = $this->insuranceDetails->ipt_on_billable_amount;
+        $purchase->admin_fee = $this->insuranceDetails->admin_fee;
 
 
 
@@ -491,11 +492,12 @@ class MasterInsurancePurchase extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], $validCopyEmails);
 
                     foreach ($sendToemils as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            throw new \Exception("Invalid To Email: $email");
+                            // throw new \Exception("Invalid To Email: $email");
+                             abort(404); 
                         }
                     }
 
@@ -503,7 +505,7 @@ class MasterInsurancePurchase extends Component
                         $messages->to($sendToemils);
                         $messages->subject($email_subject);
                         $messages->cc($ccEmails);
-                        $messages->bcc(['bestpratik@gmail.com']);
+                        // $messages->bcc(['bestpratik@gmail.com']);
 
                         foreach ($allDocs as $attachment) {
                             $messages->attach($attachment);
@@ -563,13 +565,28 @@ class MasterInsurancePurchase extends Component
         // dd($data);?\
 
         try {
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase) { 
+
+             $copyEmails = explode(',', $purchase->copy_email);
+                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                        return filter_var($email, FILTER_VALIDATE_EMAIL);
+                    });
+
+                    $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], $validCopyEmails);
+
+                    foreach ($sendToEmails as $email) {
+                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            // throw new \Exception("Invalid To Email: $email");
+                             abort(404); 
+                        }
+                    }
+
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $ccEmails) { 
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->invoice->copy_email));
+                // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
