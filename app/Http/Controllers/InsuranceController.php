@@ -402,7 +402,7 @@ class InsuranceController extends Controller
             $mailTemplate = new Insuranceemailtemplate;
             $mailTemplate->title = $request->title;
             $mailTemplate->description = $request->description;
-            $mailTemplate->insurance_id = $uuid;
+            $mailTemplate->insurance_id = $insurance->id;
     
             $mailTemplate->save();
             return redirect()->route('insurance.summary',$insurance->id); 
