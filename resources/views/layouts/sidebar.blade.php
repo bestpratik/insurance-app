@@ -78,7 +78,7 @@
         <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 
         @if (request()->is('date-wise-purchase-report')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Purchased List (Datewise)</span>
+        <span class="sidebar-item-text">Bordereau Report</span>
     </a>
 
 

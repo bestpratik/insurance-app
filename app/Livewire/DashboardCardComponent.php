@@ -35,6 +35,7 @@ class DashboardCardComponent extends Component
     #[Computed]
     public function unPaidPurchase(){
         return Purchase::with('insurance', 'provider', 'invoice', 'user')
+            ->whereNull('purchase_status')
             ->where('payment_method', 'pay_later')
             ->where('status', 1)
             ->count();
