@@ -68,3 +68,14 @@
         });
     });
 </script>
+
+<script>
+    Livewire.on('swal:successs', data => {
+        Swal.fire({
+            title: 'Payment information updated successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>

@@ -3,63 +3,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Welcome to Moneywise PLC</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Policies Sold -->
-                <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
-                            <!-- Document Duplicate Icon -->
-                            <x-heroicon-o-document-duplicate class="w-6 h-6" />
-                        </div>
-                        <div>
-                            <div class="text-lg font-bold">00</div>
-                            <div class="text-sm text-gray-500">Policies Sold</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Premium Collected -->
-                <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-green-100 text-green-600 p-3 rounded-full">
-                            <!-- Banknotes Icon -->
-                            <x-heroicon-o-banknotes class="w-6 h-6" />
-                        </div>
-                        <div>
-                            <div class="text-lg font-bold">£00</div>
-                            <div class="text-sm text-gray-500">Premium Collected</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pending Claims -->
-                <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full">
-                            <!-- Exclamation Circle Icon -->
-                            <x-heroicon-o-exclamation-circle class="w-6 h-6" />
-                        </div>
-                        <div>
-                            <div class="text-lg font-bold">00</div>
-                            <div class="text-sm text-gray-500">Pending Claims</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Total Clients -->
-                <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
-                            <!-- Users Icon -->
-                            <x-heroicon-o-users class="w-6 h-6" />
-                        </div>
-                        <div>
-                            <div class="text-lg font-bold">00</div>
-                            <div class="text-sm text-gray-500">Total Clients</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <!-- Dashboard Stats Cards -->
+            <livewire:dashboard-card-component /> 
 
 
             <!-- Welcome Box -->
@@ -84,6 +29,7 @@
   
     <!-- Required chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
     <script>
         var ctx = document.getElementById('insurancebarChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -171,3 +117,14 @@
         });
     </script>
 </x-app-layout>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script>
+        Livewire.on('swal:success', data => {
+            Swal.fire({
+                title: 'Payment information updated successfully!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
