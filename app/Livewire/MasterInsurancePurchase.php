@@ -491,7 +491,7 @@ class MasterInsurancePurchase extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                     foreach ($sendToemils as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -503,6 +503,7 @@ class MasterInsurancePurchase extends Component
                         $messages->to($sendToemils);
                         $messages->subject($email_subject);
                         $messages->cc($ccEmails);
+                        $messages->bcc(['bestpratik@gmail.com']);
 
                         foreach ($allDocs as $attachment) {
                             $messages->attach($attachment);
@@ -566,9 +567,9 @@ class MasterInsurancePurchase extends Component
                 $message->to($sendToEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                // $message->bcc(['bestpratik@gmail.com']);
+                $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
