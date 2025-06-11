@@ -248,6 +248,13 @@
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
 
+                                <button wire:click="openRestoreModal({{ $row->id }})"
+                                    @if(in_array($row->id, $restoredPurchases)) disabled @endif
+                                    class="text-green-600 hover:text-purple-900 focus:outline-none"
+                                    title="Restore Purchase">
+                                   <x-heroicon-o-arrow-uturn-left class="w-5 h-5" />
+                                </button>
+
                             </div>
                         </td>
                     </tr>
@@ -270,5 +277,33 @@
 
 
 
+    <!--Restore modal start-->
+    @if($showRestoreModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+            <button wire:click="closeRestoreModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
+
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Restore Request</h2>
+
+            <div>
+                <label for="restoreReason" class="block text-gray-700 mb-2"><span
+                        class="text-red-600 text-xl">*</span>Reason for Restoring:</label>
+                <textarea wire:model="restoreReason" id="restoreReason"
+                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter your reason..."></textarea>
+                @error('restoreReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-4">
+                <button wire:click="closeRestoreModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Restore</button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!--Restore modal end-->
 
 </div>

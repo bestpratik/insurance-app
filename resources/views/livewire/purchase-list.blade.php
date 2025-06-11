@@ -284,7 +284,7 @@
                                     @if(in_array($row->id, $cancelledPurchases)) disabled @endif
                                     class="text-red-600 hover:text-red-900 focus:outline-none"
                                     title="Cancel Purchase">
-                                    <x-heroicon-o-x-mark class="w-5 h-5" />
+                                    <x-heroicon-o-x-mark class="w-5 h-5" /> 
                                 </button>
 
 
