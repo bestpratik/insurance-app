@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Purchase;
 use Livewire\Component;
-use Livewire\WithPagination;
+use Livewire\WithPagination; 
 
 class PurchaseCancelList extends Component
 {
@@ -24,6 +24,49 @@ class PurchaseCancelList extends Component
     public $tenantName;
     public $tenantEmail;
     public $detailsofCover;
+
+
+    public $showRestoreModal = false;
+    public $restoreReason;
+    public $restorePurchaseId = null;
+    public $restoredPurchases = [];
+    
+    public function openRestoreModal($purchaseId)
+    {
+        $this->restorePurchaseId = $purchaseId;
+        $this->restoreReason = '';
+        $this->showRestoreModal = true;
+    }
+
+    public function closeRestoreModal()
+    {
+        $this->showRestoreModal = false;
+        $this->restorePurchaseId = null;
+        $this->restoreReason = '';
+    }
+
+    public function submitCancellation()
+    {
+        $this->validate([
+            'restoreReason' => 'required|string|min:5',
+        ]);
+
+        $purchase = Purchase::find($this->restorePurchaseId);
+
+        if ($purchase) {
+            $purchase->purchase_status = NULL; 
+            $purchase->purchase_cancel_reason = $this->restoreReason; 
+            $purchase->save();
+            $this->restoredPurchases[] = $this->restorePurchaseId;
+        }
+
+        // session()->flash('message', 'Purchase cancelled successfully.');
+        // $this->closeCancelModal();
+
+        $this->dispatch('swal:message', ['message' => 'Purchase Restored successfully.']);
+        $this->closeRestoreModal();
+    }
+
 
     public function render()
     {
