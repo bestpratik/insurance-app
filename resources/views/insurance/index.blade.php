@@ -277,7 +277,7 @@
                                             </a>
 
                                             <!-- Delete Button -->
-                                            <form action="{{ route('insurances.destroy', $row->id) }}" method="POST"
+                                            <form action="{{ route('insurances.destroy', $row->uuid) }}" method="POST"
                                                 onsubmit="return confirmDelete()">
                                                 @csrf
                                                 @method('DELETE')
