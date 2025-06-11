@@ -241,7 +241,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
-                                <a href="{{route('purchase.edit',$row->id)}}" class="text-indigo-600 hover:text-indigo-900">
+                                <a href="{{route('purchase.edit',$row->policy_no)}}" class="text-indigo-600 hover:text-indigo-900">
                                     <x-heroicon-o-pencil-square class="w-5 h-5" />
                                 </a>
                                 <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900">
