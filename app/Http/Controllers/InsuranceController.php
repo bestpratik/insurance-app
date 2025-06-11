@@ -498,7 +498,7 @@ class InsuranceController extends Controller
     
     public function destroy(string $uuid)
     {
-        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+        $insurance = Insurance::where('uuid', $uuid)->with('staticdocuments','dynamicdocument','insurancemailtemplate')->firstOrFail();
         if($insurance){
             $destination = public_path('uploads/insurances/'.$insurance->image);
             if(File::exists($destination)){
