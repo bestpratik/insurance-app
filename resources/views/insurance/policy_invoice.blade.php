@@ -164,7 +164,7 @@
       <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
       <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
       @if(!empty($purchase->admin_fee))
-      <p><span class="label">Admin Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
+      <p><span class="label">Broker Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
       @endif
       <p><span class="label">Payment Status:</span> <span class="red">
         @if($purchase->payment_method == 'pay_later')
