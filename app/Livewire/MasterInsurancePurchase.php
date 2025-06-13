@@ -290,12 +290,28 @@ class MasterInsurancePurchase extends Component
         $purchase->policy_holder_type = $this->policyHoldertype;
         $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
         $purchase->policy_holder_address = $this->policyholderAddress1.' '.$this->policyholderAddress2.' '.$this->policyholderPostcode;
-        $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
-        $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
-        $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
-        $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
-        $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
-        $purchase->policy_holder_email = $this->policyholderEmail;
+        
+        // $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
+        // $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
+        // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
+        // $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
+        // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
+        // $purchase->policy_holder_email = $this->policyholderEmail;
+
+        // ✅ Save Company details if Company or Both
+        if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
+            $purchase->company_name = $this->companyName;
+            $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
+        }
+
+        // ✅ Save Individual details if Individual or Both
+        if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
+            $purchase->policy_holder_title = $this->policyholderTitle;
+            $purchase->policy_holder_fname = $this->policyholderFirstName;
+            $purchase->policy_holder_lname = $this->policyholderLastName;
+            $purchase->policy_holder_email = $this->policyholderEmail;
+        }
+       
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
@@ -475,16 +491,36 @@ class MasterInsurancePurchase extends Component
             $bodyValue[] = $insurance->details_of_cover;
 
 
+            $sendToemails = [];
+
+            if ($purchase->policy_holder_type === 'Company') {
+                $sendToemails[] = $purchase->policy_holder_company_email;
+            } elseif ($purchase->policy_holder_type === 'Individual') {
+                $sendToemails[] = $purchase->policy_holder_email;
+            } elseif ($purchase->policy_holder_type === 'Both') {
+                $sendToemails[] = $purchase->policy_holder_email;
+                $sendToemails[] = $purchase->policy_holder_company_email;
+            }
+
+
+            $sendToemails = array_filter($sendToemails, function ($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
+
+            // dd($purchase->policy_holder_email, $purchase->policy_holder_company_email);
+
+
             //Now send email
-            $sendToemils = array(
-                $purchase->policy_holder_email,
-            );
+            // $sendToemails = array(
+            //     $purchase->policy_holder_email,
+            // );
             $email_subject = $insurance->insurancemailtemplate->title ?? '';
             $data = array(
-                'body' => $insurance->insurancemailtemplate->description ?? '',
+                'body' => $insurance->insurancemailtemplate->description ?? '', 
                 'bodyValue' => $bodyValue
             );
 
+            
             try {
 
                  $copyEmails = explode(',', $purchase->copy_email);
@@ -494,15 +530,15 @@ class MasterInsurancePurchase extends Component
 
                     $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], $validCopyEmails);
 
-                    foreach ($sendToemils as $email) {
+                    foreach ($sendToemails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            // throw new \Exception("Invalid To Email: $email");
-                             abort(404); 
+                            throw new \Exception("Invalid To Email: $email");
+                            //  abort(404); 
                         }
                     }
 
-                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $ccEmails) {
-                        $messages->to($sendToemils);
+                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                        $messages->to($sendToemails);
                         $messages->subject($email_subject);
                         $messages->cc($ccEmails);
                         // $messages->bcc(['bestpratik@gmail.com']);
@@ -511,6 +547,7 @@ class MasterInsurancePurchase extends Component
                             $messages->attach($attachment);
                         }
                     });
+                    
 
                 // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
                 //     //$messages->to($user['to']); 
@@ -556,7 +593,8 @@ class MasterInsurancePurchase extends Component
         file_put_contents($filePath, $pdfContent);
 
         // Send email
-        $sendToEmails = [$purchase->invoice->billing_email];
+        $sendToBillingEmails = [$purchase->invoice->billing_email];
+        // dd($sendToBillingEmails);
         $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
         $data = [
             'body' => 'Dear client,<br>
@@ -573,15 +611,15 @@ class MasterInsurancePurchase extends Component
 
                     $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], $validCopyEmails);
 
-                    foreach ($sendToEmails as $email) {
+                    foreach ($sendToBillingEmails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            // throw new \Exception("Invalid To Email: $email");
-                             abort(404); 
+                            throw new \Exception("Invalid To Email: $email");
+                            //  abort(404); 
                         }
                     }
 
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $ccEmails) { 
-                $message->to($sendToEmails);
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) { 
+                $message->to($sendToBillingEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
                 // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
