@@ -175,7 +175,7 @@ public function submitCancellation()
     public function submitResendingDoc()
     {
         $this->validate([
-            'resendDocument' => 'required|email',
+            'resendDocument' => 'required',
         ]);
 
         $purchase = Purchase::find($this->resendDocPurchaseId);
@@ -208,6 +208,7 @@ public function submitCancellation()
 
     public function send_email_one($purchaseId, $sendMailArray)
     {
+        
         $purchase = Purchase::with('invoice')->findOrFail($purchaseId);
 
         $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')
@@ -250,7 +251,7 @@ public function submitCancellation()
 
         $pdfDynamicval[] = $riskAddress;
         $pdfDynamicval[] = $insurartitle;
-        $pdfDynamicval[] = $insurance->details_of_cover;
+        $pdfDynamicval[] = $insurance->details_of_cover; 
 
         // Dynamic documents
         if ($insurance->dynamicdocument) {
@@ -280,9 +281,23 @@ public function submitCancellation()
             'bodyValue' => $pdfDynamicval
         ];
 
+
+           $additionalEmails = [];
+
+            if ($purchase->policy_holder_type === 'Company') {
+                $additionalEmails[] = $purchase->policy_holder_company_email;
+            } elseif ($purchase->policy_holder_type === 'Individual') {
+                $additionalEmails[] = $purchase->policy_holder_email;
+            } elseif ($purchase->policy_holder_type === 'Both') {
+                $additionalEmails[] = $purchase->policy_holder_email;
+                $additionalEmails[] = $purchase->policy_holder_company_email;
+            }
+
+            $finalRecipients = array_unique(array_merge((array) $sendMailArray, $additionalEmails));
+
         try {
-            Mail::send('email.insurance_billing', $data, function ($messages) use ($sendMailArray, $allDocs, $email_subject) {
-                $messages->to($sendMailArray);
+            Mail::send('email.insurance_billing', $data, function ($messages) use ($finalRecipients, $allDocs, $email_subject) {
+                $messages->to($finalRecipients);
                 $messages->subject($email_subject);
                 foreach ($allDocs as $attachment) {
                     $messages->attach($attachment);
@@ -400,7 +415,7 @@ public function submitCancellation()
     public function submitResendInvoice()
 {
     $this->validate([
-        'resendInvoice' => 'required|string',
+        'resendInvoice' => 'required',
     ]);
 
     $purchase = Purchase::find($this->resendInvoicePurchaseId);
@@ -430,6 +445,7 @@ public function submitCancellation()
 
 public function send_email_two($purchaseId, $resendEmails = [])
 {
+    // dd($resendEmails);
     $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
         ->find($purchaseId);
 
@@ -450,7 +466,13 @@ public function send_email_two($purchaseId, $resendEmails = [])
 
     file_put_contents($filePath, $pdfContent);
 
-    $sendToEmails = [$purchase->invoice->billing_email];
+    // $sendToEmails = [$purchase->invoice->billing_email];
+    // $sendToEmails = $resendEmails;
+
+    $sendToEmails = array_merge(
+        [$purchase->invoice->billing_email],
+        $resendEmails
+    );
     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
 
     $data = [
