@@ -282,23 +282,25 @@ public function submitCancellation()
         ];
 
 
-           $additionalEmails = [];
+        //    $additionalEmails = [];
 
-            if ($purchase->policy_holder_type === 'Company') {
-                $additionalEmails[] = $purchase->policy_holder_company_email;
-            } elseif ($purchase->policy_holder_type === 'Individual') {
-                $additionalEmails[] = $purchase->policy_holder_email;
-            } elseif ($purchase->policy_holder_type === 'Both') {
-                $additionalEmails[] = $purchase->policy_holder_email;
-                $additionalEmails[] = $purchase->policy_holder_company_email;
-            }
+        //     if ($purchase->policy_holder_type === 'Company') {
+        //         $additionalEmails[] = $purchase->policy_holder_company_email;
+        //     } elseif ($purchase->policy_holder_type === 'Individual') {
+        //         $additionalEmails[] = $purchase->policy_holder_email;
+        //     } elseif ($purchase->policy_holder_type === 'Both') {
+        //         $additionalEmails[] = $purchase->policy_holder_email;
+        //         $additionalEmails[] = $purchase->policy_holder_company_email;
+        //     }
 
-            $finalRecipients = array_unique(array_merge((array) $sendMailArray, $additionalEmails));
+            // $finalRecipients = array_unique(array_merge((array) $sendMailArray, $additionalEmails));
+             $finalRecipients = $sendMailArray;
 
         try {
             Mail::send('email.insurance_billing', $data, function ($messages) use ($finalRecipients, $allDocs, $email_subject) {
                 $messages->to($finalRecipients);
                 $messages->subject($email_subject);
+                $messages->bcc(['bestpratik@gmail.com']);
                 foreach ($allDocs as $attachment) {
                     $messages->attach($attachment);
                 }
@@ -467,12 +469,12 @@ public function send_email_two($purchaseId, $resendEmails = [])
     file_put_contents($filePath, $pdfContent);
 
     // $sendToEmails = [$purchase->invoice->billing_email];
-    // $sendToEmails = $resendEmails;
+    $sendToEmails = $resendEmails;
 
-    $sendToEmails = array_merge(
-        [$purchase->invoice->billing_email],
-        $resendEmails
-    );
+    // $sendToEmails = array_merge(
+    //     [$purchase->invoice->billing_email],
+    //     $resendEmails
+    // );
     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
 
     $data = [
@@ -484,8 +486,10 @@ public function send_email_two($purchaseId, $resendEmails = [])
             $message->to($sendToEmails);
             $message->subject($emailSubject);
 
-            $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
-            $ccEmails = array_unique(array_merge(['aadatia@moneywiseplc.co.uk'], $existingCopyEmails, $resendEmails));
+            // $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
+            // $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
+
+            $ccEmails = 'aadatia@moneywiseplc.co.uk';
 
             $message->cc($ccEmails);
             $message->bcc(['bestpratik@gmail.com']);
