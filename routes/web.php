@@ -8,6 +8,11 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
+    return view('home');
+    //return redirect('/login');
+});
+
+Route::get('/login', function () {
     //return view('welcome');
     return redirect('/login');
 });
