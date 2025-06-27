@@ -7,6 +7,8 @@ use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('home');
@@ -29,6 +31,23 @@ Route::get('service', [FrontController::class, 'service'])->name('service');
 Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
+Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
+Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login');
+Route::post('user-login-submit', [FrontController::class, 'loginSubmit'])->name('user.login.submit');
+Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
+});
+
+// Route::get('front-dashboard', function () {
+//     if (Auth::user()->type == 'user') {
+//         return redirect()->route('dashboard.frontend');
+//     }
+
+//     return redirect()->route('user.login');
+// })->middleware('auth')->name('dashboard.frontend');
+
 
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 

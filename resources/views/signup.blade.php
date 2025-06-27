@@ -1,3 +1,22 @@
+    <x-front>
+
+    @if(session('success'))
+        <div class="mb-4 px-4 py-3 rounded-md bg-green-100 text-green-800 border border-green-200 relative">
+            <strong class="font-semibold"></strong> {{ session('success') }}
+            <button type="button" onclick="this.parentElement.remove();" class="absolute top-2 right-3 text-green-800 hover:text-green-600">
+                &times;
+            </button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="mb-4 px-4 py-3 rounded-md bg-red-100 text-red-800 border border-red-200 relative">
+            <strong class="font-semibold"></strong> {{ session('error') }}
+            <button type="button" onclick="this.parentElement.remove();" class="absolute top-2 right-3 text-red-800 hover:text-red-600">
+                &times;
+            </button>
+        </div>
+    @endif
     <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
     <!-- Hero Section with Gradient Overlay -->
@@ -9,16 +28,20 @@
                 <h2 class="text-3xl font-bold text-center text-black mb-2">Create Your Account</h2>
                 <p class="mb-4 text-center text-base">Join to manage your insurance policies with ease.</p>
 
-                <form class="space-y-6 mb-5" action="" method="">
+                <form class="space-y-6 mb-5" action="{{route('user.register.submit')}}" method="post">
+                    @csrf
                     <!-- Name -->
                     <div class="relative">
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Full Name" />
                         <label for="name"
-                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
                             Full Name
                         </label>
+                        @if($errors->has('name'))
+						    <span style="color: red">{{ $errors->first('name') }}</span>
+						@endif
                     </div>
 
                     <!-- Email -->
@@ -27,22 +50,28 @@
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Email Address" />
                         <label for="email"
-                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
                             Email Address
                         </label>
+                        @if($errors->has('email'))
+						    <span style="color: red">{{ $errors->first('email') }}</span>
+						@endif
                     </div>
                     <!-- Password -->
                     <div class="relative">
-                        <input type="password" id="signupPassword" name="password" value="{{ old('password') }}"
+                        <input type="password" id="signupPassword" name="password"
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Password" />
                         <label for="signupPassword"
-                            class="absolute left-4 top-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="left-4 top-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
                             Password
                         </label>
-                        <button type="button" id="toggleSignupPassword"
+                        <!-- @if($errors->has('password'))
+						    <span style="color: red">{{ $errors->first('password') }}</span>
+						@endif -->
+                        <!-- <button type="button" id="toggleSignupPassword"
                             class="absolute right-3 top-4 text-gray-500 hover:text-black">
-                            <!-- Eye Open -->
+                      
                             <svg id="eyeOpen1" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 block" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -50,27 +79,30 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                            <!-- Eye Off -->
+                  
                             <svg id="eyeOff1" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13.875 18.825A10.05 10.05 0 0112 19.5C7.523 19.5 3.732 16.557 2.458 12a10.094 10.094 0 012.456-4.118M6.635 6.635A9.964 9.964 0 0112 4.5c4.478 0 8.268 2.943 9.542 7a10.05 10.05 0 01-1.174 2.45M15 12a3 3 0 00-3-3m-1.5.514a3 3 0 104.477 4.477M3 3l18 18" />
                             </svg>
-                        </button>
+                        </button> -->
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="relative">
-                        <input type="password" id="signupConfirmPassword" name="confirm_password"
+                        <input type="password" id="signupConfirmPassword" name="password_confirmation"
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Confirm Password" />
                         <label for="signupConfirmPassword"
                             class="absolute left-4 top-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
                             Confirm Password
                         </label>
-                        <button type="button" id="toggleSignupConfirmPassword"
+                        @if($errors->has('password'))
+                            <span style="color: red">{{ $errors->first('password') }}</span>
+                        @endif
+                        <!-- <button type="button" id="toggleSignupConfirmPassword"
                             class="absolute right-3 top-4 text-gray-500 hover:text-black">
-                            <!-- Eye Open -->
+                    
                             <svg id="eyeOpen2" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 block" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,17 +110,36 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                            <!-- Eye Off -->
+                
                             <svg id="eyeOff2" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13.875 18.825A10.05 10.05 0 0112 19.5C7.523 19.5 3.732 16.557 2.458 12a10.094 10.094 0 012.456-4.118M6.635 6.635A9.964 9.964 0 0112 4.5c4.478 0 8.268 2.943 9.542 7a10.05 10.05 0 01-1.174 2.45M15 12a3 3 0 00-3-3m-1.5.514a3 3 0 104.477 4.477M3 3l18 18" />
                             </svg>
-                        </button>
+                        </button> -->
                     </div>
 
+                      <div class="relative">
+                            <select id="type" name="type"
+                                class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
+                                required>
+                                <option value="" disabled selected hidden>Choose Type</option>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
 
-                    <button class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">Sign
+                            <label for="type"
+                                class="left-4 top-2 text-gray-500 text-sm transition-all peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400">
+                                Choose Type
+                            </label>
+
+                            @if($errors->has('type'))
+                                <span style="color: red">{{ $errors->first('type') }}</span>
+                            @endif
+                        </div>
+
+
+                    <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">Sign
                         Up</button>
                 </form>
 
@@ -103,7 +154,7 @@
                     </button>
 
                     <!-- Facebook -->
-                    <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
+                    <!-- <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
                             width="24" height="24" x="0" y="0" viewBox="0 0 152 152"
                             style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
@@ -119,7 +170,7 @@
                             </g>
                         </svg>
                         <span class="text-sm">Facebook</span>
-                    </button>
+                    </button> -->
                 </div>
 
             </div>
@@ -139,3 +190,4 @@
         </div>
     </section>
 
+</x-front>
