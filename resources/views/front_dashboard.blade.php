@@ -1,3 +1,5 @@
+    <x-front>
+    
     <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
     <!-- Hero Section with Gradient Overlay -->
@@ -113,3 +115,4 @@
         </div>
     </section>
 
+</x-front>
