@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- content here -->
-                <livewire:master-insurance-purchase />
+                <livewire:master-insurance-purchase /> 
                 <!-- content here -->
             </div>
             <!-- Table Four -->

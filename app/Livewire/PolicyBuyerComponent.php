@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+
 use App\Models\Insurance;
 use App\Models\Purchase;
 use App\Models\Invoice;
@@ -13,12 +14,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use PDF;
 
- 
 use Illuminate\Validation\Rule;
 
-class MasterInsurancePurchase extends Component
+class PolicyBuyerComponent extends Component
 {
-    public $currentStep = 1;
+
+     public $currentStep = 1;
 
     public $selectedinsuranceId;
     public $insuranceDetails;
@@ -528,7 +529,7 @@ class MasterInsurancePurchase extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                     foreach ($sendToemails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -541,7 +542,7 @@ class MasterInsurancePurchase extends Component
                         $messages->to($sendToemails);
                         $messages->subject($email_subject);
                         $messages->cc($ccEmails);
-                        $messages->bcc(['bestpratik@gmail.com']);
+                        $messages->bcc(['dcstest201@gmail.com']);
 
                         foreach ($allDocs as $attachment) {
                             $messages->attach($attachment);
@@ -601,7 +602,7 @@ class MasterInsurancePurchase extends Component
                  Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
         ];
         // dd($data);?\
-
+ 
         try {
 
              $copyEmails = explode(',', $purchase->copy_email);
@@ -609,7 +610,7 @@ class MasterInsurancePurchase extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    $ccEmails = array_merge(['dcstest204@gmail.com'], $validCopyEmails);
 
                     foreach ($sendToBillingEmails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -622,8 +623,9 @@ class MasterInsurancePurchase extends Component
                 $message->to($sendToBillingEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
+                // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                $message->bcc(['bestpratik@gmail.com']);
+                $message->bcc(['dcstest202@gmail.com']);
                 $message->attach($filePath);
             });
 
@@ -633,12 +635,9 @@ class MasterInsurancePurchase extends Component
         }
     }
 
- 
-
-
 
     public function render()
     {
-        return view('livewire.master-insurance-purchase');
+        return view('livewire.policy-buyer-component');
     }
 }
