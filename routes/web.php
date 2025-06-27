@@ -6,6 +6,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FrontController;
 
 Route::get('/', function () {
     return view('home');
@@ -22,6 +23,13 @@ Route::get('/login', function () {
 })->middleware(['auth', 'verified'])->name('dashboard'); 
 */ 
 
+Route::get('about-us', [FrontController::class, 'about'])->name('about.us');
+Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us');
+Route::get('service', [FrontController::class, 'service'])->name('service');
+Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
+
+Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
+
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -31,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
-    Route::resource('purchases', PurchaseController::class);
+    Route::resource('purchases', PurchaseController::class); 
 
     /*All Purchase List*/
     Route::get('/all-purchase-list', function () { 
