@@ -10,6 +10,7 @@
         "blade-ui-kit/blade-heroicons": "2.6",
         "cviebrock/eloquent-sluggable": "^11.0",
         "laravel/framework": "^11.0",
+        "laravel/socialite": "^5.21",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.6"
     },

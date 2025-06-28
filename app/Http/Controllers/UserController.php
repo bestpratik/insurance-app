@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Purchase;
 use Carbon\Carbon;
 
+
 class UserController extends Controller
 {
     public function dashboard(){

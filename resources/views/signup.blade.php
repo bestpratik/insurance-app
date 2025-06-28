@@ -148,10 +148,13 @@
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
                     <!-- Google -->
-                    <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
+                     <a href="{{route('social.login', 'google')}}">
+                         <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                         <img class="w-5 h-5" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                         <span class="text-sm">Google</span>
                     </button>
+                     </a>
+                   
 
                     <!-- Facebook -->
                     <!-- <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
@@ -181,10 +184,12 @@
                 <div class="text-center space-y-4">
                     <h2 class="text-3xl font-bold">Welcome!</h2>
                     <p class="text-sm">Already have an account? Sign in to manage your policies and claims.</p>
-                    <button
+                    <a href="{{route('user.login')}}">
+                        <button
                         class="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">
                         SIGN IN
                     </button>
+                    </a>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire;
-
+ 
 use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
@@ -11,9 +11,10 @@ use App\Mail\InsuranceBillingEmail;
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
- 
+  
 use Illuminate\Validation\Rule;
 
 class MasterInsurancePurchase extends Component
@@ -277,6 +278,8 @@ class MasterInsurancePurchase extends Component
         // $policyEnd = $policyStart->copy()->addDays($validityDays);
         // $this->policyEndDate = $policyEnd->toDateString();
 
+    
+
         $purchase = new Purchase();
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
@@ -353,6 +356,7 @@ class MasterInsurancePurchase extends Component
 
         $purchase->payment_method = $this->paymentMethod;
 
+   
         $purchase->save();
 
         $invoice = new Invoice();

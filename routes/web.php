@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\SocialiteController;
 
 Route::get('/', function () {
     return view('home');
@@ -34,19 +35,35 @@ Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
 Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login');
 Route::post('user-login-submit', [FrontController::class, 'loginSubmit'])->name('user.login.submit');
-Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
+// Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
+    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
+    Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 });
 
-// Route::get('front-dashboard', function () {
-//     if (Auth::user()->type == 'user') {
-//         return redirect()->route('dashboard.frontend');
-//     }
+Route::get('login/{provider}', [SocialiteController::class, 'redirectToProvider'])->name('social.login');
+Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
 
-//     return redirect()->route('user.login');
-// })->middleware('auth')->name('dashboard.frontend');
+
+
+// Route::middleware(['auth'])->group(function () {
+
+//     Route::get('front-dashboard', function () {
+//         if (Auth::check() && Auth::user()->type === 'user') {
+//             return app(FrontController::class)->frontDashboard();
+//         }
+//         return redirect('/dashboard')->with('error', 'Unauthorized access.');
+//     })->name('dashboard.frontend');
+
+//     Route::get('user/logout', function () {
+//         session()->forget('user_login');
+//         session()->forget('logged_in_user');
+//         return redirect('user-login')->with('success', 'Successfully logged out'); 
+//     });
+// });
+
 
 
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -72,7 +89,7 @@ Route::middleware('auth')->group(function () {
     //Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
     Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');  
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
-    Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
+    Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success'); 
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details'); 
     Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
     // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');

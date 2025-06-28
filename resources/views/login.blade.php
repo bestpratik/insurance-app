@@ -105,9 +105,11 @@
                 <div class="text-center space-y-4">
                     <h2 class="text-3xl font-bold">Welcome Back!</h2>
                     <p class="text-sm">Access your policies, claims, and insurance details securely.</p>
-                    <button
+                    <a href="{{route('user.register')}}">
+                        <button
                         class="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-red-700 transition">SIGN
                         UP</button>
+                    </a>
                 </div>
             </div>
         </div>

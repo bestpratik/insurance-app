@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Middleware\UserAuth;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class FrontController extends Controller
@@ -59,25 +61,35 @@ class FrontController extends Controller
             'password'  =>  'required'
         ]);
 
-        $result = User::where('email', $request->email)->first();
+         $user = User::where('email', $request->email)->first();
 
-        if($result){
-            if(Hash::check($request->password, $result->password)){
-                $request->session()->put('user_login', true);
-                $request->session()->put('logged_in_user', $result);
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user); 
+            session()->put('user_login', true);
+            session()->put('logged_in_user', $user);
 
-                return redirect('front-dashboard')->with('success', 'Login Successfull!');
-               
-            }else{
-                return redirect('user-login')->with('error', 'Password is not correct');
-            }
-        }else{
-            return redirect('user-login')->with('error', 'Login details are not valid');
+            return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
         }
+
+        return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
     public function frontDashboard(){
+
+        if (Auth::user()->type !== 'user') {
+            return redirect('/dashboard')->with('error', 'Unauthorized access.');
+        }
         return view('front_dashboard');
+    }
+
+      public function frontSuccessPage(){
+        
+        return view('front_success_page');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('user.login');
     }
 
 }
