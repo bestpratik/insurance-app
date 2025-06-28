@@ -23,6 +23,20 @@
             <a href="{{route('contact.us')}}" class="hover:text-red-600">Contact Us</a>
         </nav>
 
+    
+
+        @if(Auth::check())
+                <a href="{{route('user.logout')}}"
+                    class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
+                    <span class="relative z-10">Logout</span>
+                </a>
+        @else
+                <a href="{{route('user.login')}}"
+                    class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
+                    <span class="relative z-10">LogIn</span>
+                </a>
+        @endif
+        
         <!-- Quote Button -->
         <a href="#"
             class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">

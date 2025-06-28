@@ -72,7 +72,8 @@
 
                 <!-- Logout Button -->
                 <div class="px-4 pb-5">
-                    <button
+                   <a href="{{route('user.logout')}}">
+                         <button
                         class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-700 transition">
                         <!-- Logout Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -82,6 +83,7 @@
                         </svg>
                         Logout
                     </button>
+                   </a>
                 </div>
             </aside>
 

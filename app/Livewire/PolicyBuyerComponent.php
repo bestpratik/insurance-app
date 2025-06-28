@@ -12,9 +12,10 @@ use App\Mail\InsuranceBillingEmail;
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule; 
 
 class PolicyBuyerComponent extends Component
 {
@@ -85,6 +86,11 @@ class PolicyBuyerComponent extends Component
 
     public function mount()
     {
+        // if (!Auth::check()) {
+        //     session()->flash('error', 'Please log in to continue.');
+        //     redirect()->route('user.login');
+        // }
+
         $this->availableInsurances = Insurance::all();
 
         if ($this->availableInsurances) {
@@ -278,7 +284,21 @@ class PolicyBuyerComponent extends Component
         // $policyEnd = $policyStart->copy()->addDays($validityDays);
         // $this->policyEndDate = $policyEnd->toDateString();
 
+        $userId = Auth::id();;
+        // dd($userId);
+
+        if (!Auth::check()) {
+            session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
+            return redirect()->route('user.login');
+        }
+
+        // if(empty($userId)){
+        //     session()->flash('error', 'You must be logged in to access this page.');
+        //     return redirect()->route('user.login');
+        // }
+
         $purchase = new Purchase();
+        $purchase->user_id = $userId;
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
@@ -354,6 +374,8 @@ class PolicyBuyerComponent extends Component
 
         $purchase->payment_method = $this->paymentMethod;
 
+       
+
         $purchase->save();
 
         $invoice = new Invoice();
@@ -396,7 +418,7 @@ class PolicyBuyerComponent extends Component
 
         
 
-        return redirect()->route('purchase.success', ['id' => $purchase->id]);
+        return redirect()->route('front.purchase.success');
 
 
         // session()->flash('message', 'Insurance purchase successfully created!');
