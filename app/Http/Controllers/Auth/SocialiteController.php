@@ -19,13 +19,14 @@ class SocialiteController extends Controller
 
     public function handleProviderCallback($provider)
         {
+            // dd($provider);
             try {
                 
                 $userSocial = Socialite::driver($provider)->stateless()->user();
 
-                
+                dd($userSocial);
                 $user = User::where('email', $userSocial->getEmail())->first();
-
+                // dd($user);
                 if ($user) {
                     // If user exists, log them in
                     Auth::login($user);
@@ -41,13 +42,7 @@ class SocialiteController extends Controller
                     Auth::login($user);
                 }
 
-                $user->assignRole('Customer');
-
-                if (session()->has('event.checkout')) {
-                    $slug = session()->get('event.checkout');
-                    session()->forget('event.checkout');
-                    return redirect()->route('event.checkout', ['slug' => $slug]);
-                }
+              
 
                 // Redirect to the user's dashboard after successful login
                 
