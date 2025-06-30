@@ -24,7 +24,7 @@ class SocialiteController extends Controller
                 
                 $userSocial = Socialite::driver($provider)->stateless()->user();
 
-                dd($userSocial);
+                // dd($userSocial);
                 $user = User::where('email', $userSocial->getEmail())->first();
                 // dd($user);
                 if ($user) {
