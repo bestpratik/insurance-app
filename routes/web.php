@@ -37,14 +37,22 @@ Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.logi
 Route::post('user-login-submit', [FrontController::class, 'loginSubmit'])->name('user.login.submit');
 // Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
 
+Route::get('user-login/{provider}', [SocialiteController::class, 'redirectToProvider'])->name('social.login');
+Route::get('user-login/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
+
+// Route::get('/user-login/facebook', [SocialiteController::class, 'redirectToProvider']);
+// Route::get('/user-login/facebook/callback', [SocialiteController::class, 'handleProviderCallback']);
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
     Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
+
+   
 });
 
-Route::get('login/{provider}', [SocialiteController::class, 'redirectToProvider'])->name('social.login');
-Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
+
 
 
 
