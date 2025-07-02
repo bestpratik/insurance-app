@@ -122,16 +122,16 @@
                       <div class="relative">
                             <select id="type" name="type"
                                 class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
-                                required>
-                                <option value="" disabled selected hidden>Choose Type</option>
+                                >
+                                <option value="">Choose Type</option>
                                 <option value="user">User</option>
                                 <option value="admin">Admin</option>
                             </select>
 
-                            <label for="type"
+                            <!-- <label for="type"
                                 class="left-4 top-2 text-gray-500 text-sm transition-all peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400">
                                 Choose Type
-                            </label>
+                            </label> -->
 
                             @if($errors->has('type'))
                                 <span style="color: red">{{ $errors->first('type') }}</span>

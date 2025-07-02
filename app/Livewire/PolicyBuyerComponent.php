@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use Illuminate\Support\Str;
 
 use Illuminate\Validation\Rule; 
 
@@ -175,7 +176,7 @@ class PolicyBuyerComponent extends Component
         } elseif ($step == 4) {
             return [
                 'policyStartDate' => 'required|date',
-                'purchaseDate' => 'required|date',
+                // 'purchaseDate' => 'required|date',
                 'astStartDate' => 'required|date',
                 'policyTerm' => 'required',
                 // 'premiumAmount' => 'required|numeric|min:0',
@@ -287,15 +288,12 @@ class PolicyBuyerComponent extends Component
         $userId = Auth::id();;
         // dd($userId);
 
-        if (!Auth::check()) {
-            session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-            return redirect()->route('user.login');
-        }
-
-        // if(empty($userId)){
-        //     session()->flash('error', 'You must be logged in to access this page.');
+        // if (!Auth::check()) {
+        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
         //     return redirect()->route('user.login');
         // }
+ 
+        
 
         $purchase = new Purchase();
         $purchase->user_id = $userId;
@@ -350,7 +348,7 @@ class PolicyBuyerComponent extends Component
         $purchase->policy_start_date = $this->policyStartDate;
         $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
-        $purchase->purchase_date = $this->purchaseDate;
+        $purchase->purchase_date = now();
         $purchase->policy_term = $this->policyTerm;
 
 
@@ -374,8 +372,13 @@ class PolicyBuyerComponent extends Component
 
         $purchase->payment_method = $this->paymentMethod;
 
+        if (!$userId) {
+            $guestToken = (string) Str::uuid();
+            $purchase->token  = $guestToken;
+            session()->put('guest_purchase_token', $guestToken);
+        }
        
-
+        // dd($purchase);
         $purchase->save();
 
         $invoice = new Invoice();
@@ -416,7 +419,20 @@ class PolicyBuyerComponent extends Component
             $this->send_email_two($purchase->id);
         }
 
-        
+        // if (!Auth::check()) {
+        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
+        //     return redirect()->route('user.login');
+        // }
+
+        // if (!$userId) {
+        //     session()->flash('error', 'You must be logged in to complete your purchase.');
+        //     return redirect()->route('user.login');
+        // }
+
+        if (!$userId) {
+            session()->put('guest_redirect_intended', url()->current());
+            return redirect()->route('user.register');
+        }
 
         return redirect()->route('front.purchase.success');
 
