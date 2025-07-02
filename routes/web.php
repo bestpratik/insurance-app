@@ -37,8 +37,8 @@ Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.logi
 Route::post('user-login-submit', [FrontController::class, 'loginSubmit'])->name('user.login.submit');
 // Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
 
-Route::get('user-login/{provider}', [SocialiteController::class, 'redirectToProvider'])->name('social.login');
-Route::get('user-login/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
+Route::get('login/{provider}', [SocialiteController::class, 'redirectToProvider'])->name('social.login');
+Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProviderCallback']);
 
 // Route::get('/user-login/facebook', [SocialiteController::class, 'redirectToProvider']);
 // Route::get('/user-login/facebook/callback', [SocialiteController::class, 'handleProviderCallback']);
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
 
     /*All Purchase List*/
     Route::get('/all-purchase-list', function () { 
-        return view('purchase.all_list');
+        return view('purchase.all_list'); 
     })->name('purchase.list'); 
 
     Route::get('/all-purchase-cancel-list', function () {
