@@ -101,15 +101,19 @@ class FrontController extends Controller
                 $purchase = Purchase::where('token', $guestToken)->first();
                 if ($purchase && !$purchase->user_id) {
                     $purchase->user_id = $user->id;
-                    // $purchase->token = null; 
+                    $purchase->token = null; 
                     $purchase->update();
                     session()->forget('guest_purchase_token'); 
                 }
+                session()->put('resume_summary', true);
             }
 
             // $redirectUrl = session()->pull('guest_redirect_intended', route('dashboard.frontend'));
             // return redirect($redirectUrl)->with('success', 'Login successful!');
-            return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
+
+            // return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
+
+            return redirect()->route('policy.buyer');
         }
 
         return redirect()->route('user.login')->with('error', 'Invalid credentials');

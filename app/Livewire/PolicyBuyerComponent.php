@@ -67,9 +67,9 @@ class PolicyBuyerComponent extends Component
     public $tenantEmail;
 
     // Step 6: Payment Method
-    public $paymentMethod;
+    // public $paymentMethod;
 
-    // Step 7: Biling Department
+    // Step 6: Biling Department
     public $billingName;
     public $billingEmail;
     public $copyBillingEmail;
@@ -82,7 +82,7 @@ class PolicyBuyerComponent extends Component
     public $isInvoice;
     public $curDate;
 
-    // Step 8: Summary data
+    // Step 7: Summary data
     public $summaryData = [];
 
     public function mount()
@@ -98,6 +98,96 @@ class PolicyBuyerComponent extends Component
             $this->insuranceDetails = $this->availableInsurances;
             // dd($this->insuranceDetails);
         }
+
+        // if (session()->pull('resume_summary')) {
+        //     $this->currentStep = 8;
+        //     // $this->prepareSummaryData();
+        //     if (Auth::check()) {
+        //         $latestPurchase = Purchase::where('user_id', Auth::id())->latest()->first();
+        //         if ($latestPurchase) {
+        //             $this->selectedinsuranceId = $latestPurchase->insurance_id;
+        //             $this->fetchInsuranceDetails(); 
+        //             $this->prepareSummaryData();
+        //         }
+        //     }
+        // }
+
+
+        if (session()->pull('resume_summary')) {
+        $this->currentStep = 7;
+
+        // Try using the guest token first (if user just logged in)
+        $guestToken = session()->pull('guest_purchase_token');
+
+        $purchase = null;
+
+        if ($guestToken) {
+            $purchase = Purchase::where('token', $guestToken)->first();
+        } elseif (Auth::check()) {
+            $purchase = Purchase::where('user_id', Auth::id())->latest()->first();
+        }
+
+        if ($purchase) {
+            // Populate Livewire properties from Purchase
+            $this->selectedinsuranceId = $purchase->insurance_id;
+            $this->fetchInsuranceDetails();
+
+            $this->productType = $purchase->product_type;
+            $this->insuranceType = $purchase->insurance_type;
+            $this->rentAmount = $purchase->rent_amount;
+            $this->doorNo = $purchase->door_no;
+            $this->addressOne = $purchase->address_one;
+            $this->addressTwo = $purchase->address_two;
+            $this->addressThree = $purchase->address_three;
+            $this->postCode = $purchase->post_code;
+            $this->policyHoldertype = $purchase->policy_holder_type;
+
+            $this->companyName = $purchase->company_name;
+            $this->policyholderCompanyEmail = $purchase->policy_holder_company_email;
+
+            $this->policyholderTitle = $purchase->policy_holder_title;
+            $this->policyholderFirstName = $purchase->policy_holder_fname;
+            $this->policyholderLastName = $purchase->policy_holder_lname;
+            $this->policyholderEmail = $purchase->policy_holder_email;
+
+            $this->policyholderPhone = $purchase->policy_holder_phone;
+            $this->policyholderAlternativePhone = $purchase->policy_holder_alternative_phone;
+            $this->policyholderPostcode = $purchase->policy_holder_postcode;
+
+            $this->copyEmail = $purchase->copy_email;
+            $this->policyholderAddress1 = $purchase->policy_holder_address_one;
+            $this->policyholderAddress2 = $purchase->policy_holder_address_two;
+
+            $this->policyStartDate = $purchase->policy_start_date;
+            $this->astStartDate = $purchase->ast_start_date;
+            $this->purchaseDate = $purchase->purchase_date;
+            $this->policyTerm = $purchase->policy_term;
+
+            $this->tenantName = $purchase->tenant_name;
+            $this->tenantPhone = $purchase->tenant_phone;
+            $this->tenantEmail = $purchase->tenant_email;
+
+            // $this->paymentMethod = $purchase->payment_method;
+
+            // Load invoice data (billing)
+            $invoice = $purchase->invoice;
+            if ($invoice) {
+                $this->billingName = $invoice->billing_name;
+                $this->billingEmail = $invoice->billing_email;
+                $this->copyBillingEmail = $invoice->copy_email;
+                $this->billingPhone = $invoice->billing_phone;
+                $this->billingAddressOne = $invoice->billing_address_one;
+                $this->billingAddressTwo = $invoice->billing_address_two;
+                $this->billingPostcode = $invoice->billing_postcode;
+                $this->ponNo = $invoice->pon;
+                $this->isInvoice = $invoice->is_invoice;
+            }
+
+            $this->prepareSummaryData(); // Now all data is loaded
+        }
+    }
+
+
     }
 
     // public function updatedSelectedinsuranceId($value) 
@@ -187,11 +277,13 @@ class PolicyBuyerComponent extends Component
                 'tenantPhone' => 'nullable',
                 'tenantEmail' => 'nullable',
             ];
-        } elseif ($step == 6) {
-            return [
-                'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
-            ];
-        } elseif ($step == 7) {
+        }
+        //  elseif ($step == 6) {
+        //     return [
+        //         'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
+        //     ];
+        // }
+         elseif ($step == 6) {
             return [
                 'billingName' => 'required|string',
                 'billingEmail' => 'required|email',
@@ -208,10 +300,10 @@ class PolicyBuyerComponent extends Component
     {
         $this->validate($this->rulesForStep($this->currentStep));
 
-        if ($this->currentStep < 8) {
+        if ($this->currentStep < 7) {
             $this->currentStep++;
 
-            if ($this->currentStep === 8) {
+            if ($this->currentStep === 7) {
                 $this->prepareSummaryData();
             }
         }
@@ -260,7 +352,7 @@ class PolicyBuyerComponent extends Component
             'Tenant Name:' => $this->tenantName ?? 'N/A',
             'Tenant Phone:' => $this->tenantPhone ?? 'N/A',
             'Tenant Email:' => $this->tenantEmail ?? 'N/A',
-            'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
+            // 'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
         ];
     }
 
@@ -273,7 +365,7 @@ class PolicyBuyerComponent extends Component
             $this->rulesForStep(4),
             $this->rulesForStep(5),
             $this->rulesForStep(6),
-            $this->rulesForStep(7)
+            // $this->rulesForStep(7)
         );
 
         $this->validate($allRules);
@@ -370,7 +462,7 @@ class PolicyBuyerComponent extends Component
         $purchase->tenant_phone = $this->tenantPhone;
         $purchase->tenant_email = $this->tenantEmail;
 
-        $purchase->payment_method = $this->paymentMethod;
+        // $purchase->payment_method = $this->paymentMethod;
 
         if (!$userId) {
             $guestToken = (string) Str::uuid();
@@ -429,12 +521,29 @@ class PolicyBuyerComponent extends Component
         //     return redirect()->route('user.login');
         // }
 
+        // if (!$userId) {
+        //     session()->put('guest_redirect_intended', url()->current());
+        //     return redirect()->route('user.register');
+        // }
+
         if (!$userId) {
-            session()->put('guest_redirect_intended', url()->current());
+            $guestToken = (string) Str::uuid();
+            $purchase->token  = $guestToken;
+            $purchase->save();
+
+            session()->put('guest_purchase_token', $guestToken);
+            session()->put('resume_summary', true);
+
             return redirect()->route('user.register');
         }
 
-        return redirect()->route('front.purchase.success');
+        // ✅ Store purchase ID in session
+        session()->put('pending_purchase_id', $purchase->id);
+
+        // ✅ Redirect to Stripe
+        return redirect()->route('stripe.booking');
+
+        // return redirect()->route('front.purchase.success');
 
 
         // session()->flash('message', 'Insurance purchase successfully created!');

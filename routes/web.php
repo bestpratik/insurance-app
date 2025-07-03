@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Auth\SocialiteController;
 
 Route::get('/', function () {
@@ -48,6 +49,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
     Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
+
+
+ 
+    Route::get('/stripe/booking', [StripePaymentController::class, 'booking'])->name('stripe.booking');
+    Route::get('/stripe/success', [StripePaymentController::class, 'success'])->name('stripe.success');
+    Route::get('/stripe/cancel', [StripePaymentController::class, 'cancel'])->name('stripe.cancel');
 
    
 });

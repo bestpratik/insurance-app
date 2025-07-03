@@ -38,7 +38,7 @@ class SocialiteController extends Controller
                         'provider' => $provider,
                     ]);
                     
-                    // Log the new user in
+                    // Log the new user in 
                     Auth::login($user);
                 }
 
