@@ -38,11 +38,17 @@ class SocialiteController extends Controller
                         'provider' => $provider,
                     ]);
                     
-                    // Log the new user in
+                    // Log the new user in 
                     Auth::login($user);
                 }
 
-              
+                // $user->assignRole('Customer');
+
+                // if (session()->has('event.checkout')) {
+                //     $slug = session()->get('event.checkout');
+                //     session()->forget('event.checkout');
+                //     return redirect()->route('event.checkout', ['slug' => $slug]);
+                // }
 
                 // Redirect to the user's dashboard after successful login
                 

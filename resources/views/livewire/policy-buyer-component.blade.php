@@ -94,7 +94,7 @@
                             <span class="text-sm hidden md:inline ml-1">Tenant Details</span>
                         </a>
 
-                        <a href="#" data-tab="tab6"
+                        <!-- <a href="#" data-tab="tab6"
                             class="tab-btn flex items-center text-center px-4 py-2 font-medium 
                                 @if($currentStep === 6)
                                     border-b-2 border-red-500 text-red-600
@@ -107,11 +107,11 @@
                                     d="M3.75 6.75h16.5a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-.75.75H3.75a.75.75 0 0 1-.75-.75v-9a.75.75 0 0 1 .75-.75zM3 9.75h18" />
                             </svg>
                             <span class="text-sm hidden md:inline ml-1">Payment Method</span>
-                        </a>
+                        </a> -->
 
-                        <a href="#" data-tab="tab7"
+                        <a href="#" data-tab="tab6"
                             class="tab-btn flex items-center text-center px-4 py-2 font-medium 
-                                @if($currentStep === 7)
+                                @if($currentStep === 6)
                                     border-b-2 border-red-500 text-red-600
                                 @else
                                     text-gray-600 hover:text-red-600 hover:border-b-2 hover:border-red-500
@@ -124,9 +124,9 @@
                             <span class="text-sm hidden md:inline ml-1">Billing Department</span>
                         </a>
 
-                        <a href="#" data-tab="tab8"
+                        <a href="#" data-tab="tab7"
                             class="tab-btn flex items-center text-center px-4 py-2 font-medium 
-                                @if($currentStep === 8)
+                                @if($currentStep === 7)
                                     border-b-2 border-red-500 text-red-600
                                 @else
                                     text-gray-600 hover:text-red-600 hover:border-b-2 hover:border-red-500
@@ -190,7 +190,7 @@
                         @enderror
                     </div>
                 </div>
-                <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                         <button type="button"
                             class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
                    
@@ -202,7 +202,7 @@
                             </svg>
                             <span>Save and Next</span>
                         </button>
-                    </div> -->
+                    </div>
             </div>
             @endif
 
@@ -289,7 +289,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                         <button type="button"
                             class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
                          
@@ -312,7 +312,7 @@
                             </svg>
                             <span>Save and Next</span>
                         </button>
-                    </div> -->
+                    </div>
             </div>
             @endif
 
@@ -518,7 +518,7 @@
 
                     </div>
                 </div>
-                <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                         <button type="button"
                             class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
                         
@@ -542,7 +542,7 @@
                             </svg>
                             <span>Save and Next</span>
                         </button>
-                    </div> -->
+                    </div>
             </div>
             @endif
 
@@ -563,16 +563,7 @@
                             @enderror
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Purchase Date <span
-                                    class="text-red-600">*</span></label>
-                            <input type="date"
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="purchaseDate">
-                            @error('purchaseDate')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+                       
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
@@ -616,7 +607,7 @@
                         </div>
 
                     </div>
-                    <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                             <button type="button"
                                 class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
                          
@@ -642,7 +633,7 @@
                                 </svg>
                                 <span>Save and Next</span>
                             </button>
-                        </div> -->
+                        </div>
                 </div>
             </div>
             @endif
@@ -683,7 +674,7 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                            
                             <button type="button"
                                 class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
@@ -710,16 +701,15 @@
                                 </svg>
                                 <span>Save and Next</span>
                             </button>
-                        </div> -->
+                        </div>
                 </div>
             </div>
             @endif
 
-            @if($currentStep === 6)
-            <div id="tab6" class="tab-content bg-white p-6 rounded shadow">
+            {{-- @if($currentStep === 6)
+            <div id="tab6" class="tab-content bg-white p-6 rounded shadow" style="display: none;">
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Payment Method</p>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Select Payment Method <span
@@ -736,40 +726,11 @@
                             @enderror
                         </div>
                     </div>
-                    <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
-                           
-                            <button type="button"
-                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                              
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Back</span>
-                            </button>
-
-                            <button type="button"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                             
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Save and Next</span>
-                            </button>
-                        </div> -->
                 </div>
-
             </div>
-            @endif
+            @endif --}}
 
-            @if($currentStep === 7)
+            @if($currentStep === 6)
             <div id="tab7" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Billing Department</p>
@@ -858,7 +819,7 @@
                             </label>
                         </div>
                     </div>
-                    <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                             
                             <button type="button"
                                 class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
@@ -885,12 +846,12 @@
                                 </svg>
                                 <span>Save and Next</span>
                             </button>
-                        </div> -->
+                        </div>
                 </div>
             </div>
             @endif
 
-            @if($currentStep === 8)
+            @if($currentStep === 7)
             <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
                 <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
                     <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
@@ -904,7 +865,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <!-- <div class="pt-4 flex justify-end gap-3 border-t mt-6">
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                   
                         <button type="button"
                             class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
@@ -929,7 +890,7 @@
                             </svg>
                             <span>Submit</span>
                         </button>
-                    </div> -->
+                    </div>
             </div>
             @endif
         </div>
@@ -950,7 +911,7 @@
             </button>
             @endif
 
-            @if($currentStep < 8)
+            @if($currentStep < 7)
                 <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
                 <span wire:loading wire:target="nextStep" class="inline">
@@ -978,7 +939,7 @@
             </button>--}}
                 @endif
 
-                @if($currentStep == 8)
+                @if($currentStep == 7)
                 <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                     class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
                     <span wire:loading wire:target="submitForm" class="inline">
