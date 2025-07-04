@@ -54,6 +54,7 @@ class FrontController extends Controller
     Auth::login($user);
     session()->put('user_login', true);
     session()->put('logged_in_user', $user);
+ 
 
     $guestToken = session('guest_purchase_token');
     if ($guestToken) {
@@ -66,8 +67,8 @@ class FrontController extends Controller
         }
         session()->put('resume_summary', true);
     }
-
-        return redirect('user-login')->with('success', 'Registration is Completed, now you can login');
+        return redirect()->route('policy.buyer');
+        // return redirect('user-login')->with('success', 'Registration is Completed, now you can login');
        
     }
 
