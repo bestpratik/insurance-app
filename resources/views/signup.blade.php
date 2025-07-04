@@ -125,7 +125,7 @@
                                 >
                                 <option value="">Choose Type</option>
                                 <option value="user">User</option>
-                                <option value="admin">Admin</option>
+                                <!-- <option value="admin">Admin</option> -->
                             </select>
 
                             <!-- <label for="type"
