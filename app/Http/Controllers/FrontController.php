@@ -38,18 +38,34 @@ class FrontController extends Controller
 
     public function user_register_submit(Request $request){
         $request->validate([
-        'name'                  => 'required',
-        'email'                 => 'required|email|unique:users',
-        'password'              => 'required|confirmed|min:6',
-        'type'                  => 'required',
-    ]);
+            'name'                  => 'required',
+            'email'                 => 'required|email|unique:users',
+            'password'              => 'required|confirmed|min:6',
+            'type'                  => 'required',
+        ]);
 
-    $user = new User;
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->type = $request->type;
-    $user->save();
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->type = $request->type;
+        $user->save();
+
+    Auth::login($user);
+    session()->put('user_login', true);
+    session()->put('logged_in_user', $user);
+
+    $guestToken = session('guest_purchase_token');
+    if ($guestToken) {
+        $purchase = Purchase::where('token', $guestToken)->first();
+        if ($purchase && !$purchase->user_id) {
+            $purchase->user_id = $user->id;
+            $purchase->token = null;
+            $purchase->update();
+            session()->forget('guest_purchase_token');
+        }
+        session()->put('resume_summary', true);
+    }
 
         return redirect('user-login')->with('success', 'Registration is Completed, now you can login');
        
@@ -116,7 +132,7 @@ class FrontController extends Controller
             return redirect()->route('policy.buyer');
         }
 
-        return redirect()->route('user.login')->with('error', 'Invalid credentials');
+        // return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
     public function frontDashboard(){

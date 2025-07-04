@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Stripe\Stripe;
+use Illuminate\Support\Facades\Log;
+use Stripe\Webhook;
 use App\Models\Purchase;
 use Stripe\Checkout\Session as StripeSession;
 use Illuminate\Support\Facades\Session;
@@ -30,11 +32,11 @@ class StripePaymentController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'usd',
+                    'currency' => 'gbp',
                     'product_data' => [
                         'name' => $purchase->insurance->name,
                     ],
-                    'unit_amount' => (int) round($purchase->payable_amount * 100),
+                    'unit_amount' => (int) ($purchase->payable_amount * 100),
                 ],
                 'quantity' => 1,
             ]],
@@ -68,6 +70,30 @@ class StripePaymentController extends Controller
     {
         session()->forget('pending_purchase_id');
         return redirect()->route('policy.buyer')->with('error', 'Payment was cancelled.');
+    }
+
+    public function handleWebhook(Request $request)
+    {
+        $payload = $request->getContent();
+        $sigHeader = $request->header('Stripe-Signature');
+        $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); 
+
+        try {
+            $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
+        } catch (\UnexpectedValueException $e) {
+            return response()->json(['error' => 'Invalid payload'], 400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            return response()->json(['error' => 'Invalid signature'], 400);
+        }
+
+       
+        if ($event->type === 'checkout.session.completed') {
+            $session = $event->data->object;
+            Log::info('Checkout session completed: ', (array) $session);
+            
+        }
+
+        return response()->json(['status' => 'success']);
     }
 
    
