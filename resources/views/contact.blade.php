@@ -182,9 +182,7 @@
                        <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
                        <span style="color:red;" id="g-recaptcha-responseErrorcourse" class="error"></span>
 
-                       <!-- End Captcha -->
-
-                       <!-- Submit Button -->
+                       
                        <button type="button" id="submitBtn"
                            class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded transition duration-300">
                            SUBMIT NOW
