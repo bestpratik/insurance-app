@@ -31,7 +31,7 @@
                 <p class="mb-4 text-center text-base">Use your email and password to access your insurance dashboard.</p>
 
                
-                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post">
+                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post"> 
                     @csrf
                     <!-- Floating Username -->
                     <div class="relative">

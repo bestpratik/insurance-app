@@ -133,7 +133,7 @@ class FrontController extends Controller
             return redirect()->route('policy.buyer');
         }
 
-        // return redirect()->route('user.login')->with('error', 'Invalid credentials');
+        return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
     public function frontDashboard(){
