@@ -7,13 +7,15 @@ use Stripe\Stripe;
 use Illuminate\Support\Facades\Log;
 use Stripe\Webhook;
 use App\Models\Purchase;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 use Stripe\Checkout\Session as StripeSession;
 use Illuminate\Support\Facades\Session;
 
 class StripePaymentController extends Controller
 {
-   
-     public function booking()
+
+    public function booking()
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -30,6 +32,7 @@ class StripePaymentController extends Controller
 
         $stripeSession = StripeSession::create([
             'payment_method_types' => ['card'],
+            'client_reference_id' => $purchase->id,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'gbp',
@@ -74,27 +77,65 @@ class StripePaymentController extends Controller
 
     public function handleWebhook(Request $request)
     {
-        $payload = $request->getContent();
+        Log::info('Stripe Webhook Headers:', $request->headers->all());
+        Log::info('Stripe Webhook Payload:', $request->all());
+
+        // $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
+        $requestBody = $request->getContent();
         $sigHeader = $request->header('Stripe-Signature');
-        $endpointSecret = env('STRIPE_WEBHOOK_SECRET'); 
 
         try {
-            $event = Webhook::constructEvent($payload, $sigHeader, $endpointSecret);
-        } catch (\UnexpectedValueException $e) {
-            return response()->json(['error' => 'Invalid payload'], 400);
-        } catch (\Stripe\Exception\SignatureVerificationException $e) {
-            return response()->json(['error' => 'Invalid signature'], 400);
-        }
-
-       
-        if ($event->type === 'checkout.session.completed') {
+            $event = Webhook::constructEvent($requestBody, $sigHeader, $endpoint_secret);
+            if ($event->type == 'checkout.session.completed') {
+                // status update on purchase table
             $session = $event->data->object;
-            Log::info('Checkout session completed: ', (array) $session);
-            
+            $purchaseId = $session->client_reference_id;
+
+            if ($purchaseId) {
+                $purchase = Purchase::find($purchaseId);
+                if ($purchase) {
+                    $purchase->payment_status = 'Paid';
+                    $purchase->save();
+
+                    Log::info("Purchase ID {$purchase->id} marked as Paid.");
+                }
+            }
+
+            //Sent email
+
+            } elseif ($event->type == 'payment_intent.payment_failed') {
+                //Status update on purchase email
+                $intent = $event->data->object;
+                Log::warning('Payment failed: ' . $intent->id);
+                //Sent email
+            }
+
+            DB::table('payments')->insert([
+                'txanid' => $event->data->object->id,
+                'status' => $event->type,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::commit();
+            return response()->json(['status' => 'success'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            DB::table('payments')->insert([
+                'txanid' => rand(1000, 99999),
+                'status' => 'error',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            Log::error("Stripe webhook error: " . $e->getMessage());
+            return response()->json(['error' => 'Webhook handling error'], 400);
         }
 
         return response()->json(['status' => 'success']);
     }
 
-   
+    
+
 }
