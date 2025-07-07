@@ -28,17 +28,15 @@
         <div class="max-w-4xl mx-auto px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Card 1 -->
+                @foreach ($services as $row)                                 
                 <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
-                    <img src="./43704.jpg" alt="Landlord Protection" class="w-full h-48 object-cover">
-
+                    <img src="{{ $row->image }}" alt="Landlord Protection" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="border-b-4 border-red-500 w-10 mb-4"></div>
-                        <h3 class="text-lg font-bold mb-2">Landlord Legal Expenses & Rent Guarantee Insurance</h3>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Landlord Legal Expenses & Rent Guarantee Insurance
-                        </p>
+                        <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
+                        <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
                         <div class="flex gap-2">
-                            <a href="#"
+                            <a href="{{ route('service.details', $row->page_slug) }}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-10">Know more</span>
                             </a>
@@ -48,31 +46,8 @@
                             </a>
                         </div>
                     </div>
-                </div> <!-- Card 2 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden relative">
-                    <img src="./LANDLORD.jpg" alt="Residential Let Insurance" class="w-full h-48 object-cover">
-
-                    <div class="p-6">
-                        <div class="border-b-4 border-red-500 w-10 mb-4"></div>
-                        <h3 class="text-lg font-bold mb-2">
-                            Residential let insurance policy for malicious damages
-                        </h3>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Residential let insurance policy for malicious damages
-                        </p>
-                        <div class="flex gap-2">
-                            <a href="#"
-                                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
-                                <span class="relative z-10">Know more</span>
-                            </a>
-                            <a href="#"
-                                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
-                                <span class="relative z-1">Buy Now</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
+                </div> 
+                @endforeach
             </div>
         </div>
     </section>
