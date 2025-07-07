@@ -1,12 +1,28 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\FactController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\ContactformController;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\FrontController;
+use Illuminate\Support\Facades\Route;
+
+
+
+
+
+
+
+
 
 Route::get('/', function () {
     return view('home');
@@ -21,11 +37,78 @@ Route::get('/login', function () {
 /*Route::get('/dashboard', function () {
     return view('dashboard'); 
 })->middleware(['auth', 'verified'])->name('dashboard'); 
-*/ 
+*/
 
+
+//About sections
+Route::get('about', [AboutController::class, 'index'])->name('about');
+Route::get('create-about', [AboutController::class, 'create'])->name('create.about');
+Route::post('save-about', [AboutController::class, 'store'])->name('save.about');
+Route::get('/about/{id}/edit', [AboutController::class, 'edit'])->name('edit.about');
+Route::put('/about/{id}/update', [AboutController::class, 'update'])->name('update.about');
+Route::delete('/about/{id}/delete', [AboutController::class, 'destroy'])->name('delete.about');
+
+
+
+//Banner sections
+Route::get('banner', [BannerController::class, 'index'])->name('banner');
+Route::get('create-banner', [BannerController::class, 'create'])->name('create.banner');
+Route::post('save-banner', [BannerController::class, 'store'])->name('save.banner');
+Route::get('/banner/{id}/edit', [BannerController::class, 'edit'])->name('edit.banner');
+Route::put('/banner/{id}/update', [BannerController::class, 'update'])->name('update.banner');
+Route::delete('/banner/{id}/delete', [BannerController::class, 'destroy'])->name('delete.banner');
+
+
+//Fact sections
+Route::get('fact', [FactController::class, 'index'])->name('fact');
+Route::get('create-fact', [FactController::class, 'create'])->name('create.fact');
+Route::post('save-fact', [FactController::class, 'store'])->name('save.fact');
+Route::get('/fact/{id}/edit', [FactController::class, 'edit'])->name('edit.fact');
+Route::put('/fact/{id}/update', [FactController::class, 'update'])->name('update.fact');
+Route::delete('/fact/{id}/delete', [FactController::class, 'destroy'])->name('delete.fact');
+
+
+//Service sections
+Route::get('services', [ServiceController::class, 'index'])->name('services');
+Route::get('create-service', [ServiceController::class, 'create'])->name('create.service');
+Route::post('save-service', [ServiceController::class, 'store'])->name('save.service');
+Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('edit.service');
+Route::put('/service/{id}/update', [ServiceController::class, 'update'])->name('update.service');
+Route::delete('/service/{id}/delete', [ServiceController::class, 'destroy'])->name('delete.service');
+
+//Client sections
+Route::get('client', [ClientController::class, 'index'])->name('client');
+Route::get('create-client', [ClientController::class, 'create'])->name('create.client');
+Route::post('save-client', [ClientController::class, 'store'])->name('save.client');
+Route::get('/client/{id}/edit', [ClientController::class, 'edit'])->name('edit.client');
+Route::put('/client/{id}/update', [ClientController::class, 'update'])->name('update.client');
+Route::delete('/client/{id}/delete', [ClientController::class, 'destroy'])->name('delete.client');
+
+
+//Contact sections
+Route::get('contact', [ContactController::class, 'index'])->name('contact');
+Route::get('create-contact', [ContactController::class, 'create'])->name('create.contact');
+Route::post('save-contact', [ContactController::class, 'store'])->name('save.contact');
+Route::get('/contact/{id}/edit', [ContactController::class, 'edit'])->name('edit.contact');
+Route::put('/contact/{id}/update', [ContactController::class, 'update'])->name('update.contact');
+Route::delete('/contact/{id}/delete', [ContactController::class, 'destroy'])->name('delete.contact');
+
+
+// Contact Form
+Route::get('/contactform_list', [ContactFormController::class, 'index'])->name('contactform.list');
+Route::get('/contactform/create', [ContactFormController::class, 'create'])->name('contactform.create');
+Route::post('/contactform/store', [ContactFormController::class, 'store'])->name('contactform.store');
+
+
+// Newsletter
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/newsletter_list', [NewsletterController::class, 'index'])->name('newsletter.list');
+
+Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('about-us', [FrontController::class, 'about'])->name('about.us');
 Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us');
-Route::get('service', [FrontController::class, 'service'])->name('service');
+Route::get('service', [FrontController::class, 'services'])->name('service');
+Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details');
 Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
@@ -39,22 +122,22 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
-    Route::resource('purchases', PurchaseController::class); 
+    Route::resource('purchases', PurchaseController::class);
 
     /*All Purchase List*/
-    Route::get('/all-purchase-list', function () { 
+    Route::get('/all-purchase-list', function () {
         return view('purchase.all_list');
-    })->name('purchase.list'); 
+    })->name('purchase.list');
 
     Route::get('/all-purchase-cancel-list', function () {
         return view('purchase.all_cancel_list');
-    })->name('purchase.cancel.list'); 
+    })->name('purchase.cancel.list');
 
     //Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
-    Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');  
+    Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
-    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details'); 
+    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');
     Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
     // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
 
@@ -78,27 +161,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('insurance/summary/{uuid}', [InsuranceController::class, 'insurance_summary'])->name('insurance.summary');
     Route::post('/insurance/invoice-submit/{id}', [InsuranceController::class, 'invoiceSubmit'])->name('insurance.invoice.submit');
-    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success'); 
+    Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
     // Route::get('insurance/success', [InsuranceController::class, 'success'])->name('insurance.success');
-    
+
     Route::get('purchase/edit/{id}', function ($id) {
-    return view('purchase.edit', ['id' => $id]); 
+        return view('purchase.edit', ['id' => $id]);
     })->name('purchase.edit');
 
     Route::get('test-mail', [InsuranceController::class, 'testmail']);
 
     /*Datewise Purchase Report*/
-    Route::get('/date-wise-purchase-report', function () { 
+    Route::get('/date-wise-purchase-report', function () {
         return view('purchase.datewise_report');
     })->name('purchase.datewise');
-
-
-    
-
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('policy-holder-email', [InsuranceController::class, 'policy_holder_email']);
-

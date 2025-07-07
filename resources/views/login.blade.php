@@ -53,7 +53,7 @@
                         Forgot your password?
                     </div>
 
-                    <button class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">Sign
+                    <button class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">
                         In</button>
                 </form>
                 <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p>

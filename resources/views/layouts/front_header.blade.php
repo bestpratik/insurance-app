@@ -1,4 +1,4 @@
-  <section class="bg-white px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-10 backdrop-blur-2xl">
+  <section class="bg-white px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-40 backdrop-blur-2xl">
         <!-- Logo -->
         <div class="flex items-center space-x-2">
             <img src="{{asset('logo.jpg')}}" alt="Logo" class="h-14 w-auto" />
@@ -6,19 +6,9 @@
 
         <!-- Desktop Nav -->
         <nav class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-lg text-gray-600 space-x-10">
-            <a href="#" class="text-red-600 font-medium">Home</a>
+            <a href="{{ route('home') }}" class="text-red-600 font-medium">Home</a>
             <a href="{{route('about.us')}}" class="hover:text-red-600">About Us</a>
             <a href="{{route('service')}}" class="hover:text-red-600">Our Services</a>
-            <!--<div class="relative group">-->
-            <!--    <button class="hover:text-red-600 flex items-center">-->
-            <!--        Pages <i class="ml-1 fas fa-chevron-down"></i>-->
-            <!--    </button>-->
-            <!--    <div-->
-            <!--        class="absolute left-0 mt-2 bg-white border rounded shadow-md hidden group-hover:block min-w-[120px]">-->
-            <!--        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Page 1</a>-->
-            <!--        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">Page 2</a>-->
-            <!--    </div>-->
-            <!--</div>--> 
             <a href="{{route('policy.buyer')}}" class="hover:text-red-600">Policy Buyer Form</a>
             <a href="{{route('contact.us')}}" class="hover:text-red-600">Contact Us</a>
         </nav>
