@@ -1,6 +1,6 @@
 <div>
     <section class="my-16">
-        <div class="max-w-7xl mx-auto border rounded-md p-2">
+        <div class="max-w-7xl mx-auto rounded-md p-2">
             <div class="relative">
                 <button id="scrollLeft"
                     class="absolute left-0 top-0 bottom-0 z-10 px-2 hidden md:flex items-center bg-red-600 text-white shadow-md rounded-l-md hover:bg-red-700 transition">
