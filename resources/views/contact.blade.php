@@ -177,7 +177,7 @@
                        <!-- This is for captcha -->
                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                        <div class="form-group col-sm-12 g-recaptcha"
-                           data-sitekey="6Lc23norAAAAADNBdJbjKPrSx6vIPQuu8iLsQbSX"></div>
+                           data-sitekey="6Lcs4HorAAAAANcx64Mp-_pletYxJDEvQwQ3nAt2"></div>
                        <div id="captcha"></div>
                        <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
                        <span style="color:red;" id="g-recaptcha-responseErrorcourse" class="error"></span>
