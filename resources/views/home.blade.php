@@ -10,12 +10,12 @@
                     <div class="absolute inset-0 bg-black/30 flex items-center">
                         <div class="container mx-auto px-6">
                             <div class="max-w-xl text-white">
-                                <h2 class="text-4xl font-bold mb-4">{{ $row->title }}</h2>
-                                <p class="text-lg text-gray-100 mb-6">{{ $row->sub_title }}</p>
+                                <h2 class="text-4xl font-bold mb-4">{{ $row->title ?? '' }}</h2>
+                                <p class="text-lg text-gray-100 mb-6">{{ $row->sub_title ?? '' }}</p>
                                 @if ($row->button_text)
-                                    <a href="{{ $row->button_link ?? '#' }}"
+                                    <a href="{{ route('about.us') }}"
                                         class="relative rounded-lg flex h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
-                                        <span class="relative z-1">{{ $row->button_text }}</span>
+                                        <span class="relative z-1">{{ $row->button_text ?? '' }}</span>
                                     </a>
                                 @endif
                             </div>
@@ -54,15 +54,15 @@
                         <p class="text-sm">Experience</p>
                     </div>
                 </div>
-                <img src="{{ $aboutFirst->image }}" alt="about" class="rounded-md shadow-lg">
+                <img src="{{ $aboutFirst->image ?? '' }}" alt="about" class="rounded-md shadow-lg">
             </div>
 
             <!-- Right: Text Content -->
             <div class="md:w-1/2 mt-10 md:mt-0">
-                <h2 class="text-3xl md:text-4xl font-bold text-black mb-4 leading-tight">{!! $aboutFirst->title !!}
+                <h2 class="text-3xl md:text-4xl font-bold text-black mb-4 leading-tight">{{ $aboutFirst->title ?? '' }}
                 </h2>
                 <p class="text-gray-600 mb-4">
-                    {!! $aboutFirst->description !!}
+                    {!! $aboutFirst->description ?? '' !!}
                 </p>
                 <a href="{{ route('about.us') }}"
                     class="relative rounded-lg flex h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
