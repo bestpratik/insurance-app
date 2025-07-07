@@ -40,7 +40,7 @@
                        </div>
                        <div class="ml-4">
                            <h4 class="font-semibold text-gray-800">Our Address</h4>
-                           <p class="text-gray-600 text-sm">{{ $contact->address }}</p>
+                           <p class="text-gray-600 text-sm">{!! $contact->address ?? '' !!}</p>
                        </div>
                    </div>
 
@@ -56,7 +56,7 @@
                        </div>
                        <div class="ml-4">
                            <h4 class="font-semibold text-gray-800">Phone Number</h4>
-                           <p class="text-gray-600 text-sm">{{ $contact->phone }}</p>
+                           <p class="text-gray-600 text-sm">{{ $contact->phone ?? '' }}</p>
                        </div>
                    </div>
 
@@ -72,7 +72,7 @@
                        </div>
                        <div class="ml-4">
                            <h4 class="font-semibold text-gray-800">Email Us</h4>
-                           <p class="text-gray-600 text-sm">{{ $contact->email }}</p>
+                           <p class="text-gray-600 text-sm">{{ $contact->email ?? '' }}</p>
                        </div>
                    </div>
                </div>
@@ -177,7 +177,7 @@
                        <!-- This is for captcha -->
                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                        <div class="form-group col-sm-12 g-recaptcha"
-                           data-sitekey="6Le-VW4rAAAAAEnvCYWvKVRQ6jhNxCfqDL_qdeHq"></div>
+                           data-sitekey="6Lc23norAAAAADNBdJbjKPrSx6vIPQuu8iLsQbSX"></div>
                        <div id="captcha"></div>
                        <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
                        <span style="color:red;" id="g-recaptcha-responseErrorcourse" class="error"></span>
