@@ -4,12 +4,12 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\FactController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ContactformController;
 use App\Http\Controllers\FrontController;
-
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
@@ -20,6 +20,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -91,6 +92,15 @@ Route::post('save-contact', [ContactController::class, 'store'])->name('save.con
 Route::get('/contact/{id}/edit', [ContactController::class, 'edit'])->name('edit.contact');
 Route::put('/contact/{id}/update', [ContactController::class, 'update'])->name('update.contact');
 Route::delete('/contact/{id}/delete', [ContactController::class, 'destroy'])->name('delete.contact');
+
+
+//Contentsections
+Route::get('content', [ContentController::class, 'index'])->name('content');
+Route::get('create-content', [ContentController::class, 'create'])->name('create.content');
+Route::post('save-content', [ContentController::class, 'store'])->name('save.content');
+Route::get('/content/{id}/edit', [ContentController::class, 'edit'])->name('edit.content');
+Route::put('/content/{id}/update', [ContentController::class, 'update'])->name('update.content');
+Route::delete('/content/{id}/delete', [ContentController::class, 'destroy'])->name('delete.content');
 
 
 // Contact Form
