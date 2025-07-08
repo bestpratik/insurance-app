@@ -140,7 +140,7 @@
                 <span>Banner</span>
             </a>
 
-             <!-- Fact -->
+            <!-- Fact -->
             <a href="{{ url('fact') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
           @if (request()->is('fact*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
@@ -188,6 +188,18 @@
                 <span>Contact</span>
             </a>
 
+            <!-- Content -->
+            <a href="{{ url('content') }}"
+                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+       @if (request()->is('content*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+
+                <x-heroicon-o-document-check
+                    class="w-5 h-5 mr-3 flex-shrink-0
+           @if (request()->is('content*')) text-white @else text-[25304e] @endif" />
+
+                <span>Terms & Conditions</span>
+            </a>
+
             <!-- Contact Form -->
             <a href="{{ route('contactform.list') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
@@ -200,7 +212,7 @@
                 <span>Contact Form List</span>
             </a>
 
-             <!-- Newsletter -->
+            <!-- Newsletter -->
             <a href="{{ route('newsletter.list') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
        @if (request()->is('newsletter_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
@@ -233,3 +245,4 @@
         <span class="sidebar-item-text">Purchase</span>
     </a> -->
 </nav>
+
