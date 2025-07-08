@@ -505,11 +505,12 @@ class PolicyBuyerComponent extends Component
        
 
         //Policy holder email send
-        $this->send_email_one($purchase->id);
-        if($invoice->is_invoice == 1){
+        // $this->send_email_one($purchase->id);
+        
+        // if($invoice->is_invoice == 1){
 
-            $this->send_email_two($purchase->id);
-        }
+        //     $this->send_email_two($purchase->id);
+        // }
 
         // if (!Auth::check()) {
         //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
