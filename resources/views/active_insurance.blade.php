@@ -91,34 +91,12 @@
             </aside>
 
 
-
+            <div class="flex-1">
+                <livewire:active-insurance />
+            </div>
             <!-- Main Content -->
-            <main class="flex-1 p-6">
-                <h1 class="text-3xl font-bold text-red-600 mb-3">Welcome to the Dashboard</h1>
-                <p class="mb-4 text-gray-800">This dashboard provides a comprehensive overview of your insurance
-                    policies. Stay informed and up to date with the current status of your coverage at a glance.</p>
-
-                <!-- Sample Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="{{route('active.insurance')}}">
-                        <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-green-500">
-                            <h2 class="text-xl font-semibold mb-2">Active Insurances</h2>
-                            <!-- <p class="text-gray-600">Total: 5 policies</p> -->
-                        </div>
-                    </a>
-                    
-                    <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-red-500">
-                        <h2 class="text-xl font-semibold mb-2">Inactive Insurances</h2>
-                        <p class="text-gray-600">Total: 24 policies</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-yellow-500">
-                        <h2 class="text-xl font-semibold mb-2">Cancelled Insurances</h2>
-                        <p class="text-gray-600">Total: 12 policies</p>
-                    </div>
-
-                </div>
-            </main>
+             
+          
 
         </div>
     </section>

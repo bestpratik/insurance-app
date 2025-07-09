@@ -11,6 +11,10 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Purchase;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -183,4 +187,67 @@ class FrontController extends Controller
         return redirect()->route('user.login');
     }
 
+    public function forgot_password(){ 
+        return view('front_forgot_pass');
+    }
+
+    function validate_forgotpass(Request $request){
+
+        $request->validate([
+            'email'        =>   'required|email|exists:users'
+        ]);
+        $token = Str::random(64);
+    
+        DB::table('password_reset_tokens')->insert([
+            'email' => $request->email, 
+            'token' => $token, 
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::send('submitforgotpassword', ['token' => $token], function($message) use($request){
+            $message->to($request->email);
+            $message->subject('Reset Password');
+        });
+
+        return redirect()->back()->with('success', 'We have e-mailed your password reset link!');
+    }
+
+    public function showResetPassword($token) { 
+   
+        return view('forgetpasswordlink', ['token' => $token]);
+    }
+
+    public function submitResetPassword(Request $request){
+
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $updatePassword = DB::table('password_reset_tokens')
+                            ->where([
+                            'email' => $request->email, 
+                            'token' => $request->token
+                            ])
+                            ->first();
+
+                            //dd($updatePassword);
+
+        if(!$updatePassword){
+            return back()->withInput()->with('error', 'Invalid token!');
+        }
+    
+        $user = User::where('email', $request->email)
+                    ->update(['password' => Hash::make($request->password)]);
+
+        DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete(); 
+
+        return redirect('user-login')->with('success', 'Your password has been changed!'); 
+    }
+
+    public function active_insurance(){
+        // $active_insure = Purchase::where('policy_end_date' > now())->get();
+        return view('active_insurance');
+    }
 }

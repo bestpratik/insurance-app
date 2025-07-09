@@ -133,10 +133,20 @@ Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProv
 // Route::get('/user-login/facebook/callback', [SocialiteController::class, 'handleProviderCallback']);
 
 Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);
+Route::get('forgotpassword', [FrontController::class, 'forgot_password'])->name('forgot.pass'); 
+Route::post('send-mail', [FrontController::class, 'validate_forgotpass'])->name('validate.pass'); 
+Route::get('reset-pass/{token}', [FrontController::class, 'showResetPassword'])->name('reset.password'); 
+Route::post('submit-reset-Password', [FrontController::class, 'submitResetPassword'])->name('reset.Password.submit'); 
+
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
+    Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance');
+
+
     Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
+
+
 
 
  
