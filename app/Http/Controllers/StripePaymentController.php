@@ -12,8 +12,9 @@ use App\Models\Insurance;
 use Illuminate\Support\Facades\DB;
 use Stripe\Checkout\Session as StripeSession;
 use Illuminate\Support\Facades\Session;
-use PDF;
+use Illuminate\Support\Facades\PDF;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class StripePaymentController extends Controller
@@ -307,7 +308,6 @@ class StripePaymentController extends Controller
                         }
                     });
 
-                    // ======= INVOICE EMAIL (send_email_two logic) =======
                     // ======= INVOICE EMAIL (send_email_two logic) =======
                     if ($purchase->invoice && $purchase->invoice->is_invoice == 1) {
                         $invoicePdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
