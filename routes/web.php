@@ -132,7 +132,7 @@ Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProv
 // Route::get('/user-login/facebook', [SocialiteController::class, 'redirectToProvider']);
 // Route::get('/user-login/facebook/callback', [SocialiteController::class, 'handleProviderCallback']);
 
-
+Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
     Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
@@ -144,7 +144,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stripe/success', [StripePaymentController::class, 'success'])->name('stripe.success');
     Route::get('/stripe/cancel', [StripePaymentController::class, 'cancel'])->name('stripe.cancel');
 
-    Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);
+
 
    
 });
