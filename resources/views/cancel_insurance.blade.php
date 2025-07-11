@@ -34,7 +34,7 @@
 
 
             <div class="flex-1">
-                <livewire:active-insurance />
+                <livewire:cancel-insurance />
             </div>
             <!-- Main Content -->
              
