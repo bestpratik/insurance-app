@@ -174,7 +174,10 @@ class FrontController extends Controller
         if (Auth::user()->type !== 'user') {
             return redirect('/dashboard')->with('error', 'Unauthorized access.');
         }
-        return view('front_dashboard');
+
+        $totalActive = Purchase::where('policy_end_date', '>', now())->count();
+        $totalInactive = Purchase::where('policy_end_date', '<', now())->count();
+        return view('front_dashboard', compact('totalActive','totalInactive'));
     }
 
       public function frontSuccessPage(){
@@ -249,5 +252,13 @@ class FrontController extends Controller
     public function active_insurance(){
         // $active_insure = Purchase::where('policy_end_date' > now())->get();
         return view('active_insurance');
+    }
+
+    public function inactive_insurance(){
+        return view('inactive_insurance');
+    }
+
+    public function cancel_insurance(){
+        return view('cancel_insurance');
     }
 }

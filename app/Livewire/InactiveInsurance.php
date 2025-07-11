@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire; 
+namespace App\Livewire;
 
-use Livewire\Component; 
+use Livewire\Component;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Livewire\WithPagination; 
 
-class ActiveInsurance extends Component
+class InactiveInsurance extends Component
 {
     use WithPagination;
     public $perPage = 10;
@@ -24,12 +24,11 @@ class ActiveInsurance extends Component
     public $purchaseDate;
     public $tenantName;
     public $tenantEmail;
-    public $detailsofCover;  
-
+    public $detailsofCover;
 
     public function render()
     {
-         $query = Purchase::with(['insurance.provider','invoice'])->where('policy_end_date', '>', now())->orderBy('id', 'desc');
+         $query = Purchase::with(['insurance.provider','invoice'])->where('policy_end_date', '<', now())->orderBy('id', 'desc');
         //  dd($query);
        
         if (!empty($this->policyNo)) {
@@ -91,8 +90,8 @@ class ActiveInsurance extends Component
 
         $purchases = $query->paginate($this->perPage);
 
-        return view('livewire.active-insurance', [
+        return view('livewire.inactive-insurance', [
             'result' => $purchases,
-        ]);
+        ]); 
     }
 }

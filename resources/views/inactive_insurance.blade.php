@@ -26,15 +26,14 @@
                 </div>
 
                 <!-- Navigation -->
-                 @include('front_sidebar')
-
+                @include('front_sidebar')
                 <!-- Logout Button -->
-                
+               
             </aside>
 
 
             <div class="flex-1">
-                <livewire:active-insurance />
+                <livewire:inactive-insurance /> 
             </div>
             <!-- Main Content -->
              
