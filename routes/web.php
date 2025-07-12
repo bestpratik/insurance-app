@@ -31,7 +31,7 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     //return view('welcome');
-    return redirect('/login');
+    return redirect('/login'); 
 });
 
 /*Route::get('/dashboard', function () {

@@ -28,7 +28,7 @@ class ClientController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
+                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 

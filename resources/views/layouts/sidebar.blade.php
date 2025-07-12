@@ -105,6 +105,7 @@
                     || request()->is('services*')
                     || request()->is('client*')
                     || request()->is('contact') || request()->is('contact/')
+                    || request()->is('content*')
                     || request()->is('contactform_list*')
                     || request()->is('newsletter_list*');
     @endphp
@@ -193,11 +194,11 @@
             <!-- Content -->
             <a href="{{ url('content') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-       @if (request()->is('content*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('content*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
 
                 <x-heroicon-o-document-check
                     class="w-5 h-5 mr-3 flex-shrink-0
-           @if (request()->is('content*')) text-white @else text-[25304e] @endif" />
+            @if (request()->is('content*')) text-white @else text-[25304e] @endif" />
 
                 <span>Terms & Conditions</span>
             </a>
