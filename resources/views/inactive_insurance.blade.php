@@ -32,7 +32,7 @@
             </aside>
 
 
-            <div class="flex-1">
+            <div class="flex-1 overflow-x-scroll">
                 <livewire:inactive-insurance /> 
             </div>
             <!-- Main Content -->

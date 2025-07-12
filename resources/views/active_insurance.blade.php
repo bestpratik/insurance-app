@@ -33,8 +33,8 @@
             </aside>
 
 
-            <div class="flex-1">
-                <livewire:active-insurance />
+            <div class="flex-1 overflow-x-scroll">
+                <livewire:active-insurance /> 
             </div>
             <!-- Main Content -->
              
