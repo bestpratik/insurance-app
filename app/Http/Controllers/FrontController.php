@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 
 
@@ -260,5 +261,48 @@ class FrontController extends Controller
 
     public function cancel_insurance(){
         return view('cancel_insurance');
+    }
+
+    /**
+     * Function : googleLogin
+     * Description : This function will redirect to google
+     * @param NA
+     * @return void
+     */
+
+    public function googleLogin(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Function : googleAuthentication
+     * Description : This function will authenticate the user through the google account
+     * @param NA
+     * @return void
+     */
+
+    public function googleAuthentication(){
+        try{
+            $googleUser = Socialite::driver('google')->user();
+            $user = User::where('provider_id', $googleUser->id)->where('provider', 'google')->first();
+            if($user){
+                Auth::login($user);
+                return redirect()->route('dashboard.frontend');
+            }else{
+                $user = new User;
+                $user->name = $googleUser->name;
+                $user->email = $googleUser->email;
+                $user->password = Hash::make('Password@123');
+                $user->type = 'user';
+                $user->provider_id = $googleUser->id;
+                $user->provider = 'google';
+                $user->save();
+
+                Auth::login($user);
+                return redirect()->route('dashboard.frontend');
+            }
+        } catch (Exception $e){
+            dd($e);
+        }
     }
 }

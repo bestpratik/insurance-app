@@ -88,8 +88,11 @@
                 <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p>
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
-                    <button class="border p-2 rounded-full"><img class="w-5"
-                            src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></button>
+                    <a href="{{ route('auth.google') }}" class="border p-2 rounded-full"><img class="w-5"
+                            src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></a>
+                            
+                    {{--<button class="border p-2 rounded-full"><img class="w-5"
+                            src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></button>--}}
                     <button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/475693/facebook-color.svg" alt=""></button>
                     <button class="border p-2 rounded-full"><img class="w-5"
