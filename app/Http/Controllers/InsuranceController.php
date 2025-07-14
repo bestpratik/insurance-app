@@ -450,7 +450,7 @@ class InsuranceController extends Controller
     public function edit(string $uuid)
     {
         $provider = Provider::where('status', 1)->get();
-        $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
+        $insurance = Insurance::where('uuid', $uuid)->firstOrFail(); 
         // dd($insurance);
 
         return view('insurance.edit', compact('provider','insurance'));

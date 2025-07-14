@@ -181,6 +181,9 @@
                                     <span>Online</span>
                                 </label>
                             </div>
+                            @error('purchase_mode')
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
                         </label>
 
                     </div>
