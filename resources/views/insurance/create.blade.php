@@ -173,7 +173,7 @@
                             <span class="text-gray-700">Purchase Mode<span class="text-red-600 text-xl">* </span></span>
                             <div class="flex items-center space-x-6 mt-2">
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline">
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline"> 
                                     <span>Offline</span>
                                 </label>
                                 <label class="flex items-center space-x-2">

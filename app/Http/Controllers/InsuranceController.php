@@ -451,7 +451,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::where('uuid', $uuid)->firstOrFail(); 
         // dd($insurance);
 
-        return view('insurance.edit', compact('provider','insurance'));
+        return view('insurance.edit', compact('provider','insurance')); 
     }
 
   
@@ -464,6 +464,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
+        $insurance->purchase_mode = $request->purchase_mode;
         $insurance->prefix = $request->prefix;
         $insurance->type_of_insurance = $request->type_of_insurance;
         $insurance->validity = $request->validity;
@@ -487,7 +488,7 @@ class InsuranceController extends Controller
         
             $insurance->image = $filename;
         }
-
+        // dd($insurance);
         $insurance->save();
 
         return redirect()->route('insurance.pricing',$insurance->uuid)->with('message', 'Insurance updated successfully.');
