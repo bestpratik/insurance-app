@@ -42,7 +42,7 @@
                                     <span>New</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal"
+                                    <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal" 
                                         @if($insurance->type_of_insurance == 'Renewal') checked @endif>
                                     <span>Renewal</span>
                                 </label>
@@ -141,7 +141,7 @@
                             <span class="text-gray-700">Purchase Mode<span class="text-red-600 text-xl">* </span></span>
                             <div class="flex items-center space-x-6 mt-2">
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline"
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline" 
                                         @if($insurance->purchase_mode == 'Offline') checked @endif>
                                     <span>Offline</span>
                                 </label>

@@ -285,6 +285,7 @@ class MasterInsurancePurchase extends Component
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
+        $purchase->insurance_type = $this->insuranceType;
         $purchase->rent_amount = $this->rentAmount;
         $purchase->door_no = $this->doorNo;
         $purchase->address_one = $this->addressOne;
