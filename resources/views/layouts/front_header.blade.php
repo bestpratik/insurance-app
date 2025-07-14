@@ -9,7 +9,7 @@
             <a href="{{ route('home') }}" class="text-red-600 font-medium">Home</a>
             <a href="{{route('about.us')}}" class="hover:text-red-600">About Us</a>
             <a href="{{route('service')}}" class="hover:text-red-600">Our Services</a>
-            <a href="{{route('policy.buyer')}}" class="hover:text-red-600">Policy Buyer Form</a>
+           {{-- <a href="{{route('policy.buyer')}}" class="hover:text-red-600">Policy Buyer Form</a> --}}
             <a href="{{route('contact.us')}}" class="hover:text-red-600">Contact Us</a>
         </nav>
 
@@ -32,7 +32,7 @@
         @endif
         
         <!-- Quote Button -->
-        <a href="{{ route('service') }}"
+        <a href="{{route('policy.buyer')}}"
             class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
             <span class="relative z-10">Get A Quote</span>
         </a>
