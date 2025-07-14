@@ -333,7 +333,7 @@ class FrontController extends Controller
     {
         try {
             $facebookUser = Socialite::driver('facebook')->user();
-            dd($facebookUser);
+      
             $user = User::where('provider_id', $facebookUser->id)
                 ->where('provider', 'facebook')
                 ->first();
