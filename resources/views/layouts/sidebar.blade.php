@@ -98,6 +98,29 @@
         <span class="sidebar-item-text">Provider</span>
     </a>
 
+    <a href="{{ url('online-purchase') }}"
+    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+    @if (request()->is('online-purchase') || request()->is('online-purchase/*')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-credit-card
+            class="mr-3 h-5 w-5
+            @if (request()->is('online-purchase') || request()->is('online-purchase/*')) text-white 
+            @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Online Purchase list</span>
+    </a>
+
+    <a href="{{ url('offline-purchase') }}"
+    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+    @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-credit-card
+            class="mr-3 h-5 w-5
+            @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) text-white 
+            @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Offline Purchase list</span>
+    </a>
+
+
     @php
     $frontendActive = request()->is('about*')
                     || request()->is('banner*')

@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InsuranceBillingEmail;
 use Illuminate\Support\Facades\File;
 use PDF;
- 
-class PurchaseList extends Component
+
+class OfflinePurchaseList extends Component
 {
-    use WithPagination;
+     use WithPagination;
     public $perPage = 10;
     public $policyNo;
     public $insuranceName;
@@ -53,17 +53,24 @@ class PurchaseList extends Component
     public $paymentMethod;
     public $paymentStatus;
 
+
     public function render()
     {
-        $query = Purchase::with(['insurance.provider','invoice'])->where('status', 1)->whereNull('purchase_status')->orderBy('id', 'desc');
+        $query = Purchase::with(['insurance.provider', 'invoice'])
+        ->where('status', 1)
+        ->whereHas('insurance', function ($query) {
+                $query
+            ->where('purchase_mode', 'Offline');
+            })
+        ->orderBy('id', 'desc');
 
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
         }
 
         if (!empty($this->insuranceName)) {
-            $query->whereHas('insurance', function ($query) {
-                 $query->where('name', 'like', '%' . $this->insuranceName . '%');
+            $query->whereHas('insurance', function ($query) { 
+                $query->where('name', 'like', '%' . $this->insuranceName . '%');
             });
         }
 
@@ -77,9 +84,9 @@ class PurchaseList extends Component
 
         if (!empty($this->landlordAgency)) {
             $query->where('policy_holder_title', $this->landlordAgency)
-                        ->orWhere('policy_holder_fname', 'LIKE', '%' . $this->landlordAgency . '%')
-                        ->orWhere('policy_holder_lname', 'LIKE', '%' . $this->landlordAgency . '%')
-                        ->orWhere('company_name', 'LIKE', '%' . $this->landlordAgency . '%');
+                ->orWhere('policy_holder_fname', 'LIKE', '%' . $this->landlordAgency . '%')
+                ->orWhere('policy_holder_lname', 'LIKE', '%' . $this->landlordAgency . '%')
+                ->orWhere('company_name', 'LIKE', '%' . $this->landlordAgency . '%');
         }
 
         if (!empty($this->landlordagencyAddress)) {
@@ -111,54 +118,54 @@ class PurchaseList extends Component
         }
 
         if (!empty($this->tenantEmail)) {
-            $query->where('tenant_email', $this->tenantEmail); 
+            $query->where('tenant_email', $this->tenantEmail);
         }
 
         $purchases = $query->paginate($this->perPage);
-        return view('livewire.purchase-list', [
+
+        return view('livewire.offline-purchase-list', [
             'result' => $purchases,
+        ]); 
+    }
+
+      public function openCancelModal($purchaseId)
+    {
+        $this->cancelPurchaseId = $purchaseId;
+        $this->cancelReason = '';
+        $this->showCancelModal = true;
+    }
+
+    public function closeCancelModal()
+    {
+        $this->showCancelModal = false;
+        $this->cancelPurchaseId = null;
+        $this->cancelReason = '';
+    }
+
+    public function submitCancellation()
+    {
+        $this->validate([
+            'cancelReason' => 'required|string|min:5',
         ]);
+
+        $purchase = Purchase::find($this->cancelPurchaseId);
+
+        if ($purchase) {
+            $purchase->purchase_status = 'Cancelled';
+            $purchase->purchase_cancel_reason = $this->cancelReason;
+            $purchase->save();
+            $this->cancelledPurchases[] = $this->cancelPurchaseId;
+        }
+
+        // session()->flash('message', 'Purchase cancelled successfully.');
+        // $this->closeCancelModal();
+
+        $this->dispatch('swal:message', ['message' => 'Purchase cancelled successfully.']);
+        $this->closeCancelModal();
     }
 
 
-public function openCancelModal($purchaseId)
-{
-    $this->cancelPurchaseId = $purchaseId;
-    $this->cancelReason = '';
-    $this->showCancelModal = true;
-}
-
-public function closeCancelModal()
-{
-    $this->showCancelModal = false;
-    $this->cancelPurchaseId = null;
-    $this->cancelReason = '';
-}
-
-public function submitCancellation()
-{
-    $this->validate([
-        'cancelReason' => 'required|string|min:5',
-    ]);
-
-    $purchase = Purchase::find($this->cancelPurchaseId);
-
-    if ($purchase) {
-        $purchase->purchase_status = 'Cancelled'; 
-        $purchase->purchase_cancel_reason = $this->cancelReason; 
-        $purchase->save();
-        $this->cancelledPurchases[] = $this->cancelPurchaseId;
-    }
-
-    // session()->flash('message', 'Purchase cancelled successfully.');
-    // $this->closeCancelModal();
-
-    $this->dispatch('swal:message', ['message' => 'Purchase cancelled successfully.']);
-    $this->closeCancelModal();
-}
-
-
-    public function openResendModal($purchaseId) 
+    public function openResendModal($purchaseId)
     {
         $this->resendDocPurchaseId = $purchaseId;
         $this->resendDocument = '';
@@ -197,7 +204,7 @@ public function submitCancellation()
 
         $this->send_email_one($purchase->id, $emailList);
 
-      
+
         $this->sendMail = array_unique(array_merge($this->sendMail, [$this->resendDocPurchaseId]));
 
         // session()->flash('message', 'Documents resent successfully.');
@@ -208,7 +215,7 @@ public function submitCancellation()
 
     public function send_email_one($purchaseId, $sendMailArray)
     {
-        
+
         $purchase = Purchase::with('invoice')->findOrFail($purchaseId);
 
         $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')
@@ -251,7 +258,7 @@ public function submitCancellation()
 
         $pdfDynamicval[] = $riskAddress;
         $pdfDynamicval[] = $insurartitle;
-        $pdfDynamicval[] = $insurance->details_of_cover; 
+        $pdfDynamicval[] = $insurance->details_of_cover;
 
         // Dynamic documents
         if ($insurance->dynamicdocument) {
@@ -293,8 +300,8 @@ public function submitCancellation()
         //         $additionalEmails[] = $purchase->policy_holder_company_email;
         //     }
 
-            // $finalRecipients = array_unique(array_merge((array) $sendMailArray, $additionalEmails));
-             $finalRecipients = $sendMailArray;
+        // $finalRecipients = array_unique(array_merge((array) $sendMailArray, $additionalEmails));
+        $finalRecipients = $sendMailArray;
 
         try {
             Mail::send('email.insurance_billing', $data, function ($messages) use ($finalRecipients, $allDocs, $email_subject) {
@@ -313,7 +320,7 @@ public function submitCancellation()
         }
     }
 
-      public function openResendInvoiceModal($purchaseId) 
+    public function openResendInvoiceModal($purchaseId)
     {
         $this->resendInvoicePurchaseId = $purchaseId;
         $this->resendInvoice = '';
@@ -415,136 +422,134 @@ public function submitCancellation()
 
 
     public function submitResendInvoice()
-{
-    $this->validate([
-        'resendInvoice' => 'required',
-    ]);
-
-    $purchase = Purchase::find($this->resendInvoicePurchaseId);
-
-    if (!$purchase) {
-        $this->addError('resendInvoice', 'Purchase not found.');
-        return;
-    }
-
-    $emailList = collect(preg_split('/[\s,]+/', $this->resendInvoice))
-        ->filter(fn($email) => filter_var(trim($email), FILTER_VALIDATE_EMAIL))
-        ->map(fn($email) => trim($email))
-        ->unique()
-        ->values()
-        ->toArray();
-
-    if (empty($emailList)) {
-        $this->addError('resendInvoice', 'Please enter at least one valid email address.');
-        return;
-    }
-
-    $this->send_email_two($purchase->id, $emailList);
-
-    $this->dispatch('swal:messages', ['message' => 'Invoice has been resent successfully!']);
-    $this->closeResendInvoiceModal();
-}
-
-public function send_email_two($purchaseId, $resendEmails = [])
-{
-    // dd($resendEmails);
-    $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
-        ->find($purchaseId);
-
-    if (!$purchase) {
-        return;
-    }
-
-    $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
-    $pdfContent = $pdf->output();
-
-    $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
-    $directory = public_path('uploads/invoice');
-    $filePath = $directory . '/' . $fileName;
-
-    if (!File::exists($directory)) {
-        File::makeDirectory($directory, 0755, true);
-    }
-
-    file_put_contents($filePath, $pdfContent);
-
-    // $sendToEmails = [$purchase->invoice->billing_email];
-    $sendToEmails = $resendEmails;
-
-    // $sendToEmails = array_merge(
-    //     [$purchase->invoice->billing_email],
-    //     $resendEmails
-    // );
-    $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
-
-    $data = [
-        'body' => 'Dear client,<br>Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
-    ];
-
-    try {
-        Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase, $resendEmails) {
-            $message->to($sendToEmails);
-            $message->subject($emailSubject);
-
-            // $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
-            // $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
-
-            $ccEmails = 'aadatia@moneywiseplc.co.uk';
-
-            $message->cc($ccEmails);
-            $message->bcc(['bestpratik@gmail.com']);
-            $message->attach($filePath);
-        });
-    } catch (Exception $e) {
-        report($e);
-    }
-}
-
-
-public function openPaymentCheckModal($purchaseId) 
-{
-    $this->checkPaymentPurchaseId = $purchaseId;
-
-    $purchase = Purchase::find($purchaseId);
-    if ($purchase) {
-        $this->paymentStatus = $purchase->payment_status; 
-        $this->paymentMethod = $purchase->payment_method;
-    }
-
-    $this->checkPayment = '';
-    $this->showPaymentCheckModal = true;
-}
-
-public function closePaymentCheckModal()
-{
-    $this->showPaymentCheckModal = false;
-    $this->checkPaymentPurchaseId = null;
-    $this->checkPayment = '';
-}
-
-public function submitPaymentCheckModal()
-{
-    // $this->validate([
-    //     'paymentMethod' => 'required',
-    //     'paymentStatus' => 'required',
-    // ]);
-
-    $purchase = Purchase::find($this->checkPaymentPurchaseId);
-
-    if ($purchase) {
-        $purchase->payment_method = $this->paymentMethod;
-        $purchase->payment_status = $this->paymentStatus; 
-        $purchase->save();
-
-        $this->dispatch('swal:successs', [
-            'message' => 'Payment information updated successfully!'
+    {
+        $this->validate([
+            'resendInvoice' => 'required',
         ]);
 
+        $purchase = Purchase::find($this->resendInvoicePurchaseId);
+
+        if (!$purchase) {
+            $this->addError('resendInvoice', 'Purchase not found.');
+            return;
+        }
+
+        $emailList = collect(preg_split('/[\s,]+/', $this->resendInvoice))
+            ->filter(fn($email) => filter_var(trim($email), FILTER_VALIDATE_EMAIL))
+            ->map(fn($email) => trim($email))
+            ->unique()
+            ->values()
+            ->toArray();
+
+        if (empty($emailList)) {
+            $this->addError('resendInvoice', 'Please enter at least one valid email address.');
+            return;
+        }
+
+        $this->send_email_two($purchase->id, $emailList);
+
+        $this->dispatch('swal:messages', ['message' => 'Invoice has been resent successfully!']);
+        $this->closeResendInvoiceModal();
     }
 
-    $this->closePaymentCheckModal();
-}
+    public function send_email_two($purchaseId, $resendEmails = [])
+    {
+        // dd($resendEmails);
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
+            ->find($purchaseId);
 
+        if (!$purchase) {
+            return;
+        }
+
+        $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+        $pdfContent = $pdf->output();
+
+        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+        $directory = public_path('uploads/invoice');
+        $filePath = $directory . '/' . $fileName;
+
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
+        }
+
+        file_put_contents($filePath, $pdfContent);
+
+        // $sendToEmails = [$purchase->invoice->billing_email];
+        $sendToEmails = $resendEmails;
+
+        // $sendToEmails = array_merge(
+        //     [$purchase->invoice->billing_email],
+        //     $resendEmails
+        // );
+        $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
+
+        $data = [
+            'body' => 'Dear client,<br>Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+        ];
+
+        try {
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase, $resendEmails) {
+                $message->to($sendToEmails);
+                $message->subject($emailSubject);
+
+                // $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
+                // $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
+
+                $ccEmails = 'aadatia@moneywiseplc.co.uk';
+
+                $message->cc($ccEmails);
+                $message->bcc(['bestpratik@gmail.com']);
+                $message->attach($filePath);
+            });
+        } catch (Exception $e) {
+            report($e);
+        }
+    }
+
+
+    public function openPaymentCheckModal($purchaseId)
+    {
+        $this->checkPaymentPurchaseId = $purchaseId;
+
+        $purchase = Purchase::find($purchaseId);
+        if ($purchase) {
+            $this->paymentStatus = $purchase->payment_status;
+            $this->paymentMethod = $purchase->payment_method;
+        }
+
+        $this->checkPayment = '';
+        $this->showPaymentCheckModal = true;
+    }
+
+    public function closePaymentCheckModal() 
+    {
+        $this->showPaymentCheckModal = false;
+        $this->checkPaymentPurchaseId = null;
+        $this->checkPayment = '';
+    }
+
+    public function submitPaymentCheckModal()
+    {
+        // $this->validate([
+        //     'paymentMethod' => 'required',
+        //     'paymentStatus' => 'required',
+        // ]);
+
+        $purchase = Purchase::find($this->checkPaymentPurchaseId);
+
+        if ($purchase) {
+            $purchase->payment_method = $this->paymentMethod;
+            $purchase->payment_status = $this->paymentStatus;
+            $purchase->save();
+
+            $this->dispatch('swal:successs', [
+                'message' => 'Payment information updated successfully!'
+            ]);
+        }
+
+        $this->closePaymentCheckModal();
+    }
 
 
 }

@@ -47,7 +47,7 @@
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
             <x-heroicon-o-document-text class="h-6 w-6 " />
-            <span class="text-sm hidden md:inline">Policy Details</span>
+            <span class="text-sm hidden md:inline">Policy Details</span> 
         </a>
 
         {{-- Step 5: Tenant Details --}}

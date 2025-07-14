@@ -20,7 +20,7 @@
                             <select name="insurance_id" id="" class="w-full mt-1 p-2 border rounded">
                                 <option value="">choose..</option>
                                 @foreach($insurance as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                    <option value="{{$row->id}}">{{$row->name}}</option> 
                                 @endforeach
                             </select>
                         </label>
