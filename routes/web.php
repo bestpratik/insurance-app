@@ -135,8 +135,11 @@ Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProv
 /**
  * Social Login
  */
-Route::get('auth/google', [FrontController::class, 'googleLogin'])->name('auth.google');
+Route::get('auth/google', [FrontController::class, 'googleLogin'])->name('auth.google'); 
 Route::get('auth/google-callback', [FrontController::class, 'googleAuthentication'])->name('auth.google-callback');
+
+Route::get('auth/facebook', [FrontController::class, 'facebookLogin'])->name('auth.facebook');
+Route::get('auth/facebook-callback', [FrontController::class, 'facebookAuthentication'])->name('auth.facebook-callback');
 
 
 Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);

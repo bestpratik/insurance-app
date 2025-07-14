@@ -18,45 +18,46 @@ class SocialiteController extends Controller
     }
 
     public function handleProviderCallback($provider)
-        {
-            // dd($provider);
-            try {
-                
-                $userSocial = Socialite::driver($provider)->stateless()->user();
+    {
+        // dd($provider);
+        try {
 
-                // dd($userSocial);
-                $user = User::where('email', $userSocial->getEmail())->first();
-                // dd($user);
-                if ($user) {
-                    // If user exists, log them in
-                    Auth::login($user);
-                } else {
-                    $user = User::create([
-                        'name' => $userSocial->getName(),
-                        'email' => $userSocial->getEmail(),
-                        'provider_id' => $userSocial->getId(),
-                        'provider' => $provider,
-                    ]);
-                    
-                    // Log the new user in 
-                    Auth::login($user);
-                }
+            $userSocial = Socialite::driver($provider)->stateless()->user();
 
-                // $user->assignRole('Customer');
+            // dd($userSocial);
+            $user = User::where('email', $userSocial->getEmail())->first();
+            // dd($user);
+            if ($user) {
+                // If user exists, log them in
+                Auth::login($user);
+            } else {
+                $user = User::create([
+                    'name' => $userSocial->getName(),
+                    'email' => $userSocial->getEmail(),
+                    'provider_id' => $userSocial->getId(),
+                    'provider' => $provider,
+                ]);
 
-                // if (session()->has('event.checkout')) {
-                //     $slug = session()->get('event.checkout');
-                //     session()->forget('event.checkout');
-                //     return redirect()->route('event.checkout', ['slug' => $slug]);
-                // }
-
-                // Redirect to the user's dashboard after successful login
-                
-                return redirect()->route('dashboard.frontend');
-
-            } catch (\Exception $e) {
-                
-                return redirect()->route('dashboard.frontend')->withErrors('Something went wrong. Please try again.');
+                // Log the new user in  
+                Auth::login($user);
             }
+
+            // $user->assignRole('Customer');
+
+            // if (session()->has('event.checkout')) {
+            //     $slug = session()->get('event.checkout');
+            //     session()->forget('event.checkout');
+            //     return redirect()->route('event.checkout', ['slug' => $slug]);
+            // }
+
+            // Redirect to the user's dashboard after successful login
+
+            return redirect()->route('dashboard.frontend');
+        } catch (\Exception $e) {
+
+            return redirect()->route('dashboard.frontend')->withErrors('Something went wrong. Please try again.');
         }
+    }
+
+    
 }

@@ -30,7 +30,7 @@ class FrontController extends Controller
         $service = Service::all();
         $fact = Fact::all();
         $client = Client::all();
-        return view('home', compact('banner', 'service','aboutFirst', 'client', 'fact'));
+        return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact'));
     }
     public function about()
     {
@@ -42,35 +42,39 @@ class FrontController extends Controller
 
     public function contact()
     {
-        $contact =Contact::first();
+        $contact = Contact::first();
         return view('contact', compact('contact'));
     }
 
     public function services()
     {
         $services = Service::all();
-        return view('servicess', compact('services')); 
+        return view('servicess', compact('services'));
     }
 
     public function service_details($page_slug)
     {
         $service = Service::where('page_slug', $page_slug)->firstOrFail();
-        return view('service_details', compact('service')); 
+        return view('service_details', compact('service'));
     }
 
-    public function policyBuyer(){
-        return view('policy_buyer'); 
+    public function policyBuyer()
+    {
+        return view('policy_buyer');
     }
 
-    public function userSignin(){
+    public function userSignin()
+    {
         return view('signup');
     }
 
-    public function userLogin(){
+    public function userLogin()
+    {
         return view('login');
     }
 
-    public function user_register_submit(Request $request){
+    public function user_register_submit(Request $request)
+    {
         $request->validate([
             'name'                  => 'required',
             'email'                 => 'required|email|unique:users',
@@ -85,25 +89,25 @@ class FrontController extends Controller
         $user->type = $request->type;
         $user->save();
 
-    Auth::login($user);
-    session()->put('user_login', true);
-    session()->put('logged_in_user', $user);
- 
+        Auth::login($user);
+        session()->put('user_login', true);
+        session()->put('logged_in_user', $user);
 
-    $guestToken = session('guest_purchase_token');
-    if ($guestToken) {
-        $purchase = Purchase::where('token', $guestToken)->first();
-        if ($purchase && !$purchase->user_id) {
-            $purchase->user_id = $user->id;
-            $purchase->token = null;
-            $purchase->update();
-            session()->forget('guest_purchase_token');
+
+        $guestToken = session('guest_purchase_token');
+        if ($guestToken) {
+            $purchase = Purchase::where('token', $guestToken)->first();
+            if ($purchase && !$purchase->user_id) {
+                $purchase->user_id = $user->id;
+                $purchase->token = null;
+                $purchase->update();
+                session()->forget('guest_purchase_token');
+            }
+            session()->put('resume_summary', true);
         }
-        session()->put('resume_summary', true);
-    }
         return redirect()->route('policy.buyer');
         // return redirect('user-login')->with('success', 'Registration is Completed, now you can login');
-       
+
     }
 
     // public function loginSubmit(Request $request){
@@ -125,13 +129,14 @@ class FrontController extends Controller
     //     return redirect()->route('user.login')->with('error', 'Invalid credentials');
     // }
 
-    public function loginSubmit(Request $request){
+    public function loginSubmit(Request $request)
+    {
         $request->validate([
             'email' =>  'required',
             'password'  =>  'required'
         ]);
 
-         $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         // if ($user && Hash::check($request->password, $user->password)) {
         //     Auth::login($user); 
@@ -142,7 +147,7 @@ class FrontController extends Controller
         // }
 
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user); 
+            Auth::login($user);
             session()->put('user_login', true);
             session()->put('logged_in_user', $user);
 
@@ -152,9 +157,9 @@ class FrontController extends Controller
                 $purchase = Purchase::where('token', $guestToken)->first();
                 if ($purchase && !$purchase->user_id) {
                     $purchase->user_id = $user->id;
-                    $purchase->token = null; 
+                    $purchase->token = null;
                     $purchase->update();
-                    session()->forget('guest_purchase_token'); 
+                    session()->forget('guest_purchase_token');
                 }
                 session()->put('resume_summary', true);
             }
@@ -170,7 +175,8 @@ class FrontController extends Controller
         return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
-    public function frontDashboard(){
+    public function frontDashboard()
+    {
 
         if (Auth::user()->type !== 'user') {
             return redirect('/dashboard')->with('error', 'Unauthorized access.');
@@ -178,37 +184,41 @@ class FrontController extends Controller
 
         $totalActive = Purchase::where('policy_end_date', '>', now())->count();
         $totalInactive = Purchase::where('policy_end_date', '<', now())->count();
-        return view('front_dashboard', compact('totalActive','totalInactive'));
+        return view('front_dashboard', compact('totalActive', 'totalInactive'));
     }
 
-      public function frontSuccessPage(){
-        
+    public function frontSuccessPage()
+    {
+
         return view('front_success_page');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('user.login');
     }
 
-    public function forgot_password(){ 
+    public function forgot_password()
+    {
         return view('front_forgot_pass');
     }
 
-    function validate_forgotpass(Request $request){
+    function validate_forgotpass(Request $request)
+    {
 
         $request->validate([
             'email'        =>   'required|email|exists:users'
         ]);
         $token = Str::random(64);
-    
+
         DB::table('password_reset_tokens')->insert([
-            'email' => $request->email, 
-            'token' => $token, 
+            'email' => $request->email,
+            'token' => $token,
             'created_at' => Carbon::now()
         ]);
 
-        Mail::send('submitforgotpassword', ['token' => $token], function($message) use($request){
+        Mail::send('submitforgotpassword', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset Password');
         });
@@ -216,12 +226,14 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'We have e-mailed your password reset link!');
     }
 
-    public function showResetPassword($token) { 
-   
+    public function showResetPassword($token)
+    {
+
         return view('forgetpasswordlink', ['token' => $token]);
     }
 
-    public function submitResetPassword(Request $request){
+    public function submitResetPassword(Request $request)
+    {
 
         $request->validate([
             'email' => 'required|email|exists:users',
@@ -230,36 +242,39 @@ class FrontController extends Controller
         ]);
 
         $updatePassword = DB::table('password_reset_tokens')
-                            ->where([
-                            'email' => $request->email, 
-                            'token' => $request->token
-                            ])
-                            ->first();
+            ->where([
+                'email' => $request->email,
+                'token' => $request->token
+            ])
+            ->first();
 
-                            //dd($updatePassword);
+        //dd($updatePassword);
 
-        if(!$updatePassword){
+        if (!$updatePassword) {
             return back()->withInput()->with('error', 'Invalid token!');
         }
-    
+
         $user = User::where('email', $request->email)
-                    ->update(['password' => Hash::make($request->password)]);
+            ->update(['password' => Hash::make($request->password)]);
 
-        DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete(); 
+        DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 
-        return redirect('user-login')->with('success', 'Your password has been changed!'); 
+        return redirect('user-login')->with('success', 'Your password has been changed!');
     }
 
-    public function active_insurance(){
+    public function active_insurance()
+    {
         // $active_insure = Purchase::where('policy_end_date' > now())->get();
         return view('active_insurance');
     }
 
-    public function inactive_insurance(){
+    public function inactive_insurance()
+    {
         return view('inactive_insurance');
     }
 
-    public function cancel_insurance(){
+    public function cancel_insurance()
+    {
         return view('cancel_insurance');
     }
 
@@ -270,7 +285,8 @@ class FrontController extends Controller
      * @return void
      */
 
-    public function googleLogin(){
+    public function googleLogin()
+    {
         return Socialite::driver('google')->redirect();
     }
 
@@ -281,14 +297,15 @@ class FrontController extends Controller
      * @return void
      */
 
-    public function googleAuthentication(){
-        try{
+    public function googleAuthentication()
+    {
+        try {
             $googleUser = Socialite::driver('google')->user();
             $user = User::where('provider_id', $googleUser->id)->where('provider', 'google')->first();
-            if($user){
+            if ($user) {
                 Auth::login($user);
                 return redirect()->route('dashboard.frontend');
-            }else{
+            } else {
                 $user = new User;
                 $user->name = $googleUser->name;
                 $user->email = $googleUser->email;
@@ -301,7 +318,43 @@ class FrontController extends Controller
                 Auth::login($user);
                 return redirect()->route('dashboard.frontend');
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
+            dd($e);
+        }
+    }
+
+
+    public function facebookLogin()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebookAuthentication()
+    {
+        try {
+            $facebookUser = Socialite::driver('facebook')->user();
+            dd($facebookUser);
+            $user = User::where('provider_id', $facebookUser->id)
+                ->where('provider', 'facebook')
+                ->first();
+
+            if ($user) {
+                Auth::login($user);
+            } else {
+                $user = new User;
+                $user->name = $facebookUser->name;
+                $user->email = $facebookUser->email;
+                $user->password = Hash::make('Password@123'); 
+                $user->type = 'user';
+                $user->provider_id = $facebookUser->id;
+                $user->provider = 'facebook';
+                $user->save();
+
+                Auth::login($user);
+            }
+
+            return redirect()->route('dashboard.frontend');
+        } catch (\Exception $e) {
             dd($e);
         }
     }
