@@ -148,7 +148,7 @@
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
                     <!-- Google -->
-                     <a href="{{route('social.login', 'google')}}">
+                     <a href="{{route('auth.google', 'google')}}">
                          <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                         <img class="w-5 h-5" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                         <span class="text-sm">Google</span>
@@ -157,7 +157,7 @@
                    
 
                     <!-- Facebook -->
-                    <a href="{{route('social.login', 'facebook')}}">
+                    <a href="{{ route('auth.facebook', 'facebook') }}">
                         <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="24" height="24" x="0" y="0" viewBox="0 0 152 152"

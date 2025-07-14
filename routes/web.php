@@ -132,6 +132,16 @@ Route::get('login/{provider}/callback', [SocialiteController::class, 'handleProv
 // Route::get('/user-login/facebook', [SocialiteController::class, 'redirectToProvider']);
 // Route::get('/user-login/facebook/callback', [SocialiteController::class, 'handleProviderCallback']);
 
+/**
+ * Social Login
+ */
+Route::get('auth/google', [FrontController::class, 'googleLogin'])->name('auth.google'); 
+Route::get('auth/google-callback', [FrontController::class, 'googleAuthentication'])->name('auth.google-callback');
+
+Route::get('auth/facebook', [FrontController::class, 'facebookLogin'])->name('auth.facebook');
+Route::get('auth/facebook-callback', [FrontController::class, 'facebookAuthentication'])->name('auth.facebook-callback');
+
+
 Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);
 Route::get('forgotpassword', [FrontController::class, 'forgot_password'])->name('forgot.pass'); 
 Route::post('send-mail', [FrontController::class, 'validate_forgotpass'])->name('validate.pass'); 
