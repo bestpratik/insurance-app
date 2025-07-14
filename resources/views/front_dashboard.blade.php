@@ -68,4 +68,4 @@
         </div>
     </section>
 
-</x-front>
+</x-front> 

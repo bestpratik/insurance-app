@@ -1,6 +1,6 @@
  <!-- Navigation -->
                 <nav class="space-y-2 px-4 py-10 flex-1 text-gray-700">
-                    <a href="#"
+                    <a href="{{route('dashboard.frontend')}}"
                         class="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-red-600 hover:text-white transition">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

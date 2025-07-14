@@ -202,7 +202,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
-    Route::resource('purchases', PurchaseController::class);
+    Route::resource('purchases', PurchaseController::class); 
 
     /*All Purchase List*/
 
@@ -258,6 +258,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/date-wise-purchase-report', function () {
         return view('purchase.datewise_report');
     })->name('purchase.datewise');
+
+
+    Route::get('online-purchase', [UserController::class, 'online_purchase'])->name('online.purchase');
+    Route::get('offline-purchase', [UserController::class, 'offline_purchase'])->name('offline.purchase');
 });
 
 require __DIR__ . '/auth.php';

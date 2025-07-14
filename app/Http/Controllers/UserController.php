@@ -9,8 +9,9 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function dashboard(){
-        $currentMonth = Carbon::now()->format('m'); 
+    public function dashboard()
+    {
+        $currentMonth = Carbon::now()->format('m');
         $currentYear = Carbon::now()->format('Y');
 
         $lastSixMonths = [];
@@ -28,26 +29,26 @@ class UserController extends Controller
             $last_day = date('Y-m-t', strtotime($first_date_of_month));
 
             $totalSale = Purchase::with(['insurance.provider', 'invoice'])
-                                ->where('status', 1)
-                                ->whereNull('purchase_status')
-                                ->whereBetween('purchase_date', [$first_day, $last_day])
-                                ->sum('payable_amount');
+                ->where('status', 1)
+                ->whereNull('purchase_status')
+                ->whereBetween('purchase_date', [$first_day, $last_day])
+                ->sum('payable_amount');
             $lastSixsaleamount[] = number_format($totalSale, 2, '.', '');
 
             $unpaid = Purchase::with(['insurance.provider', 'invoice'])
-                                ->where('status', 1)
-                                ->where('payment_status', 0)
-                                ->whereNull('purchase_status')
-                                ->whereBetween('purchase_date', [$first_day, $last_day])
-                                ->sum('payable_amount');
+                ->where('status', 1)
+                ->where('payment_status', 0)
+                ->whereNull('purchase_status')
+                ->whereBetween('purchase_date', [$first_day, $last_day])
+                ->sum('payable_amount');
             $lastSixUnpaids[] = number_format($unpaid, 2, '.', '');
 
             $paid = Purchase::with(['insurance.provider', 'invoice'])
-                                ->where('status', 1)
-                                ->where('payment_status', 1)
-                                ->whereNull('purchase_status')
-                                ->whereBetween('purchase_date', [$first_day, $last_day])
-                                ->sum('payable_amount');
+                ->where('status', 1)
+                ->where('payment_status', 1)
+                ->whereNull('purchase_status')
+                ->whereBetween('purchase_date', [$first_day, $last_day])
+                ->sum('payable_amount');
             $lastSixPaids[] = number_format($paid, 2, '.', '');
         }
 
@@ -61,5 +62,28 @@ class UserController extends Controller
         ];
 
         return view('dashboard', compact('data'));
+    }
+
+    public function online_purchase()
+    {
+        $onlinePurchase = Purchase::with(['insurance.provider', 'invoice'])
+            ->where('status', 1)
+            ->whereHas('insurance', function ($query) {
+                $query
+            ->where('purchase_mode', 'Online');
+            })->get();
+            // dd($onlinePurchase);
+        return view('admin.online_purchase_list', compact('onlinePurchase'));
+    }
+
+    public function offline_purchase()
+    {
+        $offlinePurchase = Purchase::with(['insurance.provider', 'invoice'])
+            ->where('status', 1)
+            ->whereHas('insurance', function ($query) {
+                $query
+            ->where('purchase_mode', 'Offline');
+            })->get();
+        return view('admin.offline_purchase_list', compact('offlinePurchase'));
     }
 }

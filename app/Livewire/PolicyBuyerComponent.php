@@ -92,7 +92,7 @@ class PolicyBuyerComponent extends Component
         //     redirect()->route('user.login');
         // }
 
-        $this->availableInsurances = Insurance::all();
+        $this->availableInsurances = Insurance::where('purchase_mode', 'Online')->get();
 
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;

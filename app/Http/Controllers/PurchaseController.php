@@ -19,7 +19,9 @@ class PurchaseController extends Controller
     
     public function index()
     {
-        $purchases = Purchase::where('status', 1)->with('insurance','provider')->get();
+        $purchases = Purchase::where('status', 1)
+                    ->with('insurance','provider')
+                    ->get();
         return view('purchase.index', compact('purchases'));
     }
 
@@ -27,7 +29,10 @@ class PurchaseController extends Controller
     public function create()
     {
         $provider = Provider::where('status', 1)->get();
-        $insurance = Insurance::where('status', 1)->get();
+        $insurance = Insurance::where('status', 1)
+                    ->where('purchase_mode', 'Offline')
+                    ->get();
+        
         return view('purchase.create', compact('provider','insurance'));
     }
 

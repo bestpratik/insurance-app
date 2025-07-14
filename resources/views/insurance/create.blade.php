@@ -169,6 +169,19 @@
                                 class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center  cursor-pointer"
                                 id="customFile" name="image" onchange="loadFile(event)">
                         </label>
+                        <label class="block">
+                            <span class="text-gray-700">Purchase Mode<span class="text-red-600 text-xl">* </span></span>
+                            <div class="flex items-center space-x-6 mt-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline">
+                                    <span>Offline</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Online">
+                                    <span>Online</span>
+                                </label>
+                            </div>
+                        </label>
 
                     </div>
                     <label class="block">

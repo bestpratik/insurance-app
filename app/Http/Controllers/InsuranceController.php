@@ -154,7 +154,7 @@ class InsuranceController extends Controller
     public function create()
     {
         $provider = Provider::where('status', 1)->get();
-        return view('insurance.create', compact('provider'));
+        return view('insurance.create', compact('provider')); 
     }
 
     
@@ -167,6 +167,7 @@ class InsuranceController extends Controller
         'validity' => 'required',
         'rent_amount_from' => 'required',
         'rent_amount_to' => 'required',
+        'purchase_mode' => 'required',
        ]);
 
         $insurance = new Insurance;
@@ -187,6 +188,7 @@ class InsuranceController extends Controller
         $insurance->rent_amount_from = $request->rent_amount_from;
         $insurance->rent_amount_to = $request->rent_amount_to;
         $insurance->details_of_cover = $request->details_of_cover;
+        $insurance->purchase_mode = $request->purchase_mode;
         $insurance->uuid = Str::uuid();
         // dd($insurance);
         $insurance->save();

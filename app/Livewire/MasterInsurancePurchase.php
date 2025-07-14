@@ -85,7 +85,8 @@ class MasterInsurancePurchase extends Component
 
     public function mount()
     {
-        $this->availableInsurances = Insurance::all();
+        $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
+                    ->get();
 
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;
@@ -105,7 +106,7 @@ class MasterInsurancePurchase extends Component
 
     public function fetchInsuranceDetails()
     {
-        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
+        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId); 
         // dd($this->insuranceDetails);
     }
 
