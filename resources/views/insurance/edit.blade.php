@@ -13,7 +13,7 @@
 
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
-            <div class="card-body flex-fill mx-md-4">
+            <div class="card-body flex-fill mx-md-4"> 
                 @include('insurance.menu')
 
 
@@ -136,6 +136,22 @@
                         id="customFile" name="image" onchange="loadFile(event)">
                 </label>
                 <img src="{{ asset('uploads/insurance/' . $insurance->image) }}" style="height:50px;width:75px;">
+
+                 <label class="block">
+                            <span class="text-gray-700">Purchase Mode<span class="text-red-600 text-xl">* </span></span>
+                            <div class="flex items-center space-x-6 mt-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline"
+                                        @if($insurance->purchase_mode == 'Offline') checked @endif>
+                                    <span>Offline</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Online"
+                                        @if($insurance->purchase_mode == 'Online') checked @endif>
+                                    <span>Online</span>
+                                </label>
+                            </div>
+                </label>
 
             </div>
             <label class="block">
