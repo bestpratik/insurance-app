@@ -11,7 +11,7 @@
         <!-- Content -->
         <div class="relative z-1 py-24 px-6 text-center">
             <div class="max-w-4xl mx-auto">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Insurance Policy Buyer</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Policy Purchase</h1>
                 <p class="text-lg md:text-xl">Building lasting financial relationships since 1978</p>
             </div>
         </div>
