@@ -9,7 +9,7 @@
 
 
     <section
-        class="relative bg-[url('https://images.unsplash.com/photo-1605902711622-cfb43c4437d5')] bg-cover bg-center bg-no-repeat text-white">
+        class="relative bg-[url('/service-details.jpg')] bg-cover bg-center bg-no-repeat text-white">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
 
@@ -30,7 +30,7 @@
                 <!-- Card 1 -->
                 @foreach ($services as $row)                                 
                 <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
-                    <img src="{{ $row->image }}" alt="Landlord Protection" class="w-full h-48 object-cover">
+                    <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="border-b-4 border-red-500 w-10 mb-4"></div>
                         <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>

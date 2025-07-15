@@ -8,7 +8,7 @@
 
 
 
-    <section class="relative bg-[url('./service-details.jpg')] bg-cover bg-center bg-no-repeat text-white">
+    <section class="relative bg-[url('/service-details.jpg')] bg-cover bg-center bg-no-repeat text-white">
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
 
@@ -26,7 +26,7 @@
             class="max-w-7xl mx-auto bg-white rounded-xl shadow-md overflow-hidden grid grid-cols-1 md:grid-cols-2 md:p-8">
 
             <div class="relative">
-                <img src="{{ $service->image }}" alt="Landlord Protection" class="w-full object-cover rounded-l-xl">
+                <img src="{{ asset('uploads/service/' . $service->image) }}" alt="Landlord Protection" class="w-full object-cover rounded-l-xl">
             </div>
 
             <!-- Right: Content -->

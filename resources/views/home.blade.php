@@ -1,12 +1,12 @@
 <x-front>
     <section class="relative w-full max-h-[450px] overflow-hidden">
         <!-- Slider Container -->
-        <div id="sliderWrapper" class="flex transition-transform duration-500 ease-in-out"
+        <div id="sliderWrapper" class="flex transition-transform duration-500 ease-in-out" 
             style="transform: translateX(0%)">
             <!-- Slide 1 -->
             @foreach ($banner as $row)
                 <div class="min-w-full max-h-[450px] relative">
-                    <img src="{{ $row->image }}" class="w-full h-[450px] object-cover" alt="Slide 1" />
+                    <img src="{{ asset('uploads/banner/' . $row->image) }}" class="w-full h-[450px] object-cover" alt="Slide 1" />
                     <div class="absolute inset-0 bg-black/30 flex items-center">
                         <div class="container mx-auto px-6">
                             <div class="max-w-xl text-white">
@@ -54,7 +54,7 @@
                         <p class="text-sm">Experience</p>
                     </div>
                 </div>
-                <img src="{{ $aboutFirst->image ?? '' }}" alt="about" class="rounded-md shadow-lg">
+                <img src="{{ asset('uploads/about/' . $aboutFirst->image ?? '') }}" alt="about" class="rounded-md shadow-lg">
             </div>
 
             <!-- Right: Text Content -->
@@ -78,7 +78,7 @@
                 <!-- Card 1 -->
                 @foreach ($service as $row)
                     <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
-                        <img src="{{ $row->image }}" alt="Landlord Protection" class="w-full h-48 object-cover">
+                        <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="border-b-4 border-red-500 w-10 mb-4"></div>
                             <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
@@ -114,7 +114,7 @@
                         class="bg-gray-900 rounded-lg shadow-lg p-6 hover:shadow-xl transition border border-gray-700 hover:backdrop-blur-2xl">
                         <div class="flex items-start gap-4">
                             <div class="bg-red-600 text-white p-3 rounded-md">
-                                <img src="{{ $row->image }}">
+                                <img src="{{ asset('uploads/fact/' . $row->image) }}">
                             </div>
                             <div class="text-gray-400 max-w-[270px] min-w-[260px]">
                                 <h3 class="text-lg font-semibold text-white">{{ $row->title }}</h3>
@@ -139,7 +139,7 @@
                 @foreach ($client as $row)
                     <div
                         class=" swiper-slide border rounded-md  hover:scale-103 transition-transform duration-300 flex items-center justify-center">
-                        <img src="{{ $row->image }}" class=" px-8 py-3" alt="">
+                        <img src="{{ asset('uploads/client/' . $row->image) }}" class=" px-8 py-3" alt="">
                     </div>
                 @endforeach
             </div>
