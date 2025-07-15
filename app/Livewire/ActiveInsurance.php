@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire; 
+namespace App\Livewire;
 
-use Livewire\Component; 
+use Livewire\Component;
 use App\Models\Purchase;
 use Carbon\Carbon;
-use Livewire\WithPagination; 
+use Livewire\WithPagination;
 
 class ActiveInsurance extends Component
 {
@@ -24,21 +24,34 @@ class ActiveInsurance extends Component
     public $purchaseDate;
     public $tenantName;
     public $tenantEmail;
-    public $detailsofCover;  
+    public $detailsofCover;
+
+
+    public $showCancelModal = false;
+    public $cancelReason;
+    public $cancelPurchaseId = null;
+    public $cancelledPurchases = [];
 
 
     public function render()
     {
-         $query = Purchase::with(['insurance.provider','invoice'])->where('policy_end_date', '>', now())->orderBy('id', 'desc');
+        $query = Purchase::with(['insurance.provider', 'invoice'])
+            ->whereNull('purchase_status')
+            ->whereHas('insurance', function ($query) {
+                $query
+                    ->where('purchase_mode', 'Online');
+            })
+            ->where('policy_end_date', '>', now())
+            ->orderBy('id', 'desc');
         //  dd($query);
-       
+
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
         }
 
         if (!empty($this->insuranceName)) {
             $query->whereHas('insurance', function ($query) {
-                 $query->where('name', 'like', '%' . $this->insuranceName . '%');
+                $query->where('name', 'like', '%' . $this->insuranceName . '%');
             });
         }
 
@@ -52,9 +65,9 @@ class ActiveInsurance extends Component
 
         if (!empty($this->landlordAgency)) {
             $query->where('policy_holder_title', $this->landlordAgency)
-                        ->orWhere('policy_holder_fname', 'LIKE', '%' . $this->landlordAgency . '%')
-                        ->orWhere('policy_holder_lname', 'LIKE', '%' . $this->landlordAgency . '%')
-                        ->orWhere('company_name', 'LIKE', '%' . $this->landlordAgency . '%');
+                ->orWhere('policy_holder_fname', 'LIKE', '%' . $this->landlordAgency . '%')
+                ->orWhere('policy_holder_lname', 'LIKE', '%' . $this->landlordAgency . '%')
+                ->orWhere('company_name', 'LIKE', '%' . $this->landlordAgency . '%');
         }
 
         if (!empty($this->landlordagencyAddress)) {
@@ -94,5 +107,41 @@ class ActiveInsurance extends Component
         return view('livewire.active-insurance', [
             'result' => $purchases,
         ]);
+    }
+
+    public function openCancelModal($purchaseId)
+    {
+        $this->cancelPurchaseId = $purchaseId;
+        $this->cancelReason = '';
+        $this->showCancelModal = true;
+    }
+
+    public function closeCancelModal()
+    {
+        $this->showCancelModal = false;
+        $this->cancelPurchaseId = null;
+        $this->cancelReason = '';
+    }
+
+    public function submitCancellation()
+    {
+        $this->validate([
+            'cancelReason' => 'required|string|min:5',
+        ]);
+
+        $purchase = Purchase::find($this->cancelPurchaseId);
+
+        if ($purchase) {
+            $purchase->purchase_status = 'Cancelled';
+            $purchase->purchase_cancel_reason = $this->cancelReason;
+            $purchase->save();
+            $this->cancelledPurchases[] = $this->cancelPurchaseId;
+        }
+
+        // session()->flash('message', 'Purchase cancelled successfully.');
+        // $this->closeCancelModal();
+
+        $this->dispatch('swal:message', ['message' => 'Purchase cancelled successfully.']);
+        $this->closeCancelModal();
     }
 }

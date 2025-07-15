@@ -2,7 +2,7 @@
     <!-- Filter Section -->
     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label>
+            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label> 
             <input type="text" wire:model.live="policyNo" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
@@ -134,18 +134,18 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchased By
-                        </th>
+                        </th> -->
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Invoice No
                         </th>
                         <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Payment Method
                         </th> -->
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
-                        </th> -->
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -203,7 +203,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->policy_start_date)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> 
                             {{ date('jS F Y', strtotime($row->policy_end_date)) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -224,23 +224,32 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             N/A
-                        </td>
+                        </td> -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
                             {{ $row->invoice->invoice_no }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->payment_method == 'bank_transfer')
                             Bank Transfer
                             @elseif($row->payment_method == 'pay_later')
                             Pay later
                             @endif
-                        </td>
+                        </td> -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                           
+                            <div class="flex items-center space-x-2">
+                            
+                                <button wire:click="openCancelModal({{ $row->id }})"
+                                    @if(in_array($row->id, $cancelledPurchases)) disabled @endif
+                                    class="text-red-600 hover:text-red-900 focus:outline-none"
+                                    title="Cancel Purchase">
+                                    <x-heroicon-o-x-mark class="w-5 h-5" /> 
+                                </button>
+
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -261,6 +270,33 @@
     </div>
 
 
+        <!--Cancel modal start--> 
+    @if($showCancelModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+            <button wire:click="closeCancelModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+            </button>
 
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
+
+            <div>
+                <label for="cancelReason" class="block text-gray-700 mb-2"><span
+                        class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
+                <textarea wire:model="cancelReason" id="cancelReason"
+                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter your reason..."></textarea>
+                @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-4">
+                <button wire:click="closeCancelModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!--Cancel modal end-->
 
 </div>

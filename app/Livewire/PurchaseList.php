@@ -204,7 +204,7 @@ public function submitCancellation()
         // $this->closeResendModal();
         $this->dispatch('swal:success', ['message' => 'Documents resent successfully.']);
         $this->closeResendModal();
-    }
+    } 
 
     public function send_email_one($purchaseId, $sendMailArray)
     {

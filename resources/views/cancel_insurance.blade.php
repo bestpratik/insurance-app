@@ -33,7 +33,7 @@
             </aside>
 
 
-            <div class="flex-1">
+            <div class="flex-1 overflow-x-scroll">
                 <livewire:cancel-insurance />
             </div>
             <!-- Main Content -->
@@ -44,3 +44,15 @@
     </section>
 
 </x-front>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+<script>
+    Livewire.on('swal:message', data => {
+        Swal.fire({
+            title: 'Purchase Restored successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>

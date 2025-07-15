@@ -57,6 +57,7 @@ class OnlinePurchaseList extends Component
     {
         $query = Purchase::with(['insurance.provider', 'invoice'])
         ->where('status', 1)
+        ->whereNull('purchase_status')
         ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');

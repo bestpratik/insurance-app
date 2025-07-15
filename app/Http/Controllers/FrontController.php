@@ -265,7 +265,7 @@ class FrontController extends Controller
     public function active_insurance()
     {
         // $active_insure = Purchase::where('policy_end_date' > now())->get();
-        return view('active_insurance');
+        return view('active_insurance');  
     }
 
     public function inactive_insurance()

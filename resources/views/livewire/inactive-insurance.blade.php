@@ -134,9 +134,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchased By
-                        </th>
+                        </th> -->
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Invoice No
                         </th>
@@ -224,9 +224,9 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             N/A
-                        </td>
+                        </td> -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
                             {{ $row->invoice->invoice_no }}

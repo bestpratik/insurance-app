@@ -23,7 +23,7 @@ class PurchaseCancelList extends Component
     public $purchaseDate;
     public $tenantName;
     public $tenantEmail;
-    public $detailsofCover;
+    public $detailsofCover; 
 
 
     public $showRestoreModal = false;
@@ -63,12 +63,12 @@ class PurchaseCancelList extends Component
         // session()->flash('message', 'Purchase cancelled successfully.');
         // $this->closeCancelModal();
 
-        $this->dispatch('swal:message', ['message' => 'Purchase Restored successfully.']);
+        $this->dispatch('swal:message', ['message' => 'Purchase Restored successfully.']); 
         $this->closeRestoreModal();
     }
 
 
-    public function render()
+    public function render() 
     {
         $query = Purchase::with(['insurance.provider','invoice'])->where('purchase_status', 'Cancelled')->orderBy('id', 'desc');
        

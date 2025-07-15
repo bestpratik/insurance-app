@@ -28,7 +28,12 @@ class InactiveInsurance extends Component
 
     public function render()
     {
-         $query = Purchase::with(['insurance.provider','invoice'])->where('policy_end_date', '<', now())->orderBy('id', 'desc');
+         $query = Purchase::with(['insurance.provider','invoice'])
+            ->whereNull('purchase_status')
+            ->whereHas('insurance', function ($query) {
+                $query
+            ->where('purchase_mode', 'Online');
+            })->where('policy_end_date', '<', now())->orderBy('id', 'desc');
         //  dd($query);
        
         if (!empty($this->policyNo)) {
