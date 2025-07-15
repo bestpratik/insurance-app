@@ -141,7 +141,7 @@
                             Invoice No
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Payment Method
+                            Purchase Mode
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
@@ -233,11 +233,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->payment_method == 'bank_transfer')
-                            Bank Transfer
-                            @elseif($row->payment_method == 'pay_later')
-                            Pay later
-                            @endif
+                            {{ $row->insurance->purchase_mode }}
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -311,7 +307,7 @@
 
  
 
-    <!--Cancel modal start-->
+    <!--Cancel modal start--> 
     @if($showCancelModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">

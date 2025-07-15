@@ -150,7 +150,7 @@ Route::post('submit-reset-Password', [FrontController::class, 'submitResetPasswo
 
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
-    Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance');
+    Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance'); 
     Route::get('inactive-insurance', [FrontController::class, 'inactive_insurance'])->name('inactive.insurance');
     Route::get('cancel-insurance', [FrontController::class, 'cancel_insurance'])->name('cancel.insurance');
 

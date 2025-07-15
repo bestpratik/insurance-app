@@ -33,7 +33,7 @@
             </aside>
 
 
-            <div class="flex-1 overflow-x-scroll">
+            <div class="flex-1 overflow-x-scroll"> 
                 <livewire:active-insurance /> 
             </div>
             <!-- Main Content -->
@@ -44,3 +44,13 @@
     </section>
 
 </x-front>
+<script>
+    Livewire.on('swal:message', data => {
+        Swal.fire({
+            title: 'Purchase cancelled successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
