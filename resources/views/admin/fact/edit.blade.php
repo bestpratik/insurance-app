@@ -30,7 +30,7 @@
                         class="w-full mt-1 p-2 border rounded">
                 </label>
                 <div class="shrink-0">
-                    <img id='preview_img' class="h-16 w-16 bg-gray-600 p-4 rounded-md border" src="{{ $fact->image }}"
+                    <img id='preview_img' class="h-16 w-16 bg-gray-600 p-4 rounded-md border" src="{{ asset('uploads/fact/' . $fact->image) }}"
                         alt="Current photo" />
                 </div>
             </div>

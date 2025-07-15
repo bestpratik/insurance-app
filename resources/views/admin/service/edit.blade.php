@@ -37,7 +37,7 @@
                     <input name="image" type="file" onchange="loadFile(event)" class="w-full mt-1 p-2 border rounded">
                 </label>
                 <div class="shrink-0">
-                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full" src="{{ $service->image }}"
+                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full" src="{{ asset('uploads/service/' . $service->image) }}"
                         alt="Current photo" />
                 </div>
             </div>

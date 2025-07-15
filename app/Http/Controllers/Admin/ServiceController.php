@@ -37,19 +37,14 @@ class ServiceController extends Controller
 
         $service = new Service;
 
-        if ($request->hasFile('image')) {
-            if ($service->image) {
-                $oldImagePath = public_path('uploads/service/' . basename($service->image));
-                if (File::exists($oldImagePath)) {
-                    File::delete($oldImagePath);
-                }
-            }
-
+        if ($request->hasfile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/service'), $filename);
-            $service->image = url('uploads/service/' . $filename);
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/service/'), $filename);
+            // $fullPath = url('uploads/fact/' . $filename);
+            $service->image = $filename;
         }
+
 
         $page_slug = Str::slug($request['title']);
         $service->title = $request['title'];
@@ -77,19 +72,21 @@ class ServiceController extends Controller
         ]);
         $service = Service::find($id);
 
-        if ($request->hasFile('image')) {
-            if ($service->image) {
-                $oldImagePath = public_path('uploads/service/' . basename($service->image));
-                if (File::exists($oldImagePath)) {
-                    File::delete($oldImagePath);
-                }
+        if ($request->hasfile('image')) {
+            $destination = 'uploads/service/' . $service->image;
+            $imageName = basename($destination);
+            if (File::exists('uploads/service/' . $imageName)) {
+                File::delete('uploads/service/' . $imageName);
             }
 
             $file = $request->file('image');
-            $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/service'), $filename);
-            $service->image = url('uploads/service/' . $filename);
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/service/'), $filename);
+            // $fullPath = url('uploads/fact/' . $filename);
+            $service->image = $filename;
         }
+
+       
 
         $page_slug = Str::slug($request['title']);
         $service->title = $request['title'];
