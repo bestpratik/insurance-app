@@ -30,7 +30,7 @@ class BannerController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
+                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -40,8 +40,8 @@ class BannerController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/banner'), $filename);
-            $fullPath = url('uploads/banner/' . $filename);
-            $banner->image = $fullPath;
+            // $fullPath = url('uploads/banner/' . $filename);
+            $banner->image = $filename;
         }
 
         $banner->title = $request['title'];
@@ -81,8 +81,8 @@ class BannerController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/banner'), $filename);
-            $fullPath = url('uploads/banner/' . $filename);
-            $banner->image = $fullPath;
+            // $fullPath = url('uploads/banner/' . $filename);
+            $banner->image = $filename;
         }
 
         $banner->title = $request['title'];

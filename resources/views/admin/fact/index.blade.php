@@ -118,7 +118,7 @@
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
                                                 <div class="bg-gray-600 p-4 rounded-md border">
-                                                    <img src="{{ asset($row->image) }}" alt="Fact Image"
+                                                    <img src="{{ asset('uploads/fact/' . $row->image) }}" alt="Fact Image"
                                                         class="w-8 h-8 object-cover ">
                                                 </div>
                                             </div>

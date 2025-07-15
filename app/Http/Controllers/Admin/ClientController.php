@@ -28,7 +28,7 @@ class ClientController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
+                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -38,8 +38,8 @@ class ClientController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client'), $filename);
-            $fullPath = url('uploads/client/' . $filename);
-            $client->image = $fullPath;
+            // $fullPath = url('uploads/client/' . $filename);
+            $client->image = $filename;
         }
 
         $client->title = $request['title'];
@@ -77,8 +77,8 @@ class ClientController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client'), $filename);
-            $fullPath = url('uploads/client/' . $filename);
-            $client->image = $fullPath;
+            // $fullPath = url('uploads/client/' . $filename);
+            $client->image = $filename;
         }
 
         $client->title = $request['title'];

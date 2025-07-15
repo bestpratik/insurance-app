@@ -29,18 +29,19 @@ class AboutController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
+                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
         $about = new About;
 
+
         if ($request->hasfile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/about'), $filename);
-            $fullPath = url('uploads/about/' . $filename);
-            $about->image = $fullPath;
+            // $fullPath = url('uploads/about/' . $filename);
+            $about->image = $filename;
         }
 
         $about->title = $request['title'];
@@ -57,7 +58,7 @@ class AboutController extends Controller
     function edit($id)
     {
         $about = About::find($id);
-        return view('admin.about.edit', compact('about'));
+        return view('admin.about.edit', compact('about')); 
     }
 
     function update(Request $request, $id)
@@ -78,8 +79,8 @@ class AboutController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/about'), $filename);
-            $fullPath = url('uploads/about/' . $filename);
-            $about->image = $fullPath;
+            // $fullPath = url('uploads/about/' . $filename);
+            $about->image = $filename;
         }
 
         $about->title = $request['title'];
