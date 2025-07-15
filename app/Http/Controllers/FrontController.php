@@ -184,7 +184,12 @@ class FrontController extends Controller
 
         $totalActive = Purchase::where('policy_end_date', '>', now())->count();
         $totalInactive = Purchase::where('policy_end_date', '<', now())->count();
-        return view('front_dashboard', compact('totalActive', 'totalInactive'));
+        $totalCancel = Purchase::where('purchase_status', 'Cancelled')
+            ->whereHas('insurance', function ($query) {
+                $query
+            ->where('purchase_mode', 'Online');
+            })->count();
+        return view('front_dashboard', compact('totalActive', 'totalInactive','totalCancel'));
     }
 
     public function frontSuccessPage()

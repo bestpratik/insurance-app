@@ -56,9 +56,9 @@
                     </a>
 
                     <a href="{{route('cancel.insurance')}}">
-                        <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-yellow-500">
+                        <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-yellow-500"> 
                             <h2 class="text-xl font-semibold mb-2">Cancelled Insurances</h2>
-                            <p class="text-gray-600">Total: 0 policies</p>
+                            <p class="text-gray-600">Total: {{ $totalCancel }} policies</p>
                         </div>
                     </a>
 

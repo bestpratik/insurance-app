@@ -41,7 +41,6 @@ class CancelInsurance extends Component
                 $query
             ->where('purchase_mode', 'Online');
             })
-            ->where('policy_end_date', '>', now())
             ->orderBy('id', 'desc'); 
         //  dd($query);
        

@@ -21,14 +21,14 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency</label>
             <input type="text" wire:model.live="landlordAgency" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-        <!-- <div class="sm:w-64">
+        {{-- <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Address</label>
             <input type="text" wire:model.live="landlordagencyAddress" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Email</label>
             <input type="text" wire:model.live="landlordagencyEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> -->
+        </div> --}}
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy Start Date</label>
             <input type="date" wire:model.live="policyStartdate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
@@ -45,14 +45,14 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Purchase Date</label>
             <input type="date" wire:model.live="purchaseDate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-        <!-- <div class="sm:w-64">
+        {{-- <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Name</label>
             <input type="text" wire:model.live="tenantName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Email</label>
             <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> -->
+        </div> --}}
 
     </div>
 
@@ -134,15 +134,15 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchased By
-                        </th> -->
+                        </th> --}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Invoice No
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Payment Method
-                        </th> -->
+                        </th> --}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
                         </th>
@@ -224,21 +224,21 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
-                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             N/A
-                        </td> -->
+                        </td> --}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
                             {{ $row->invoice->invoice_no }}
                             @endif
                         </td>
-                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->payment_method == 'bank_transfer')
                             Bank Transfer
                             @elseif($row->payment_method == 'pay_later')
                             Pay later
                             @endif
-                        </td> -->
+                        </td> --}}
                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
                               
