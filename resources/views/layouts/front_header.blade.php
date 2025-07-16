@@ -6,13 +6,13 @@
 
         <!-- Desktop Nav -->
         <nav class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-lg text-gray-600 space-x-10">
-            <a href="{{ route('home') }}" class="text-red-600 font-medium">Home</a>
-            <a href="{{route('about.us')}}" class="hover:text-red-600">About Us</a>
-            <a href="{{route('service')}}" class="hover:text-red-600">Our Services</a>
-           {{-- <a href="{{route('policy.buyer')}}" class="hover:text-red-600">Policy Buyer Form</a> --}}
-            <a href="{{route('contact.us')}}" class="hover:text-red-600">Contact Us</a>
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Home</a>
+            <a href="{{route('about.us')}}" class="{{ request()->routeIs('about.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">About Us</a>
+            <a href="{{route('service')}}" class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Our Services</a>
+           {{-- <a href="{{route('policy.buyer')}}" class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Policy Buyer Form</a> --}}
+            <a href="{{route('contact.us')}}" class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact Us</a>
         </nav>
-
+        
     
 
          @if(Auth::check())
