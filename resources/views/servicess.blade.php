@@ -34,7 +34,7 @@
                     <div class="p-6">
                         <div class="border-b-4 border-red-500 w-10 mb-4"></div>
                         <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
-                        <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
+                        <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>y
                         <div class="flex gap-2">
                             <a href="{{ route('service.details', $row->page_slug) }}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
@@ -42,7 +42,7 @@
                             </a>
                             <a href="{{route('policy.buyer')}}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
-                                <span class="relative z-1">Buy Now</span>
+                                <span class="relative z-1">Buy Insurance Directly</span>
                             </a>
                         </div>
                     </div>
