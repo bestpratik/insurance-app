@@ -47,12 +47,11 @@
             </button>
         </div>
         <nav class="flex flex-col p-4 space-y-4 text-gray-700">
-            <a href="#" class="text-red-600 font-medium">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Our Services</a>
-            <!--<a href="#">Pages</a>-->
-            <a href="#">Contact Us</a>
-            <a href="#" class="mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
+            <a href="{{ route('about.us') }}" class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
+            <a href="{{ route('service') }}" class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
+            <a href="{{ route('contact.us') }}" class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
+            <a href="{{route('policy.buyer')}}" class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
         </nav>
     </div>
 
