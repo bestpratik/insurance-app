@@ -265,9 +265,9 @@ class PolicyBuyerComponent extends Component
             return $rules;
         } elseif ($step == 4) {
             return [
-                'policyStartDate' => 'required|date',
+                'policyStartDate' => 'required|date|after_or_equal:today',
                 // 'purchaseDate' => 'required|date',
-                'astStartDate' => 'required|date',
+                'astStartDate' => 'required|date|after_or_equal:policyStartDate',
                 'policyTerm' => 'required',
                 // 'premiumAmount' => 'required|numeric|min:0',
             ];

@@ -585,7 +585,7 @@
                                         class="mr-1">
                                     <label for="policyterm1">1 Year</label>
                                 </div>
-                                <div class="flex items-center">
+                                {{-- <div class="flex items-center">
                                     <input id="policyterm2" type="radio" wire:model="policyTerm" value="2"
                                         class="mr-1">
                                     <label for="policyterm2">2 Year</label>
@@ -599,7 +599,7 @@
                                     <input id="policyterm4" type="radio" wire:model="policyTerm" value="4"
                                         class="mr-1">
                                     <label for="policyterm4">4 Year</label>
-                                </div>
+                                </div> --}}
                             </div>
                             @error('policyTerm')
                             <span class="text-sm text-red-600">{{ $message }}</span>
