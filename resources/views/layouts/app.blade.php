@@ -48,7 +48,7 @@
                     @include('layouts.sidebar')
                 </div>
             </div>
-        </div>
+        </div> 
 
         <!-- Desktop Sidebar -->
         <div id="desktop-sidebar"
@@ -104,12 +104,12 @@
 
                 <div class="max-w-7xl mx-auto min-h-[80vh]">
                     @isset($header)
-                    <header class="bg-white shadow mb-4 rounded-lg">
-                        <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
+                        <header class="bg-white shadow mb-4 rounded-lg">
+                            <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endisset
                     {{ $slot }}
 
                 </div>
