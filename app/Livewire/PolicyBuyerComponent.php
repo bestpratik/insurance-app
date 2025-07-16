@@ -677,7 +677,7 @@ class PolicyBuyerComponent extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                     foreach ($sendToemails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -690,7 +690,7 @@ class PolicyBuyerComponent extends Component
                         $messages->to($sendToemails);
                         $messages->subject($email_subject);
                         $messages->cc($ccEmails);
-                        $messages->bcc(['dcstest201@gmail.com']);
+                        $messages->bcc(['bestpratik@gmail.com']);
 
                         foreach ($allDocs as $attachment) {
                             $messages->attach($attachment);
@@ -758,7 +758,7 @@ class PolicyBuyerComponent extends Component
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['dcstest204@gmail.com'], $validCopyEmails);
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                     foreach ($sendToBillingEmails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -773,7 +773,7 @@ class PolicyBuyerComponent extends Component
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
                 // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                $message->bcc(['dcstest202@gmail.com']);
+                $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
