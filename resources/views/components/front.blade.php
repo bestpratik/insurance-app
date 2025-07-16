@@ -42,7 +42,7 @@
         class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-40">
         <div class="flex justify-between items-center p-4 border-b">
             <h3 class="text-lg font-semibold">Menu</h3>
-            <button id="menuClose" class="text-red-600 text-xl">
+            <button id="menuClose" class="text-red-600 text-xl"> 
                 <i class="fas fa-times"></i>
             </button>
         </div>

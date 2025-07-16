@@ -70,12 +70,13 @@
         </div>
 
         <!-- Quick Links -->
+        
         <div>
             <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
             <ul class="space-y-2 text-gray-400 text-lg">
-                <li><a href="{{ route('about.us') }}" class="hover:text-red-500"> About Us</a></li> 
-                <li><a href="{{ route('contact.us') }}" class="hover:text-red-500">Contact Us</a></li>
-                <li><a href="{{ route('service') }}" class="hover:text-red-500">Our Services</a></li>
+                <li><a href="{{ route('about.us') }}" class="{{ request()->routeIs('about.us') ? 'text-red-600' : '' }}"> About Us</a></li> 
+                <li><a href="{{ route('contact.us') }}" class="{{ request()->routeIs('contact.us') ? 'text-red-600' : '' }}">Contact Us</a></li>
+                <li><a href="{{ route('service') }}" class="{{ request()->routeIs('service') ? 'text-red-600' : '' }}">Our Services</a></li>
                 <li><a href="#" class="hover:text-red-500">Terms & Condition</a></li>
             </ul>
         </div>
