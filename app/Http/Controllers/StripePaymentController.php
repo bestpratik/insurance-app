@@ -77,7 +77,7 @@ class StripePaymentController extends Controller
             // dd($session);
         } catch (\Exception $e) {
             Log::error('Stripe session fetch error: ' . $e->getMessage());
-            return redirect()->route('policy.buyer')->with('error', 'Payment verification failed.');
+            return redirect()->route('policy.buyer')->with('error', 'Payment verification failed.'); 
         }
 
         $purchaseId = session('pending_purchase_id') ?? $session->client_reference_id;
@@ -97,7 +97,10 @@ class StripePaymentController extends Controller
             session()->forget('pending_purchase_id');
         }
 
-        return redirect()->route('front.purchase.success');
+        return redirect()->route('front.purchase.success', ['purchase_id' => $purchaseId]);
+
+        // return redirect()->route('front.purchase.success');  
+        
     }
 
 

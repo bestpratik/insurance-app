@@ -6,8 +6,9 @@ use Livewire\Component;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
-class ActiveInsurance extends Component
+class ActiveInsurance extends Component 
 {
     use WithPagination;
     public $perPage = 10;
@@ -35,13 +36,16 @@ class ActiveInsurance extends Component
 
     public function render()
     {
-        $query = Purchase::with(['insurance.provider', 'invoice'])
+        $query = Purchase::with(['insurance.provider', 'invoice']) 
             ->whereNull('purchase_status')
             ->whereHas('insurance', function ($query) {
                 $query
                     ->where('purchase_mode', 'Online');
             })
             ->where('policy_end_date', '>', now())
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
             ->orderBy('id', 'desc');
         //  dd($query);
 

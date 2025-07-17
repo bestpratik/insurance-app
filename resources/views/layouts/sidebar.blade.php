@@ -77,27 +77,6 @@
         <span class="sidebar-item-text">Cancelled List</span>
     </a>
 
-    <a href="{{ route('purchase.datewise') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
-    @if (request()->is('date-wise-purchase-report')) bg-[#112695] text-white 
-    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-bars-3
-            class="mr-3 h-5 w-5 
-        @if (request()->is('date-wise-purchase-report')) text-white 
-        @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Bordereau Report</span>
-    </a>
-
-
-    <!-- Provider -->
-    <a href="{{ url('providers') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-              @if (request()->is('providers*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-user-group
-            class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
-        <span class="sidebar-item-text">Provider</span>
-    </a>
-
     <a href="{{ url('online-purchase') }}"
     class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
     @if (request()->is('online-purchase') || request()->is('online-purchase/*')) bg-[#112695] text-white 
@@ -119,6 +98,30 @@
             @else text-[#25304e] @endif" />
         <span class="sidebar-item-text">Offline Purchase list</span>
     </a>
+
+    
+    <a href="{{ route('purchase.datewise') }}"
+        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
+    @if (request()->is('date-wise-purchase-report')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-bars-3
+            class="mr-3 h-5 w-5 
+        @if (request()->is('date-wise-purchase-report')) text-white 
+        @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Bordereau Report</span>
+    </a>
+
+
+    <!-- Provider -->
+    <a href="{{ url('providers') }}"
+        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+              @if (request()->is('providers*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-user-group
+            class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
+        <span class="sidebar-item-text">Provider</span>
+    </a>
+
+    
 
 
     @php

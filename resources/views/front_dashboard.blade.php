@@ -44,7 +44,7 @@
                     <a href="{{route('active.insurance')}}">
                         <div class="bg-white rounded-xl shadow p-5 border border-b-4 border-green-500">
                             <h2 class="text-xl font-semibold mb-2">Active Insurances</h2>
-                            <p class="text-gray-600">Total: {{ $totalActive }} policies</p>
+                            <p class="text-gray-600">Total: {{ $totalActive }} policies</p> 
                         </div>
                     </a>
                     

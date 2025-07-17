@@ -11,8 +11,15 @@
                         </svg>
                         <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance successfully purchased!</h2>
                         <p class="text-gray-600 mb-6">Thank You</p>
+
+                        <!-- @foreach($purchase->insurance->staticdocuments ?? [] as $document)
+                            <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2">
+                                {{ $document->title ?? 'Download' }}
+                            </a>
+                        @endforeach -->
                     </div>
                 </section>
+                
 
 </x-front>
 

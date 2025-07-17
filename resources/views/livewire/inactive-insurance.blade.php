@@ -1,6 +1,6 @@
 <div class="p-4">
     <!-- Filter Section -->
-    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+    <!-- <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label>
             <input type="text" wire:model.live="policyNo" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
@@ -21,14 +21,14 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency</label>
             <input type="text" wire:model.live="landlordAgency" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-        <!-- <div class="sm:w-64">
+        <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Address</label>
             <input type="text" wire:model.live="landlordagencyAddress" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Email</label>
             <input type="text" wire:model.live="landlordagencyEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> -->
+        </div>
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy Start Date</label>
             <input type="date" wire:model.live="policyStartdate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
@@ -45,16 +45,16 @@
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Purchase Date</label>
             <input type="date" wire:model.live="purchaseDate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
-        <!-- <div class="sm:w-64">
+        <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Name</label>
             <input type="text" wire:model.live="tenantName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Email</label>
             <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> -->
+        </div>
 
-    </div>
+    </div> -->
 
 
 
@@ -70,7 +70,7 @@
 
     <!-- Table Section -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="sm:w-64">
+        <!-- <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
             <select wire:model.live="perPage">
                 <option value="10">10</option>
@@ -78,7 +78,7 @@
                 <option value="50">50</option>
                 <option value="100">100</option>
             </select>
-        </div>
+        </div> -->
         <div class="overflow-x-auto custom-scrollbar">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -92,7 +92,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance Price
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -106,7 +106,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Property
-                        </th>
+                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Rent Amount
                         </th>
@@ -134,18 +134,18 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchased By
-                        </th> -->
+                        </th> 
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Invoice No
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Payment Method
-                        </th> -->
-                        <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
-                        </th> -->
+                        </th>--}}
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -162,7 +162,7 @@
                             {{ $row->insurance->name }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
                             {{ $row->insurance->total_premium }}
                             @endif
@@ -180,7 +180,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->door_no.' '.$row->address_one.' '.$row->address_two.' '.$row->address_three.' '.$row->post_code }}
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->rent_amount }}
                         </td>
@@ -221,12 +221,12 @@
                                 <span class="text-green-500">{{ $days_incepted }} days</span>
                                 @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
-                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             N/A
-                        </td> -->
+                        </td> 
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->invoice)
                             {{ $row->invoice->invoice_no }}
@@ -238,10 +238,10 @@
                             @elseif($row->payment_method == 'pay_later')
                             Pay later
                             @endif
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                            
-                        </td>
+                        </td>--}}
                     </tr>
                     @empty
                     <tr>
