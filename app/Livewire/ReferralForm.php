@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-
 use App\Models\Insurance;
 use App\Models\Purchase;
 use App\Models\Invoice;
@@ -16,11 +15,10 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use Illuminate\Support\Str;
 
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule; 
 
-class PolicyBuyerComponent extends Component
+class ReferralForm extends Component
 {
-
     public $currentStep = 1;
 
     public $selectedinsuranceId;
@@ -38,7 +36,7 @@ class PolicyBuyerComponent extends Component
     public $postCode;
 
     // Step 3: Policy Holder Info
-    public $policyHoldertype = 'Individual'; // default 
+    public $policyHoldertype = 'Individual'; // default  
     public $companyName;
     public $policyholderTitle;
     public $policyholderFirstName;
@@ -85,7 +83,7 @@ class PolicyBuyerComponent extends Component
     // Step 7: Summary data
     public $summaryData = [];
 
-    public function mount()
+      public function mount()
     {
         // if (!Auth::check()) {
         //     session()->flash('error', 'Please log in to continue.');
@@ -191,12 +189,7 @@ class PolicyBuyerComponent extends Component
         }
     }
 
-    // public function updatedSelectedinsuranceId($value) 
-    // {
-    //     $this->insuranceDetails = Insurance::find($value);
-    // }
-
-    public function updatedSelectedinsuranceId($value)
+     public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
     }
@@ -357,7 +350,7 @@ class PolicyBuyerComponent extends Component
         ];
     }
 
-    public function submitForm()
+        public function submitForm()
     {
         $allRules = array_merge(
             $this->rulesForStep(1),
@@ -506,12 +499,14 @@ class PolicyBuyerComponent extends Component
 
 
         //Policy holder email send
-        // $this->send_email_one($purchase->id);
+        $this->send_email_one($purchase->id);
 
-        // if($invoice->is_invoice == 1){
+        if($invoice->is_invoice == 1){
 
-        //     $this->send_email_two($purchase->id);
-        // }
+            $this->send_email_two($purchase->id);
+        }
+
+        return redirect()->route('front.purchase.success');
 
         // if (!Auth::check()) {
         //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
@@ -525,25 +520,25 @@ class PolicyBuyerComponent extends Component
 
         // if (!$userId) {
         //     session()->put('guest_redirect_intended', url()->current());
-        //     return redirect()->route('user.register'); 
+        //     return redirect()->route('user.register');
         // }
 
-        if (!$userId) {
-            $guestToken = (string) Str::uuid();
-            $purchase->token  = $guestToken;
-            $purchase->save();
+        // if (!$userId) {
+        //     $guestToken = (string) Str::uuid();
+        //     $purchase->token  = $guestToken;
+        //     $purchase->save();
 
-            session()->put('guest_purchase_token', $guestToken);
-            session()->put('resume_summary', true);
+        //     session()->put('guest_purchase_token', $guestToken);
+        //     session()->put('resume_summary', true);
 
-            return redirect()->route('user.register');
-        }
+        //     return redirect()->route('user.register');
+        // }
 
         // ✅ Store purchase ID in session
-        session()->put('pending_purchase_id', $purchase->id);
+        // session()->put('pending_purchase_id', $purchase->id);
 
         // ✅ Redirect to Stripe
-        return redirect()->route('stripe.booking');
+        // return redirect()->route('stripe.booking');
 
         // return redirect()->route('front.purchase.success');
 
@@ -787,6 +782,6 @@ class PolicyBuyerComponent extends Component
 
     public function render()
     {
-        return view('livewire.policy-buyer-component');
+        return view('livewire.referral-form'); 
     }
 }

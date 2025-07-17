@@ -79,14 +79,13 @@ class FrontController extends Controller
             'name'                  => 'required',
             'email'                 => 'required|email|unique:users',
             'password'              => 'required|confirmed|min:6',
-            'type'                  => 'required',
         ]);
 
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->type = $request->type;
+        $user->type = 'user';
         $user->save();
 
         Auth::login($user);
@@ -182,20 +181,48 @@ class FrontController extends Controller
             return redirect('/dashboard')->with('error', 'Unauthorized access.');
         }
 
-        $totalActive = Purchase::where('policy_end_date', '>', now())->count();
-        $totalInactive = Purchase::where('policy_end_date', '<', now())->count();
+        $totalActive = Purchase::where('policy_end_date', '>', now())
+                    ->whereHas('insurance', function ($query) {
+                        $query
+                    ->where('purchase_mode', 'Online');
+                    })
+                    ->when(Auth::check(), function ($query) {
+                        $query->where('user_id', Auth::id());
+                    })
+                    ->whereNull('purchase_status')
+                    ->count();
+
+        $totalInactive = Purchase::where('policy_end_date', '<', now())
+                        ->whereHas('insurance', function ($query) {
+                            $query
+                        ->where('purchase_mode', 'Online');
+                        })
+                        ->when(Auth::check(), function ($query) {
+                            $query->where('user_id', Auth::id());
+                        })
+                        ->whereNull('purchase_status')
+                        ->count();
+
         $totalCancel = Purchase::where('purchase_status', 'Cancelled')
             ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');
-            })->count();
+            })
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->count();
+
         return view('front_dashboard', compact('totalActive', 'totalInactive','totalCancel'));
     }
 
-    public function frontSuccessPage()
+    public function frontSuccessPage(Request $request)
     {
-
-        return view('front_success_page');
+        $purchaseId = $request->get('purchase_id');
+        // dd($purchaseId);
+        $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchaseId);
+        // dd($purchase);
+        return view('front_success_page', compact('purchaseId', 'purchase'));
     }
 
     public function logout()
@@ -270,7 +297,7 @@ class FrontController extends Controller
     public function active_insurance()
     {
         // $active_insure = Purchase::where('policy_end_date' > now())->get();
-        return view('active_insurance');  
+        return view('active_insurance');   
     }
 
     public function inactive_insurance()
@@ -363,4 +390,10 @@ class FrontController extends Controller
             dd($e);
         }
     }
+
+     public function referralForm()
+    {
+        return view('referral_form');
+    }
+
 }

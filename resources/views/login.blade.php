@@ -87,10 +87,9 @@
                 </form>
                 <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p>
                 <!-- Social Login -->
-                <div class="flex justify-center gap-4 my-6">
+                <!-- <div class="flex justify-center gap-4 my-6">
                     <a href="{{ route('auth.google') }}" class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></a>
-                            
                     {{--<button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></button>--}}
                     <button class="border p-2 rounded-full"><img class="w-5"
@@ -99,7 +98,7 @@
                             src="https://www.svgrepo.com/show/512317/github-142.svg" alt=""></button>
                     <button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/448234/linkedin.svg" alt=""></button>
-                </div>
+                </div> -->
 
                 
             </div>

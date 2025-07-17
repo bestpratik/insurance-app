@@ -166,7 +166,7 @@
                             <div class="border rounded-lg">
                                 <div class="px-4 py-2 font-semibold">Dynamic Policy Documents</div>
                                 <div class="p-4 space-x-2">
-                                    @foreach($purchase->insurance->dynamicdocument as $document)
+                                    @foreach($purchase->insurance->dynamicdocument as $document) 
                                     <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
                                         target="_blank"
                                         class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">

@@ -556,7 +556,7 @@
                             <label class="block text-sm font-medium text-gray-700">Policy Start Date <span
                                     class="text-red-600">*</span></label>
                             <input type="date"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="policyStartDate">
                             @error('policyStartDate')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -567,9 +567,9 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
-                                    class="text-red-600">*</span></label> 
+                                    class="text-red-600">*</span></label>
                             <input type="date"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="astStartDate">
                             @error('astStartDate')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -641,13 +641,13 @@
             @if($currentStep === 5)
             <div id="tab5" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
-                    <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details <small>(optional)</small></p>
+                    <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details</p><small>(optional)</small>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tenant Name</label>
                             <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantName">
                             @error('tenantName')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -657,7 +657,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
                             <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantPhone">
                             @error('tenantPhone')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -667,7 +667,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tenant Email</label>
                             <input type="email"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantEmail">
                             @error('tenantEmail')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -739,7 +739,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Billing Name<span class="text-red-600 text-lg">*</span></label>
                             <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="billingName">
                             @error('billingName')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -749,7 +749,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Billing Email<span class="text-red-600 text-lg">*</span></label>
                             <input type="email"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="billingEmail">
                             @error('billingEmail')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -767,7 +767,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
                             <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="billingPhone">
                             @error('billingPhone')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -795,7 +795,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Billing Postcode<span class="text-red-600 text-lg">*</span></label>
                             <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="billingPostcode">
                             @error('billingPostcode')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -950,15 +950,7 @@
                         </svg>
                         Loading...
                     </span>
-                    {{--<span wire:loading.remove wire:target="submitForm">Submit</span>
-                    <span wire:loading.remove wire:target="submitForm">
-                    </span>--}}
-                    
-                    <span wire:loading.remove wire:target="submitForm">
-                        {{ Auth()->check() ? 'Pay Now' : 'Submit' }}
-                    </span>
-
-
+                    <span wire:loading.remove wire:target="submitForm">Submit</span>
                 </button>
                 @endif
         </div>

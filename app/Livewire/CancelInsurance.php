@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Livewire\WithPagination; 
+use Illuminate\Support\Facades\Auth;
 
 class CancelInsurance extends Component 
 {
@@ -40,6 +41,9 @@ class CancelInsurance extends Component
             ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');
+            })
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
             })
             ->orderBy('id', 'desc'); 
         //  dd($query);

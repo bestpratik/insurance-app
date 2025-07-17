@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Livewire\WithPagination; 
+use Illuminate\Support\Facades\Auth;
 
 class InactiveInsurance extends Component
 {
@@ -33,7 +34,12 @@ class InactiveInsurance extends Component
             ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');
-            })->where('policy_end_date', '<', now())->orderBy('id', 'desc');
+            })
+            ->where('policy_end_date', '<', now())
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->orderBy('id', 'desc');
         //  dd($query);
        
         if (!empty($this->policyNo)) {

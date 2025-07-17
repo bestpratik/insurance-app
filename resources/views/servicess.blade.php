@@ -16,7 +16,7 @@
         <!-- Content -->
         <div class="relative z-1 py-24 px-6 text-center">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Services</h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Buy Directly</h2>
                 <p class="text-lg md:text-xl mb-8">Tailored financial solutions to help you grow, protect, and manage
                     your wealth.</p>
 
@@ -42,7 +42,7 @@
                             </a>
                             <a href="{{route('policy.buyer')}}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
-                                <span class="relative z-1">Buy Insurance Directly</span>
+                                <span class="relative z-1">Buy Now</span>
                             </a>
                         </div>
                     </div>

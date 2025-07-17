@@ -31,7 +31,7 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     //return view('welcome');
-    return redirect('/login');
+    return redirect('/login'); 
 });
 
 /*Route::get('/dashboard', function () {
@@ -119,6 +119,7 @@ Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us'
 Route::get('service', [FrontController::class, 'services'])->name('service');
 Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details');
 Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
+Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
 
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
@@ -150,12 +151,12 @@ Route::post('submit-reset-Password', [FrontController::class, 'submitResetPasswo
 
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
-    Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance'); 
+    Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance');  
     Route::get('inactive-insurance', [FrontController::class, 'inactive_insurance'])->name('inactive.insurance');
     Route::get('cancel-insurance', [FrontController::class, 'cancel_insurance'])->name('cancel.insurance');
 
 
-    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
+    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success');   
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 
 
@@ -220,7 +221,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
 
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success'); 
-    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details'); 
+    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');  
 
     Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
     // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');

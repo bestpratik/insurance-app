@@ -119,24 +119,18 @@
                         </button> -->
                     </div>
 
-                      <div class="relative">
+                        <!-- <div class="relative">
                             <select id="type" name="type"
                                 class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                                 >
                                 <option value="">Choose Type</option>
                                 <option value="user">User</option>
-                                <!-- <option value="admin">Admin</option> -->
+                                <option value="admin">Admin</option>
                             </select>
-
-                            <!-- <label for="type"
-                                class="left-4 top-2 text-gray-500 text-sm transition-all peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500 peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400">
-                                Choose Type
-                            </label> -->
-
                             @if($errors->has('type'))
                                 <span style="color: red">{{ $errors->first('type') }}</span>
                             @endif
-                        </div>
+                        </div> -->
 
 
                     <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">Sign
@@ -148,16 +142,16 @@
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
                     <!-- Google -->
-                     <a href="{{route('auth.google', 'google')}}">
+                     <!-- <a href="{{route('auth.google', 'google')}}">
                          <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                         <img class="w-5 h-5" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                         <span class="text-sm">Google</span>
                     </button>
-                     </a>
+                     </a> -->
                    
 
                     <!-- Facebook -->
-                    <a href="{{ route('auth.facebook', 'facebook') }}">
+                    <!-- <a href="{{ route('auth.facebook', 'facebook') }}">
                         <button class="flex items-center gap-2 border px-4 py-2 rounded-full hover:bg-gray-100 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 width="24" height="24" x="0" y="0" viewBox="0 0 152 152"
@@ -175,7 +169,7 @@
                             </svg>
                             <span class="text-sm">Facebook</span>
                         </button>
-                    </a>
+                    </a> -->
                 </div>
 
             </div>
