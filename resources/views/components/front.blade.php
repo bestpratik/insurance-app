@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{'Money Wise Plc'}}</title> 
+    <title>{{'Money Wise Plc'}}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- ✅ Tailwind CSS CDN -->
-     <style>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- (Optional) Tailwind Config for Custom Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d9488',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
         /* Hide scrollbars on scroll container */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -23,35 +38,44 @@
             scrollbar-width: none;
         }
     </style>
-  
+
     <style>
-        .note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable{
-        background: #fff;}
+        .note-editor.note-airframe .note-editing-area .note-editable,
+        .note-editor.note-frame .note-editing-area .note-editable {
+            background: #fff;
+        }
     </style>
-     @livewireStyles
+    @livewireStyles
 </head>
-    <body>
-        @include('layouts.front_navigation')
-        @include('layouts.front_header')
 
-        {{ $slot }}
+<body>
+    @include('layouts.front_navigation')
+    @include('layouts.front_header')
 
-        @include('layouts.front_footer')
+    {{ $slot }}
+
+    @include('layouts.front_footer')
     <!-- Mobile Menu Drawer -->
     <div id="mobileMenu"
         class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-40">
         <div class="flex justify-between items-center p-4 border-b">
             <h3 class="text-lg font-semibold">Menu</h3>
-            <button id="menuClose" class="text-red-600 text-xl"> 
+            <button id="menuClose" class="text-red-600 text-xl">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <nav class="flex flex-col p-4 space-y-4 text-gray-700">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
-            <a href="{{ route('about.us') }}" class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
-            <a href="{{ route('service') }}" class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
-            <a href="{{ route('contact.us') }}" class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
-            <a href="{{route('policy.buyer')}}" class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
+            <a href="{{ route('home') }}"
+                class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
+            <a href="{{ route('about.us') }}"
+                class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
+            <a href="{{ route('service') }}"
+                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
+            <a href="{{ route('contact.us') }}"
+                class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
+            <a href="{{route('policy.buyer')}}"
+                class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get
+                A Quote</a>
         </nav>
     </div>
 
@@ -68,22 +92,8 @@
     </button>
 
 
-      <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper JS -->
 
-    <!-- (Optional) Tailwind Config for Custom Theme -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0d9488',
-                    }
-                }
-            }
-        }
-    </script>
     <script>
         const swiper = new Swiper('.mySwiper', {
             slidesPerView: 1,
@@ -170,7 +180,7 @@
             });
         });
     </script>
-     <!-- ===================================this is tab menu script ======================================== -->
+    <!-- ===================================this is tab menu script ======================================== -->
     <script>
         const tabButtons = document.querySelectorAll(".tab-btn");
         const tabContents = document.querySelectorAll(".tab-content");
@@ -256,5 +266,6 @@
         });
     </script>
     @livewireScripts
-    </body>
+</body>
+
 </html>
