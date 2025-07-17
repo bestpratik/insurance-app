@@ -38,10 +38,9 @@
                     @csrf
                     <div class="relative">
                         <input type="text" id="username" name="email" value="{{ old('email') }}"
-                            class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
+                            class="w-full border border-gray-300 rounded-md px-4 pt-4 pb-3 text-md placeholder-transparent focus:outline-none focus:ring-1 focus:ring-red-600 bg-white"
                             placeholder="Username or Email" />
-                        <label for="username"
-                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                        <label for="username" class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Username or Email
                         </label>
                         @if($errors->has('email'))
@@ -51,10 +50,10 @@
 
                     <div class="relative">
                         <input type="password" id="password" name="password" value="{{ old('password') }}"
-                            class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
+                            class="w-full border border-gray-300 rounded-md px-4 pt-4 pb-3 text-md placeholder-transparent focus:outline-none focus:ring-1 focus:ring-red-600"
                             placeholder="Password" />
                         <label for="password"
-                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Password
                         </label>
                         @if($errors->has('password'))
