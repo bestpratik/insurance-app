@@ -16,6 +16,7 @@ use PDF;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class StripePaymentController extends Controller
 {
@@ -38,6 +39,7 @@ class StripePaymentController extends Controller
         $stripeSession = StripeSession::create([
             'payment_method_types' => ['card'],
             'client_reference_id' => $purchase->id,
+            'customer_email' => Auth::user()->email ?? '',
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'gbp',
@@ -88,7 +90,7 @@ class StripePaymentController extends Controller
                 DB::beginTransaction();
 
                 $purchase->payment_status = 'Paid';
-                $purchase->stripe_session_id = $sessionId;
+                $purchase->stripe_session_id = Null;
                 $purchase->save();
 
                 DB::commit();
@@ -101,7 +103,7 @@ class StripePaymentController extends Controller
 
         // return redirect()->route('front.purchase.success');  
         
-    }
+    } 
 
 
 
@@ -215,9 +217,16 @@ class StripePaymentController extends Controller
                     // Static documents
                     if ($insurance->staticdocuments) {
                         foreach ($insurance->staticdocuments as $docs) {
-                            $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                            // $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                            // if (file_exists($filePath)) {
+                            //     $allDocs[] = $filePath;
+                            // }
+
+                            $filePath = public_path('uploads/insurance_document/');
                             if (file_exists($filePath)) {
-                                $allDocs[] = $filePath;
+                                $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+                                $newStaticPath = public_path($filePath . $newStaticName);
+                                $allDocs[] = $newStaticPath;
                             }
                         }
                     }
@@ -253,7 +262,9 @@ class StripePaymentController extends Controller
                     // Dynamic documents
                     if ($insurance->dynamicdocument) {
                         foreach ($insurance->dynamicdocument as $dydocs) {
-                            $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+                            // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+
+                            $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
 
                             $data = [
                                 'templateTitle' => $dydocs->title,
@@ -264,7 +275,7 @@ class StripePaymentController extends Controller
                             ];
 
                             $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                            $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
+                            $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                             $pdf->save($pdfPath);
                             if (file_exists($pdfPath)) {
                                 $allDocs[] = $pdfPath;

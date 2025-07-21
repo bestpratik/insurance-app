@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{'Money Wise Plc'}}</title> 
+    <title>{{'Money Wise Plc'}}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- ✅ Tailwind CSS CDN -->
-     <style>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- (Optional) Tailwind Config for Custom Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0d9488',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
         /* Hide scrollbars on scroll container */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -23,35 +38,85 @@
             scrollbar-width: none;
         }
     </style>
-  
+
     <style>
-        .note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable{
-        background: #fff;}
+        .note-editor.note-airframe .note-editing-area .note-editable,
+        .note-editor.note-frame .note-editing-area .note-editable {
+            background: #fff;
+        }
     </style>
-     @livewireStyles
+    @livewireStyles
 </head>
-    <body>
-        @include('layouts.front_navigation')
-        @include('layouts.front_header')
 
-        {{ $slot }}
+<body>
+    @include('layouts.front_navigation')
+    @include('layouts.front_header')
 
-        @include('layouts.front_footer')
+    {{ $slot }}
+
+    @include('layouts.front_footer')
     <!-- Mobile Menu Drawer -->
     <div id="mobileMenu"
         class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-40">
         <div class="flex justify-between items-center p-4 border-b">
             <h3 class="text-lg font-semibold">Menu</h3>
-            <button id="menuClose" class="text-red-600 text-xl"> 
+            <button id="menuClose" class="text-red-600 text-xl">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <nav class="flex flex-col p-4 space-y-4 text-gray-700">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
-            <a href="{{ route('about.us') }}" class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
-            <a href="{{ route('service') }}" class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
-            <a href="{{ route('contact.us') }}" class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
-            <a href="{{route('policy.buyer')}}" class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
+            <a href="{{ route('home') }}"
+                class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
+            <a href="{{ route('about.us') }}"
+                class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
+            <a href="{{ route('service') }}"
+                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
+            <a href="{{ route('contact.us') }}"
+                class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
+
+
+            <!-- Account Dropdown -->
+            <div class="relative">
+                <button id="accountBtnMobile" class="flex items-center justify-between w-full px-2 py-2 border-t border-b border-red-100
+        {{ Auth::check() ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+                    <div class="flex items-center space-x-2">
+                        <!-- User Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <span class="font-medium">
+                            @auth
+                            {{ Auth::user()->name }}
+                            @else
+                            Account
+                            @endauth
+                        </span>
+                    </div>
+                    <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="accountMenuMobile" class="mt-2 ml-4 flex flex-col bg-white border border-gray-200 rounded shadow-md hidden">
+                    @auth
+                    <a href="{{ route('dashboard.frontend') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100 border-b">Dashboard</a>
+                    <a href="{{ route('user.logout') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                    @else
+                    <a href="{{ route('user.login') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
+                    @endauth
+                </div>
+            </div>
+
+
+            <a href="{{route('referral.form')}}"
+                class="{{ request()->routeIs('referral.form') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get
+                A Quote</a>
         </nav>
     </div>
 
@@ -68,22 +133,8 @@
     </button>
 
 
-      <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper JS -->
 
-    <!-- (Optional) Tailwind Config for Custom Theme -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0d9488',
-                    }
-                }
-            }
-        }
-    </script>
     <script>
         const swiper = new Swiper('.mySwiper', {
             slidesPerView: 1,
@@ -98,9 +149,15 @@
             freeModeMomentum: false,
             grabCursor: true,
             breakpoints: {
-                640: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 3
+                },
+                1024: {
+                    slidesPerView: 5
+                },
             },
         });
 
@@ -170,7 +227,7 @@
             });
         });
     </script>
-     <!-- ===================================this is tab menu script ======================================== -->
+    <!-- ===================================this is tab menu script ======================================== -->
     <script>
         const tabButtons = document.querySelectorAll(".tab-btn");
         const tabContents = document.querySelectorAll(".tab-content");
@@ -201,11 +258,17 @@
         }
 
         scrollLeft.addEventListener('click', () => {
-            tabWrapper.scrollBy({ left: -150, behavior: 'smooth' });
+            tabWrapper.scrollBy({
+                left: -150,
+                behavior: 'smooth'
+            });
         });
 
         scrollRight.addEventListener('click', () => {
-            tabWrapper.scrollBy({ left: 150, behavior: 'smooth' });
+            tabWrapper.scrollBy({
+                left: 150,
+                behavior: 'smooth'
+            });
         });
 
         tabWrapper.addEventListener('scroll', updateButtons);
@@ -241,7 +304,10 @@
             updateArrowVisibility();
             const active = document.querySelector('.active-tab');
             if (active) {
-                active.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                active.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'center'
+                });
             }
         });
 
@@ -251,10 +317,26 @@
                 e.preventDefault();
                 document.querySelector('.active-tab')?.classList.remove('text-red-600', 'border-red-500', 'active-tab');
                 btn.classList.add('text-red-600', 'border-red-500', 'active-tab');
-                btn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                btn.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'center'
+                });
             });
         });
     </script>
+
+    <script>
+        const accountBtnMobile = document.getElementById("accountBtnMobile");
+        const accountMenuMobile = document.getElementById("accountMenuMobile");
+
+        if (accountBtnMobile && accountMenuMobile) {
+            accountBtnMobile.addEventListener("click", () => {
+                accountMenuMobile.classList.toggle("hidden");
+            });
+        }
+    </script>
+
     @livewireScripts
-    </body>
+</body>
+
 </html>

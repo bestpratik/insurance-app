@@ -608,7 +608,7 @@ class ReferralForm extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
