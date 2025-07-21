@@ -70,7 +70,8 @@
             <a href="{{ route('about.us') }}"
                 class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
             <a href="{{ route('service') }}"
-                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
+                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Buy
+            Insurance Now</a> 
             <a href="{{ route('contact.us') }}"
                 class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
 
