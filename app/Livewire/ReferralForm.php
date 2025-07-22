@@ -492,7 +492,7 @@ class ReferralForm extends Component
         $invoice->invoice_date  = $curDate;
 
 
-        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
+        $invoice->is_invoice = 1 ;
 
         $invoice->save();
 
@@ -506,7 +506,7 @@ class ReferralForm extends Component
             $this->send_email_two($purchase->id);
         }
 
-        return redirect()->route('front.purchase.success');
+        return redirect()->route('referral.purchase.success');
 
         // if (!Auth::check()) {
         //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');

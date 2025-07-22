@@ -156,7 +156,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cancel-insurance', [FrontController::class, 'cancel_insurance'])->name('cancel.insurance');
 
 
-    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success');   
+    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
+    Route::get('referral-purchase-success', [FrontController::class, 'referralSuccessPage'])->name('referral.purchase.success');   
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 
 

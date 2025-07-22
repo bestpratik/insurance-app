@@ -225,6 +225,15 @@ class FrontController extends Controller
         return view('front_success_page', compact('purchaseId', 'purchase'));
     }
 
+     public function referralSuccessPage(Request $request)
+    {
+        // $purchaseId = $request->get('purchase_id');
+        // dd($purchaseId);
+        // $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchaseId);
+        // dd($purchase);
+        return view('referral_success_page');
+    }
+
     public function logout()
     {
         Auth::logout();
