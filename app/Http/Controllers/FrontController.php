@@ -54,7 +54,7 @@ class FrontController extends Controller
 
     public function service_details($page_slug)
     {
-        $service = Service::where('page_slug', $page_slug)->firstOrFail();
+        $service = Service::where('page_slug', $page_slug)->firstOrFail(); 
         return view('service_details', compact('service'));
     }
 
@@ -223,6 +223,15 @@ class FrontController extends Controller
         $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchaseId);
         // dd($purchase);
         return view('front_success_page', compact('purchaseId', 'purchase'));
+    }
+
+     public function referralSuccessPage(Request $request)
+    {
+        // $purchaseId = $request->get('purchase_id');
+        // dd($purchaseId);
+        // $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchaseId);
+        // dd($purchase);
+        return view('referral_success_page');
     }
 
     public function logout()
@@ -394,6 +403,10 @@ class FrontController extends Controller
      public function referralForm()
     {
         return view('referral_form');
+    }
+
+    public function policyDetailPage(){
+        return view('policy_detail_page');
     }
 
 }

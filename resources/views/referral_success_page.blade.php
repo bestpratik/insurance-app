@@ -9,75 +9,9 @@
                             <path class="stroke-current" fill="none" stroke-width="3"
                                 d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                         </svg>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance successfully purchased!</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance Form successfully Submitted!</h2>
                         <p class="text-gray-600 mb-6">Thank You</p>
 
-                        <!-- <div class="p-4 space-x-2">
-                                    @foreach($purchase->insurance->dynamicdocument as $document) 
-                                    <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
-                                        target="_blank"
-                                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
-                                        <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
-
-                                        <span>{{ $document->title ?? ''}}</span>
-                                    </a>
-                                    @endforeach 
-                        </div> -->
-
-                            
-                            <div class="border rounded-lg">
-                                <div class="px-4 py-2 font-semibold">Policy Documents</div>
-                                <!-- Static Policy Documents -->
-                                <div class="p-4 space-y-2 text-sm">
-                                    @if($purchase->insurance && $purchase->insurance->staticdocuments->count())
-                                    @foreach($purchase->insurance->staticdocuments as $doc)
-                                    <div>
-                                        <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank" class="text-blue-600 hover:underline">
-                                            <x-heroicon-o-document-text class="h-6 w-6 text-red-600 inline" /> {{ $doc->title }}
-                                        </a>
-                                    </div>
-                                    @endforeach
-                                    @else
-                                    <div class="text-gray-500 italic">No static documents available.</div>
-                                    @endif
-                                </div>
-
-                                <!-- Dynamic Policy Documents -->
-                                <div class="p-4 space-x-2">
-                                    @foreach($purchase->insurance->dynamicdocument as $document) 
-                                    <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
-                                        target="_blank"
-                                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
-                                        <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
-
-                                        <span>{{ $document->title ?? ''}}</span>
-                                    </a>
-                                    @endforeach
-                                </div>
-
-                            </div>
-
-                            <!-- Invoice -->
-                            <div class="">
-                                <h4 class="text-md font-semibold mb-2">Invoice</h4>
-                                <div class="p-4 border border-gray-200 rounded-lg  text-center inline-block">
-                                    <a href="{{route('insurance.invoice.genarate',$purchase->id)}}" target="_blank"
-                                        class="inline-flex items-center gap-2 text-blue-600 hover:underline hover:text-blue-800 transition">
-                                        <x-heroicon-o-document-text class="h-6 w-6 text-red-600" />
-                                        Click here to download Invoice
-                                    </a>
-                                </div>
-                            </div>
-
-                        <!-- <div class="p-4 space-x-2">
-                            @foreach($purchase->insurance->staticdocuments as $doc)
-                                <div>
-                                    <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank" class="text-blue-600 hover:underline">
-                                        <x-heroicon-o-document-text class="h-6 w-6 text-red-600 inline" /> {{ $doc->title }}
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div> -->
                     </div>
                 </section>
                 

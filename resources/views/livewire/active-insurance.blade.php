@@ -1,61 +1,5 @@
 <div class="p-4">
-    <!-- Filter Section -->
-    <!-- <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label> 
-            <input type="text" wire:model.live="policyNo" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Insurance</label>
-            <input type="text" wire:model.live="insuranceName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Property</label>
-            <input type="text" wire:model.live="propertyAddress" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Rent Amount</label>
-            <input type="number" wire:model.live="rentAmount" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency</label>
-            <input type="text" wire:model.live="landlordAgency" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Address</label>
-            <input type="text" wire:model.live="landlordagencyAddress" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Email</label>
-            <input type="text" wire:model.live="landlordagencyEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> 
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy Start Date</label>
-            <input type="date" wire:model.live="policyStartdate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy End Date</label>
-            <input type="date" wire:model.live="policyEnddate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">AST Start Date</label>
-            <input type="date" wire:model.live="astStartdate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Purchase Date</label>
-            <input type="date" wire:model.live="purchaseDate" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        {{-- <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Name</label>
-            <input type="text" wire:model.live="tenantName" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div>
-        <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Tenant Email</label>
-            <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
-        </div> --}}
-
-    </div> -->
-
+    
 
 
     <!-- Loader -->
@@ -70,15 +14,7 @@
 
     <!-- Table Section -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
-        <!-- <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
-            <select wire:model.live="perPage">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-        </div> -->
+        
         <div class="overflow-x-auto custom-scrollbar">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -92,12 +28,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance
                         </th>
-                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Insurance Price
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Payble Amount
-                        </th>
+                      
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Providers
                         </th>
@@ -106,16 +37,14 @@
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Property
-                        </th>--}}
+                        </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Amount
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord/Agency
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Landlord/Agency Address
-                        </th>
+                      
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord/Agency Email
                         </th>
@@ -128,21 +57,11 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             AST Start Date
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Days Inspected
-                        </th>
+                      
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
-                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Purchased By
-                        </th> --}}
-                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Invoice No
-                        </th> --}}
-                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Payment Method
-                        </th> --}}
+                     
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
                         </th>
@@ -162,14 +81,7 @@
                             {{ $row->insurance->name }}
                             @endif
                         </td>
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->insurance)
-                            {{ $row->insurance->total_premium }}
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->insurance->payable_amount ?? '' }}
-                        </td>
+                    
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance && $row->insurance->provider)
                             {{ $row->insurance->provider->name }}
@@ -180,7 +92,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->door_no.' '.$row->address_one.' '.$row->address_two.' '.$row->address_three.' '.$row->post_code }}
-                        </td>--}}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             £{{$row->payable_amount}}
                         </td>
@@ -194,9 +106,7 @@
                             {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_address }}
-                        </td>
+                       
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->policy_holder_email }}
                         </td>
@@ -209,36 +119,11 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->ast_start_date)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @php
-                            $target_date_one = strtotime($row->purchase_date);
-                            $target_date_two = strtotime($row->policy_start_date);
-                            $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
-                            @endphp
-                            @if($days_incepted < -5)
-                                <span class="text-red-500">{{ $days_incepted }} days</span>
-                                @else
-                                <span class="text-green-500">{{ $days_incepted }} days</span>
-                                @endif
-                        </td>
+                     
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            N/A
-                        </td> --}}
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->invoice)
-                            {{ $row->invoice->invoice_no }}
-                            @endif
-                        </td>--}}
-                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->payment_method == 'bank_transfer')
-                            Bank Transfer
-                            @elseif($row->payment_method == 'pay_later')
-                            Pay later
-                            @endif
-                        </td> --}}
+                        
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
                                 <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">

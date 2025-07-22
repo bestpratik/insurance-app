@@ -117,7 +117,7 @@ Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('about-us', [FrontController::class, 'about'])->name('about.us');
 Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us');
 Route::get('service', [FrontController::class, 'services'])->name('service');
-Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details');
+Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details'); 
 Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
 
@@ -156,8 +156,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cancel-insurance', [FrontController::class, 'cancel_insurance'])->name('cancel.insurance');
 
 
-    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success');   
+    Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
+    Route::get('referral-purchase-success', [FrontController::class, 'referralSuccessPage'])->name('referral.purchase.success');   
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
+
+    Route::get('policy-detail-page', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page');
 
 
 

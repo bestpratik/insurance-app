@@ -16,6 +16,8 @@ use PDF;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class StripePaymentController extends Controller
 {
@@ -38,6 +40,7 @@ class StripePaymentController extends Controller
         $stripeSession = StripeSession::create([
             'payment_method_types' => ['card'],
             'client_reference_id' => $purchase->id,
+            'customer_email' => Auth::user()->email ?? '',
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'gbp',
@@ -88,7 +91,7 @@ class StripePaymentController extends Controller
                 DB::beginTransaction();
 
                 $purchase->payment_status = 'Paid';
-                $purchase->stripe_session_id = $sessionId;
+                $purchase->stripe_session_id = Null;
                 $purchase->save();
 
                 DB::commit();
@@ -101,7 +104,7 @@ class StripePaymentController extends Controller
 
         // return redirect()->route('front.purchase.success');  
         
-    }
+    } 
 
 
 
@@ -215,10 +218,31 @@ class StripePaymentController extends Controller
                     // Static documents
                     if ($insurance->staticdocuments) {
                         foreach ($insurance->staticdocuments as $docs) {
-                            $filePath = public_path('uploads/insurance_document/' . $docs->document);
-                            if (file_exists($filePath)) {
-                                $allDocs[] = $filePath;
+                            // $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                            // if (file_exists($filePath)) {
+                            //     $allDocs[] = $filePath;
+                            // }
+
+                            // $filePath = public_path('uploads/insurance_document/');
+                            // if (file_exists($filePath)) {
+                            //     $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+                            //     $newStaticPath = $filePath . $newStaticName;
+                            //     $allDocs[] = $newStaticPath;
+                            // }
+                            
+                            
+                            $originalPath = public_path('uploads/insurance_document/' . $docs->document);
+                            $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+                            $newStaticPath = public_path('uploads/insurance_document/' . $newStaticName);
+                            
+                            // Copy the original file to new file if not already done
+                            if (file_exists($originalPath)) {
+                                if (!file_exists($newStaticPath)) {
+                                    File::copy($originalPath, $newStaticPath);
+                                }
+                                $allDocs[] = $newStaticPath;
                             }
+
                         }
                     }
 
@@ -253,7 +277,9 @@ class StripePaymentController extends Controller
                     // Dynamic documents
                     if ($insurance->dynamicdocument) {
                         foreach ($insurance->dynamicdocument as $dydocs) {
-                            $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+                            // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+
+                            $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
 
                             $data = [
                                 'templateTitle' => $dydocs->title,
@@ -262,13 +288,26 @@ class StripePaymentController extends Controller
                                 'templateFooter' => $dydocs->footer,
                                 'templatebodyValue' => $pdfDynamicval
                             ];
+                            
+                              $dynamicDocPath = public_path('uploads/dynamicdoc/');
+                                if (!File::exists($dynamicDocPath)) {
+                                    File::makeDirectory($dynamicDocPath, 0755, true);
+                                }
+                        
+                                $pdfPath = $dynamicDocPath . $file_name;
+                                $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
+                                $pdf->save($pdfPath);
+                        
+                                if (file_exists($pdfPath)) {
+                                    $allDocs[] = $pdfPath;
+                                }
 
-                            $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                            $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
-                            $pdf->save($pdfPath);
-                            if (file_exists($pdfPath)) {
-                                $allDocs[] = $pdfPath;
-                            }
+                            // $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
+                            // $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
+                            // $pdf->save($pdfPath);
+                            // if (file_exists($pdfPath)) {
+                            //     $allDocs[] = $pdfPath;
+                            // }
                         }
                     }
 
@@ -294,22 +333,40 @@ class StripePaymentController extends Controller
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
                     $email_subject = $insurance->insurancemailtemplate->title ?? '';
                     $data = [
                         'body' => $insurance->insurancemailtemplate->description ?? '',
                         'bodyValue' => $bodyValue
                     ];
 
-                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                        $messages->to($sendToemails);
-                        $messages->subject($email_subject);
-                        $messages->cc($ccEmails);
-                        $messages->bcc(['bestpratik@gmail.com']);
-                        foreach ($allDocs as $attachment) {
-                            $messages->attach($attachment);
-                        }
-                    });
+                    // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                    //     $messages->to($sendToemails);
+                    //     $messages->subject($email_subject);
+                    //     $messages->cc($ccEmails);
+                    //     $messages->bcc(['dcstest201@gmail.com']);
+                    //     foreach ($allDocs as $attachment) {
+                    //         $messages->attach($attachment);
+                    //     }
+                    // });
+                    
+                    
+                    try {
+                        Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                            $messages->to($sendToemails);
+                            $messages->subject($email_subject);
+                            $messages->cc($ccEmails);
+                            $messages->bcc(['dcstest201@gmail.com']);
+                            foreach ($allDocs as $attachment) {
+                                $messages->attach($attachment);
+                            }
+                        });
+                    
+                        Log::info("Insurance email sent to: " . implode(', ', $sendToemails));
+                    } catch (\Exception $e) {
+                        Log::error("Failed to send insurance email to: " . implode(', ', $sendToemails) . ' | Error: ' . $e->getMessage());
+                    }
+
 
                     // ======= INVOICE EMAIL (send_email_two logic) =======
                     // ======= INVOICE EMAIL (send_email_two logic) =======
@@ -334,15 +391,32 @@ class StripePaymentController extends Controller
                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
                             ];
 
-                            $invoiceCopyEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                            $invoiceCopyEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-                            Mail::send('email.invoice_mail', $invoiceEmailData, function ($message) use ($billingEmail, $invoiceFilePath, $invoiceCopyEmails, $purchase) {
-                                $message->to($billingEmail);
-                                $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
-                                $message->cc($invoiceCopyEmails);
-                                $message->bcc(['bestpratik@gmail.com']);
-                                $message->attach($invoiceFilePath);
-                            });
+                            // Mail::send('email.invoice_mail', $invoiceEmailData, function ($message) use ($billingEmail, $invoiceFilePath, $invoiceCopyEmails, $purchase) {
+                            //     $message->to($billingEmail);
+                            //     $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
+                            //     $message->cc($invoiceCopyEmails);
+                            //     $message->bcc(['dcstest201@gmail.com']);
+                            //     $message->attach($invoiceFilePath);
+                            // });
+                            
+                            try {
+                                Mail::send('email.invoice_mail', $invoiceEmailData, function ($message) use ($billingEmail, $invoiceFilePath, $invoiceCopyEmails, $purchase) {
+                                    $message->to($billingEmail);
+                                    $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
+                                    $message->cc($invoiceCopyEmails);
+                                    $message->bcc(['dcstest201@gmail.com']);
+                                    $message->attach($invoiceFilePath);
+                                });
+                            
+                                Log::info("Invoice email sent to: $billingEmail");
+                            } catch (\Exception $e) {
+                                Log::error("Failed to send invoice email to: $billingEmail | Error: " . $e->getMessage());
+                            }
+
+
+
                         }
                     }
                 } else {

@@ -492,7 +492,7 @@ class ReferralForm extends Component
         $invoice->invoice_date  = $curDate;
 
 
-        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
+        $invoice->is_invoice = 1 ;
 
         $invoice->save();
 
@@ -506,7 +506,7 @@ class ReferralForm extends Component
             $this->send_email_two($purchase->id);
         }
 
-        return redirect()->route('front.purchase.success');
+        return redirect()->route('referral.purchase.success');
 
         // if (!Auth::check()) {
         //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
@@ -608,7 +608,7 @@ class ReferralForm extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
@@ -723,11 +723,11 @@ class ReferralForm extends Component
             return 'Purchase not found.';
         }
 
-        $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+        $pdf = PDF::loadView('insurance.referral_invoice', compact('purchase'))->setPaper('a4');
         $pdfContent = $pdf->output();
 
         // Define filename and path
-        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+        $fileName = 'referral_invoice' . $purchaseId . '.pdf';
         $directory = public_path('uploads/invoice');
         $filePath = $directory . '/' . $fileName;
         // dd($filePath);

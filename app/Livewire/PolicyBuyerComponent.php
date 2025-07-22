@@ -196,6 +196,13 @@ class PolicyBuyerComponent extends Component
     //     $this->insuranceDetails = Insurance::find($value);
     // }
 
+    public function updatedProductType($value)
+    {
+        if ($value === 'Agent') {
+            $this->policyHoldertype = 'Both';
+        }
+    }
+
     public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
@@ -260,6 +267,10 @@ class PolicyBuyerComponent extends Component
                 $rules['policyholderFirstName'] = 'required|string';
                 $rules['policyholderLastName'] = 'required|string';
                 $rules['policyholderEmail'] = 'required|string';
+                $rules['policyholderPhone'] = 'required|string';
+            }elseif ($this->policyHoldertype === 'Both') {
+                $rules['policyholderEmail'] = 'required|string';
+                $rules['policyholderPostcode'] = 'required|string';
                 $rules['policyholderPhone'] = 'required|string';
             }
 
@@ -347,7 +358,7 @@ class PolicyBuyerComponent extends Component
             'Billing Phone' => $this->billingPhone,
             'Billing Postcode' => $this->billingPostcode,
             'Billing Address' => $billingAddress,
-            'Pon No' => $this->ponNo,
+            // 'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
             'Tenant Name:' => $this->tenantName ?? 'N/A',
@@ -499,7 +510,7 @@ class PolicyBuyerComponent extends Component
         $invoice->invoice_date  = $curDate;
 
 
-        $invoice->is_invoice = $this->isInvoice ? 1 : 0;
+        $invoice->is_invoice = 1 ;
 
         $invoice->save();
 
@@ -543,7 +554,7 @@ class PolicyBuyerComponent extends Component
         session()->put('pending_purchase_id', $purchase->id);
 
         // ✅ Redirect to Stripe
-        return redirect()->route('stripe.booking');
+        return redirect()->route('stripe.booking'); 
 
         // return redirect()->route('front.purchase.success');
 
@@ -564,9 +575,16 @@ class PolicyBuyerComponent extends Component
             $allDocs = [];
             if ($insurance && $insurance->staticdocuments) {
                 foreach ($insurance->staticdocuments as $docs) {
-                    $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                    // $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                    // if (file_exists($filePath)) {
+                    //     $allDocs[] = $filePath;
+                    // }
+
+                    $filePath = public_path('uploads/insurance_document/');
                     if (file_exists($filePath)) {
-                        $allDocs[] = $filePath;
+                        $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+                        $newStaticPath = public_path($filePath . $newStaticName);
+                        $allDocs[] = $newStaticPath;
                     }
                 }
             }
@@ -602,7 +620,9 @@ class PolicyBuyerComponent extends Component
             // - 2. Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
                 foreach ($insurance->dynamicdocument as $dydocs) {
-                    $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+                    // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+
+                    $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
 
                     $data = array(
                         'templateTitle' => $dydocs->title,
@@ -613,7 +633,7 @@ class PolicyBuyerComponent extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
@@ -722,7 +742,7 @@ class PolicyBuyerComponent extends Component
 
     public function send_email_two($purchaseId)
     {
-        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId); 
 
         if (!$purchase) {
             return 'Purchase not found.';

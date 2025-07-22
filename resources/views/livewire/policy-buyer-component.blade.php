@@ -149,7 +149,7 @@
                     <!-- Types (Radio Buttons) -->
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
-                            Types <span class="text-red-600 text-lg">*</span>
+                            Who is this policy for <span class="text-red-600 text-lg">*</span>
                         </label>
                         <div class="flex space-x-5">
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
@@ -331,6 +331,15 @@
                             <label class="block font-semibold mb-1">
                                 Policy holder type <span class="text-red-600">*</span>
                             </label>
+                            @if($productType === 'Agent')
+                            <div class="flex items-center space-x-4"> 
+                                <div class="flex items-center">
+                                    <input type="radio" value="Both" class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300" checked>
+                                    <label for="policyHoldertypeThree">Both</label>
+                                    <input type="hidden" wire:model="policyHoldertype" value="Both">
+                                </div>
+                            </div>
+                            @else
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
                                     <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
@@ -348,28 +357,31 @@
                                     <label for="policyHoldertypeThree">Both</label>
                                 </div>
                             </div>
+                            @endif
                             @error('policyHoldertype')
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+                        @if(in_array($policyHoldertype, ['Company', 'Both']))
+                            <div x-show="policyHoldertype === 'Company'">
+                                <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                                <input type="text" placeholder="Enter..." wire:model="companyName"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('companyName')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div x-show="policyHoldertype === 'Company'">
+                                <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                                <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('policyholderCompanyEmail')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
 
-                        <div x-show="policyHoldertype === 'Company'">
-                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter..." wire:model="companyName"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('companyName')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div x-show="policyHoldertype === 'Company'">
-                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('policyholderCompanyEmail')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-
+                        @if(in_array($policyHoldertype, ['Individual', 'Both']))
                         <div x-show="policyHoldertype === 'Individual'">
                             <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
                             <select wire:model="policyholderTitle"
@@ -444,10 +456,12 @@
                         </div>
 
                         <div x-show="policyHoldertype === 'Both'">
-                            <label class="block mb-1">Contact Email</label>
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
                             <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-
+                            @error('policyholderEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div x-show="policyHoldertype === 'Both'">
@@ -462,6 +476,7 @@
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
 
                         </div>
+                        @endif
 
                         <div>
                             <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
@@ -545,7 +560,7 @@
                     </div>
             </div>
             @endif
-
+ 
             @if($currentStep === 4)
             <div id="tab4" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
@@ -555,7 +570,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Policy Start Date <span
                                     class="text-red-600">*</span></label>
-                            <input type="date"
+                            <input type="date" min="{{ now()->toDateString() }}"
                                 class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="policyStartDate">
                             @error('policyStartDate')
@@ -639,7 +654,7 @@
             @endif
 
             @if($currentStep === 5)
-            <div id="tab5" class="tab-content bg-white p-6 rounded shadow">
+            <div id="tab5" class="tab-content bg-white p-6 rounded shadow"> 
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details <small>(optional)</small></p>
 
@@ -812,12 +827,12 @@
                             @enderror
                         </div> --}}
 
-                        <div>
+                        <!-- <div>
                             <label class="block">
                                 <span class="text-sm text-gray-600">Send Invoice</span>
-                                <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600">
+                                <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600"> 
                             </label>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
                             

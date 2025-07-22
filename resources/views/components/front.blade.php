@@ -70,11 +70,53 @@
             <a href="{{ route('about.us') }}"
                 class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
             <a href="{{ route('service') }}"
-                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Our Services</a>
+                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Buy
+            Insurance Now</a> 
             <a href="{{ route('contact.us') }}"
                 class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
-            <a href="{{route('policy.buyer')}}"
-                class="{{ request()->routeIs('policy.buyer') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get
+
+
+            <!-- Account Dropdown -->
+            <div class="relative">
+                <button id="accountBtnMobile" class="flex items-center justify-between w-full px-2 py-2 border-t border-b border-red-100
+        {{ Auth::check() ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+                    <div class="flex items-center space-x-2">
+                        <!-- User Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        <span class="font-medium">
+                            @auth
+                            {{ Auth::user()->name }}
+                            @else
+                            Account
+                            @endauth
+                        </span>
+                    </div>
+                    <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="accountMenuMobile" class="mt-2 ml-4 flex flex-col bg-white border border-gray-200 rounded shadow-md hidden">
+                    @auth
+                    <a href="{{ route('dashboard.frontend') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100 border-b">Dashboard</a>
+                    <a href="{{ route('user.logout') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                    @else
+                    <a href="{{ route('user.login') }}"
+                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
+                    @endauth
+                </div>
+            </div>
+
+
+            <a href="{{route('referral.form')}}"
+                class="{{ request()->routeIs('referral.form') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get
                 A Quote</a>
         </nav>
     </div>
@@ -108,9 +150,15 @@
             freeModeMomentum: false,
             grabCursor: true,
             breakpoints: {
-                640: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 3
+                },
+                1024: {
+                    slidesPerView: 5
+                },
             },
         });
 
@@ -211,11 +259,17 @@
         }
 
         scrollLeft.addEventListener('click', () => {
-            tabWrapper.scrollBy({ left: -150, behavior: 'smooth' });
+            tabWrapper.scrollBy({
+                left: -150,
+                behavior: 'smooth'
+            });
         });
 
         scrollRight.addEventListener('click', () => {
-            tabWrapper.scrollBy({ left: 150, behavior: 'smooth' });
+            tabWrapper.scrollBy({
+                left: 150,
+                behavior: 'smooth'
+            });
         });
 
         tabWrapper.addEventListener('scroll', updateButtons);
@@ -251,7 +305,10 @@
             updateArrowVisibility();
             const active = document.querySelector('.active-tab');
             if (active) {
-                active.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                active.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'center'
+                });
             }
         });
 
@@ -261,10 +318,25 @@
                 e.preventDefault();
                 document.querySelector('.active-tab')?.classList.remove('text-red-600', 'border-red-500', 'active-tab');
                 btn.classList.add('text-red-600', 'border-red-500', 'active-tab');
-                btn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                btn.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'center'
+                });
             });
         });
     </script>
+
+    <script>
+        const accountBtnMobile = document.getElementById("accountBtnMobile");
+        const accountMenuMobile = document.getElementById("accountMenuMobile");
+
+        if (accountBtnMobile && accountMenuMobile) {
+            accountBtnMobile.addEventListener("click", () => {
+                accountMenuMobile.classList.toggle("hidden");
+            });
+        }
+    </script>
+
     @livewireScripts
 </body>
 
