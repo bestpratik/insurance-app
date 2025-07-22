@@ -27,9 +27,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance Price
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Payble Amount
-                        </th>
+                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Providers
                         </th>
@@ -45,9 +45,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord/Agency
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord/Agency Address
-                        </th>
+                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord/Agency Email
                         </th>
@@ -60,9 +60,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             AST Start Date
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Days Inspected
-                        </th>
+                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Purchase Date
                         </th>
@@ -99,9 +99,9 @@
                                 {{ $row->insurance->total_premium }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->insurance->payable_amount ?? '' }}
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance && $row->insurance->provider)
                                 {{ $row->insurance->provider->name }}
@@ -126,9 +126,9 @@
                                 {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->policy_holder_address }}
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->policy_holder_email }}
                         </td>
@@ -141,7 +141,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->ast_start_date)) }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @php
                                 $target_date_one = strtotime($row->purchase_date);
                                 $target_date_two = strtotime($row->policy_start_date);
@@ -152,7 +152,7 @@
                             @else
                             <span class="text-green-500">{{ $days_incepted }} days</span>
                             @endif
-                        </td>
+                        </td>--}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>

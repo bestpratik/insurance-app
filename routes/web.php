@@ -117,7 +117,7 @@ Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('about-us', [FrontController::class, 'about'])->name('about.us');
 Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us');
 Route::get('service', [FrontController::class, 'services'])->name('service');
-Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details');
+Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details'); 
 Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
 
