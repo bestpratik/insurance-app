@@ -560,7 +560,7 @@
                     </div>
             </div>
             @endif
-
+ 
             @if($currentStep === 4)
             <div id="tab4" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
@@ -830,7 +830,7 @@
                         <!-- <div>
                             <label class="block">
                                 <span class="text-sm text-gray-600">Send Invoice</span>
-                                <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600">
+                                <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600"> 
                             </label>
                         </div> -->
                     </div>

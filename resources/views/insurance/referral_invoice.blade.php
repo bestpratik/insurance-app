@@ -179,7 +179,7 @@
 </table>
 
 
-    <!-- <div class="box">
+    <div class="box">
       <strong>Payment Instructions:</strong>
       <p>Please make the payment of 
         @if(!empty($purchase->admin_fee))
@@ -193,7 +193,7 @@
         <strong>Account Number:</strong> 00789089<br>
         <strong>Sort Code:</strong> 56-00-31
       </p>
-    </div> -->
+    </div>
 
     <div class="footer">
       <p>Moneywise Investments Plc<br>

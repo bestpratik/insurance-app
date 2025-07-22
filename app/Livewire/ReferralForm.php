@@ -723,11 +723,11 @@ class ReferralForm extends Component
             return 'Purchase not found.';
         }
 
-        $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+        $pdf = PDF::loadView('insurance.referral_invoice', compact('purchase'))->setPaper('a4');
         $pdfContent = $pdf->output();
 
         // Define filename and path
-        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+        $fileName = 'referral_invoice' . $purchaseId . '.pdf';
         $directory = public_path('uploads/invoice');
         $filePath = $directory . '/' . $fileName;
         // dd($filePath);

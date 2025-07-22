@@ -742,7 +742,7 @@ class PolicyBuyerComponent extends Component
 
     public function send_email_two($purchaseId)
     {
-        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId); 
 
         if (!$purchase) {
             return 'Purchase not found.';

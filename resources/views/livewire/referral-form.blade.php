@@ -555,8 +555,8 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Policy Start Date <span
                                     class="text-red-600">*</span></label>
-                            <input type="date"
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            <input type="date" min="{{ now()->toDateString() }}"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="policyStartDate">
                             @error('policyStartDate')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -569,7 +569,7 @@
                             <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
                                     class="text-red-600">*</span></label>
                             <input type="date"
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="astStartDate">
                             @error('astStartDate')
                             <span class="text-sm text-red-600">{{ $message }}</span>
