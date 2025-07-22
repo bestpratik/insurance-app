@@ -654,7 +654,7 @@
             @endif
 
             @if($currentStep === 5)
-            <div id="tab5" class="tab-content bg-white p-6 rounded shadow">
+            <div id="tab5" class="tab-content bg-white p-6 rounded shadow"> 
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details <small>(optional)</small></p>
 
