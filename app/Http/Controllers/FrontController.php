@@ -405,4 +405,8 @@ class FrontController extends Controller
         return view('referral_form');
     }
 
+    public function policyDetailPage(){
+        return view('policy_detail_page');
+    }
+
 }
