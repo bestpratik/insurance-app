@@ -101,8 +101,11 @@ class FrontController extends Controller
                 $purchase->token = null;
                 $purchase->update();
                 session()->forget('guest_purchase_token');
+
+                session()->put('pending_purchase_id', $purchase->id);
+                return redirect()->route('stripe.booking');
             }
-            session()->put('resume_summary', true);
+            // session()->put('resume_summary', true);
         }
         return redirect()->route('policy.buyer');
         // return redirect('user-login')->with('success', 'Registration is Completed, now you can login');
@@ -159,8 +162,10 @@ class FrontController extends Controller
                     $purchase->token = null;
                     $purchase->update();
                     session()->forget('guest_purchase_token');
+                    session()->put('pending_purchase_id', $purchase->id);
+                    return redirect()->route('stripe.booking');
                 }
-                session()->put('resume_summary', true);
+                // session()->put('resume_summary', true);
             }
 
             // $redirectUrl = session()->pull('guest_redirect_intended', route('dashboard.frontend'));
@@ -405,8 +410,20 @@ class FrontController extends Controller
         return view('referral_form');
     }
 
-    public function policyDetailPage(){
-        return view('policy_detail_page');
+    public function policyDetailPage($id){ 
+        $purchase = Purchase::with(['insurance.provider', 'invoice']) 
+            ->whereNull('purchase_status')
+            ->whereHas('insurance', function ($query) {
+                $query
+                    ->where('purchase_mode', 'Online');
+            })
+            ->where('policy_end_date', '>', now())
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })->find($id);
+
+        // dd($purchase);
+        return view('policy_detail_page', compact('purchase'));
     }
 
 }

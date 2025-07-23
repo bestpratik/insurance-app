@@ -84,6 +84,7 @@ class StripePaymentController extends Controller
         }
 
         $purchaseId = session('pending_purchase_id') ?? $session->client_reference_id;
+        // dd($purchaseId);
 
         if ($purchaseId) {
             $purchase = Purchase::find($purchaseId);
@@ -231,17 +232,40 @@ class StripePaymentController extends Controller
                             // }
                             
                             
-                            $originalPath = public_path('uploads/insurance_document/' . $docs->document);
-                            $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
-                            $newStaticPath = public_path('uploads/insurance_document/' . $newStaticName);
+                            // $originalPath = public_path('uploads/insurance_document/' . $docs->document);
+                            // $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+
+                            // $docName = pathinfo($docs->document, PATHINFO_FILENAME); 
+                            // $ext = pathinfo($docs->document, PATHINFO_EXTENSION);    
+                            // $newStaticName = $docName . '-' . $purchase->policy_no . '.' . $ext;
+                            // $newStaticPath = public_path('uploads/insurance_document/' . $newStaticName);
                             
-                            // Copy the original file to new file if not already done
+                            // // Copy the original file to new file if not already done
+                            // if (file_exists($originalPath)) {
+                            //     if (!file_exists($newStaticPath)) {
+                            //         File::copy($originalPath, $newStaticPath);
+                            //     }
+                            //     $allDocs[] = $newStaticPath;
+                            // }
+
+
+                            $originalPath = public_path('uploads/insurance_document/' . $docs->document);
+
                             if (file_exists($originalPath)) {
+                                $docName = pathinfo($docs->document, PATHINFO_FILENAME); // Original filename
+                                $ext = pathinfo($docs->document, PATHINFO_EXTENSION);     // File extension
+
+                                $newStaticName = $docName . '-' . $purchase->policy_no . '.' . $ext;
+                                $newStaticPath = public_path('uploads/insurance_document/' . $newStaticName);
+
+                                // Copy only if it hasn't already been copied
                                 if (!file_exists($newStaticPath)) {
                                     File::copy($originalPath, $newStaticPath);
                                 }
+
                                 $allDocs[] = $newStaticPath;
                             }
+
 
                         }
                     }
@@ -279,7 +303,9 @@ class StripePaymentController extends Controller
                         foreach ($insurance->dynamicdocument as $dydocs) {
                             // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
 
-                            $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
+                            // $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
+
+                             $file_name = $dydocs->title . '-' . $purchase->policy_no . '.pdf';
 
                             $data = [
                                 'templateTitle' => $dydocs->title,
