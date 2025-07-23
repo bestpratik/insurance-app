@@ -102,7 +102,7 @@ class FrontController extends Controller
                 $purchase->update();
                 session()->forget('guest_purchase_token');
 
-                session()->put('pending_purchase_id', $purchase->id);
+                session()->put('pending_purchase_id', $purchase->id); 
                 return redirect()->route('stripe.booking');
             }
             // session()->put('resume_summary', true);
@@ -139,8 +139,9 @@ class FrontController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
-
-        // if ($user && Hash::check($request->password, $user->password)) {
+        // dd($user);
+        if($user->type == 'user'){
+            // if ($user && Hash::check($request->password, $user->password)) {
         //     Auth::login($user); 
         //     session()->put('user_login', true);
         //     session()->put('logged_in_user', $user);
@@ -167,6 +168,9 @@ class FrontController extends Controller
                 }
                 // session()->put('resume_summary', true);
             }
+        }
+
+       
 
             // $redirectUrl = session()->pull('guest_redirect_intended', route('dashboard.frontend'));
             // return redirect($redirectUrl)->with('success', 'Login successful!');
@@ -179,9 +183,9 @@ class FrontController extends Controller
         return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
-    public function frontDashboard()
+    public function frontDashboard() 
     {
-
+        
         if (Auth::user()->type !== 'user') {
             return redirect('/dashboard')->with('error', 'Unauthorized access.');
         }

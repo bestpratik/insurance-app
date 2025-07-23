@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Purchase;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 
 class UserController extends Controller
 {
     public function dashboard()
     {
+        if (Gate::allows('isUser')) {
+            return redirect()->route('dashboard.frontend')->with('error', 'Access denied to admin dashboard.');
+        }
         $currentMonth = Carbon::now()->format('m');
         $currentYear = Carbon::now()->format('Y');
 

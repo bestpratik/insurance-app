@@ -1,7 +1,7 @@
     <x-front>
     
     <!-- Overlay -->
-    <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
+    <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div> 
     <!-- Hero Section with Gradient Overlay -->
     <section class="h-[2px] bg-red-400"></section>
     <section class=" min-h-[450px] my-12">

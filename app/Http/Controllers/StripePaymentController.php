@@ -92,6 +92,7 @@ class StripePaymentController extends Controller
                 DB::beginTransaction();
 
                 $purchase->payment_status = 'Paid';
+                $purchase->payment_method = 'stripe';
                 $purchase->stripe_session_id = Null;
                 $purchase->save();
 

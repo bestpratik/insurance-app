@@ -31,6 +31,7 @@ class InactiveInsurance extends Component
     {
          $query = Purchase::with(['insurance.provider','invoice'])
             ->whereNull('purchase_status')
+            ->where('payment_status', 'Paid')
             ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');

@@ -182,7 +182,7 @@
                                 </a>
 
                                 <button wire:click="openPaymentCheckModal({{ $row->id }})" 
-                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                    class="text-green-600 hover:text-yellow-900 focus:outline-none" 
                                     title="Check Payment">
                                   <x-heroicon-o-check-circle class="w-5 h-5 text-green-600" />
                                 </button>

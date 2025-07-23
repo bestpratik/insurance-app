@@ -38,6 +38,7 @@ class CancelInsurance extends Component
     {
         $query = Purchase::with(['insurance.provider','invoice']) 
             ->where('purchase_status', 'Cancelled')
+            ->where('payment_status', 'Paid')
             ->whereHas('insurance', function ($query) {
                 $query
             ->where('purchase_mode', 'Online');

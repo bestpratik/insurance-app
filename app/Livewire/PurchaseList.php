@@ -55,7 +55,28 @@ class PurchaseList extends Component
 
     public function render()
     {
-        $query = Purchase::with(['insurance.provider','invoice'])->where('status', 1)->whereNull('purchase_status')->orderBy('id', 'desc');
+        // $query = Purchase::with(['insurance.provider','invoice'])
+        //         ->where('status', 1)
+        //         ->whereNull('purchase_status')
+        //         ->orderBy('id', 'desc');
+
+
+        $query = Purchase::with(['insurance.provider', 'invoice'])
+                ->where('status', 1)
+                ->whereNull('purchase_status')
+                ->where(function ($query) {
+                    $query->where(function ($q) {
+                        $q->whereHas('insurance', function ($subQuery) {
+                            $subQuery->where('purchase_mode', 'Online');
+                        })
+                        ->where('payment_status', 'Paid');
+                    })->orWhere(function ($q) {
+                        $q->whereHas('insurance', function ($subQuery) {
+                            $subQuery->where('purchase_mode', 'Offline');
+                        });
+                    });
+                })
+                ->orderBy('id', 'desc');
 
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
@@ -501,7 +522,7 @@ public function send_email_two($purchaseId, $resendEmails = [])
 }
 
 
-public function openPaymentCheckModal($purchaseId) 
+public function openPaymentCheckModal($purchaseId)  
 {
     $this->checkPaymentPurchaseId = $purchaseId;
 
@@ -524,16 +545,19 @@ public function closePaymentCheckModal()
 
 public function submitPaymentCheckModal()
 {
+    // dd($this->checkPaymentPurchaseId);
     // $this->validate([
     //     'paymentMethod' => 'required',
     //     'paymentStatus' => 'required',
     // ]);
 
     $purchase = Purchase::find($this->checkPaymentPurchaseId);
+    // dd($purchase);
 
     if ($purchase) {
         $purchase->payment_method = $this->paymentMethod;
         $purchase->payment_status = $this->paymentStatus; 
+        // dd($purchase);
         $purchase->save();
 
         $this->dispatch('swal:successs', [
