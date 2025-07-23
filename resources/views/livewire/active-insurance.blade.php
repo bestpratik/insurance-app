@@ -126,9 +126,14 @@
                         
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
-                                <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">
+                                <!-- <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">
                                     <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
+                                </a> -->
+
+                                <a href="{{ route('policy.detail.page', $row->id) }}" target="_blank" title="View Details">
+                                    <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
+
 
                                 <button wire:click="openCancelModal({{ $row->id }})"
                                     @if(in_array($row->id, $cancelledPurchases)) disabled @endif

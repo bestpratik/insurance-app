@@ -327,19 +327,12 @@
                     </p>
 
                     <div class="grid md:grid-cols-3 gap-4">
+                        @if($productType != 'Agent')
                         <div>
                             <label class="block font-semibold mb-1">
                                 Policy holder type <span class="text-red-600">*</span>
                             </label>
-                            @if($productType === 'Agent')
-                            <div class="flex items-center space-x-4"> 
-                                <div class="flex items-center">
-                                    <input type="radio" value="Both" class="mt-1 block w-full rounded-md bg-gray-100 border-gray-300" checked>
-                                    <label for="policyHoldertypeThree">Both</label>
-                                    <input type="hidden" wire:model="policyHoldertype" value="Both">
-                                </div>
-                            </div>
-                            @else
+                            
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
                                     <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
@@ -357,11 +350,13 @@
                                     <label for="policyHoldertypeThree">Both</label>
                                 </div>
                             </div>
-                            @endif
+                            
                             @error('policyHoldertype')
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+                        @endif
+
                         @if(in_array($policyHoldertype, ['Company', 'Both']))
                             <div x-show="policyHoldertype === 'Company'">
                                 <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
@@ -965,13 +960,13 @@
                         </svg>
                         Loading...
                     </span>
-                    {{--<span wire:loading.remove wire:target="submitForm">Submit</span>
+                    <span wire:loading.remove wire:target="submitForm">Submit</span>
                     <span wire:loading.remove wire:target="submitForm">
-                    </span>--}}
-                    
-                    <span wire:loading.remove wire:target="submitForm">
-                        {{ Auth()->check() ? 'Pay Now' : 'Submit' }}
                     </span>
+                    
+                    <!-- <span wire:loading.remove wire:target="submitForm">
+                        {{ Auth()->check() ? 'Pay Now' : 'Submit' }}
+                    </span> -->
 
 
                 </button>

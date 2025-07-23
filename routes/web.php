@@ -160,7 +160,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('referral-purchase-success', [FrontController::class, 'referralSuccessPage'])->name('referral.purchase.success');   
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 
-    Route::get('policy-detail-page', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page');
+    Route::get('policy-detail-page/{id}', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page'); 
 
 
 

@@ -162,18 +162,27 @@
     <td class="right">
       <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}</p>
       <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
-      <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
+      <p><span class="label">Total Premium:</span> <span class="orange">£ {{$purchase->total_premium ?? ''}} </span></p>
       @if(!empty($purchase->admin_fee))
       <p><span class="label">Broker Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
       @endif
-      <p><span class="label">Payment Status:</span> <span class="red">
+      <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
+
+      <!-- <p><span class="label">Payment Status:</span> <span class="red">
         @if($purchase->payment_status == 'Pending')
             Unpaid
         @else
             PAID
-            <!-- {{$purchase->payment_method ?? ''}}  -->
         @endif
-      </span></p>
+      </span></p> -->
+
+      <p>
+        <span class="label">Payment Status:</span>
+        <span class="{{ $purchase->payment_status == 'Pending' ? 'text-danger' : 'text-success' }}">
+          {{ $purchase->payment_status == 'Pending' ? 'Unpaid' : 'PAID' }}
+        </span>
+      </p>
+
     </td>
   </tr>
 </table>
