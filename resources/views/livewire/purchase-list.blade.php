@@ -271,7 +271,7 @@
                                 </a>
 
                                 <button wire:click="openPaymentCheckModal({{ $row->id }})"
-                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
+                                    class="text-green-600 hover:text-yellow-900 focus:outline-none" 
                                     title="Check Payment">
                                     <x-heroicon-o-check-circle class="w-5 h-5 text-green-600" />
                                 </button>
@@ -410,15 +410,15 @@
                 <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-3">Check Payment</h2>
 
                 <div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="">
                         <div class="mb-2">
                             <label class="block font-semibold mb-2 w-full">Select Payment Method</label>
-                            <div class="flex items-center space-x-6">
+                            <div class="flex items-center space-x-3">
                                 <!-- Pay Later -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentMethod" value="pay_later" wire:model="paymentMethod"
-                                        class="peer hidden" />
-                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                    <input type="radio" name="paymentMethod" value="pay_later" wire:model="paymentMethod" 
+                                        class="peer hidden" {{ $paymentMethod == 'pay_later' ? 'checked' : '' }} />
+                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
                                         <img src="{{asset('paylater.jpg')}}" alt="Pay Later" class="h-20 mb-1" />
                                     </div>
                                 </label>
@@ -426,11 +426,22 @@
                                 <!-- Bank Transfer -->
                                 <label class="cursor-pointer">
                                     <input type="radio" name="paymentMethod" value="bank_transfer" wire:model="paymentMethod"
-                                        class="peer hidden" />
-                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        class="peer hidden" {{ $paymentMethod == 'bank_transfer' ? 'checked' : '' }} />
+                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
                                         <img src="{{asset('bank-transper.jpg')}}" alt="Bank Transfer" class="h-20 mb-1" />
                                     </div>
                                 </label>
+
+                                <!-- Stripe -->
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="paymentMethod" value="stripe" wire:model="paymentMethod"
+                                        class="peer hidden" {{ $paymentMethod == 'stripe' ? 'checked' : '' }} />
+                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{ asset('Stripe_Logo,_revised_2016.svg.png') }}" alt="Stripe" class="h-10 mb-1" />
+                                      
+                                    </div>
+                                </label>
+
                             </div>
                         </div>
                     </div>
@@ -441,8 +452,8 @@
                             <div class="flex items-center space-x-6">
                                 <!-- Paid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="1" wire:model="paymentStatus"
-                                        class="peer hidden" />
+                                    <input type="radio" name="paymentStatus" value="Paid" wire:model="paymentStatus"
+                                        class="peer hidden" {{ $paymentStatus == 'Paid' ? 'checked' : '' }} />
                                     <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
                                         <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
                                             viewBox="0 0 24 24">
@@ -455,8 +466,8 @@
 
                                 <!-- Unpaid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="0" wire:model="paymentStatus"
-                                        class="peer hidden" />
+                                    <input type="radio" name="paymentStatus" value="Unpaid" wire:model="paymentStatus"
+                                        class="peer hidden" {{ $paymentStatus == 'Unpaid' ? 'checked' : '' }} />
                                     <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
                                         <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
                                             viewBox="0 0 24 24">

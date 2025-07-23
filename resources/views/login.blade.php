@@ -34,7 +34,7 @@
                 </p>
 
 
-                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post">
+                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post"> 
                     @csrf
                     <div class="relative">
                         <input type="text" id="username" name="email" value="{{ old('email') }}"
