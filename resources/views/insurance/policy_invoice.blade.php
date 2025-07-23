@@ -98,6 +98,15 @@
       margin-top: 40px;
       color: #555;
     }
+
+    .text-danger {
+      color: red;
+    }
+
+    .text-success {
+      color: green;
+    }
+
   </style>
 </head>
 
