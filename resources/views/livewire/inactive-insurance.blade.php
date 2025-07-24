@@ -92,7 +92,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance
                         </th>
-                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Insurance Price
                         </th>
                         {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -142,10 +142,10 @@
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Payment Method
-                        </th>
+                        </th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
-                        </th>--}}
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -162,7 +162,7 @@
                             {{ $row->insurance->name }}
                             @endif
                         </td>
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             @if($row->insurance)
                             {{ $row->insurance->total_premium }}
                             @endif
@@ -176,11 +176,11 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_term }}
+                            {{ $row->policy_term }} Year
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->door_no.' '.$row->address_one.' '.$row->address_two.' '.$row->address_three.' '.$row->post_code }}
-                        </td>--}}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->rent_amount }}
                         </td>
@@ -221,7 +221,7 @@
                                 <span class="text-green-500">{{ $days_incepted }} days</span>
                                 @endif
                         </td>--}}
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->purchase_date)) }}
                         </td>
                         {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -239,9 +239,16 @@
                             Pay later
                             @endif
                         </td>--}}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                           
-                        </td>--}}
+                        
+                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="flex items-center space-x-2">
+                              
+                                <a href="{{ route('policy.detail.page', $row->id) }}" target="_blank" title="View Details">
+                                    <x-heroicon-o-eye class="w-5 h-5" />
+                                </a>
+                                
+                            </div>
+                        </td>
                     </tr>
                     @empty
                     <tr>

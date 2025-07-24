@@ -86,7 +86,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_term }}
+                            {{ $row->policy_term }} Year
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->door_no.' '.$row->address_one.' '.$row->address_two.' '.$row->address_three.' '.$row->post_code }}
@@ -125,6 +125,10 @@
                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
                               
+                                <a href="{{ route('policy.detail.page', $row->id) }}" target="_blank" title="View Details">
+                                    <x-heroicon-o-eye class="w-5 h-5" />
+                                </a>
+
                                 <button wire:click="openRestoreModal({{ $row->id }})"
                                     @if(in_array($row->id, $restoredPurchases)) disabled @endif
                                     class="text-green-600 hover:text-purple-900 focus:outline-none"
