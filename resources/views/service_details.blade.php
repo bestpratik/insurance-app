@@ -15,7 +15,7 @@
         <!-- Content -->
         <div class="relative z-1 py-24 px-6 text-center">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Service Details</h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">{{ $service->title }}</h2>
                 <p class="text-lg md:text-xl mb-8">Professional-grade insurance for everyday landlords.</p>
 
             </div>
