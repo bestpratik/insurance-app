@@ -115,7 +115,15 @@
                     Property Details
                 </h4>
                 <p class="font-medium">
-                    {{ $purchase->door_no }}, {{ $purchase->address_one ?? '' }}, {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}, {{ $purchase->post_code ?? '' }}
+                    <!-- {{ $purchase->door_no }}, {{ $purchase->address_one ?? '' }}, {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}, {{ $purchase->post_code ?? '' }} -->
+                            {{ implode(', ', array_filter([
+                                $purchase->door_no,
+                                $purchase->address_one,
+                                $purchase->address_two,
+                                $purchase->address_three,
+                                $purchase->post_code
+                            ])) }}
+
                 </p>
             </div>
 
