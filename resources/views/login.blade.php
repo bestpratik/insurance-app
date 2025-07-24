@@ -72,20 +72,29 @@
                         class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-black transition">Sign
                         In</button>
                 </form>
-                <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p>
+                <!-- <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p> -->
+                <p class="text-center text-sm text-gray-500 mb-4">or sign in using social platforms</p>
                 <!-- Social Login -->
-                <!-- <div class="flex justify-center gap-4 my-6">
-                    <a href="{{ route('auth.google') }}" class="border p-2 rounded-full"><img class="w-5"
-                            src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></a>
+                <div class="flex justify-center gap-4 my-6">
+                    <a href="{{ route('auth.google', 'google') }}" class="w-full max-w-xs">
+                        <button class="flex items-center justify-center gap-3 w-full bg-white border border-red-500 py-2 px-3 rounded-md hover:shadow transition duration-200">
+                            <img class="w-4 h-4" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+                            <span class="text-sm font-medium text-gray-700">Continue with Google</span>
+                        </button>
+                    </a>
+
+
+                    <!-- <a href="{{ route('auth.google') }}" class="border p-2 rounded-full"><img class="w-5"
+                            src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></a> -->
                     {{--<button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/475656/google-color.svg" alt=""></button>--}}
-                    <button class="border p-2 rounded-full"><img class="w-5"
+                    <!-- <button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/475693/facebook-color.svg" alt=""></button>
                     <button class="border p-2 rounded-full"><img class="w-5"
                             src="https://www.svgrepo.com/show/512317/github-142.svg" alt=""></button>
                     <button class="border p-2 rounded-full"><img class="w-5"
-                            src="https://www.svgrepo.com/show/448234/linkedin.svg" alt=""></button>
-                </div> -->
+                            src="https://www.svgrepo.com/show/448234/linkedin.svg" alt=""></button> -->
+                </div>
 
 
             </div>

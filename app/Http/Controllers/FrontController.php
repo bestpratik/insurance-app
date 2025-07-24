@@ -193,8 +193,9 @@ class FrontController extends Controller
         $totalActive = Purchase::where('policy_end_date', '>', now())
                     ->whereHas('insurance', function ($query) {
                         $query
-                    ->where('purchase_mode', 'Online');
+                    ->where('purchase_mode', 'Online'); 
                     })
+                    ->where('payment_status', 'Paid')
                     ->when(Auth::check(), function ($query) {
                         $query->where('user_id', Auth::id());
                     })
@@ -206,6 +207,7 @@ class FrontController extends Controller
                             $query
                         ->where('purchase_mode', 'Online');
                         })
+                        ->where('payment_status', 'Paid')
                         ->when(Auth::check(), function ($query) {
                             $query->where('user_id', Auth::id());
                         })
@@ -217,6 +219,7 @@ class FrontController extends Controller
                 $query
             ->where('purchase_mode', 'Online');
             })
+            ->where('payment_status', 'Paid')
             ->when(Auth::check(), function ($query) {
                 $query->where('user_id', Auth::id());
             })
@@ -415,13 +418,22 @@ class FrontController extends Controller
     }
 
     public function policyDetailPage($id){ 
-        $purchase = Purchase::with(['insurance.provider', 'invoice']) 
-            ->whereNull('purchase_status')
+        // $purchase = Purchase::with(['insurance.provider', 'invoice']) 
+        //     ->where('payment_status', 'Paid')
+        //     ->whereHas('insurance', function ($query) {
+        //         $query
+        //             ->where('purchase_mode', 'Online');
+        //     })
+        //     ->where('policy_end_date', '>', now())
+        //     ->when(Auth::check(), function ($query) {
+        //         $query->where('user_id', Auth::id());
+        //     })->find($id);
+
+         $purchase = Purchase::with(['insurance.provider', 'invoice']) 
             ->whereHas('insurance', function ($query) {
                 $query
                     ->where('purchase_mode', 'Online');
             })
-            ->where('policy_end_date', '>', now())
             ->when(Auth::check(), function ($query) {
                 $query->where('user_id', Auth::id());
             })->find($id);

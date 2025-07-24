@@ -22,15 +22,23 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <p class="text-sm text-gray-500">Insurance Name</p>
-                    <p class="font-medium">Landlord Legal Expenses & Rent Guarantee Insurance - MW</p>
+                    <p class="font-medium">
+                        @if($purchase->insurance)
+                            {{ $purchase->insurance->name }}
+                        @endif
+                    </p>  
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Policy Number</p>
-                    <p class="font-medium">MWI-3123526133</p>
+                    <p class="font-medium">
+                        {{ $purchase->policy_no ?? 'N/A' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Purchased By</p>
-                    <p class="font-medium">Admin</p>
+                    <p class="font-medium">
+                        {{ auth()->user()->name ?? '' }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -48,19 +56,27 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <p class="text-sm text-gray-500">Policy Start Date</p>
-                    <p class="font-medium">01 Aug 2025</p>
+                    <p class="font-medium">
+                        {{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Policy End Date</p>
-                    <p class="font-medium">31 Jul 2026</p>
+                    <p class="font-medium">
+                        {{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">AST Start Date</p>
-                    <p class="font-medium">22 Jul 2026</p>
+                    <p class="font-medium">
+                        {{ \Carbon\Carbon::parse($purchase->ast_start_date)->format('d M Y') }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Purchase Date</p>
-                    <p class="font-medium">22 Jul 2025</p>
+                    <p class="font-medium">
+                        {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -75,8 +91,19 @@
                     </svg>
                     Landlord/Agency Details
                 </h4>
-                <p class="font-medium">Mr Sarat Maiti</p>
-                <p class="text-sm text-gray-600">700084</p>
+                <p class="font-medium">
+                    @if($purchase->policy_holder_type == 'Company')
+                                                {{ $purchase->company_name ?? '' }}
+                                            @elseif($purchase->policy_holder_type == 'Individual')
+                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
+                                            @else
+                                                {{ $purchase->company_name ?? '' }} <br>
+                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
+                                            @endif
+                </p>
+                <p class="text-sm text-gray-600">
+                    {{ $purchase->policy_holder_address ?? '' }}
+                </p>
             </div>
 
             <div class="bg-gray-50 p-6 rounded-lg shadow">
@@ -87,7 +114,9 @@
                     </svg>
                     Property Details
                 </h4>
-                <p class="font-medium">123, Ashoke Road, , , 123 456</p>
+                <p class="font-medium">
+                    {{ $purchase->door_no }}, {{ $purchase->address_one ?? '' }}, {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}, {{ $purchase->post_code ?? '' }}
+                </p>
             </div>
 
             <div class="bg-gray-50 p-6 rounded-lg shadow">
@@ -98,7 +127,15 @@
                     </svg>
                     Tenant Details
                 </h4>
-                <p class="font-medium">Tenant Name</p>
+                <p class="font-medium">
+                    {{ $purchase->tenant_name ?? '' }}
+                </p>
+                <p class="font-medium">
+                    {{ $purchase->tenant_email ?? '' }}
+                </p>
+                <p class="font-medium">
+                    {{ $purchase->tenant_phone ?? '' }}
+                </p>
             </div>
         </div>
 
@@ -116,19 +153,29 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <p class="text-sm text-gray-500">Billing Name</p>
-                    <p class="font-medium">dcs tester</p>
+                    <p class="font-medium">
+                        {{ $purchase->invoice->billing_name ?? '' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Billing Email</p>
-                    <p class="font-medium">dcstest204@gmail.com</p>
+                    <p class="font-medium">
+                        {{ $purchase->invoice->billing_email ?? '' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Billing Phone</p>
-                    <p class="font-medium">7872987083</p>
+                    <p class="font-medium">
+                        {{ $purchase->invoice->billing_phone ?? '' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Billing Address</p>
-                    <p class="font-medium">Ashoke Road, , 700084</p>
+                    <p class="font-medium">
+                        {{ $purchase->invoice->billing_address_one ?? '' }},
+                                                {{ $purchase->invoice->billing_address_two ?? '' }},
+                                                {{ $purchase->invoice->billing_postcode ?? '' }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -144,10 +191,22 @@
                 Static Policy Documents
             </h4>
             <ul class="space-y-2">
-                <li><a href="#" class="flex items-center text-red-600 hover:underline"><span
+                @if($purchase->insurance && $purchase->insurance->staticdocuments->count())
+                @foreach($purchase->insurance->staticdocuments as $doc)
+                    <div>
+                        <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}" target="_blank" class="text-blue-600 hover:underline">
+                            <x-heroicon-o-document-text class="h-6 w-6 text-red-600 inline" /> {{ $doc->title }}
+                        </a>
+                    </div>
+                @endforeach
+                @else
+                <div class="text-gray-500 italic">No static documents available.</div>
+                @endif
+                                    
+                <!-- <li><a href="#" class="flex items-center text-red-600 hover:underline"><span
                             class="text-red-500 mr-2">📄</span>IPID</a></li>
                 <li><a href="#" class="flex items-center text-red-600 hover:underline"><span
-                            class="text-red-500 mr-2">📄</span>Policy Wordings</a></li>
+                            class="text-red-500 mr-2">📄</span>Policy Wordings</a></li> -->
             </ul>
         </div>
 
@@ -162,10 +221,19 @@
                 Dynamic Policy Documents
             </h4>
             <div class="space-x-4">
-                <a href="#" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">📄
+
+                @foreach($purchase->insurance->dynamicdocument as $document) 
+                    <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}" target="_blank" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
+                        <x-heroicon-o-document-text class="h-6 w-6 text-white inline" />
+
+                        <span>{{ $document->title ?? ''}}</span>
+                    </a>
+                @endforeach
+
+                <!-- <a href="#" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">📄
                     Policy Schedule</a>
                 <a href="#" class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">📄
-                    Test</a>
+                    Test</a> -->
             </div>
         </div>
 
@@ -179,8 +247,14 @@
                 </svg>
                 Invoice
             </h4>
-            <a href="#" class="inline-flex items-center text-red-600 hover:underline"><span
-                    class="text-red-500 mr-2">📄</span>Click here to download Invoice</a>
+            <a href="{{route('insurance.invoice.genarate',$purchase->id)}}" target="_blank"
+                                        class="inline-flex items-center gap-2 text-blue-600 hover:underline hover:text-blue-800 transition">
+                <x-heroicon-o-document-text class="h-6 w-6 text-red-600" />
+                    Click here to download Invoice
+            </a>
+
+            <!-- <a href="#" class="inline-flex items-center text-red-600 hover:underline"><span
+                    class="text-red-500 mr-2">📄</span>Click here to download Invoice</a> -->
         </div>
 
     </div>
