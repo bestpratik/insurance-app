@@ -44,6 +44,23 @@
         .note-editor.note-frame .note-editing-area .note-editable {
             background: #fff;
         }
+
+        @media (max-width: 768px) {
+            .fixed-bottom-insurance {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 50;
+                background: #b91c1c;
+                color: #fff;
+                text-align: center;
+                padding: 8px 0;
+                font-size: 1.2rem;
+                font-weight: 600;
+                box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+            }
+        }
     </style>
     @livewireStyles
 </head>
@@ -71,7 +88,7 @@
                 class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
             <a href="{{ route('service') }}"
                 class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Buy
-            Insurance Now</a> 
+                Insurance Now</a>
             <a href="{{ route('contact.us') }}"
                 class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
 
@@ -89,9 +106,9 @@
                         </svg>
                         <span class="font-medium">
                             @auth
-                            {{ Auth::user()->name }}
+                                {{ Auth::user()->name }}
                             @else
-                            Account
+                                Account
                             @endauth
                         </span>
                     </div>
@@ -101,15 +118,14 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div id="accountMenuMobile" class="mt-2 ml-4 flex flex-col bg-white border border-gray-200 rounded shadow-md hidden">
+                <div id="accountMenuMobile"
+                    class="mt-2 ml-4 flex flex-col bg-white border border-gray-200 rounded shadow-md hidden">
                     @auth
-                    <a href="{{ route('dashboard.frontend') }}"
-                        class="px-4 py-2 text-gray-700 hover:bg-gray-100 border-b">Dashboard</a>
-                    <a href="{{ route('user.logout') }}"
-                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                        <a href="{{ route('dashboard.frontend') }}"
+                            class="px-4 py-2 text-gray-700 hover:bg-gray-100 border-b">Dashboard</a>
+                        <a href="{{ route('user.logout') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
                     @else
-                    <a href="{{ route('user.login') }}"
-                        class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
+                        <a href="{{ route('user.login') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
                     @endauth
                 </div>
             </div>
@@ -125,7 +141,7 @@
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
 
     <button id="scrollToTopBtn"
-        class="fixed bottom-6 right-6 z-50 hidden bg-red-600 text-white p-3 w-10 h-10 flex justify-center align-center rounded-full shadow-lg hover:bg-red-800 transition duration-300">
+        class="fixed bottom-24 right-6 z-50 hidden bg-red-600 text-white p-3 w-10 h-10 flex justify-center align-center rounded-full shadow-lg hover:bg-red-800 transition duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />

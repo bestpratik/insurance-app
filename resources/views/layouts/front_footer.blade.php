@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 text-white pt-14 pb-8">
+<footer class="bg-gray-900 text-white pt-14 pb-16 md:pb-6">
     <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
         @php
             $contact = contactHelper();
@@ -109,7 +109,11 @@
     </div>
 </footer>
 
-
+<div class="fixed-bottom-insurance md:hidden">
+    <a href="{{ route('service') }}" class="text-white hover:underline w-full block">
+        Buy Insurance Now
+    </a>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
