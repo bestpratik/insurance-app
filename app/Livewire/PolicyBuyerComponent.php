@@ -341,7 +341,15 @@ class PolicyBuyerComponent extends Component
             'Product Type:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
             'Rent Amount:' => '£- ' . $this->rentAmount,
-            'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+            // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+            'Property Address:' => implode(', ', array_filter([
+                $this->doorNo,
+                $this->addressOne,
+                $this->addressTwo,
+                $this->addressThree,
+                $this->postCode,
+            ])),
+
             'Policy Holder Type:' => $this->policyHoldertype,
             'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
             'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
