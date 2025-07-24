@@ -142,12 +142,12 @@
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
                     <!-- Google -->
-                    <a href="{{ route('auth.google', 'google') }}" class="w-full max-w-xs">
+                    <!-- <a href="{{ route('auth.google', 'google') }}" class="w-full max-w-xs">
                         <button class="flex items-center justify-center gap-3 w-full bg-white border border-red-500 py-2 px-3 rounded-md hover:shadow transition duration-200">
                             <img class="w-4 h-4" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                             <span class="text-sm font-medium text-gray-700">Continue with Google</span>
                         </button>
-                    </a>
+                    </a> -->
                    
  
                     <!-- Facebook -->
