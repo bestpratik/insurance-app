@@ -360,7 +360,7 @@ class StripePaymentController extends Controller
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
                     $email_subject = $insurance->insurancemailtemplate->title ?? '';
                     $data = [
                         'body' => $insurance->insurancemailtemplate->description ?? '',
@@ -383,7 +383,7 @@ class StripePaymentController extends Controller
                             $messages->to($sendToemails);
                             $messages->subject($email_subject);
                             $messages->cc($ccEmails);
-                            $messages->bcc(['dcstest201@gmail.com']);
+                            $messages->bcc(['bestpratik@gmail.com']);
                             foreach ($allDocs as $attachment) {
                                 $messages->attach($attachment);
                             }
@@ -418,7 +418,7 @@ class StripePaymentController extends Controller
                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
                             ];
 
-                            $invoiceCopyEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                            $invoiceCopyEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                             // Mail::send('email.invoice_mail', $invoiceEmailData, function ($message) use ($billingEmail, $invoiceFilePath, $invoiceCopyEmails, $purchase) {
                             //     $message->to($billingEmail);
@@ -433,7 +433,7 @@ class StripePaymentController extends Controller
                                     $message->to($billingEmail);
                                     $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
                                     $message->cc($invoiceCopyEmails);
-                                    $message->bcc(['dcstest201@gmail.com']);
+                                    $message->bcc(['bestpratik@gmail.com']);
                                     $message->attach($invoiceFilePath);
                                 });
                             
