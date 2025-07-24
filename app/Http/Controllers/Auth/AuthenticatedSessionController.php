@@ -28,9 +28,18 @@ class AuthenticatedSessionController extends Controller
        
         $request->authenticate();
 
-         $user = Auth::user();
-        if ($user->type == 'user') {
-             return redirect('/');
+        //  $user = Auth::user();
+        // if ($user->type == 'user') {
+        //      return redirect('/');
+        // }
+
+        $user = Auth::user();
+
+        if ($user->type === 'user') {
+            Auth::logout();
+            return redirect()->back()->withErrors([
+                'email' => 'You are not authorized to access the admin panel.',
+            ]);
         }
 
         $request->session()->regenerate();
