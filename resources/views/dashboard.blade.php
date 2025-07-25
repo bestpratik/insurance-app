@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="flex flex-col w-full p-6 bg-white rounded-lg border">
-                    <h2 class="text-xl font-bold text-start">Revenue Distribution</h2>
+                    <h2 class="text-xl font-bold text-start">Revenue Distribution</h2> 
                     <canvas id="revenuePieChart"></canvas>
                 </div>
             </div>
