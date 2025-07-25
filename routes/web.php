@@ -197,7 +197,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard'); 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -217,7 +217,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/all-purchase-cancel-list', function () {
         return view('purchase.all_cancel_list');
-    })->name('purchase.cancel.list');
+    })->name('purchase.cancel.list'); 
 
     //Route::get('purchase-list', [PurchaseController::class, 'purchaseList'])->name('purchase.list');
     Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');

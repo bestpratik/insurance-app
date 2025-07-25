@@ -32,7 +32,7 @@ class UserController extends Controller
             $first_day = date('Y-m-01', strtotime($first_date_of_month)); // First day of the month.
             $last_day = date('Y-m-t', strtotime($first_date_of_month));
 
-            $totalSale = Purchase::with(['insurance.provider', 'invoice'])
+            $totalSale = Purchase::with(['insurance.provider', 'invoice']) 
                 ->where('status', 1)
                 ->whereNull('purchase_status')
                 ->whereBetween('purchase_date', [$first_day, $last_day])
