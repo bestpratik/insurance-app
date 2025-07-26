@@ -254,7 +254,7 @@ class PolicyBuyerComponent extends Component
             ];
         } elseif ($step == 3) {
             $rules = [
-                'policyHoldertype' => ['required', Rule::in(['Company', 'Individual', 'Both'])],
+                'policyHoldertype' => ['required', Rule::in(['Company', 'Individual', 'Both'])], 
             ];
 
             if ($this->policyHoldertype === 'Company') {
@@ -269,6 +269,11 @@ class PolicyBuyerComponent extends Component
                 $rules['policyholderEmail'] = 'required|string';
                 $rules['policyholderPhone'] = 'required|string';
             }elseif ($this->policyHoldertype === 'Both') {
+                $rules['companyName'] = 'required|string';
+                $rules['policyholderCompanyEmail'] = 'required|string';
+                $rules['policyholderTitle'] = 'required|string';
+                $rules['policyholderFirstName'] = 'required|string';
+                $rules['policyholderLastName'] = 'required|string';
                 $rules['policyholderEmail'] = 'required|string';
                 $rules['policyholderPostcode'] = 'required|string';
                 $rules['policyholderPhone'] = 'required|string';
