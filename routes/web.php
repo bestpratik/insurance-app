@@ -77,6 +77,8 @@ Route::post('send-mail', [FrontController::class, 'validate_forgotpass'])->name(
 Route::get('reset-pass/{token}', [FrontController::class, 'showResetPassword'])->name('reset.password'); 
 Route::post('submit-reset-Password', [FrontController::class, 'submitResetPassword'])->name('reset.Password.submit'); 
 
+Route::get('terms-conditions', [FrontController::class, 'termsConditions'])->name('terms.conditions');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
     Route::get('active-insurance', [FrontController::class, 'active_insurance'])->name('active.insurance');  
@@ -89,7 +91,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 
     Route::get('policy-detail-page/{id}', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page'); 
-    Route::get('terms-conditions', [FrontController::class, 'termsConditions'])->name('terms.conditions');
 
 
 
