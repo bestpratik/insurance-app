@@ -126,6 +126,7 @@
                         <a href="{{ route('user.logout') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
                     @else
                         <a href="{{ route('user.login') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
+                        <a href="{{route('user.register')}}">SIGN UP</a>
                     @endauth
                 </div>
             </div>
