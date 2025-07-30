@@ -34,7 +34,7 @@
                 </p>
 
 
-                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post"> 
+                <form class="space-y-6 mb-5" action="{{route('user.login.submit')}}" method="post">  
                     @csrf
                     <div class="relative">
                         <input type="text" id="username" name="email" value="{{ old('email') }}"
@@ -62,10 +62,12 @@
                     </div>
 
                     <!-- Actions -->
-                    <a href=""></a>
-                    <div class="text-right text-sm text-gray-600 hover:underline cursor-pointer">
-                        Forgot your password?
+                    <a href="{{route('forgot.pass')}}">
+                        <div class="text-right text-sm text-gray-600 hover:underline cursor-pointer">
+                        Forgot your password? 
                     </div>
+                    </a>
+                    
 
 
                     <button type="submit"
@@ -73,7 +75,7 @@
                         In</button>
                 </form>
                 <!-- <p class="text-center text-sm text-gray-500 mb-4">or use your email password</p> -->
-                <p class="text-center text-sm text-gray-500 mb-4">or sign in using social platforms</p>
+                <!-- <p class="text-center text-sm text-gray-500 mb-4">or sign in using social platforms</p> -->
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">
                     <!-- <a href="{{ route('auth.google', 'google') }}" class="w-full max-w-xs">

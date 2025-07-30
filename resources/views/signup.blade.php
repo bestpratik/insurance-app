@@ -35,8 +35,7 @@
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Full Name" />
-                        <label for="name"
-                            class="left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                        <label for="name" class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Full Name
                         </label>
                         @if($errors->has('name'))
@@ -50,7 +49,7 @@
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Email Address" />
                         <label for="email"
-                            class="left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Email Address
                         </label>
                         @if($errors->has('email'))
@@ -63,7 +62,7 @@
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Password" />
                         <label for="signupPassword"
-                            class="left-4 top-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Password
                         </label>
                         <!-- @if($errors->has('password'))
@@ -94,7 +93,7 @@
                             class="peer w-full border border-gray-300 rounded-md px-4 pt-5 pb-2 text-sm placeholder-transparent focus:outline-none focus:ring-2 focus:ring-red-600"
                             placeholder="Confirm Password" />
                         <label for="signupConfirmPassword"
-                            class="absolute left-4 top-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-500">
+                            class="absolute left-4 -top-2.5 text-gray-500 text-md transition-all bg-white px-3">
                             Confirm Password
                         </label>
                         @if($errors->has('password'))
@@ -137,7 +136,7 @@
                         Up</button>
                 </form>
 
-                <p class="text-center text-sm text-gray-500 mb-4">or sign up using social platforms</p>
+                <!-- <p class="text-center text-sm text-gray-500 mb-4">or sign up using social platforms</p> -->
 
                 <!-- Social Login -->
                 <div class="flex justify-center gap-4 my-6">

@@ -11,6 +11,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Purchase;
+use App\Models\Content;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,7 @@ class FrontController extends Controller
 
     public function service_details($page_slug)
     {
-        $service = Service::where('page_slug', $page_slug)->firstOrFail(); 
+        $service = Service::where('page_slug', $page_slug)->firstOrFail();
         return view('service_details', compact('service'));
     }
 
@@ -102,7 +103,7 @@ class FrontController extends Controller
                 $purchase->update();
                 session()->forget('guest_purchase_token');
 
-                session()->put('pending_purchase_id', $purchase->id); 
+                session()->put('pending_purchase_id', $purchase->id);
                 return redirect()->route('stripe.booking');
             }
             // session()->put('resume_summary', true);
@@ -140,14 +141,7 @@ class FrontController extends Controller
 
         $user = User::where('email', $request->email)->first();
         // dd($user);
-        if($user->type == 'user'){
-            // if ($user && Hash::check($request->password, $user->password)) {
-        //     Auth::login($user); 
-        //     session()->put('user_login', true);
-        //     session()->put('logged_in_user', $user);
 
-        //     return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
-        // }
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
@@ -166,58 +160,60 @@ class FrontController extends Controller
                     session()->put('pending_purchase_id', $purchase->id);
                     return redirect()->route('stripe.booking');
                 }
-                // session()->put('resume_summary', true);
+            }
+            if ($user->type === 'admin') {
+                return redirect()->route('dashboard')->with('success', 'Welcome admin!');
+            } elseif ($user->type === 'user') {
+                return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
+            } else {
+                // Default fallback
+                return redirect('/')->with('success', 'Login successful!');
             }
         }
 
-       
-
-            // $redirectUrl = session()->pull('guest_redirect_intended', route('dashboard.frontend'));
-            // return redirect($redirectUrl)->with('success', 'Login successful!');
-
-            // return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
-
-            return redirect()->route('policy.buyer');
-        }
-
+        // return redirect()->route('policy.buyer')->with('error', 'Invalid credentials');
         return redirect()->route('user.login')->with('error', 'Invalid credentials');
     }
 
-    public function frontDashboard() 
+    public function frontDashboard()
     {
-        
+
+        // if (Auth::user()->type !== 'user') {
+        //     return redirect('/dashboard')->with('error', 'Unauthorized access.');
+        // }
+
         if (Auth::user()->type !== 'user') {
-            return redirect('/dashboard')->with('error', 'Unauthorized access.');
+            return redirect('/dashboard');
         }
 
         $totalActive = Purchase::where('policy_end_date', '>', now())
-                    ->whereHas('insurance', function ($query) {
-                        $query
-                    ->where('purchase_mode', 'Online'); 
-                    })
-                    ->where('payment_status', 'Paid')
-                    ->when(Auth::check(), function ($query) {
-                        $query->where('user_id', Auth::id());
-                    })
-                    ->whereNull('purchase_status')
-                    ->count();
+            ->whereHas('insurance', function ($query) {
+                $query
+                    ->where('purchase_mode', 'Online');
+            })
+            ->where('payment_status', 'Paid')
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->whereNull('purchase_status')
+            ->count();
 
         $totalInactive = Purchase::where('policy_end_date', '<', now())
-                        ->whereHas('insurance', function ($query) {
-                            $query
-                        ->where('purchase_mode', 'Online');
-                        })
-                        ->where('payment_status', 'Paid')
-                        ->when(Auth::check(), function ($query) {
-                            $query->where('user_id', Auth::id());
-                        })
-                        ->whereNull('purchase_status')
-                        ->count();
+            ->whereHas('insurance', function ($query) {
+                $query
+                    ->where('purchase_mode', 'Online');
+            })
+            ->where('payment_status', 'Paid')
+            ->when(Auth::check(), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->whereNull('purchase_status')
+            ->count();
 
         $totalCancel = Purchase::where('purchase_status', 'Cancelled')
             ->whereHas('insurance', function ($query) {
                 $query
-            ->where('purchase_mode', 'Online');
+                    ->where('purchase_mode', 'Online');
             })
             ->where('payment_status', 'Paid')
             ->when(Auth::check(), function ($query) {
@@ -225,19 +221,19 @@ class FrontController extends Controller
             })
             ->count();
 
-        return view('front_dashboard', compact('totalActive', 'totalInactive','totalCancel'));
+        return view('front_dashboard', compact('totalActive', 'totalInactive', 'totalCancel'));
     }
 
     public function frontSuccessPage(Request $request)
     {
         $purchaseId = $request->get('purchase_id');
         // dd($purchaseId);
-        $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchaseId);
+        $purchase = Purchase::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
         // dd($purchase);
         return view('front_success_page', compact('purchaseId', 'purchase'));
     }
 
-     public function referralSuccessPage(Request $request)
+    public function referralSuccessPage(Request $request)
     {
         // $purchaseId = $request->get('purchase_id');
         // dd($purchaseId);
@@ -318,7 +314,7 @@ class FrontController extends Controller
     public function active_insurance()
     {
         // $active_insure = Purchase::where('policy_end_date' > now())->get();
-        return view('active_insurance');   
+        return view('active_insurance');
     }
 
     public function inactive_insurance()
@@ -386,7 +382,7 @@ class FrontController extends Controller
     {
         try {
             $facebookUser = Socialite::driver('facebook')->user();
-      
+
             $user = User::where('provider_id', $facebookUser->id)
                 ->where('provider', 'facebook')
                 ->first();
@@ -397,7 +393,7 @@ class FrontController extends Controller
                 $user = new User;
                 $user->name = $facebookUser->name;
                 $user->email = $facebookUser->email;
-                $user->password = Hash::make('Password@123'); 
+                $user->password = Hash::make('Password@123');
                 $user->type = 'user';
                 $user->provider_id = $facebookUser->id;
                 $user->provider = 'facebook';
@@ -412,12 +408,13 @@ class FrontController extends Controller
         }
     }
 
-     public function referralForm()
+    public function referralForm()
     {
         return view('referral_form');
     }
 
-    public function policyDetailPage($id){ 
+    public function policyDetailPage($id)
+    {
         // $purchase = Purchase::with(['insurance.provider', 'invoice']) 
         //     ->where('payment_status', 'Paid')
         //     ->whereHas('insurance', function ($query) {
@@ -429,7 +426,7 @@ class FrontController extends Controller
         //         $query->where('user_id', Auth::id());
         //     })->find($id);
 
-         $purchase = Purchase::with(['insurance.provider', 'invoice']) 
+        $purchase = Purchase::with(['insurance.provider', 'invoice'])
             ->whereHas('insurance', function ($query) {
                 $query
                     ->where('purchase_mode', 'Online');
@@ -442,4 +439,10 @@ class FrontController extends Controller
         return view('policy_detail_page', compact('purchase'));
     }
 
+
+    public function termsConditions()
+    {
+        $terms = Content::first();
+        return view('terms_conditions', compact('terms'));
+    }
 }
