@@ -72,6 +72,10 @@ Route::get('auth/facebook-callback', [FrontController::class, 'facebookAuthentic
 
 
 Route::post('/stripe/webhook', [StripePaymentController::class, 'handleWebhook']);
+
+Route::get('/stripe/success', [StripePaymentController::class, 'success'])->name('stripe.success');
+Route::get('/stripe/cancel', [StripePaymentController::class, 'cancel'])->name('stripe.cancel');
+
 Route::get('forgotpassword', [FrontController::class, 'forgot_password'])->name('forgot.pass'); 
 Route::post('send-mail', [FrontController::class, 'validate_forgotpass'])->name('validate.pass'); 
 Route::get('reset-pass/{token}', [FrontController::class, 'showResetPassword'])->name('reset.password'); 
@@ -97,8 +101,7 @@ Route::middleware(['auth'])->group(function () {
 
  
     Route::get('/stripe/booking', [StripePaymentController::class, 'booking'])->name('stripe.booking');
-    Route::get('/stripe/success', [StripePaymentController::class, 'success'])->name('stripe.success');
-    Route::get('/stripe/cancel', [StripePaymentController::class, 'cancel'])->name('stripe.cancel');
+    
 
 
 
