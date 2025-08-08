@@ -383,7 +383,7 @@ class StripePaymentController extends Controller
                             $messages->to($sendToemails);
                             $messages->subject($email_subject);
                             $messages->cc($ccEmails);
-                            $messages->bcc(['bestpratik@gmail.com']);
+                            // $messages->bcc(['bestpratik@gmail.com']);
                             foreach ($allDocs as $attachment) {
                                 $messages->attach($attachment);
                             }
@@ -433,7 +433,7 @@ class StripePaymentController extends Controller
                                     $message->to($billingEmail);
                                     $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
                                     $message->cc($invoiceCopyEmails);
-                                    $message->bcc(['bestpratik@gmail.com']);
+                                    // $message->bcc(['bestpratik@gmail.com']);
                                     $message->attach($invoiceFilePath);
                                 });
                             
