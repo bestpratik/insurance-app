@@ -130,6 +130,12 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard'); 
 
+Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
+    // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
+
+    // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
+Route::get('/insurance-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -157,11 +163,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success'); 
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');  
 
-    Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
-    // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
-
-    // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
-    Route::get('/insurance-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
+   
 
     Route::get('insurance/pricing/{uuid}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{uuid}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');
