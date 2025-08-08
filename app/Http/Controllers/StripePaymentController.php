@@ -52,7 +52,7 @@ class StripePaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('stripe.success') . '?id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('stripe.cancel'),
         ]);
 
@@ -68,7 +68,7 @@ class StripePaymentController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $sessionId = $request->get('session_id');
+        $sessionId = $request->get('id');
         // dd($sessionId);
 
         if (!$sessionId) {
