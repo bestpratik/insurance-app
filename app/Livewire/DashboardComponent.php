@@ -58,7 +58,7 @@ class DashboardComponent extends Component
         $this->checkPaymentPurchaseId = null;
         $this->checkPayment = '';
     }
-
+ 
     public function submitPaymentCheckModal()
     {
         // $this->validate([
