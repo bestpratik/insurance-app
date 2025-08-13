@@ -160,7 +160,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('purchase/edit/{policy_no}', [PurchaseController::class, 'purchaselist_edit'])->name('purchase.edit');
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
 
-    Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success'); 
+    Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');   
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');  
 
    

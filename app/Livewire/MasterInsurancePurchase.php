@@ -458,7 +458,8 @@ class MasterInsurancePurchase extends Component
             // - 2. Load dynamic documents
             if ($insurance && $insurance->dynamicdocument) {
                 foreach ($insurance->dynamicdocument as $dydocs) {
-                    $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+                    // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+                    $file_name = str_replace(' ', '_', $dydocs->title) . '_' . rand(11, 999999) . '.pdf';
 
                     $data = array(
                         'templateTitle' => $dydocs->title,
@@ -469,7 +470,7 @@ class MasterInsurancePurchase extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc' . $file_name);
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name); 
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;

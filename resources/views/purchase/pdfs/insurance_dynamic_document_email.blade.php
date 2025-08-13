@@ -7,6 +7,11 @@
    
 
     @php
+
+        $grossPremium = (float) $data['templatebodyValue'][9];
+        $insurancePremiumTax = (float) $data['templatebodyValue'][8];
+        $payableAmount = $grossPremium + $insurancePremiumTax;
+
         $placeholders = [
             '%InsuranceName%' => $data['templatebodyValue'][0],
             '%policyNo%' => $data['templatebodyValue'][1],
@@ -28,5 +33,5 @@
     @endphp
 
     {!! $output_string !!}
-</body>
+</body> 
 </html>

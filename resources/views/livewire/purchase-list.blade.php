@@ -466,7 +466,7 @@
 
                                 <!-- Unpaid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="Unpaid" wire:model="paymentStatus"
+                                    <input type="radio" name="paymentStatus" value="Unpaid" wire:model="paymentStatus" 
                                         class="peer hidden" {{ $paymentStatus == 'Unpaid' ? 'checked' : '' }} />
                                     <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
                                         <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"

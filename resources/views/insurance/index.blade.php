@@ -155,7 +155,7 @@
                                             <div class="flex items-center gap-3">
                                                 <div>
                                                     <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                        {{$row->name}}
+                                                        {{$row->name}} ({{$row->purchase_mode}})
                                                     </span>
 
                                                 </div>
