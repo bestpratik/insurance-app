@@ -79,9 +79,9 @@
                 @foreach ($service as $row)
                 <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
                     @if ($row->offer)
-                        <div class="absolute top-4 left-[-30px] bg-red-600 text-white text-xs font-bold px-8 py-1 rotate-[-45deg] shadow-md">
-                            {{ $row->offer }}
-                        </div>
+                    <div class="absolute top-6 left-[-60px] bg-green-600 text-white text-xs font-semibold px-12 py-2 rotate-[-45deg] shadow-lg whitespace-nowrap min-w-[270px] text-left">
+                        {{$row->offer}}
+                    </div>
                     @endif
 
                     <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection" class="w-full h-48 object-cover">
