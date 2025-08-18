@@ -1,27 +1,27 @@
 <x-front>
     <section class="relative w-full max-h-[450px] overflow-hidden">
         <!-- Slider Container -->
-        <div id="sliderWrapper" class="flex transition-transform duration-500 ease-in-out" 
+        <div id="sliderWrapper" class="flex transition-transform duration-500 ease-in-out"
             style="transform: translateX(0%)">
             <!-- Slide 1 -->
             @foreach ($banner as $row)
-                <div class="min-w-full max-h-[450px] relative">
-                    <img src="{{ asset('uploads/banner/' . $row->image) }}" class="w-full h-[450px] object-cover" alt="Slide 1" />
-                    <div class="absolute inset-0 bg-black/30 flex items-center">
-                        <div class="container mx-auto px-6">
-                            <div class="max-w-xl text-white">
-                                <h2 class="text-4xl font-bold mb-4">{{ $row->title ?? '' }}</h2>
-                                <p class="text-lg text-gray-100 mb-6">{{ $row->sub_title ?? '' }}</p>
-                                @if ($row->button_text)
-                                    <a href="{{ route('about.us') }}"
-                                        class="relative rounded-lg flex h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
-                                        <span class="relative z-1">{{ $row->button_text ?? '' }}</span>
-                                    </a>
-                                @endif
-                            </div>
+            <div class="min-w-full max-h-[450px] relative">
+                <img src="{{ asset('uploads/banner/' . $row->image) }}" class="w-full h-[450px] object-cover" alt="Slide 1" />
+                <div class="absolute inset-0 bg-black/30 flex items-center">
+                    <div class="container mx-auto px-6">
+                        <div class="max-w-xl text-white">
+                            <h2 class="text-4xl font-bold mb-4">{{ $row->title ?? '' }}</h2>
+                            <p class="text-lg text-gray-100 mb-6">{{ $row->sub_title ?? '' }}</p>
+                            @if ($row->button_text)
+                            <a href="{{ route('about.us') }}"
+                                class="relative rounded-lg flex h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
+                                <span class="relative z-1">{{ $row->button_text ?? '' }}</span>
+                            </a>
+                            @endif
                         </div>
                     </div>
                 </div>
+            </div>
             @endforeach
         </div>
 
@@ -77,24 +77,30 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Card 1 -->
                 @foreach ($service as $row)
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
-                        <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="border-b-4 border-red-500 w-10 mb-4"></div>
-                            <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
-                            <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
-                            <div class="flex gap-2">
-                                <a href="{{ route('service.details', $row->page_slug) }}"
-                                    class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
-                                    <span class="relative z-10">Know more</span>
-                                </a>
-                                <a href="{{route('policy.buyer')}}"
-                                    class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
-                                    <span class="relative z-1">Buy Now</span> 
-                                </a>
-                            </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden relative ">
+                    @if ($row->offer)
+                        <div class="absolute top-4 left-[-30px] bg-red-600 text-white text-xs font-bold px-8 py-1 rotate-[-45deg] shadow-md">
+                            {{ $row->offer }}
+                        </div>
+                    @endif
+
+                    <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="border-b-4 border-red-500 w-10 mb-4"></div>
+                        <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
+                        <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
+                        <div class="flex gap-2">
+                            <a href="{{ route('service.details', $row->page_slug) }}"
+                                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
+                                <span class="relative z-10">Know more</span>
+                            </a>
+                            <a href="{{route('policy.buyer')}}"
+                                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
+                                <span class="relative z-1">Buy Now</span>
+                            </a>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -110,21 +116,21 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card Template (copy this for all) -->
                 @foreach ($fact as $row)
-                    <div
-                        class="bg-gray-900 rounded-lg shadow-lg p-6 hover:shadow-xl transition border border-gray-700 hover:backdrop-blur-2xl">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-red-600 text-white p-3 rounded-md">
-                                <img src="{{ asset('uploads/fact/' . $row->image) }}">
-                            </div>
-                            <div class="text-gray-400 max-w-[270px] min-w-[260px]">
-                                <h3 class="text-lg font-semibold text-white">{{ $row->title }}</h3>
-                                <p class="text-white text-sm mt-2">{!! $row->description !!}</p>
-                                {{-- <a href="#"
+                <div
+                    class="bg-gray-900 rounded-lg shadow-lg p-6 hover:shadow-xl transition border border-gray-700 hover:backdrop-blur-2xl">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-red-600 text-white p-3 rounded-md">
+                            <img src="{{ asset('uploads/fact/' . $row->image) }}">
+                        </div>
+                        <div class="text-gray-400 max-w-[270px] min-w-[260px]">
+                            <h3 class="text-lg font-semibold text-white">{{ $row->title }}</h3>
+                            <p class="text-white text-sm mt-2">{!! $row->description !!}</p>
+                            {{-- <a href="#"
                                 class="inline-block mt-4 text-red-500 hover:underline text-sm font-medium">Read
                                 More</a> --}}
-                            </div>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -137,10 +143,10 @@
             <div class="swiper-wrapper">
                 <!-- Slides -->
                 @foreach ($client as $row)
-                    <div
-                        class=" swiper-slide border rounded-md  hover:scale-103 transition-transform duration-300 flex items-center justify-center">
-                        <img src="{{ asset('uploads/client/' . $row->image) }}" class=" px-8 py-3" alt="">
-                    </div>
+                <div
+                    class=" swiper-slide border rounded-md  hover:scale-103 transition-transform duration-300 flex items-center justify-center">
+                    <img src="{{ asset('uploads/client/' . $row->image) }}" class=" px-8 py-3" alt="">
+                </div>
                 @endforeach
             </div>
 

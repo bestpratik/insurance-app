@@ -12,6 +12,7 @@ class Service extends Model
         'title',
         'sub_title',
         'image',
+        'offer',
         'description',
         'created_at',
         'updated_at'

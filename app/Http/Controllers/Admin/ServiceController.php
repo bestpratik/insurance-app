@@ -51,6 +51,7 @@ class ServiceController extends Controller
         $service->sub_title = $request['sub_title'];
         $service->page_slug = $page_slug;
         $service->description = $request['description'];
+        $service->offer = $request['offer'];
         $service->created_at = date('Y-m-d H:i:s');
         $service->updated_at = null;
 
@@ -92,6 +93,7 @@ class ServiceController extends Controller
         $service->title = $request['title'];
         $service->page_slug = $page_slug;
         $service->sub_title = $request['sub_title'];
+        $service->offer = $request['offer'];
         $service->description = $request['description'];
         $service->updated_at = date('Y-m-d H:i:s');
 

@@ -62,6 +62,16 @@
             <!--end image file-->
 
             <div>
+                <label class="block">Offer
+                    <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
+                        placeholder="Enter Offer">
+                    @if ($errors->has('offer'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
+                    @endif
+                </label>
+            </div>
+
+            <div>
                 <label class="block">
                     <span class="text-gray-700">Description</span>
                     <textarea name="description" rows="5" class="w-full mt-1 p-2 border rounded summernote" placeholder="Enter Description">{{ old('description') }}</textarea>
