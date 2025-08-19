@@ -29,7 +29,7 @@ class FrontController extends Controller
     {
         $banner = Banner::all();
         $aboutFirst = About::first();
-        $service = Service::all();
+        $service = Service::with('insurance')->get();
         $fact = Fact::all();
         $client = Client::all();
         return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact'));
@@ -60,10 +60,42 @@ class FrontController extends Controller
         return view('service_details', compact('service'));
     }
 
-    public function policyBuyer()
+    // public function policyBuyer()
+    // {
+    //     return view('policy_buyer');
+    // }
+
+    // public function policyBuyer($slug = null)
+    // {
+    //     $insuranceId = null;
+
+    //     if ($slug) {
+    //         $service = Service::where('page_slug', $slug)->with('insurance')->first();
+    //         // dd($service);
+    //         if ($service && $service->insurance) {
+    //             $insuranceId = $service->insurance->id;
+    //             // dd($service->insurance);
+    //         }
+    //     }
+
+    //     return view('policy_buyer', compact('insuranceId'));
+    // }
+
+
+    public function policyBuyer($slug = null)
     {
-        return view('policy_buyer');
+        $insuranceId = null;
+
+        if ($slug) {
+            $service = Service::where('page_slug', $slug)->with('insurance')->first();
+            if ($service && $service->insurance) {
+                $insuranceId = $service->insurance->id;
+            }
+        }
+
+        return view('policy_buyer', compact('insuranceId'));
     }
+
 
     public function userSignin()
     {

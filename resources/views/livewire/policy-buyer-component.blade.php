@@ -179,18 +179,28 @@
                         <label class="block text-gray-700 font-medium mb-1">
                             Insurances <span class="text-red-600">*</span>
                         </label>
-                        <select wire:model="selectedinsuranceId"
+
+                        @if($disableInsuranceSelect && $selectedInsuranceName)
+                        <input type="text" class="w-full p-2 border rounded bg-gray-100"
+                            value="{{ $selectedInsuranceName }}" disabled>
+                        {{-- Hidden input to keep insuranceId in form --}}
+                        <input type="hidden" name="insurance_id" value="{{ $selectedInsuranceId }}">
+                        @else
+                        <select wire:model="selectedInsuranceId"
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Choose Insurance...</option>
                             @foreach($availableInsurances as $avinsurance)
-                            <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }}
-                                @if($avinsurance->services)
+                            <option value="{{ $avinsurance->id }}">
+                                {{ $avinsurance->name }}
+                                @if($avinsurance->services->count())
                                 ({{ $avinsurance->services->pluck('offer')->join(', ') }})
                                 @endif
                             </option>
                             @endforeach
                         </select>
-                        @error('selectedinsuranceId')
+                        @endif
+
+                        @error('selectedInsuranceId')
                         <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>

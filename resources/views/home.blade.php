@@ -101,10 +101,12 @@
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-10">Know more</span>
                             </a>
-                            <a href="{{route('policy.buyer')}}"
+                            
+                            <a href="{{ route('policy.buyer', $row->page_slug) }}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-1">Buy Now</span>
                             </a>
+
                         </div>
                     </div>
                 </div>

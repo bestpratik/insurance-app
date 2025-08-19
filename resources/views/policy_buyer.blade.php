@@ -18,34 +18,10 @@
     </section>
 
     <!-- TAB MENU -->
-     <livewire:policy-buyer-component /> 
-    <!-- SCRIPT -->
-    <!-- <script>
-        const tabButtons = document.querySelectorAll(".tab-btn");
-        const tabContents = document.querySelectorAll(".tab-content");
 
-        tabButtons.forEach(button => {
-            button.addEventListener("click", (e) => {
-                e.preventDefault();
 
-                // Remove active styling
-                tabButtons.forEach(btn => {
-                    btn.classList.remove("text-red-600", "border-red-500");
-                    btn.classList.add("text-gray-600", "border-transparent");
-                });
+     <livewire:policy-buyer-component :insuranceId="$insuranceId" />
 
-                // Hide all contents
-                tabContents.forEach(content => content.classList.add("hidden"));
 
-                // Activate clicked tab
-                button.classList.remove("text-gray-600", "border-transparent");
-                button.classList.add("text-red-600", "border-red-500");
-
-                // Show relevant content
-                const tabId = button.getAttribute("data-tab");
-                document.getElementById(tabId).classList.remove("hidden");
-            });
-        });
-    </script> -->
 
 </x-front>

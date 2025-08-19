@@ -18,4 +18,9 @@ class Service extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function insurance()
+    {
+        return $this->belongsTo(Insurance::class, 'insurance_id');
+    }
 }
