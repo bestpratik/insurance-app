@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Fact;
 use App\Models\Service;
+use App\Models\Insurance;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Purchase;

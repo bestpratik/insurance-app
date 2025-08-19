@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\Insurance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -18,7 +19,9 @@ class ServiceController extends Controller
 
     public function create()
     {
-        return view('admin.service.create');
+        
+        $insurances = Insurance::where('purchase_mode', 'Online')->get();
+        return view('admin.service.create', compact('insurances'));
     }
 
     public function store(Request $request)
@@ -48,6 +51,7 @@ class ServiceController extends Controller
 
         $page_slug = Str::slug($request['title']);
         $service->title = $request['title'];
+        $service->insurance_id = $request['insurance_id'];
         $service->sub_title = $request['sub_title'];
         $service->page_slug = $page_slug;
         $service->description = $request['description'];
@@ -62,7 +66,8 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::find($id);
-        return view('admin.service.edit', compact('service'));
+        $insurances = Insurance::where('purchase_mode', 'Online')->get();
+        return view('admin.service.edit', compact('service', 'insurances'));
     }
 
     public function update(Request $request, $id)
@@ -91,6 +96,7 @@ class ServiceController extends Controller
 
         $page_slug = Str::slug($request['title']);
         $service->title = $request['title'];
+        $service->insurance_id = $request['insurance_id'];
         $service->page_slug = $page_slug;
         $service->sub_title = $request['sub_title'];
         $service->offer = $request['offer'];
@@ -98,7 +104,7 @@ class ServiceController extends Controller
         $service->updated_at = date('Y-m-d H:i:s');
 
         $service->update();
-        return redirect('services')->with('success', 'Service updated successfully');
+        return redirect('services')->with('success', 'Service updated successfully'); 
     }
 
     public function destroy($id)

@@ -183,14 +183,11 @@
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Choose Insurance...</option>
                             @foreach($availableInsurances as $avinsurance)
-                                @php
-                                    $offer = $serviceOffers[$avinsurance->slug] ?? null;
-                                @endphp
-                                <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }} 
-                                @if($offer) 
-                                    ({{ $offer }}) 
+                            <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }}
+                                @if($avinsurance->services)
+                                ({{ $avinsurance->services->pluck('offer')->join(', ') }})
                                 @endif
-                                </option>
+                            </option>
                             @endforeach
                         </select>
                         @error('selectedinsuranceId')

@@ -5,10 +5,10 @@
         </h2>
     </x-slot> --}}
     @if ($message = Session::get('message'))
-        <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-            {{ $message }}
-        </div>
+    <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+        {{ $message }}
+    </div>
     @endif
     <div
         class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
@@ -19,13 +19,27 @@
             enctype="multipart/form-data">
             @csrf
 
+            <div>
+                <label class="block">Insurance <span class="text-red-700">*</span></label>
+                <select name="insurance_id" class="w-full mt-1 p-2 border rounded">
+                    <option value="">Choose Insurance...</option>
+                    @foreach($insurances as $row)
+                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                    @endforeach
+                </select>
+
+                @if ($errors->has('insurance_id'))
+                <span class="mt-1 text-sm text-red-500">{{ $errors->first('insurance_id') }}</span>
+                @endif
+            </div>
+
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span>
                     <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Title">
                     @if ($errors->has('title'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
                     @endif
                 </label>
             </div>
@@ -37,7 +51,7 @@
                     <input name="sub_title" type="text" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Sub Title">
                     @if ($errors->has('sub_title'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
                     @endif
                 </label>
             </div>
@@ -50,7 +64,7 @@
                         onchange="previewImage(event)">
 
                     @if ($errors->has('image'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('image') }}</span>
                     @endif
                 </label>
 
@@ -66,7 +80,7 @@
                     <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Offer">
                     @if ($errors->has('offer'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
                     @endif
                 </label>
             </div>
@@ -110,7 +124,7 @@
 <!-- Summernote) -->
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.summernote').summernote({
             height: 50,
             toolbar: [

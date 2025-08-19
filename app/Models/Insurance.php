@@ -45,11 +45,13 @@ class Insurance extends Model
         ];
     }
 
-    public function provider(){
+    public function provider()
+    {
         return $this->belongsTo(Provider::class, 'provider_type');
     }
 
-    public function purchase(){
+    public function purchase()
+    {
         return $this->belongsTo(Purchase::class, 'id');
     }
 
@@ -59,7 +61,8 @@ class Insurance extends Model
         return $this->hasMany(Insurancedocument::class, 'insurance_id');
     }
 
-    public function dynamicdocument(){
+    public function dynamicdocument()
+    {
         return $this->hasMany(Insurancedynamicdocument::class, 'insurance_id');
     }
 
@@ -67,7 +70,9 @@ class Insurance extends Model
     {
         return $this->hasOne(Insuranceemailtemplate::class, 'insurance_id');
     }
-    
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'insurance_id');
+    }
 }
-
-

@@ -28,7 +28,6 @@ class PolicyBuyerComponent extends Component
     public $insuranceDetails;
     public $availableInsurances;
     public $productType;
-    public $serviceOffers;
 
     // Step 2: Property info
     public $insuranceType;
@@ -97,9 +96,9 @@ class PolicyBuyerComponent extends Component
         $this->policyTerm = 1;
         $this->isInvoice = true;
 
-        $this->availableInsurances = Insurance::where('purchase_mode', 'Online')->get();
-        $this->serviceOffers = Service::pluck('offer', 'page_slug')->toArray();
-        // dd($this->serviceOffers);
+        $this->availableInsurances = Insurance::where('purchase_mode', 'Online')
+        ->with('services')
+        ->get(); 
 
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;

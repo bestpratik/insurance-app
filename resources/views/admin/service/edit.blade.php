@@ -1,9 +1,9 @@
 <x-app-layout>
     @if ($message = Session::get('message'))
-        <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-            {{ $message }}
-        </div>
+    <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+        {{ $message }}
+    </div>
     @endif
     <div
         class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
@@ -14,6 +14,24 @@
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            <div>
+                <label class="block">Insurance <span class="text-red-700">*</span></label>
+                <select name="insurance_id" class="w-full mt-1 p-2 border rounded">
+                    <option value="">Choose Insurance...</option>
+                    @foreach($insurances as $row)
+                    <option value="{{ $row->id }}"
+                        {{ old('insurance_id', $service->insurance_id) == $row->id ? 'selected' : '' }}>
+                        {{ $row->name }}
+                    </option>
+                    @endforeach
+                </select>
+
+                @if ($errors->has('insurance_id'))
+                <span class="mt-1 text-sm text-red-500">{{ $errors->first('insurance_id') }}</span>
+                @endif
+            </div>
+
 
             <div>
                 <label class="block">
@@ -47,7 +65,7 @@
                     <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Offer" value="{{ $service->offer }}">
                     @if ($errors->has('offer'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
                     @endif
                 </label>
             </div>
