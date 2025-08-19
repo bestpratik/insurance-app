@@ -105,7 +105,9 @@ class PolicyBuyerComponent extends Component
             ->get();
 
         if ($this->availableInsurances) {
-            $this->insuranceDetails = $this->availableInsurances;
+            // $this->insuranceDetails = $this->availableInsurances;
+            $this->insuranceDetails = Insurance::where('id', $this->selectedInsuranceId)->first();
+
             // dd($this->insuranceDetails);
         }
 
@@ -171,7 +173,7 @@ class PolicyBuyerComponent extends Component
                             return;
                         }
                         $minRentAmount = $this->insuranceDetails->rent_amount_from;
-
+                        dd($minRentAmount);
                         $maxRentAmount = $this->insuranceDetails->rent_amount_to;
                         if ($value < $minRentAmount || $value > $maxRentAmount) {
                             $fail("The $attribute must be between £$minRentAmount and £$maxRentAmount.");
