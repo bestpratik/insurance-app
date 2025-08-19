@@ -158,7 +158,7 @@ class PolicyBuyerComponent extends Component
         if ($step == 1) {
             return [
                 'productType' => 'required',
-                'selectedinsuranceId' => 'required|exists:insurances,id',
+                'selectedInsuranceId' => 'required|exists:insurances,id',
             ];
         } elseif ($step == 2) {
             return [
