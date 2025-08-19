@@ -360,7 +360,7 @@ class StripePaymentController extends Controller
                         return filter_var($email, FILTER_VALIDATE_EMAIL);
                     });
 
-                    $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
                     $email_subject = $insurance->insurancemailtemplate->title ?? '';
                     $data = [
                         'body' => $insurance->insurancemailtemplate->description ?? '',
@@ -418,7 +418,7 @@ class StripePaymentController extends Controller
                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
                             ];
 
-                            $invoiceCopyEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                            $invoiceCopyEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                             // Mail::send('email.invoice_mail', $invoiceEmailData, function ($message) use ($billingEmail, $invoiceFilePath, $invoiceCopyEmails, $purchase) {
                             //     $message->to($billingEmail);
