@@ -174,6 +174,7 @@
                     </div>
 
                     <!-- Insurances (Dropdown) -->
+
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
                             Insurances <span class="text-red-600">*</span>
@@ -182,7 +183,14 @@
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Choose Insurance...</option>
                             @foreach($availableInsurances as $avinsurance)
-                            <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }}</option>
+                                @php
+                                    $offer = $serviceOffers[$avinsurance->slug] ?? null;
+                                @endphp
+                                <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }} 
+                                @if($offer) 
+                                    ({{ $offer }}) 
+                                @endif
+                                </option>
                             @endforeach
                         </select>
                         @error('selectedinsuranceId')
@@ -191,18 +199,18 @@
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                        <button type="button"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                   
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Save and Next</span>
-                        </button>
-                    </div>
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
+                </div>
             </div>
             @endif
 
@@ -290,29 +298,29 @@
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                        <button type="button"
-                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                         
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Back</span>
-                        </button>
-                        <button type="button"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                           
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Save and Next</span>
-                        </button>
-                    </div>
+                    <button type="button"
+                        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
+                </div>
             </div>
             @endif
 
@@ -334,7 +342,7 @@
                             <label class="block font-semibold mb-1">
                                 Policy holder type <span class="text-red-600">*</span>
                             </label>
-                            
+
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
                                     <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
@@ -352,7 +360,7 @@
                                     <label for="policyHoldertypeThree">Both</label>
                                 </div>
                             </div>
-                            
+
                             @error('policyHoldertype')
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
@@ -360,22 +368,22 @@
                         @endif
 
                         @if(in_array($policyHoldertype, ['Company', 'Both']))
-                            <div x-show="policyHoldertype === 'Company'">
-                                <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
-                                <input type="text" placeholder="Enter..." wire:model="companyName"
-                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                                @error('companyName')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div x-show="policyHoldertype === 'Company'">
-                                <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
-                                <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                                @error('policyholderCompanyEmail')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('companyName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
                         @endif
 
                         @if(in_array($policyHoldertype, ['Individual', 'Both']))
@@ -524,7 +532,7 @@
 
                         <div>
                             <label class="block mb-1">Copy email</label>
-                            
+
                             <textarea id=""
                                 class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
                                 rows="2"></textarea>
@@ -542,33 +550,33 @@
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                        <button type="button"
-                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                        
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Back</span>
-                        </button>
+                    <button type="button"
+                        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
 
-                        <button type="button"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                         
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Save and Next</span>
-                        </button>
-                    </div>
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
+                </div>
             </div>
             @endif
- 
+
             @if($currentStep === 4)
             <div id="tab4" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
@@ -586,11 +594,11 @@
                             @enderror
                         </div>
 
-                       
+
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
-                                    class="text-red-600">*</span></label> 
+                                    class="text-red-600">*</span></label>
                             <input type="date"
                                 class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="astStartDate">
@@ -604,7 +612,7 @@
                             </label>
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
-                                    <input id="policyterm1" type="radio" wire:model="policyTerm" value="1" 
+                                    <input id="policyterm1" type="radio" wire:model="policyTerm" value="1"
                                         class="mr-1">
                                     <label for="policyterm1">1 Year</label>
                                 </div>
@@ -631,38 +639,38 @@
 
                     </div>
                     <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                            <button type="button"
-                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                         
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Back</span>
-                            </button>
+                        <button type="button"
+                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
 
-                            <button type="button"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                           
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Save and Next</span>
-                            </button>
-                        </div>
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Back</span>
+                        </button>
+
+                        <button type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Save and Next</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             @endif
 
             @if($currentStep === 5)
-            <div id="tab5" class="tab-content bg-white p-6 rounded shadow"> 
+            <div id="tab5" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details <small>(optional)</small></p>
 
@@ -698,33 +706,33 @@
                         </div>
                     </div>
                     <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                           
-                            <button type="button"
-                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                          
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Back</span>
-                            </button>
 
-                            <button type="button"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                             
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Save and Next</span>
-                            </button>
-                        </div>
+                        <button type="button"
+                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Back</span>
+                        </button>
+
+                        <button type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Save and Next</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             @endif
@@ -746,210 +754,210 @@
                             </select>
                             @error('paymentMethod')
                             <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+            @enderror
+        </div>
+</div>
+</div>
+</div>
+@endif --}}
+
+@if($currentStep === 6)
+<div id="tab7" class="tab-content bg-white p-6 rounded shadow">
+    <div class="space-y-4 mt-6">
+        <p class="font-semibold text-gray-800 text-lg mb-1">Billing Information</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Name<span class="text-red-600 text-lg">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="billingName">
+                @error('billingName')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
             </div>
-            @endif --}}
 
-            @if($currentStep === 6)
-            <div id="tab7" class="tab-content bg-white p-6 rounded shadow">
-                <div class="space-y-4 mt-6">
-                    <p class="font-semibold text-gray-800 text-lg mb-1">Billing Information</p>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Email<span class="text-red-600 text-lg">*</span></label>
+                <input type="email"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="billingEmail">
+                @error('billingEmail')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Name<span class="text-red-600 text-lg">*</span></label>
-                            <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="billingName">
-                            @error('billingName')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+            <div>
+                <label class="block mb-1">Copy email</label>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Email<span class="text-red-600 text-lg">*</span></label>
-                            <input type="email"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="billingEmail">
-                            @error('billingEmail')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <textarea id=""
+                    class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyBillingEmail"
+                    rows="2"></textarea>
+                <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send invoice to additional people other than billing email</p>
+            </div>
 
-                        <div>
-                            <label class="block mb-1">Copy email</label>
-                            
-                            <textarea id=""
-                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyBillingEmail"
-                                rows="2"></textarea>
-                            <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send invoice to additional people other than billing email</p>
-                        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="billingPhone">
+                @error('billingPhone')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
-                            <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="billingPhone">
-                            @error('billingPhone')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Address One<span class="text-red-600 text-lg">*</span></label>
+                <input type="text" placeholder="Enter address..." wire:model="billingAddressOne"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                @error('billingAddressOne')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Address One<span class="text-red-600 text-lg">*</span></label>
-                            <input type="text" placeholder="Enter address..." wire:model="billingAddressOne"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('billingAddressOne')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Address Two</label>
+                <input type="text" placeholder="Enter address..." wire:model="billingAddressTwo"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                @error('billingAddressTwo')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Address Two</label>
-                            <input type="text" placeholder="Enter address..." wire:model="billingAddressTwo"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('billingAddressTwo')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Billing Postcode<span class="text-red-600 text-lg">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="billingPostcode">
+                @error('billingPostcode')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Postcode<span class="text-red-600 text-lg">*</span></label>
-                            <input type="text"
-                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="billingPostcode">
-                            @error('billingPostcode')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        {{-- <div>
+            {{-- <div>
                             <label class="block text-sm font-medium text-gray-700">Pon No</label>
                             <input type="text"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="ponNo">
                             @error('ponNo')
                             <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div> --}}
+            @enderror
+        </div> --}}
 
-                        <!-- <div>
+        <!-- <div>
                             <label class="block">
                                 <span class="text-sm text-gray-600">Send Invoice</span>
                                 <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600"> 
                             </label>
                         </div> -->
-                    </div>
-                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                            
-                            <button type="button"
-                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                               
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Back</span>
-                            </button>
+    </div>
+    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
 
-                            <button type="button"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                              
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Save and Next</span>
-                            </button>
-                        </div>
-                </div>
-            </div>
-            @endif
+        <button type="button"
+            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
 
-            @if($currentStep === 7)
-            <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
-                <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
+            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                    stroke-width="4">
+                </circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Back</span>
+        </button>
 
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($summaryData as $key => $value)
-                        <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                            <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
-                            <p class="text-gray-800 text-base">{{ $value }}</p>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                  
-                        <button type="button"
-                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                          
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Back</span>
-                        </button>
+        <button type="button"
+            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
 
-                        <button type="button"
-                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                           
-                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                            </svg>
-                            <span>Submit</span>
-                        </button>
-                    </div>
-            </div>
-            @endif
-        </div>
+            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                    stroke-width="4">
+                </circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Save and Next</span>
+        </button>
+    </div>
+</div>
+</div>
+@endif
 
-        <div class="pt-3 flex justify-center gap-3 border-t">
-            @if($currentStep > 1)
-            <button type="button" wire:click="previousStep" wire:loading.attr="disabled"
-                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                <span wire:loading wire:target="previousStep" class="inline">
-                    <svg class="animate-spin h-4 w-4 text-gray-600 inline-flex" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                    </svg>
-                    Loading...
-                </span>
-                <span wire:loading.remove wire:target="previousStep">Back</span>
-            </button>
-            @endif
+@if($currentStep === 7)
+<div id="tab8" class="tab-content bg-white p-6 rounded shadow">
+    <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
 
-            @if($currentStep < 7)
-                <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
-                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                <span wire:loading wire:target="nextStep" class="inline">
-                    <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                    </svg>
-                    Loading...
-                </span>
-                <span wire:loading.remove wire:target="nextStep">Next</span>
-                </button>
-                @else
-                {{--<button type="button" wire:click="submitForm" wire:loading.attr="disabled"
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            @foreach($summaryData as $key => $value)
+            <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
+                <p class="text-gray-800 text-base">{{ $value }}</p>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+
+        <button type="button"
+            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                </circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Back</span>
+        </button>
+
+        <button type="button"
+            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                </circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Submit</span>
+        </button>
+    </div>
+</div>
+@endif
+</div>
+
+<div class="pt-3 flex justify-center gap-3 border-t">
+    @if($currentStep > 1)
+    <button type="button" wire:click="previousStep" wire:loading.attr="disabled"
+        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+        <span wire:loading wire:target="previousStep" class="inline">
+            <svg class="animate-spin h-4 w-4 text-gray-600 inline-flex" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Loading...
+        </span>
+        <span wire:loading.remove wire:target="previousStep">Back</span>
+    </button>
+    @endif
+
+    @if($currentStep < 7)
+        <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
+        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+        <span wire:loading wire:target="nextStep" class="inline">
+            <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Loading...
+        </span>
+        <span wire:loading.remove wire:target="nextStep">Next</span>
+        </button>
+        @else
+        {{--<button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
                 <span wire:loading wire:target="submitForm" class="inline">
                     <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -961,31 +969,31 @@
                 </span>
                 <span wire:loading.remove wire:target="submitForm">Submit</span> 
             </button>--}}
-                @endif
+        @endif
 
-                @if($currentStep == 7)
-                <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
-                    class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                    <span wire:loading wire:target="submitForm" class="inline">
-                        <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                        </svg>
-                        Loading...
-                    </span>
-                    <span wire:loading.remove wire:target="submitForm">Submit</span>
-                    <span wire:loading.remove wire:target="submitForm">
-                    </span>
-                    
-                    <!-- <span wire:loading.remove wire:target="submitForm">
+        @if($currentStep == 7)
+        <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
+            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+            <span wire:loading wire:target="submitForm" class="inline">
+                <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                Loading...
+            </span>
+            <span wire:loading.remove wire:target="submitForm">Submit</span>
+            <span wire:loading.remove wire:target="submitForm">
+            </span>
+
+            <!-- <span wire:loading.remove wire:target="submitForm">
                         {{ Auth()->check() ? 'Pay Now' : 'Submit' }}
                     </span> -->
 
 
-                </button>
-                @endif
-        </div>
-    </section>
+        </button>
+        @endif
+</div>
+</section>
 
 </div>

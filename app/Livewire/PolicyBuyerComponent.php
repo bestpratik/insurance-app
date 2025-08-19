@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
 use App\Models\Invoice;
+use App\Models\Service;
 use Carbon\Carbon;
 use App\Mail\InsuranceBillingEmail;
 use App\Mail\InvoiceMail;
@@ -27,6 +28,7 @@ class PolicyBuyerComponent extends Component
     public $insuranceDetails;
     public $availableInsurances;
     public $productType;
+    public $serviceOffers;
 
     // Step 2: Property info
     public $insuranceType;
@@ -96,6 +98,8 @@ class PolicyBuyerComponent extends Component
         $this->isInvoice = true;
 
         $this->availableInsurances = Insurance::where('purchase_mode', 'Online')->get();
+        $this->serviceOffers = Service::pluck('offer', 'page_slug')->toArray();
+        // dd($this->serviceOffers);
 
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;
