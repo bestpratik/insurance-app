@@ -431,7 +431,7 @@
                                         <img src="{{asset('bank-transper.jpg')}}" alt="Bank Transfer" class="h-20 mb-1" />
                                     </div>
                                 </label>
-
+ 
                                 <!-- Stripe -->
                                 <label class="cursor-pointer">
                                     <input type="radio" name="paymentMethod" value="stripe" wire:model="paymentMethod"
@@ -463,7 +463,7 @@
                                         <span class="text-sm font-medium text-center text-green-800">Paid</span>
                                     </div>
                                 </label>
-
+ 
                                 <!-- Unpaid -->
                                 <label class="cursor-pointer">
                                     <input type="radio" name="paymentStatus" value="Unpaid" wire:model="paymentStatus" 
