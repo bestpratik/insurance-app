@@ -397,7 +397,7 @@
         </div>
     </div>
     @endif
-    <!--Resend Invoice modal end-->
+    <!--Resend Invoice modal end--> 
 
 
     <!-- modal  -->
@@ -442,7 +442,7 @@
                             <div class="flex items-center space-x-6">
                                 <!-- Paid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="1" wire:model="paymentStatus"
+                                    <input type="radio" name="paymentStatus" value="Paid" wire:model="paymentStatus"
                                         class="peer hidden" />
                                     <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
                                         <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -456,7 +456,7 @@
 
                                 <!-- Unpaid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="0" wire:model="paymentStatus"
+                                    <input type="radio" name="paymentStatus" value="Pending" wire:model="paymentStatus"
                                         class="peer hidden" />
                                     <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
                                         <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
