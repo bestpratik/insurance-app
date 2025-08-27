@@ -193,7 +193,7 @@
                             <option value="{{ $avinsurance->id }}">
                                 {{ $avinsurance->name }}
                                 @if($avinsurance->services->count())
-                                ({{ $avinsurance->services->pluck('offer')->join(', ') }})
+                                ({{ $avinsurance->services->pluck('offer')->join(', ') }}) 
                                 @endif
                             </option>
                             @endforeach

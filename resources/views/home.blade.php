@@ -75,14 +75,18 @@
     <section class="bg-gray-100 py-16">
         <div class="max-w-4xl mx-auto px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                @foreach ($service as $row)
+                @foreach ($service as $row) 
                 <div
                     class="bg-white rounded-xl shadow-md overflow-hidden relative group transition transform hover:scale-[1.005] hover:shadow-xl">
+
 
                     <div class="relative">
                         <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection"
                             class="w-full h-68 object-cover">
-                    </div>
+                        <div class="absolute bottom-4 left-4 bg-red-100 text-red-700 px-4 py-1 rounded-lg text-sm font-bold shadow-md">
+                           £ {{ $row->insurance->payable_amount }}
+                        </div>
+                    </div> 
 
                     <div class="p-6">
                         @if ($row->offer)
@@ -96,12 +100,13 @@
 
                         <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
                         <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
+
                         <div class="flex gap-2 justify-between">
                             <a href="{{ route('service.details', $row->page_slug) }}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-10">Know more</span>
                             </a>
-                            
+
                             <a href="{{ route('policy.buyer', $row->page_slug) }}"
                                 class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-1">Buy Now</span>
