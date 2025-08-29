@@ -56,9 +56,16 @@ class FrontController extends Controller
 
     public function service_details($page_slug)
     {
-        $service = Service::where('page_slug', $page_slug)->firstOrFail();
+        $service = Service::with('insurance.staticdocuments')
+            ->where('page_slug', $page_slug)
+            ->firstOrFail();
+
         return view('service_details', compact('service'));
     }
+
+
+
+
 
     // public function policyBuyer()
     // {

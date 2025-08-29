@@ -55,6 +55,33 @@
 
                 <!-- Features -->
                 <h2 class="text-xl font-semibold text-gray-800 mb-3">{!! $service->description !!}</h2>
+
+                @if($service->insurancedocuments->count())
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Insurance Documents</h3>
+                    <ul class="space-y-2">
+                        @foreach($service->insurancedocuments as $doc)
+                        @php
+                        $documentUrl = asset('uploads/insurance_document/' . $doc->document);
+                        $extension = pathinfo($doc->document, PATHINFO_EXTENSION);
+                        @endphp
+                        <li class="flex items-center">
+                            @if(in_array(strtolower($extension), ['doc','docx']))
+                            <x-heroicon-o-document-text class="h-6 w-6 text-blue-800 mr-2" />
+                            @elseif(strtolower($extension) === 'pdf')
+                            <x-heroicon-o-document class="h-6 w-6 text-red-600 mr-2" />
+                            @else
+                            <x-heroicon-o-document class="h-6 w-6 text-gray-600 mr-2" />
+                            @endif
+                            <a href="{{ $documentUrl }}" target="_blank" class="text-blue-600 hover:underline">
+                                {{ $doc->title }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>

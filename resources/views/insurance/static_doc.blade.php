@@ -16,7 +16,7 @@
             <div class="card-body flex-fill mx-md-4">
                 @include('insurance.menu')
 
-
+ 
 
 
                 @if($message = Session::get('onboarderror'))

@@ -23,4 +23,11 @@ class Service extends Model
     {
         return $this->belongsTo(Insurance::class, 'insurance_id');
     }
+
+    public function insurancedocuments()
+    {
+        return $this->insurance->staticdocuments();
+    }
+
+    
 }
