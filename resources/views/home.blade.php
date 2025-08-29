@@ -82,7 +82,7 @@
 
                     <div class="relative">
                         <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection"
-                            class="w-full h-68 object-cover">
+                            class="w-full h-64 object-cover rounded-t-xl">
                         <div class="absolute bottom-4 left-4 bg-red-100 text-red-700 px-4 py-1 rounded-lg text-sm font-bold shadow-md">
                            £ {{ $row->insurance->payable_amount }}
                         </div>
