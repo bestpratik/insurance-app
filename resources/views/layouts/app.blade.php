@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{'Money Wise Plc'}}</title>
+    <title>{{'Moneywise Investments Plc'}}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -64,7 +64,7 @@
                     <div class="sidebar-logo flex items-center">
                         <img src="{{asset('logo.jpg')}}" alt="logo" style="max-width: 180px; margin: 0 auto;">
                         {{-- <span class="ml-2 text-xl font-semibold text-gray-900 sidebar-text">
-                                {{ config('app.name', 'Laravel') }}
+                                {{ config('app.name', 'Moneywise Investments Plc') }}
                             </span> --}}
                     </div>
                     <button id="toggle-sidebar"
