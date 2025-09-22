@@ -548,6 +548,7 @@ class PolicyBuyerComponent extends Component
             $pdfDynamicval[] = $purchase->ipt;
             $pdfDynamicval[] = $purchase->gross_premium;
             $pdfDynamicval[] = $purchase->rent_amount;
+            $pdfDynamicval[] = $purchase->payable_amount;
             $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
 
             $insurartitle = "";
@@ -602,6 +603,7 @@ class PolicyBuyerComponent extends Component
             $bodyValue[] = $purchase->ipt;
             $bodyValue[] = $purchase->gross_premium;
             $bodyValue[] = $purchase->rent_amount;
+            $bodyValue[] = $purchase->payable_amount;
             $bodyValue[] = $riskAddress;
             $bodyValue[] = $insurartitle;
             $bodyValue[] = $insurance->details_of_cover;

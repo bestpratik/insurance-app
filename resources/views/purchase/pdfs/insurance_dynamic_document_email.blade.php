@@ -44,8 +44,8 @@
         '%netAnnualpremium%' => $data['templatebodyValue'][7],
         '%insurancePremiumtax%' => number_format($insurancePremiumTax, 2),
         '%grossPremium%' => number_format($grossPremium, 2),
-        '%payableAmount%' => number_format($payableAmount, 2), // new placeholder
         '%rentAmount%' => $data['templatebodyValue'][10],
+        '%payableAmount%' => number_format($payableAmount, 2), // new placeholder
         '%riskAddress%' => $data['templatebodyValue'][11],
         '%insurerTitle%' => $data['templatebodyValue'][12],
         '%detailsofCover%' => $data['templatebodyValue'][13],

@@ -53,6 +53,7 @@ class InsuranceController extends Controller
             $pdfDynamicval[] = $insurance->ipt;
             $pdfDynamicval[] = $insurance->gross_premium;
             $pdfDynamicval[] = $insurance->rent_amount;
+            $pdfDynamicval[] = $insurance->payable_amount;
 
             $riskAddress = $purchase->door_no.' '.$purchase->address_one.' '.$purchase->address_two.' '.$purchase->address_three.' '.$purchase->post_code;
 
@@ -109,6 +110,7 @@ class InsuranceController extends Controller
             $bodyValue[] = $insurance->ipt;
             $bodyValue[] = $insurance->gross_premium;
             $bodyValue[] = $insurance->rent_amount;
+            $bodyValue[] = $insurance->payable_amount;
             $bodyValue[] = $riskAddress;
             $bodyValue[] = $insurartitle;
 
