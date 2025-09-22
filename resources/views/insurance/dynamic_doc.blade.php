@@ -112,6 +112,13 @@
                             class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">Rent
                             Amount</button>
 
+
+                         <input type="hidden" value="%payableAmount%" id="payableAmount">
+                        <button onclick="myFunction('payableAmount')" type="button"
+                            class="flex items-center justify-between text-center rounded-md  px-3 py-1 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            Payble Amount
+                        </button>
+
                         <!-- new add -->
                         <input type="hidden" value="%riskAddress%" id="riskAddress">
                         <button onclick="myFunction('riskAddress')" type="button"
