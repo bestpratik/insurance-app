@@ -485,4 +485,11 @@ class FrontController extends Controller
         $terms = Content::first();
         return view('terms_conditions', compact('terms'));
     }
+
+    public function policy_referral_form()
+    {
+          return view('policy_referral_form');
+    }
 }
+
+

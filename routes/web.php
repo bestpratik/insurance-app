@@ -49,6 +49,7 @@ Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name
 // Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('policy-buyer/{slug}', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
+Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form');
 
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
