@@ -3,8 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+
 use App\Models\Insurance;
-use App\Models\Purchase;
+use App\Models\Policyreferralform;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use App\Mail\InsuranceBillingEmail;
@@ -15,18 +16,23 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use Illuminate\Support\Str;
 
-use Illuminate\Validation\Rule; 
+use Illuminate\Validation\Rule;
 
-class ReferralForm extends Component
+class PolicyReferralFormComponent extends Component
 {
+    public $successMessage = '';
     public $currentStep = 1;
 
     public $selectedinsuranceId;
     public $insuranceDetails;
     public $availableInsurances;
     public $productType;
+    public $insurancesRequired;
+
 
     // Step 2: Property info
+    public $yearOfPurchase;
+    public $yearOfBuild;
     public $insuranceType;
     public $rentAmount;
     public $doorNo;
@@ -83,113 +89,16 @@ class ReferralForm extends Component
     // Step 7: Summary data
     public $summaryData = [];
 
-      public function mount()
+    public function mount()
     {
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'Please log in to continue.');
-        //     redirect()->route('user.login');
-        // }
 
         $this->policyTerm = 1;
         $this->isInvoice = true;
 
-        $this->availableInsurances = Insurance::where('purchase_mode', 'Online')->get();
-
-        if ($this->availableInsurances) {
-            $this->insuranceDetails = $this->availableInsurances;
-            // dd($this->insuranceDetails);
-        }
-
-        // if (session()->pull('resume_summary')) {
-        //     $this->currentStep = 8;
-        //     // $this->prepareSummaryData();
-        //     if (Auth::check()) {
-        //         $latestPurchase = Purchase::where('user_id', Auth::id())->latest()->first();
-        //         if ($latestPurchase) {
-        //             $this->selectedinsuranceId = $latestPurchase->insurance_id;
-        //             $this->fetchInsuranceDetails(); 
-        //             $this->prepareSummaryData();
-        //         }
-        //     }
-        // }
-
-
-        if (session()->pull('resume_summary')) {
-            $this->currentStep = 7;
-
-            // Try using the guest token first (if user just logged in)
-            $guestToken = session()->pull('guest_purchase_token');
-
-            $purchase = null;
-
-            if ($guestToken) {
-                $purchase = Purchase::where('token', $guestToken)->first();
-            } elseif (Auth::check()) {
-                $purchase = Purchase::where('user_id', Auth::id())->latest()->first();
-            }
-
-            if ($purchase) {
-                // Populate Livewire properties from Purchase
-                $this->selectedinsuranceId = $purchase->insurance_id;
-                $this->fetchInsuranceDetails();
-
-                $this->productType = $purchase->product_type;
-                $this->insuranceType = $purchase->insurance_type;
-                $this->rentAmount = $purchase->rent_amount;
-                $this->doorNo = $purchase->door_no;
-                $this->addressOne = $purchase->address_one;
-                $this->addressTwo = $purchase->address_two;
-                $this->addressThree = $purchase->address_three;
-                $this->postCode = $purchase->post_code;
-                $this->policyHoldertype = $purchase->policy_holder_type;
-
-                $this->companyName = $purchase->company_name;
-                $this->policyholderCompanyEmail = $purchase->policy_holder_company_email;
-
-                $this->policyholderTitle = $purchase->policy_holder_title;
-                $this->policyholderFirstName = $purchase->policy_holder_fname;
-                $this->policyholderLastName = $purchase->policy_holder_lname;
-                $this->policyholderEmail = $purchase->policy_holder_email;
-
-                $this->policyholderPhone = $purchase->policy_holder_phone;
-                $this->policyholderAlternativePhone = $purchase->policy_holder_alternative_phone;
-                $this->policyholderPostcode = $purchase->policy_holder_postcode;
-
-                $this->copyEmail = $purchase->copy_email;
-                $this->policyholderAddress1 = $purchase->policy_holder_address_one;
-                $this->policyholderAddress2 = $purchase->policy_holder_address_two;
-
-                $this->policyStartDate = $purchase->policy_start_date;
-                $this->astStartDate = $purchase->ast_start_date;
-                $this->purchaseDate = $purchase->purchase_date;
-                $this->policyTerm = $purchase->policy_term;
-
-                $this->tenantName = $purchase->tenant_name;
-                $this->tenantPhone = $purchase->tenant_phone;
-                $this->tenantEmail = $purchase->tenant_email;
-
-                // $this->paymentMethod = $purchase->payment_method;
-
-                // Load invoice data (billing)
-                $invoice = $purchase->invoice;
-                if ($invoice) {
-                    $this->billingName = $invoice->billing_name;
-                    $this->billingEmail = $invoice->billing_email;
-                    $this->copyBillingEmail = $invoice->copy_email;
-                    $this->billingPhone = $invoice->billing_phone;
-                    $this->billingAddressOne = $invoice->billing_address_one;
-                    $this->billingAddressTwo = $invoice->billing_address_two;
-                    $this->billingPostcode = $invoice->billing_postcode;
-                    $this->ponNo = $invoice->pon;
-                    $this->isInvoice = $invoice->is_invoice;
-                }
-
-                $this->prepareSummaryData(); // Now all data is loaded
-            }
-        }
+        $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')->get();
     }
 
-     public function updatedSelectedinsuranceId($value)
+    public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
     }
@@ -215,6 +124,7 @@ class ReferralForm extends Component
             return [
                 'productType' => 'required',
                 'selectedinsuranceId' => 'required|exists:insurances,id',
+                'insurancesRequired' => 'required|in:Home Emergency,Malicious Damage/Contents',
             ];
         } elseif ($step == 2) {
             return [
@@ -234,10 +144,22 @@ class ReferralForm extends Component
                         }
                     },
                 ],
+                // 'yearOfPurchase' => 'required_if:insurancesRequired,Malicious Damage/Contents|digits:4',
+                // 'yearOfBuild' => 'required_if:insurancesRequired,Malicious Damage/Contents|digits:4',
                 'doorNo' => 'required|string',
                 'addressOne' => 'required|string',
                 'postCode' => 'required|string',
             ];
+
+            if (
+                is_array($this->insurancesRequired) &&
+                in_array('Malicious Damage/Contents', $this->insurancesRequired)
+            ) {
+                $rules['yearOfPurchase'] = 'required|digits:4';
+                $rules['yearOfBuild']    = 'required|digits:4';
+            }
+
+            return $rules;
         } elseif ($step == 3) {
             $rules = [
                 'policyHoldertype' => ['required', Rule::in(['Company', 'Individual', 'Both'])],
@@ -245,14 +167,14 @@ class ReferralForm extends Component
 
             if ($this->policyHoldertype === 'Company') {
                 $rules['companyName'] = 'required|string';
-                $rules['policyholderCompanyEmail'] = 'required|string';
+                $rules['policyholderCompanyEmail'] = 'required|email';
                 $rules['policyholderPostcode'] = 'required|string';
                 $rules['policyholderPhone'] = 'required|string';
             } elseif ($this->policyHoldertype === 'Individual') {
                 $rules['policyholderTitle'] = 'required|string';
                 $rules['policyholderFirstName'] = 'required|string';
                 $rules['policyholderLastName'] = 'required|string';
-                $rules['policyholderEmail'] = 'required|string';
+                $rules['policyholderEmail'] = 'required|email';
                 $rules['policyholderPhone'] = 'required|string';
             }
 
@@ -350,7 +272,184 @@ class ReferralForm extends Component
         ];
     }
 
-        public function submitForm()
+    private function resetForm()
+    {
+        $this->reset([
+            'selectedinsuranceId',
+            'insuranceDetails',
+            'productType',
+            'insurancesRequired',
+            'yearOfPurchase',
+            'yearOfBuild',
+            'insuranceType',
+            'rentAmount',
+            'doorNo',
+            'addressOne',
+            'addressTwo',
+            'addressThree',
+            'postCode',
+            'policyHoldertype',
+            'companyName',
+            'policyholderTitle',
+            'policyholderFirstName',
+            'policyholderLastName',
+            'policyholderEmail',
+            'policyholderPhone',
+            'policyholderCompanyEmail',
+            'policyholderAlternativePhone',
+            'policyholderAddress1',
+            'policyholderAddress2',
+            'policyholderPostcode',
+            'copyEmail',
+            'policyStartDate',
+            'astStartDate',
+            'policyTerm',
+            'tenantName',
+            'tenantPhone',
+            'tenantEmail',
+            'billingName',
+            'billingEmail',
+            'copyBillingEmail',
+            'billingPhone',
+            'billingAddressOne',
+            'billingAddressTwo',
+            'billingPostcode',
+            'ponNo',
+        ]);
+
+        $this->currentStep = 1; // go back to first step
+    }
+
+    // public function submitForm()
+    // {
+    //     $allRules = array_merge(
+    //         $this->rulesForStep(1),
+    //         $this->rulesForStep(2),
+    //         $this->rulesForStep(3),
+    //         $this->rulesForStep(4),
+    //         $this->rulesForStep(5),
+    //         $this->rulesForStep(6),
+    //         // $this->rulesForStep(7)
+    //     );
+
+    //     $this->validate($allRules);
+
+    //     $userId = Auth::id();
+
+    //     $purchase = new Policyreferralform();
+    //     $purchase->user_id = $userId;
+    //     $purchase->insurance_id = $this->selectedinsuranceId;
+    //     $purchase->insurances_required = $this->insurancesRequired;
+    //     $purchase->year_of_purchase = $this->yearOfPurchase;
+    //     $purchase->year_of_build = $this->yearOfBuild;
+    //     $purchase->product_type = $this->productType;
+    //     $purchase->insurance_type = $this->insuranceType;
+    //     $purchase->rent_amount = $this->rentAmount;
+    //     $purchase->door_no = $this->doorNo;
+    //     $purchase->address_one = $this->addressOne;
+    //     $purchase->address_two = $this->addressTwo;
+    //     $purchase->address_three = $this->addressThree;
+    //     $purchase->post_code = $this->postCode;
+    //     $purchase->policy_holder_type = $this->policyHoldertype;
+    //     $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
+    //     $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
+
+
+    //     // ✅ Save Company details if Company or Both
+    //     if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
+    //         $purchase->company_name = $this->companyName;
+    //         $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
+    //     }
+
+    //     // ✅ Save Individual details if Individual or Both
+    //     if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
+    //         $purchase->policy_holder_title = $this->policyholderTitle;
+    //         $purchase->policy_holder_fname = $this->policyholderFirstName;
+    //         $purchase->policy_holder_lname = $this->policyholderLastName;
+    //         $purchase->policy_holder_email = $this->policyholderEmail;
+    //     }
+
+    //     $purchase->policy_holder_phone = $this->policyholderPhone;
+    //     $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
+    //     $purchase->policy_holder_postcode = $this->policyholderPostcode;
+    //     $this->copyEmail = preg_replace('/[\s,]+/', ' ', $this->copyEmail);
+    //     $purchase->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyEmail)))
+    //         ->filter()
+    //         ->map(fn($email) => trim($email))
+    //         ->unique()
+    //         ->implode(',');
+
+    //     $purchase->policy_holder_address_one = $this->policyholderAddress1;
+    //     $purchase->policy_holder_address_two = $this->policyholderAddress2;
+    //     $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
+
+    //     $purchase->policy_start_date = $this->policyStartDate;
+    //     $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
+    //     $purchase->ast_start_date = $this->astStartDate;
+    //     $purchase->purchase_date = now();
+    //     $purchase->policy_term = $this->policyTerm;
+
+
+    //     $purchase->net_premium = $this->insuranceDetails->net_premium;
+    //     $purchase->commission = $this->insuranceDetails->commission;
+    //     $purchase->gross_premium = $this->insuranceDetails->gross_premium;
+    //     $purchase->ipt = $this->insuranceDetails->ipt;
+    //     $purchase->total_premium = $this->insuranceDetails->total_premium;
+    //     $purchase->payable_amount = $this->insuranceDetails->payable_amount;
+    //     $purchase->ipt_on_billable_amount = $this->insuranceDetails->ipt_on_billable_amount;
+    //     $purchase->admin_fee = $this->insuranceDetails->admin_fee;
+
+
+
+    //     // $purchase->purchase_date = now();
+    //     // $purchase->payable_amount = $this->premiumAmount;
+
+    //     $purchase->tenant_name = $this->tenantName;
+    //     $purchase->tenant_phone = $this->tenantPhone;
+    //     $purchase->tenant_email = $this->tenantEmail;
+
+    //     // $purchase->payment_method = $this->paymentMethod;
+
+
+
+    //     // dd($purchase);
+    //     $purchase->save();
+
+    //     $invoice = new Invoice();
+    //     $invoice->purchase_id = $purchase->id;
+    //     $invoice->billing_name = $this->billingName;
+    //     $invoice->billing_email = $this->billingEmail;
+    //     $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
+    //     $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
+    //         ->filter()
+    //         ->map(fn($email) => trim($email))
+    //         ->unique()
+    //         ->implode(',');
+    //     $invoice->billing_phone = $this->billingPhone;
+    //     $invoice->billing_address_one = $this->billingAddressOne;
+    //     $invoice->billing_address_two = $this->billingAddressTwo;
+    //     $invoice->billing_postcode = $this->billingPostcode;
+    //     $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+    //     $invoice->pon = $this->ponNo;
+
+    //     $curDate = date('Y-m-d');
+    //     $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
+    //     $invoice->payment_due_date = $payment_due_date;
+
+    //     $invoice->invoice_no = $purchase->id;
+    //     $invoice->invoice_date  = $curDate;
+
+
+    //     $invoice->is_invoice = 1;
+
+    //     $invoice->save();
+
+    //     $this->resetForm();
+    //     return redirect()->route('referral.purchase.success');
+    // }
+
+
+    public function submitForm()
     {
         $allRules = array_merge(
             $this->rulesForStep(1),
@@ -358,32 +457,19 @@ class ReferralForm extends Component
             $this->rulesForStep(3),
             $this->rulesForStep(4),
             $this->rulesForStep(5),
-            $this->rulesForStep(6),
-            // $this->rulesForStep(7)
+            $this->rulesForStep(6)
         );
 
         $this->validate($allRules);
 
-        // $insurance = Insurance::find($this->selectedinsuranceId);
-        // $validityDays = $insurance->validity;
+        $userId = Auth::id();
 
-        // $policyStart = Carbon::parse($this->policyStartDate);
-        // $policyEnd = $policyStart->copy()->addDays($validityDays);
-        // $this->policyEndDate = $policyEnd->toDateString();
-
-        $userId = Auth::id();;
-        // dd($userId);
-
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-        //     return redirect()->route('user.login');
-        // }
-
-
-
-        $purchase = new Purchase();
+        $purchase = new Policyreferralform();
         $purchase->user_id = $userId;
         $purchase->insurance_id = $this->selectedinsuranceId;
+        $purchase->insurances_required = $this->insurancesRequired;
+        $purchase->year_of_purchase = $this->yearOfPurchase;
+        $purchase->year_of_build = $this->yearOfBuild;
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
         $purchase->rent_amount = $this->rentAmount;
@@ -393,23 +479,12 @@ class ReferralForm extends Component
         $purchase->address_three = $this->addressThree;
         $purchase->post_code = $this->postCode;
         $purchase->policy_holder_type = $this->policyHoldertype;
-        $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
-        $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
 
-        // $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
-        // $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
-        // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
-        // $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
-        // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
-        // $purchase->policy_holder_email = $this->policyholderEmail;
-
-        // ✅ Save Company details if Company or Both
+        // Company/Individual info
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
             $purchase->company_name = $this->companyName;
             $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
         }
-
-        // ✅ Save Individual details if Individual or Both
         if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
             $purchase->policy_holder_title = $this->policyholderTitle;
             $purchase->policy_holder_fname = $this->policyholderFirstName;
@@ -420,133 +495,32 @@ class ReferralForm extends Component
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
-        $this->copyEmail = preg_replace('/[\s,]+/', ' ', $this->copyEmail);
-        $purchase->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyEmail)))
-            ->filter()
-            ->map(fn($email) => trim($email))
-            ->unique()
-            ->implode(',');
-
-        $purchase->policy_holder_address_one = $this->policyholderAddress1;
-        $purchase->policy_holder_address_two = $this->policyholderAddress2;
         $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
-
         $purchase->policy_start_date = $this->policyStartDate;
         $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->purchase_date = now();
         $purchase->policy_term = $this->policyTerm;
 
-
+        // Premium
         $purchase->net_premium = $this->insuranceDetails->net_premium;
         $purchase->commission = $this->insuranceDetails->commission;
         $purchase->gross_premium = $this->insuranceDetails->gross_premium;
         $purchase->ipt = $this->insuranceDetails->ipt;
         $purchase->total_premium = $this->insuranceDetails->total_premium;
         $purchase->payable_amount = $this->insuranceDetails->payable_amount;
-        $purchase->ipt_on_billable_amount = $this->insuranceDetails->ipt_on_billable_amount;
         $purchase->admin_fee = $this->insuranceDetails->admin_fee;
-
-
-
-        // $purchase->purchase_date = now();
-        // $purchase->payable_amount = $this->premiumAmount;
 
         $purchase->tenant_name = $this->tenantName;
         $purchase->tenant_phone = $this->tenantPhone;
         $purchase->tenant_email = $this->tenantEmail;
 
-        // $purchase->payment_method = $this->paymentMethod;
-
-        if (!$userId) {
-            $guestToken = (string) Str::uuid();
-            $purchase->token  = $guestToken;
-            session()->put('guest_purchase_token', $guestToken);
-        }
-
-        // dd($purchase);
         $purchase->save();
 
-        $invoice = new Invoice();
-        $invoice->purchase_id = $purchase->id;
-        $invoice->billing_name = $this->billingName;
-        $invoice->billing_email = $this->billingEmail;
-        $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
-        $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
-            ->filter()
-            ->map(fn($email) => trim($email))
-            ->unique()
-            ->implode(',');
-        $invoice->billing_phone = $this->billingPhone;
-        $invoice->billing_address_one = $this->billingAddressOne;
-        $invoice->billing_address_two = $this->billingAddressTwo;
-        $invoice->billing_postcode = $this->billingPostcode;
-        $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-        $invoice->pon = $this->ponNo;
+        $this->successMessage = "Form submitted successfully!";
 
-        $curDate = date('Y-m-d');
-        $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
-        $invoice->payment_due_date = $payment_due_date;
-
-        $invoice->invoice_no = $purchase->id;
-        $invoice->invoice_date  = $curDate;
-
-
-        $invoice->is_invoice = 1 ;
-
-        $invoice->save();
-
-
-
-        //Policy holder email send
-        $this->send_email_one($purchase->id);
-
-        if($invoice->is_invoice == 1){
-
-            $this->send_email_two($purchase->id);
-        }
-
-        return redirect()->route('referral.purchase.success');
-
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->flash('error', 'You must be logged in to complete your purchase.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->put('guest_redirect_intended', url()->current());
-        //     return redirect()->route('user.register');
-        // }
-
-        // if (!$userId) {
-        //     $guestToken = (string) Str::uuid();
-        //     $purchase->token  = $guestToken;
-        //     $purchase->save();
-
-        //     session()->put('guest_purchase_token', $guestToken);
-        //     session()->put('resume_summary', true);
-
-        //     return redirect()->route('user.register');
-        // }
-
-        // ✅ Store purchase ID in session
-        // session()->put('pending_purchase_id', $purchase->id);
-
-        // ✅ Redirect to Stripe
-        // return redirect()->route('stripe.booking');
-
-        // return redirect()->route('front.purchase.success');
-
-
-        // session()->flash('message', 'Insurance purchase successfully created!');
-        // return redirect()->route('purchase.success');
+        $this->resetForm(); // optional: reset form
     }
-
 
     //Policy holder email
     public function send_email_one($purchaseId)
@@ -717,7 +691,7 @@ class ReferralForm extends Component
 
     public function send_email_two($purchaseId)
     {
-        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+        $purchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
 
         if (!$purchase) {
             return 'Purchase not found.';
@@ -780,8 +754,9 @@ class ReferralForm extends Component
     }
 
 
+
     public function render()
     {
-        return view('livewire.referral-form'); 
+        return view('livewire.policy-referral-form-component');
     }
 }

@@ -16,13 +16,14 @@
                 </div>
             </div>
         </section>
+        
 
         <!-- TAB MENU -->
-
+         <livewire:policy-referral-form-component /> 
         <!-- SCRIPT -->
         <!-- <script>
         const tabButtons = document.querySelectorAll(".tab-btn");
-        const tabContents = document.querySelectorAll(".tab-content");
+        const tabContents = document.querySelectorAll(".tab-content"); 
 
         tabButtons.forEach(button => {
             button.addEventListener("click", (e) => {

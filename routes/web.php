@@ -49,11 +49,11 @@ Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name
 // Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('policy-buyer/{slug}', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
-Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form');
+Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form'); 
 
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
-Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login');
+Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login'); 
 Route::post('user-login-submit', [FrontController::class, 'loginSubmit'])->name('user.login.submit');
 // Route::get('front-dashboard', [FrontController::class, 'frontDashboard'])->name('dashboard.frontend');
 
@@ -114,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
 // Route::middleware(['auth'])->group(function () {
 
 //     Route::get('front-dashboard', function () {
@@ -163,7 +164,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Route::get('purchase-success', [PurchaseController::class, 'successPage'])->name('purchase.success');
 
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');   
-    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');  
+    Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');   
 
    
 
