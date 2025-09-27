@@ -372,6 +372,7 @@
             </div>
             @endif
 
+            {{--
             @if($currentStep === 3)
             <div id="tab3" class="tab-content bg-white p-6 rounded shadow">
                 <div class="grid grid-cols-1 gap-4 mt-6" x-data="{ policyHoldertype: @entangle('policyHoldertype') }">
@@ -562,6 +563,260 @@
                             <textarea id=""
                                 class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
                                 rows="2"></textarea>
+
+                            <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"> -->
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+                    <button type="button"
+                        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
+                </div>
+            </div>
+            @endif
+            --}}
+
+              @if($currentStep === 3)
+            <div id="tab3" class="tab-content bg-white p-6 rounded shadow">
+                <div class="grid grid-cols-1 gap-4 mt-6" x-data="{ policyHoldertype: @entangle('policyHoldertype') }">
+                    <!-- <p class="font-bold mb-0">Can we have the policy holder information?</p> -->
+                    <p class="text-gray-700 mb-4">
+                        <!-- This is the person who will make the claim. If the property is managed, enter the managing
+                        agent's
+                        information. -->
+
+                        This is the person who will make the claim. If the property is managed, enter the managing agent's information and whomever the tenancy agreement is under (Landlord name)
+                    </p>
+
+                    <div class="grid md:grid-cols-3 gap-4">
+                        @if($productType != 'Agent')
+                        <div>
+                            <label class="block font-semibold mb-1">
+                                Policy holder type <span class="text-red-600">*</span>
+                            </label>
+
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center">
+                                    <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
+                                        class="mr-1">
+                                    <label for="policyHoldertypeOne">Company</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="policyHoldertypeTwo" type="radio" x-model="policyHoldertype"
+                                        value="Individual" class="mr-1">
+                                    <label for="policyHoldertypeTwo">Individual</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="policyHoldertypeThree" type="radio" x-model="policyHoldertype"
+                                        value="Both" class="mr-1">
+                                    <label for="policyHoldertypeThree">Both</label>
+                                </div>
+                            </div>
+
+                            @error('policyHoldertype')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @endif
+
+                        @if(in_array($policyHoldertype, ['Company', 'Both']))
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('companyName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @endif
+
+                        @if(in_array($policyHoldertype, ['Individual', 'Both']))
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
+                            <select wire:model="policyholderTitle"
+                                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            @error('policyholderTitle')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderFirstName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderLastName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
+                            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
+                            <select wire:model="policyholderTitle"
+                                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            @error('policyholderTitle')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderFirstName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderLastName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
+                            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('companyName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @endif
+
+                        <div>
+                            <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderPhone"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderPhone')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Alternative Phone</label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderAlternativePhone"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Address1</label>
+                            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress1"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Address2</label>
+                            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress2"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Postcode<span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderPostcode')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block mb-1">Copy email</label>
+
+                            <textarea id=""
+                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
+                                rows="2"></textarea>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send documents to additional people other than policy holder</p>
 
                             <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"> -->

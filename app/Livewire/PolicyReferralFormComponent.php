@@ -98,6 +98,13 @@ class PolicyReferralFormComponent extends Component
         $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')->get();
     }
 
+    public function updatedProductType($value)
+    {
+        if ($value === 'Agent') {
+            $this->policyHoldertype = 'Both';
+        }
+    }
+
     public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
