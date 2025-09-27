@@ -33,4 +33,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(Purchase::class);
     }
+
+     public function policyreferralform()
+    {
+        return $this->belongsTo(Policyreferralform::class);
+    }
 }
