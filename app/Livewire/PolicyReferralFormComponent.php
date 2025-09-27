@@ -517,15 +517,16 @@ class PolicyReferralFormComponent extends Component
 
         $purchase->save();
 
-        $this->successMessage = "Form submitted successfully!";
+        // $this->successMessage = "Form submitted successfully!";
 
         $this->resetForm(); // optional: reset form
+        return redirect()->route('policy-referral.success');
     }
 
     //Policy holder email
     public function send_email_one($purchaseId)
     {
-        $purchase = Purchase::with('invoice')->findorfail($purchaseId);
+        $purchase = Policyreferralform::with('invoice')->findorfail($purchaseId);
         if ($purchase) {
             $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
             //Load all documents
@@ -581,7 +582,7 @@ class PolicyReferralFormComponent extends Component
                         'templatebodyValue' => $pdfDynamicval
                     );
 
-                    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
+                    $pdf = PDF::loadView('purchase.pdfs.policy_referral_dynamic_document_email', ['data' => $data]);
                     $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
@@ -656,7 +657,7 @@ class PolicyReferralFormComponent extends Component
                     }
                 }
 
-                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                Mail::send('email.policy_referral_email', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
                     $messages->to($sendToemails);
                     $messages->subject($email_subject);
                     $messages->cc($ccEmails);
@@ -697,7 +698,7 @@ class PolicyReferralFormComponent extends Component
             return 'Purchase not found.';
         }
 
-        $pdf = PDF::loadView('insurance.referral_invoice', compact('purchase'))->setPaper('a4');
+        $pdf = PDF::loadView('insurance.policy_referral_invoice', compact('purchase'))->setPaper('a4');
         $pdfContent = $pdf->output();
 
         // Define filename and path
@@ -757,6 +758,10 @@ class PolicyReferralFormComponent extends Component
 
     public function render()
     {
-        return view('livewire.policy-referral-form-component');
+        // return view('livewire.policy-referral-form-component');
+
+        return view('livewire.policy-referral-form-component', [
+            'availableInsurances' => Insurance::with('services')->get(),
+        ]);
     }
 }

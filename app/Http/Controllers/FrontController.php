@@ -6,6 +6,7 @@ use App\Models\About;
 use App\Models\Banner;
 use App\Models\Client;
 use App\Models\Contact;
+use App\Models\Policyreferralform;
 use App\Models\Fact;
 use App\Models\Service;
 use App\Models\Insurance;
@@ -100,7 +101,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId'));
+        return view('policy_buyer', compact('insuranceId')); 
     }
 
 
@@ -281,6 +282,18 @@ class FrontController extends Controller
         // dd($purchase);
         return view('referral_success_page');
     }
+
+    public function policyReferralSuccessPage(Request $request)
+    {
+        $purchaseId = $request->get('purchase_id');
+        // dd($purchaseId);
+        $purchase = Policyreferralform::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+        // dd($purchase);
+
+        return view('policy_referral_success_page', compact('purchaseId', 'purchase'));
+    }
+
+ 
 
     public function logout()
     {

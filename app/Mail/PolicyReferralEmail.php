@@ -9,10 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InsuranceBillingEmail extends Mailable
+class PolicyReferralEmail extends Mailable
 {
     use Queueable, SerializesModels;
-     
+
     public $invoice;
     public $finalContent;
 
@@ -20,10 +20,12 @@ class InsuranceBillingEmail extends Mailable
      * Create a new message instance.
      */
     public function __construct($invoice,$finalContent)
-    { 
+    {
         $this->invoice = $invoice;
         $this->finalContent = $finalContent;
     }
+
+   
 
     /**
      * Get the message envelope.
@@ -31,17 +33,17 @@ class InsuranceBillingEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Insurance Billing Email',
+            subject: 'Policy Referral Email',
         );
     }
 
     /**
-     * Get the message content definition. 
+     * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'email.insurance_billing',
+            view: 'email.policy_referral_email',
         );
     }
 

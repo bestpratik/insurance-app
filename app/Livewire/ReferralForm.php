@@ -673,7 +673,7 @@ class ReferralForm extends Component
                     return filter_var($email, FILTER_VALIDATE_EMAIL);
                 });
 
-                $ccEmails = array_merge(['aanuradham.dbt@gmail.com'], $validCopyEmails);
+                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                 foreach ($sendToemails as $email) {
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

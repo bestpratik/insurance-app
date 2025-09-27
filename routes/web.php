@@ -93,7 +93,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('front-purchase-success', [FrontController::class, 'frontSuccessPage'])->name('front.purchase.success'); 
-    Route::get('referral-purchase-success', [FrontController::class, 'referralSuccessPage'])->name('referral.purchase.success');   
+    Route::get('referral-purchase-success', [FrontController::class, 'referralSuccessPage'])->name('referral.purchase.success'); 
+  
     Route::get('fornt-logout', [FrontController::class, 'logout'])->name('user.logout'); 
 
     Route::get('policy-detail-page/{id}', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page'); 
@@ -111,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
+  Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');  
 
 
 
@@ -134,10 +135,14 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard'); 
 
 Route::get('insurance-invoice/{purchase_id}', [PurchaseController::class, 'downloadInvoice'])->name('insurance.invoice.genarate');
+Route::get('referral-invoice/{purchase_id}', [PurchaseController::class, 'referralDownloadInvoice'])->name('referral.invoice.genarate');
+
     // Route::get('/insurance/static-document/pdf/{id}', [PurchaseController::class, 'generateStaticDocumentPdf'])->name('static.document.generate.pdf');
 
     // Route::get('insurance/document/{id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
 Route::get('/insurance-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'downloadDynamicDocument'])->name('insurance.document.download');
+Route::get('/referral-document-download/{purchase_id}/{document_id}', [PurchaseController::class, 'referralDownloadDynamicDocument'])->name('referral.document.download');
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

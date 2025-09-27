@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Policyreferralform extends Model
 {
@@ -66,4 +67,35 @@ class Policyreferralform extends Model
         'created_at',
         'updated_at',
     ];
+
+    
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    public function insurance(){
+        return $this->belongsTo(Insurance::class, 'insurance_id');
+    }
+
+     public function provider(){
+        return $this->belongsTo(Provider::class, 'provider_type');
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+
+    
 }

@@ -55,6 +55,10 @@ class Insurance extends Model
         return $this->belongsTo(Purchase::class, 'id');
     }
 
+     public function policyreferralform()
+    {
+        return $this->belongsTo(Policyreferralform::class, 'id');
+    }
 
     public function staticdocuments()
     {

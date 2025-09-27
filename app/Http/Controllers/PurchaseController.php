@@ -7,6 +7,7 @@ use App\Models\Purchase;
 use App\Models\Provider;
 use App\Models\Insurance;
 use App\Models\Insurancedocument;
+use App\Models\Policyreferralform;
 use App\Models\Insurancedynamicdocument;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -234,8 +235,81 @@ class PurchaseController extends Controller
     return $pdf->download($dynamicDocument->title . '.pdf');
 }
 
+
+    public function referralDownloadDynamicDocument($purchase_id, $document_id)
+{
+    $insurancePurchase = Policyreferralform::with('insurance')->findOrFail($purchase_id);
+    $dynamicDocument = Insurancedynamicdocument::findOrFail($document_id);
+
+    $insurartitle = "";
+    if ($insurancePurchase->policy_holder_type == 'Company') {
+        $insurartitle = $insurancePurchase->company_name;
+    } elseif ($insurancePurchase->policy_holder_type == 'Individual') {
+        $insurartitle = $insurancePurchase->policy_holder_title . ' ' . $insurancePurchase->policy_holder_fname . ' ' . $insurancePurchase->policy_holder_lname;
+    } else {
+        $insurartitle = $insurancePurchase->company_name . '/' . $insurancePurchase->policy_holder_title . ' ' . $insurancePurchase->policy_holder_fname . ' ' . $insurancePurchase->policy_holder_lname;
+    }
+
+    $dynamicValues = [
+        '%InsuranceName%' => $insurancePurchase->insurance->name,
+        '%policyNo%' => $insurancePurchase->policy_no,
+        '%policyHolderAddress1%' => $insurancePurchase->policy_holder_address_one . ' ' . $insurancePurchase->policy_holder_address_two . ' ' . $insurancePurchase->policy_holder_post_code,
+        '%riskAddress%' => $insurancePurchase->door_no . ' ' . $insurancePurchase->address_one . ' ' . $insurancePurchase->address_two . ' ' . $insurancePurchase->address_three . ' ' . $insurancePurchase->post_code,
+        '%policyStartdate%' => \Carbon\Carbon::parse($insurancePurchase->policy_start_date)->format('d F Y'),
+        '%policyEnddate%' => \Carbon\Carbon::parse($insurancePurchase->policy_end_date)->format('d F Y'),
+        '%purchaseDate%' => \Carbon\Carbon::parse($insurancePurchase->purchase_date)->format('d F Y'),
+        '%insurerTitle%' => $insurartitle ?? '',
+        '%insurerDescription%' => $insurancePurchase->insurance->insurer_description ?? '',
+        '%policyTerm%' => $insurancePurchase->policy_term,
+        '%netAnnualpremium%' => $insurancePurchase->insurance->net_premium,
+        '%insurancePremiumtax%' => $insurancePurchase->insurance->ipt,
+        '%grossPremium%' => $insurancePurchase->insurance->gross_premium,
+        '%rentAmount%' => $insurancePurchase->rent_amount,
+        '%payableAmount%' => $insurancePurchase->payable_amount,
+        // new add
+        '%detailsofCover%' => $insurancePurchase->insurance->details_of_cover,
+        
+
+
+    ];
+
+    $templateBody = str_replace(array_keys($dynamicValues), array_values($dynamicValues), $dynamicDocument->description);
+
+    $data = [
+        'templateTitle' => $dynamicDocument->title,
+        'templateHeader' => $dynamicDocument->header,
+        'templateBody' => $templateBody,
+        'templateFooter' => $dynamicDocument->footer,
+    ];
+
+    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document', compact('data')); 
+
+    return $pdf->download($dynamicDocument->title . '.pdf');
+}
+
 public function downloadInvoice($purchase_id){
     $purchase = Purchase::with(['insurance','insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
+    $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    // return $pdf->download('policy_invoice.pdf');
+
+    $pdfContent = $pdf->output();
+
+    // Define filename and path
+    $fileName = 'policy_invoice_' . $purchase_id . '.pdf';
+    $directory = public_path('uploads/invoice');
+    $filePath = $directory . '/' . $fileName;
+
+    if (!File::exists($directory)) {
+        File::makeDirectory($directory, 0755, true);
+    }
+
+    file_put_contents($filePath, $pdfContent);
+
+    return response()->download($filePath); 
+}
+
+public function referralDownloadInvoice($purchase_id){
+    $purchase = Policyreferralform::with(['insurance','insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
     // return $pdf->download('policy_invoice.pdf');
 
