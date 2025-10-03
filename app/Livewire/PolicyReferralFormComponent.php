@@ -132,7 +132,7 @@ class PolicyReferralFormComponent extends Component
                 'productType' => 'required',
                 'selectedinsuranceId' => 'required|exists:insurances,id',
                 // 'insurancesRequired' => 'required|in:Home Emergency,Malicious Damage/Contents',
-                'insurancesRequired' => 'array|min:1',
+                'insurancesRequired' => 'array',
                 'insurancesRequired.*' => Rule::in(['Home Emergency', 'Malicious Damage/Contents']),
 
             ];
