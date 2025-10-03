@@ -867,7 +867,7 @@ class PolicyReferralFormComponent extends Component
         // CC Emails
         $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
         $validCopyEmails = array_values(array_filter($copyEmails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
-        $ccEmails = array_merge(['aanuradham.dbt@gmail.com'], $validCopyEmails);
+        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
         // ======================
         // Send Email
@@ -1002,7 +1002,7 @@ class PolicyReferralFormComponent extends Component
         $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
         $validCopyEmails = array_filter($copyEmails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
-        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
         // ========================
         // Prepare Email Content
