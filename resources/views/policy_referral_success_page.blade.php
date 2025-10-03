@@ -8,7 +8,7 @@
                 <path class="stroke-current" fill="none" stroke-width="3"
                     d="M14.1 27.2l7.1 7.2 16.7-16.8" />
             </svg>
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance successfully purchased!</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Referral form successfully submitted!</h2>
             <p class="text-gray-600 mb-6">Thank You</p>
 
             {{-- Documents and Invoice (All in one line) --}}

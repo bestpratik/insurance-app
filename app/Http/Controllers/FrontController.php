@@ -101,7 +101,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId')); 
+        return view('policy_buyer', compact('insuranceId'));
     }
 
 
@@ -283,17 +283,37 @@ class FrontController extends Controller
         return view('referral_success_page');
     }
 
-    public function policyReferralSuccessPage(Request $request)
-    {
-        $purchaseId = $request->get('purchase_id');
-        // dd($purchaseId);
-        $purchase = Policyreferralform::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
-        // dd($purchase);
+    // public function policyReferralSuccessPage(Request $request)
+    // {
+    //     // $purchaseId = $request->get('purchase_id');
+    //     // $purchase = Policyreferralform::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
 
-        return view('policy_referral_success_page', compact('purchaseId', 'purchase'));
+    //     $purchaseId = $request->get('purchase_id');
+
+    //     $purchase = Policyreferralform::with([
+    //         'insurance.staticdocuments',
+    //         'insurance.dynamicdocument',
+    //         'invoice'
+    //     ])->find($purchaseId);
+
+    //     // Check if purchase exists
+    //     if (!$purchase) {
+    //         return redirect()->route('home')->with('error', 'Purchase not found.');
+    //     }
+
+    //     return view('policy_referral_success_page', compact('purchaseId', 'purchase'));
+    // }
+
+
+    public function policyReferralSuccessPage($purchaseId)
+    {
+        //dd($purchaseId);
+        $purchase = Policyreferralform::find($purchaseId);
+
+        return view('policy_referral_success_page', compact('purchase'));
     }
 
- 
+
 
     public function logout()
     {
@@ -501,8 +521,6 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-          return view('policy_referral_form');
+        return view('policy_referral_form');
     }
 }
-
-

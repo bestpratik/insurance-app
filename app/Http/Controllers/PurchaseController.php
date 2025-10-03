@@ -312,6 +312,7 @@ public function referralDownloadInvoice($purchase_id){
     $purchase = Policyreferralform::with(['insurance','insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($purchase_id);
     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
     // return $pdf->download('policy_invoice.pdf');
+    
 
     $pdfContent = $pdf->output();
 

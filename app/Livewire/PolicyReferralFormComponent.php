@@ -27,7 +27,7 @@ class PolicyReferralFormComponent extends Component
     public $insuranceDetails;
     public $availableInsurances;
     public $productType;
-    public $insurancesRequired;
+    public $insurancesRequired = [];
 
 
     // Step 2: Property info
@@ -131,7 +131,10 @@ class PolicyReferralFormComponent extends Component
             return [
                 'productType' => 'required',
                 'selectedinsuranceId' => 'required|exists:insurances,id',
-                'insurancesRequired' => 'required|in:Home Emergency,Malicious Damage/Contents',
+                // 'insurancesRequired' => 'required|in:Home Emergency,Malicious Damage/Contents',
+                'insurancesRequired' => 'array|min:1',
+                'insurancesRequired.*' => Rule::in(['Home Emergency', 'Malicious Damage/Contents']),
+
             ];
         } elseif ($step == 2) {
             return [
@@ -474,7 +477,8 @@ class PolicyReferralFormComponent extends Component
         $purchase = new Policyreferralform();
         $purchase->user_id = $userId;
         $purchase->insurance_id = $this->selectedinsuranceId;
-        $purchase->insurances_required = $this->insurancesRequired;
+        // $purchase->insurances_required = $this->insurancesRequired;
+        $purchase->insurances_required = implode(',', $this->insurancesRequired);
         $purchase->year_of_purchase = $this->yearOfPurchase;
         $purchase->year_of_build = $this->yearOfBuild;
         $purchase->product_type = $this->productType;
@@ -525,7 +529,7 @@ class PolicyReferralFormComponent extends Component
         $purchase->save();
 
         $invoice = new Invoice();
-        $invoice->purchase_id = $purchase->id;
+        $invoice->policyreferralform_id = $purchase->id;
         $invoice->billing_name = $this->billingName;
         $invoice->billing_email = $this->billingEmail;
         $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
@@ -553,7 +557,7 @@ class PolicyReferralFormComponent extends Component
 
         $invoice->save();
 
-        // $this->successMessage = "Form submitted successfully!";
+        // $this->successMessage = "Form submitted successfully!"; 
 
         $this->send_email_one($purchase->id);
 
@@ -562,8 +566,10 @@ class PolicyReferralFormComponent extends Component
             $this->send_email_two($purchase->id);
         }
 
-        $this->resetForm(); // optional: reset form
-        return redirect()->route('policy-referral.success');
+        $this->resetForm();
+        // return redirect()->route('policy-referral.success');
+        	return redirect()->route('policy-referral.success', ['purchase_id' => $purchase->id]);
+            
     }
 
     //Policy holder email

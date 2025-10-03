@@ -112,8 +112,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-  Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');  
+//   Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');  
 
+
+Route::get('policy-referral/success/{purchase_id}', [FrontController::class, 'policyReferralSuccessPage'])
+    ->name('policy-referral.success');
 
 
 // Route::middleware(['auth'])->group(function () {
@@ -157,7 +160,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/all-purchase-list', function () { 
         return view('purchase.all_list'); 
-    })->name('purchase.list'); 
+    })->name('purchase.list');  
+
+    Route::get('/all-referral-list', function () { 
+        return view('purchase.referral_list'); 
+    })->name('referral.list');  
 
 
     Route::get('/all-purchase-cancel-list', function () {
