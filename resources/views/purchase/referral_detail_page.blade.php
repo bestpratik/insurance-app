@@ -10,7 +10,7 @@
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4">
                 <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-800">View Referral Details</h3>
+                        <h3 class="text-lg font-semibold text-gray-800">Referral Forms Details View</h3>
                     </div>
                 </div>
 

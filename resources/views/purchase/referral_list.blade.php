@@ -13,7 +13,7 @@
 
                     <div>
                         <h3 class="text-lg font-semibold  /90">
-                            All Referrals
+                            List of Referral Forms
                         </h3>
                     </div>
 
