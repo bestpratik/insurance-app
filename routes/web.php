@@ -178,7 +178,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');   
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');   
 
-   
+    Route::get('referral/details/{id}', [PurchaseController::class, 'referralDetailsPage'])->name('referral.details');   
+
+    Route::get('referral-pdf/{id}', [PurchaseController::class, 'referrralForm_pdf'])->name('referral.download');
 
     Route::get('insurance/pricing/{uuid}', [InsuranceController::class, 'insurance_pricing'])->name('insurance.pricing');
     Route::post('insurance/pricing/submit/{uuid}', [InsuranceController::class, 'insurance_pricing_submit'])->name('insurance.pricing.submit');

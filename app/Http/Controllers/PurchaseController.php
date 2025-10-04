@@ -140,6 +140,31 @@ class PurchaseController extends Controller
         return view('purchase.detail_page', compact('purchase'));  
     }
 
+      public function referralDetailsPage($id){
+        
+        $referral = Policyreferralform::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
+        // dd($purchase);
+        return view('purchase.referral_detail_page', compact('referral'));  
+    }
+
+    function referrralForm_pdf($id)
+    {
+        $referral = Policyreferralform::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->where('id', $id)->first();
+
+        $rawAddress = implode('_', array_filter([
+            $referral->door_no,
+            $referral->address_one,
+            $referral->address_two ?: null,
+            $referral->address_three ?: null,
+        ]));
+
+        // $formattedAddress = str_replace(' ', '_', $rawAddress);
+        $filename = 'Referral' . $rawAddress . '.pdf';
+
+        $pdf = PDF::loadView('purchase.referral_pdf', compact('referral'))->setPaper('a4', 'portrait');
+        return $pdf->download($filename);
+    }
+
     //  public function downloadDynamicDocument($id)
     // {
         

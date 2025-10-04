@@ -1,6 +1,7 @@
 <div class="p-4">
     <!-- Filter Section -->
-    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+     
+    <!-- <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label>
             <input type="text" wire:model.live="policyNo" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
@@ -54,7 +55,7 @@
             <input type="text" wire:model.live="tenantEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
 
-    </div>
+    </div> -->
 
 
 
@@ -87,61 +88,25 @@
                             Sl No
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Policy No
+                            Property Address
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Insurance
+                            Tenancy Term
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Insurance Price
-                        </th>
-                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Payble Amount
-                        </th>--}}
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Providers
+                            Referral Date
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Policy Term
+                            Landlord or Agent
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Property
+                            Name
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Rent Amount
+                            Contact No
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Landlord/Agency
-                        </th>
-                        {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Landlord/Agency Address
-                        </th> --}}
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Landlord/Agency Email
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Policy Start Date
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Policy End Date
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            AST Start Date
-                        </th>
-                        {{--<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Days Inspected
-                        </th>--}}
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Purchase Date
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Purchased By
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Invoice No
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Purchase Mode
+                            Email Address
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
@@ -155,134 +120,48 @@
                             {{ $row->id }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_no ?? 'N/A' }}
+                            {{ implode(', ', array_filter([
+                                                    $row->door_no,
+                                                    $row->address_one,
+                                                    $row->address_two ?: null,
+                                                    $row->address_three ?: null,
+                                                    $row->post_code
+                                                ])) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->insurance)
-                            {{ $row->insurance->name }}
-                            @endif
+                            {{ $row->policy_term }} year
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->insurance)
-                            {{ $row->insurance->total_premium }}
-                            @endif
-                        </td>
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->insurance->payable_amount ?? '' }}
-                        </td>--}}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->insurance && $row->insurance->provider)
-                            {{ $row->insurance->provider->name }}
-                            @endif
+                           {{ \Carbon\Carbon::parse($row->ast_start_date)->format('jS M Y') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_term }}
+                            {{ $row->product_type }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->door_no.' '.$row->address_one.' '.$row->address_two.' '.$row->address_three.' '.$row->post_code }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->rent_amount }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->policy_holder_type == 'Company')
-                            {{ $row->company_name }}
-                            @elseif($row->policy_holder_type == 'Individual')
-                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            @if($row->policy_holder_type === 'Individual')
+                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                            @elseif($row->policy_holder_type === 'Company')
+                                {{ $row->contact_person_name }}
                             @else
-                            {{ $row->company_name }} <br>
-                            {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
+                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
                             @endif
                         </td>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_address }}
-                        </td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $row->policy_holder_phone }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $row->policy_holder_email }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ date('jS F Y', strtotime($row->policy_start_date)) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ date('jS F Y', strtotime($row->policy_end_date)) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ date('jS F Y', strtotime($row->ast_start_date)) }}
-                        </td>
-                        {{--<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @php
-                            $target_date_one = strtotime($row->purchase_date);
-                            $target_date_two = strtotime($row->policy_start_date);
-                            $days_incepted = (($target_date_two - $target_date_one) / (60 * 60 * 24));
-                            @endphp
-                            @if($days_incepted < -5)
-                                <span class="text-red-500">{{ $days_incepted }} days</span>
-                                @else
-                                <span class="text-green-500">{{ $days_incepted }} days</span>
-                                @endif
-                        </td>--}}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ date('jS F Y', strtotime($row->purchase_date)) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            N/A
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->invoice)
-                            {{ $row->invoice->invoice_no }}
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->insurance->purchase_mode }}
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div class="flex items-center space-x-2">
-                                <a href="{{route('purchase.edit',$row->policy_no)}}" class="text-indigo-600 hover:text-indigo-900" title="Edit">
-                                    <x-heroicon-o-pencil-square class="w-5 h-5" />
-                                </a>
-                                <a href="{{route('purchase.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900" title="Details View">
+                                
+                                <a href="{{route('referral.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900" title="Details View">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
-
-                                <!-- <button wire:click="openResendModal({{ $row->id }})"
-                                    @if(in_array($row->id, $sendMail)) disabled @endif
-                                        class="text-green-600 hover:text-yellow-900 focus:outline-none"
-                                        title="Resend Documents">
-                                    <x-heroicon-o-arrow-path class="w-5 h-5" />
-                                </button> -->
-
-                                <button wire:click="openResendModal({{ $row->id }})"
-                                    @if(in_array($row->id, $sendMail)) disabled @endif
-                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
-                                    title="Resend Documents">
-                                    <x-heroicon-o-arrow-path class="w-5 h-5" />
-                                </button>
-
-                                <button wire:click="openResendInvoiceModal({{ $row->id }})"
-                                    @if(in_array($row->id, $sendMail)) disabled @endif
-                                    class="text-green-600 hover:text-yellow-900 focus:outline-none"
-                                    title="Resend Invoice">
-                                    <x-heroicon-o-paper-airplane class="w-5 h-5 text-blue-600" />
-                                </button>
-
-                                <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">
-                                    <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
-                                </a>
-
-                                <button wire:click="openPaymentCheckModal({{ $row->id }})"
-                                    class="text-green-600 hover:text-yellow-900 focus:outline-none" 
-                                    title="Check Payment">
-                                    <x-heroicon-o-check-circle class="w-5 h-5 text-green-600" />
-                                </button>
-
-                                <button wire:click="openCancelModal({{ $row->id }})"
-                                    @if(in_array($row->id, $cancelledPurchases)) disabled @endif
-                                    class="text-red-600 hover:text-red-900 focus:outline-none"
-                                    title="Cancel Purchase">
-                                    <x-heroicon-o-x-mark class="w-5 h-5" /> 
-                                </button>
-
+                               <a href="{{ route('referral.download', $row->id) }}" 
+   class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+    <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" /> Download Referral
+</a>
 
                             </div>
                         </td>

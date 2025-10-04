@@ -13,7 +13,7 @@
 
                     <div>
                         <h3 class="text-lg font-semibold  /90">
-                            All Purchases
+                            All Referrals
                         </h3>
                     </div>
 
