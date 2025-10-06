@@ -12,7 +12,7 @@
             <p class="text-gray-600 mb-6">Thank You</p>
 
             {{-- Documents and Invoice (All in one line) --}}
-            <div class="flex flex-wrap justify-center items-center gap-3 border-t p-4 mt-4">
+            <!-- <div class="flex flex-wrap justify-center items-center gap-3 border-t p-4 mt-4">
                 {{-- Static Policy Documents --}}
                 @if($purchase->insurance ?? '' && $purchase->insurance->staticdocuments->count() ?? '')
                 @foreach($purchase->insurance->staticdocuments as $doc)
@@ -51,7 +51,7 @@
                 @endif
 
 
-            </div>
+            </div> -->
         </div>
     </section>
 </x-front>
