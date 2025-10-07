@@ -20,7 +20,7 @@
                     </svg>
                 </button>
                 <div id="tabWrapper" class="overflow-x-auto no-scrollbar">
-                    <nav id="tabMenu" class="flex whitespace-nowrap space-x-1 md:space-x-2 border-b px-6 py-2">
+                    <nav id="tabMenu" class="flex justify-center whitespace-nowrap space-x-1 md:space-x-2 border-b px-6 py-2">
                         <!-- Tab Button Template -->
 
                         <a href="#" data-tab="tab1"
