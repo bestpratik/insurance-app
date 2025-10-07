@@ -188,6 +188,17 @@ class PolicyReferralFormComponent extends Component
                 $rules['policyholderPhone'] = 'required|string';
             }
 
+            if ($this->policyHoldertype === 'Both') {
+                $rules['companyName'] = 'required|string';
+                $rules['policyholderCompanyEmail'] = 'required|email';
+                $rules['policyholderTitle'] = 'required|string';
+                $rules['policyholderFirstName'] = 'required|string';
+                $rules['policyholderLastName'] = 'required|string';
+                $rules['policyholderEmail'] = 'required|email';
+                $rules['policyholderPhone'] = 'required|string';
+            }
+
+
             return $rules;
         } elseif ($step == 4) {
             return [

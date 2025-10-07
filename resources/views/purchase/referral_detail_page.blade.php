@@ -122,6 +122,7 @@
                                         </div>
                                     </div>
 
+                                    @if(!empty($referral->tenant_name || $referral->tenant_email || $referral->tenant_phone))
                                     <div class="border rounded-lg">
                                         <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Tenant Details</div>
                                         <div class="p-4 text-sm text-gray-700 space-y-1">
@@ -130,6 +131,7 @@
                                             <div>{{ $referral->tenant_phone ?? '' }}</div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <!-- Billing Department -->
