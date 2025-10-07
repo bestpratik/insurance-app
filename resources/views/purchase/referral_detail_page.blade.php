@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                             <!-- Billing Department -->
-                            <div class="border rounded-lg">
+                            <!-- <div class="border rounded-lg">
                                 <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Billing Details</div>
                                 <table class="w-full text-sm text-gray-700">
                                     <thead class="bg-gray-100 text-left">
@@ -157,7 +157,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> -->
+
+
                             <!-- Static Policy Documents -->
                             <!-- <div class="border rounded-lg">
                                 <div class="px-4 py-2 font-semibold">Static Policy Documents</div>

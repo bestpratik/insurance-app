@@ -112,11 +112,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-//   Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');  
+  Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');  
 
 
-Route::get('policy-referral/success/{purchase_id}', [FrontController::class, 'policyReferralSuccessPage'])
-    ->name('policy-referral.success');
+// Route::get('policy-referral/success/{purchase_id}', [FrontController::class, 'policyReferralSuccessPage'])
+//     ->name('policy-referral.success');
 
 
 // Route::middleware(['auth'])->group(function () {

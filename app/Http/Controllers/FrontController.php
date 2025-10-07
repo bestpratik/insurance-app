@@ -305,14 +305,20 @@ class FrontController extends Controller
     // }
 
 
-    public function policyReferralSuccessPage($purchaseId)
+    // public function policyReferralSuccessPage($purchaseId)
+    // {
+    //     //dd($purchaseId);
+    //     $purchase = Policyreferralform::find($purchaseId);
+
+    //     return view('policy_referral_success_page', compact('purchase'));
+    // }
+
+
+    public function policyReferralSuccessPage()
     {
-        //dd($purchaseId);
-        $purchase = Policyreferralform::find($purchaseId);
 
-        return view('policy_referral_success_page', compact('purchase'));
+        return view('policy_referral_success_page');
     }
-
 
 
     public function logout()
@@ -521,6 +527,6 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-        return view('policy_referral_form');
+        return view('policy_referral_form'); 
     }
 }

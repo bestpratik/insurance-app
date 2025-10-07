@@ -231,7 +231,7 @@
 
                     <!-- Billing Details  -->
 
-                    <tr>
+                    {{-- <tr>
                         <th colspan="2" class="section-header">Billing Details</th>
                     </tr>
 
@@ -254,7 +254,7 @@
                     <tr>
                         <th>Billing Contact:</th>
                         <td>{{$referral->invoice->billing_phone}}</td>
-                    </tr>
+                    </tr> --}}
                     <!-- <tr>
                         <th>Contact Person Name:</th>
                         <td>{{$referral->contact_person_name}}</td>

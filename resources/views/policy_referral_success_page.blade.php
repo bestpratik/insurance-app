@@ -11,47 +11,7 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-2">Referral form successfully submitted!</h2>
             <p class="text-gray-600 mb-6">Thank You</p>
 
-            {{-- Documents and Invoice (All in one line) --}}
-            <!-- <div class="flex flex-wrap justify-center items-center gap-3 border-t p-4 mt-4">
-                {{-- Static Policy Documents --}}
-                @if($purchase->insurance ?? '' && $purchase->insurance->staticdocuments->count() ?? '')
-                @foreach($purchase->insurance->staticdocuments as $doc)
-                <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}"
-                    target="_blank"
-                    class="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-blue-700 text-sm px-3 py-2 rounded space-x-1 border">
-                    <x-heroicon-o-document-text class="h-5 w-5 text-red-600" />
-                    <span>{{ $doc->title ?? '' }}</span>
-                </a>
-                @endforeach
-                @endif
-
-                {{-- Dynamic Policy Documents --}}
-                @if(!empty($purchase->insurance->dynamicdocument))
-                @foreach($purchase->insurance->dynamicdocument as $document)
-                <a href="{{ route('referral.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
-                    target="_blank"
-                    class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">
-                    <x-heroicon-o-document-text class="h-5 w-5 text-white" />
-                    <span>{{ $document->title ?? '' }}</span>
-                </a>
-                @endforeach
-                @endif
-
-                {{-- Invoice --}}
-
-                @if($purchase)
-                <a href="{{ route('referral.invoice.genarate', $purchase->id) }}"
-                    target="_blank"
-                    class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-2 rounded space-x-1">
-                    <x-heroicon-o-document-text class="h-5 w-5 text-white" />
-                    <span>Download Invoice</span>
-                </a>
-                @else
-                <p>No purchase found.</p>
-                @endif
-
-
-            </div> -->
+           
         </div>
     </section>
 </x-front>

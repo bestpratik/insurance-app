@@ -74,14 +74,14 @@ class PolicyReferralFormComponent extends Component
     // public $paymentMethod;
 
     // Step 6: Biling Department
-    public $billingName;
-    public $billingEmail;
+    // public $billingName;
+    // public $billingEmail;
     public $copyBillingEmail;
-    public $billingPhone;
-    public $billingAddressOne;
-    public $billingAddressTwo;
-    public $billingPostcode;
-    public $ponNo;
+    // public $billingPhone;
+    // public $billingAddressOne;
+    // public $billingAddressTwo;
+    // public $billingPostcode;
+    // public $ponNo;
 
     public $isInvoice;
     public $curDate;
@@ -160,7 +160,7 @@ class PolicyReferralFormComponent extends Component
                 'addressOne' => 'required|string',
                 'postCode' => 'required|string',
             ];
-
+ 
             if (
                 is_array($this->insurancesRequired) &&
                 in_array('Malicious Damage/Contents', $this->insurancesRequired)
@@ -209,15 +209,17 @@ class PolicyReferralFormComponent extends Component
         //         'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
         //     ];
         // }
-        elseif ($step == 6) {
-            return [
-                'billingName' => 'required|string',
-                'billingEmail' => 'required|email',
-                'billingPhone' => 'required',
-                'billingAddressOne' => 'required|string',
-                'billingPostcode' => 'required'
-            ];
-        }
+
+
+        // elseif ($step == 6) {
+        //     return [
+        //         'billingName' => 'required|string',
+        //         'billingEmail' => 'required|email',
+        //         'billingPhone' => 'required',
+        //         'billingAddressOne' => 'required|string',
+        //         'billingPostcode' => 'required'
+        //     ];
+        // }
 
         return [];
     }
@@ -226,10 +228,10 @@ class PolicyReferralFormComponent extends Component
     {
         $this->validate($this->rulesForStep($this->currentStep));
 
-        if ($this->currentStep < 7) {
+        if ($this->currentStep < 6) {
             $this->currentStep++;
 
-            if ($this->currentStep === 7) {
+            if ($this->currentStep === 6) {
                 $this->prepareSummaryData();
             }
         }
@@ -248,7 +250,7 @@ class PolicyReferralFormComponent extends Component
             ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
             : '';
 
-        $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
 
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
@@ -267,12 +269,12 @@ class PolicyReferralFormComponent extends Component
             'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
 
             'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
-            'Billing Name' => $this->billingName,
-            'Billing Email' => $this->billingEmail,
-            'Billing Phone' => $this->billingPhone,
-            'Billing Postcode' => $this->billingPostcode,
-            'Billing Address' => $billingAddress,
-            'Pon No' => $this->ponNo,
+            // 'Billing Name' => $this->billingName,
+            // 'Billing Email' => $this->billingEmail,
+            // 'Billing Phone' => $this->billingPhone,
+            // 'Billing Postcode' => $this->billingPostcode,
+            // 'Billing Address' => $billingAddress,
+            // 'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
             'Tenant Name:' => $this->tenantName ?? 'N/A',
@@ -317,146 +319,18 @@ class PolicyReferralFormComponent extends Component
             'tenantName',
             'tenantPhone',
             'tenantEmail',
-            'billingName',
-            'billingEmail',
+            // 'billingName',
+            // 'billingEmail',
             'copyBillingEmail',
-            'billingPhone',
-            'billingAddressOne',
-            'billingAddressTwo',
-            'billingPostcode',
-            'ponNo',
+            // 'billingPhone',
+            // 'billingAddressOne',
+            // 'billingAddressTwo',
+            // 'billingPostcode',
+            // 'ponNo',
         ]);
 
         $this->currentStep = 1; // go back to first step
     }
-
-    // public function submitForm()
-    // {
-    //     $allRules = array_merge(
-    //         $this->rulesForStep(1),
-    //         $this->rulesForStep(2),
-    //         $this->rulesForStep(3),
-    //         $this->rulesForStep(4),
-    //         $this->rulesForStep(5),
-    //         $this->rulesForStep(6),
-    //         // $this->rulesForStep(7)
-    //     );
-
-    //     $this->validate($allRules);
-
-    //     $userId = Auth::id();
-
-    //     $purchase = new Policyreferralform();
-    //     $purchase->user_id = $userId;
-    //     $purchase->insurance_id = $this->selectedinsuranceId;
-    //     $purchase->insurances_required = $this->insurancesRequired;
-    //     $purchase->year_of_purchase = $this->yearOfPurchase;
-    //     $purchase->year_of_build = $this->yearOfBuild;
-    //     $purchase->product_type = $this->productType;
-    //     $purchase->insurance_type = $this->insuranceType;
-    //     $purchase->rent_amount = $this->rentAmount;
-    //     $purchase->door_no = $this->doorNo;
-    //     $purchase->address_one = $this->addressOne;
-    //     $purchase->address_two = $this->addressTwo;
-    //     $purchase->address_three = $this->addressThree;
-    //     $purchase->post_code = $this->postCode;
-    //     $purchase->policy_holder_type = $this->policyHoldertype;
-    //     $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
-    //     $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
-
-
-    //     // ✅ Save Company details if Company or Both
-    //     if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
-    //         $purchase->company_name = $this->companyName;
-    //         $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
-    //     }
-
-    //     // ✅ Save Individual details if Individual or Both
-    //     if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
-    //         $purchase->policy_holder_title = $this->policyholderTitle;
-    //         $purchase->policy_holder_fname = $this->policyholderFirstName;
-    //         $purchase->policy_holder_lname = $this->policyholderLastName;
-    //         $purchase->policy_holder_email = $this->policyholderEmail;
-    //     }
-
-    //     $purchase->policy_holder_phone = $this->policyholderPhone;
-    //     $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
-    //     $purchase->policy_holder_postcode = $this->policyholderPostcode;
-    //     $this->copyEmail = preg_replace('/[\s,]+/', ' ', $this->copyEmail);
-    //     $purchase->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyEmail)))
-    //         ->filter()
-    //         ->map(fn($email) => trim($email))
-    //         ->unique()
-    //         ->implode(',');
-
-    //     $purchase->policy_holder_address_one = $this->policyholderAddress1;
-    //     $purchase->policy_holder_address_two = $this->policyholderAddress2;
-    //     $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
-
-    //     $purchase->policy_start_date = $this->policyStartDate;
-    //     $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
-    //     $purchase->ast_start_date = $this->astStartDate;
-    //     $purchase->purchase_date = now();
-    //     $purchase->policy_term = $this->policyTerm;
-
-
-    //     $purchase->net_premium = $this->insuranceDetails->net_premium;
-    //     $purchase->commission = $this->insuranceDetails->commission;
-    //     $purchase->gross_premium = $this->insuranceDetails->gross_premium;
-    //     $purchase->ipt = $this->insuranceDetails->ipt;
-    //     $purchase->total_premium = $this->insuranceDetails->total_premium;
-    //     $purchase->payable_amount = $this->insuranceDetails->payable_amount;
-    //     $purchase->ipt_on_billable_amount = $this->insuranceDetails->ipt_on_billable_amount;
-    //     $purchase->admin_fee = $this->insuranceDetails->admin_fee;
-
-
-
-    //     // $purchase->purchase_date = now();
-    //     // $purchase->payable_amount = $this->premiumAmount;
-
-    //     $purchase->tenant_name = $this->tenantName;
-    //     $purchase->tenant_phone = $this->tenantPhone;
-    //     $purchase->tenant_email = $this->tenantEmail;
-
-    //     // $purchase->payment_method = $this->paymentMethod;
-
-
-
-    //     // dd($purchase);
-    //     $purchase->save();
-
-    //     $invoice = new Invoice();
-    //     $invoice->purchase_id = $purchase->id;
-    //     $invoice->billing_name = $this->billingName;
-    //     $invoice->billing_email = $this->billingEmail;
-    //     $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
-    //     $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
-    //         ->filter()
-    //         ->map(fn($email) => trim($email))
-    //         ->unique()
-    //         ->implode(',');
-    //     $invoice->billing_phone = $this->billingPhone;
-    //     $invoice->billing_address_one = $this->billingAddressOne;
-    //     $invoice->billing_address_two = $this->billingAddressTwo;
-    //     $invoice->billing_postcode = $this->billingPostcode;
-    //     $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-    //     $invoice->pon = $this->ponNo;
-
-    //     $curDate = date('Y-m-d');
-    //     $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
-    //     $invoice->payment_due_date = $payment_due_date;
-
-    //     $invoice->invoice_no = $purchase->id;
-    //     $invoice->invoice_date  = $curDate;
-
-
-    //     $invoice->is_invoice = 1;
-
-    //     $invoice->save();
-
-    //     $this->resetForm();
-    //     return redirect()->route('referral.purchase.success');
-    // }
 
 
     public function submitForm()
@@ -467,7 +341,7 @@ class PolicyReferralFormComponent extends Component
             $this->rulesForStep(3),
             $this->rulesForStep(4),
             $this->rulesForStep(5),
-            $this->rulesForStep(6)
+            // $this->rulesForStep(6)
         );
 
         $this->validate($allRules);
@@ -528,219 +402,52 @@ class PolicyReferralFormComponent extends Component
 
         $purchase->save();
 
-        $invoice = new Invoice();
-        $invoice->policyreferralform_id = $purchase->id;
-        $invoice->billing_name = $this->billingName;
-        $invoice->billing_email = $this->billingEmail;
-        $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
-        $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
-            ->filter()
-            ->map(fn($email) => trim($email))
-            ->unique()
-            ->implode(',');
-        $invoice->billing_phone = $this->billingPhone;
-        $invoice->billing_address_one = $this->billingAddressOne;
-        $invoice->billing_address_two = $this->billingAddressTwo;
-        $invoice->billing_postcode = $this->billingPostcode;
-        $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-        $invoice->pon = $this->ponNo;
+        // $invoice = new Invoice();
+        // $invoice->policyreferralform_id = $purchase->id;
+        // $invoice->billing_name = $this->billingName;
+        // $invoice->billing_email = $this->billingEmail;
+        // $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
+        // $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
+        //     ->filter()
+        //     ->map(fn($email) => trim($email))
+        //     ->unique()
+        //     ->implode(',');
+        // $invoice->billing_phone = $this->billingPhone;
+        // $invoice->billing_address_one = $this->billingAddressOne;
+        // $invoice->billing_address_two = $this->billingAddressTwo;
+        // $invoice->billing_postcode = $this->billingPostcode;
+        // $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        // $invoice->pon = $this->ponNo;
 
-        $curDate = date('Y-m-d');
-        $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
-        $invoice->payment_due_date = $payment_due_date;
+        // $curDate = date('Y-m-d');
+        // $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
+        // $invoice->payment_due_date = $payment_due_date;
 
-        $invoice->invoice_no = $purchase->id;
-        $invoice->invoice_date  = $curDate;
+        // $invoice->invoice_no = $purchase->id;
+        // $invoice->invoice_date  = $curDate;
 
 
-        $invoice->is_invoice = 1;
+        // $invoice->is_invoice = 1;
 
-        $invoice->save();
+        // $invoice->save();
 
         // $this->successMessage = "Form submitted successfully!"; 
 
         $this->send_email_one($purchase->id);
 
-        if ($invoice->is_invoice == 1) {
+        // if ($invoice->is_invoice == 1) {
 
-            $this->send_email_two($purchase->id);
-        }
+        //     $this->send_email_two($purchase->id);
+        // }
 
         $this->resetForm();
         // return redirect()->route('policy-referral.success');
-        	return redirect()->route('policy-referral.success', ['purchase_id' => $purchase->id]);
+        	// return redirect()->route('policy-referral.success', ['purchase_id' => $purchase->id]);
+            return redirect()->route('policy-referral.success');
             
     }
 
-    //Policy holder email
-    // public function send_email_one($purchaseId)
-    // {
-    //     $purchase = Policyreferralform::with('invoice')->findorfail($purchaseId);   
-
-    //     if ($purchase) {
-    //         $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
-    //         //Load all documents
-    //         // - 1. Load static documents
-    //         $allDocs = [];
-    //         if ($insurance && $insurance->staticdocuments) {
-    //             foreach ($insurance->staticdocuments as $docs) {
-    //                 $filePath = public_path('uploads/insurance_document/' . $docs->document);
-    //                 if (file_exists($filePath)) {
-    //                     $allDocs[] = $filePath;
-    //                 }
-    //             }
-    //         }
-
-    //         //PDFs dynamic value for dynamic documents
-    //         $pdfDynamicval = array();
-    //         $pdfDynamicval[] = $insurance->name;
-    //         $pdfDynamicval[] = $purchase->policy_no;
-    //         $pdfDynamicval[] = $purchase->policy_holder_address;
-    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
-    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
-    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
-    //         $pdfDynamicval[] = $purchase->policy_term;
-    //         $pdfDynamicval[] = $purchase->net_premium;
-    //         $pdfDynamicval[] = $purchase->ipt;
-    //         $pdfDynamicval[] = $purchase->gross_premium;
-    //         $pdfDynamicval[] = $purchase->rent_amount;
-    //         $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
-
-    //         $insurartitle = "";
-    //         if ($purchase->policy_holder_type == 'Company') {
-    //             $insurartitle = $purchase->company_name;
-    //         } elseif ($purchase->policy_holder_type == 'Individual') {
-    //             $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
-    //         } else {
-    //             $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
-    //         }
-
-    //         $pdfDynamicval[] = $riskAddress;
-    //         $pdfDynamicval[] = $insurartitle;
-    //         $pdfDynamicval[] = $insurance->details_of_cover;
-
-    //         // - 2. Load dynamic documents
-    //         if ($insurance && $insurance->dynamicdocument) {
-    //             foreach ($insurance->dynamicdocument as $dydocs) {
-    //                 $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
-
-    //                 $data = array(
-    //                     'templateTitle' => $dydocs->title,
-    //                     'templateBody' => $dydocs->description,
-    //                     'templateHeder' => $dydocs->header,
-    //                     'templateFooter' => $dydocs->footer,
-    //                     'templatebodyValue' => $pdfDynamicval
-    //                 );
-
-    //                 $pdf = PDF::loadView('purchase.pdfs.policy_referral_dynamic_document_email', ['data' => $data]);
-    //                 $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
-    //                 $pdf->save($pdfPath);
-    //                 if (file_exists($pdfPath)) {
-    //                     $allDocs[] = $pdfPath;
-    //                 }
-    //             }
-    //         }
-
-    //         //Load dynamic email template
-    //         /*Dynamic Value*/
-    //         $bodyValue = array();
-    //         /*Dynamic Value*/
-    //         $bodyValue[] = $insurance->name;
-    //         $bodyValue[] = $purchase->policy_no;
-    //         $bodyValue[] = $purchase->policy_holder_address;
-    //         $bodyValue[] = date('jS F Y', strtotime($purchase->policy_start_date));
-    //         $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
-    //         $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
-    //         $bodyValue[] = $purchase->policy_term;
-    //         $bodyValue[] = $purchase->net_premium;
-    //         $bodyValue[] = $purchase->ipt;
-    //         $bodyValue[] = $purchase->gross_premium;
-    //         $bodyValue[] = $purchase->rent_amount;
-    //         $bodyValue[] = $purchase->payable_amount;
-    //         $bodyValue[] = $riskAddress;
-    //         $bodyValue[] = $insurartitle;
-    //         $bodyValue[] = $insurance->details_of_cover;
-
-
-    //         $sendToemails = [];
-
-    //         if ($purchase->policy_holder_type === 'Company') {
-    //             $sendToemails[] = $purchase->policy_holder_company_email;
-    //         } elseif ($purchase->policy_holder_type === 'Individual') {
-    //             $sendToemails[] = $purchase->policy_holder_email;
-    //         } elseif ($purchase->policy_holder_type === 'Both') {
-    //             $sendToemails[] = $purchase->policy_holder_email;
-    //             $sendToemails[] = $purchase->policy_holder_company_email;
-    //         }
-
-
-    //         $sendToemails = array_filter($sendToemails, function ($email) {
-    //             return filter_var($email, FILTER_VALIDATE_EMAIL);
-    //         });
-
-    //         // dd($purchase->policy_holder_email, $purchase->policy_holder_company_email);
-
-
-    //         //Now send email
-    //         // $sendToemails = array(
-    //         //     $purchase->policy_holder_email,
-    //         // );
-    //         $email_subject = $insurance->insurancemailtemplate->title ?? '';
-    //         $data = array(
-    //             'body' => $insurance->insurancemailtemplate->description ?? '',
-    //             'bodyValue' => $bodyValue
-    //         );
-
-
-    //         try {
-
-    //             $copyEmails = explode(',', $purchase->copy_email);
-    //             $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-    //                 return filter_var($email, FILTER_VALIDATE_EMAIL);
-    //             });
-
-    //             $ccEmails = array_merge(['aanuradham.dbt@gmail.com'], $validCopyEmails);
-
-    //             foreach ($sendToemails as $email) {
-    //                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //                     throw new \Exception("Invalid To Email: $email");
-    //                     //  abort(404); 
-    //                 }
-    //             }
-
-    //             Mail::send('email.policy_referral_email', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-    //                 $messages->to($sendToemails);
-    //                 $messages->subject($email_subject);
-    //                 $messages->cc($ccEmails);
-    //                 // $messages->bcc(['bestpratik@gmail.com']);
-
-    //                 foreach ($allDocs as $attachment) {
-    //                     $messages->attach($attachment);
-    //                 }
-    //             });
-
-
-    //             // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
-    //             //     //$messages->to($user['to']); 
-    //             //     $messages->to($sendToemils);
-    //             //     $messages->subject($email_subject);
-    //             //     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
-    //             //     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
-    //             //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
-    //             //     $messages->cc($ccEmails);
-    //             //     // $messages->bcc(['bestpratik@gmail.com']);
-    //             //     foreach ($allDocs as $attachment) {
-    //             //         $messages->attach($attachment);
-    //             //     }
-    //             // });
-
-    //             return true;
-    //         } catch (Exception $e) {
-    //             return $e->getMessage();
-    //         }
-    //     }
-    // }
-
+   
     public function send_email_one($purchaseId)
     {
         $purchase = Policyreferralform::with('invoice')->findOrFail($purchaseId);
@@ -867,7 +574,7 @@ class PolicyReferralFormComponent extends Component
         // CC Emails
         $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
         $validCopyEmails = array_values(array_filter($copyEmails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
-        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
         // ======================
         // Send Email
@@ -896,139 +603,75 @@ class PolicyReferralFormComponent extends Component
     }
 
 
+
     // public function send_email_two($purchaseId)
     // {
-    //     $purchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+    //     $purchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
+    //         ->find($purchaseId);
 
     //     if (!$purchase) {
     //         return 'Purchase not found.';
     //     }
 
+    //     // ========================
+    //     // Generate Invoice PDF
+    //     // ========================
     //     $pdf = PDF::loadView('insurance.policy_referral_invoice', compact('purchase'))->setPaper('a4');
     //     $pdfContent = $pdf->output();
 
-    //     // Define filename and path
-    //     $fileName = 'referral_invoice' . $purchaseId . '.pdf';
+    //     $fileName = 'referral_invoice_' . $purchaseId . '.pdf';
     //     $directory = public_path('uploads/invoice');
     //     $filePath = $directory . '/' . $fileName;
-    //     // dd($filePath);
+
     //     if (!File::exists($directory)) {
     //         File::makeDirectory($directory, 0755, true);
     //     }
 
     //     file_put_contents($filePath, $pdfContent);
 
-    //     // Send email
-    //     $sendToBillingEmails = [$purchase->invoice->billing_email ?? ''];
-    //     // dd($sendToBillingEmails);
+    //     // ========================
+    //     // Build Recipients
+    //     // ========================
+    //     $sendToBillingEmails = [];
+    //     if (!empty($purchase->invoice->billing_email) && filter_var($purchase->invoice->billing_email, FILTER_VALIDATE_EMAIL)) {
+    //         $sendToBillingEmails[] = $purchase->invoice->billing_email;
+    //     }
+
+    //     if (empty($sendToBillingEmails)) {
+    //         return "No valid billing email found for this purchase.";
+    //     }
+
+    //     // CC Emails
+    //     $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
+    //     $validCopyEmails = array_filter($copyEmails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
+
+    //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+
+    //     // ========================
+    //     // Prepare Email Content
+    //     // ========================
     //     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
     //     $data = [
     //         'body' => 'Dear client,<br>
-    //              Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+    //               Please find attached the invoice for policy no. <strong>' . $purchase->policy_no . '</strong>.',
     //     ];
-    //     // dd($data);?\
 
+    //     // ========================
+    //     // Send Email
+    //     // ========================
     //     try {
-
-    //         $copyEmails = explode(',', $purchase->copy_email);
-    //         $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-    //             return filter_var($email, FILTER_VALIDATE_EMAIL);
-    //         });
-
-    //         $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
-
-    //         foreach ($sendToBillingEmails as $email) {
-    //             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //                 throw new \Exception("Invalid To Email: $email");
-    //                 //  abort(404); 
-    //             }
-    //         }
-
     //         Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
     //             $message->to($sendToBillingEmails);
     //             $message->subject($emailSubject);
-    //             // $message->cc(['aadatia@moneywiseplc.co.uk']);
-    //             // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
     //             $message->cc($ccEmails);
-    //             // $message->bcc(['bestpratik@gmail.com']);
     //             $message->attach($filePath);
     //         });
 
     //         return response()->download($filePath);
-    //     } catch (Exception $e) {
+    //     } catch (\Exception $e) {
     //         return $e->getMessage();
     //     }
     // }
-
-
-    public function send_email_two($purchaseId)
-    {
-        $purchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
-            ->find($purchaseId);
-
-        if (!$purchase) {
-            return 'Purchase not found.';
-        }
-
-        // ========================
-        // Generate Invoice PDF
-        // ========================
-        $pdf = PDF::loadView('insurance.policy_referral_invoice', compact('purchase'))->setPaper('a4');
-        $pdfContent = $pdf->output();
-
-        $fileName = 'referral_invoice_' . $purchaseId . '.pdf';
-        $directory = public_path('uploads/invoice');
-        $filePath = $directory . '/' . $fileName;
-
-        if (!File::exists($directory)) {
-            File::makeDirectory($directory, 0755, true);
-        }
-
-        file_put_contents($filePath, $pdfContent);
-
-        // ========================
-        // Build Recipients
-        // ========================
-        $sendToBillingEmails = [];
-        if (!empty($purchase->invoice->billing_email) && filter_var($purchase->invoice->billing_email, FILTER_VALIDATE_EMAIL)) {
-            $sendToBillingEmails[] = $purchase->invoice->billing_email;
-        }
-
-        if (empty($sendToBillingEmails)) {
-            return "No valid billing email found for this purchase.";
-        }
-
-        // CC Emails
-        $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
-        $validCopyEmails = array_filter($copyEmails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-
-        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-
-        // ========================
-        // Prepare Email Content
-        // ========================
-        $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
-        $data = [
-            'body' => 'Dear client,<br>
-                  Please find attached the invoice for policy no. <strong>' . $purchase->policy_no . '</strong>.',
-        ];
-
-        // ========================
-        // Send Email
-        // ========================
-        try {
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
-                $message->to($sendToBillingEmails);
-                $message->subject($emailSubject);
-                $message->cc($ccEmails);
-                $message->attach($filePath);
-            });
-
-            return response()->download($filePath);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
 
 
     public function render()
