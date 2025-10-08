@@ -890,7 +890,7 @@
 </div>
 @endif
 
-@if($currentStep === 7)
+@if($currentStep === 7) 
 <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
     <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
         <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>

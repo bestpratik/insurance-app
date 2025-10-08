@@ -36,7 +36,7 @@
                                         <td>{{ $referral->insurance_type ?? '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="py-1 font-medium">Product Type</td>
+                                        <td class="py-1 font-medium">Policy for</td>
                                         <td>{{ $referral->product_type ?? '' }}</td>
                                     </tr>
                                     @if($referral->insurances_required)

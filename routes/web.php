@@ -47,7 +47,7 @@ Route::get('contact-us', [FrontController::class, 'contact'])->name('contact.us'
 Route::get('service', [FrontController::class, 'services'])->name('service');
 Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name('service.details'); 
 // Route::get('policy-buyer', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
-Route::get('policy-buyer/{slug}', [FrontController::class, 'policyBuyer'])->name('policy.buyer');
+Route::get('policy-buyer/{slug}', [FrontController::class, 'policyBuyer'])->name('policy.buyer'); 
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
 Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form'); 
 

@@ -135,7 +135,7 @@ class PolicyBuyerComponent extends Component
             $this->policyHoldertype = 'Both';
         }
     }
-
+  
     public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
@@ -276,7 +276,7 @@ class PolicyBuyerComponent extends Component
 
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
-            'Product Type:' => $this->productType,
+            'Policy for:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
             'Rent Amount:' => '£- ' . $this->rentAmount,
             // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),

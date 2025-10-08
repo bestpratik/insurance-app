@@ -265,10 +265,18 @@ class PolicyReferralFormComponent extends Component
 
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
-            'Product Type:' => $this->productType,
+            'Policy for:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
             'Rent Amount:' => '£- ' . $this->rentAmount,
-            'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+            // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+            'Property Address:' => trim(implode(', ', array_filter([
+                $this->doorNo,
+                $this->addressOne,
+                $this->addressTwo,
+                $this->addressThree,
+                $this->postCode
+            ]))),
+
             'Policy Holder Type:' => $this->policyHoldertype,
             'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
             'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
@@ -585,7 +593,7 @@ class PolicyReferralFormComponent extends Component
         // CC Emails
         $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
         $validCopyEmails = array_values(array_filter($copyEmails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
-        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
         // ======================
         // Send Email
@@ -615,82 +623,12 @@ class PolicyReferralFormComponent extends Component
 
 
 
-    // public function send_email_two($purchaseId)
-    // {
-    //     $purchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])
-    //         ->find($purchaseId);
-
-    //     if (!$purchase) {
-    //         return 'Purchase not found.';
-    //     }
-
-    //     // ========================
-    //     // Generate Invoice PDF
-    //     // ========================
-    //     $pdf = PDF::loadView('insurance.policy_referral_invoice', compact('purchase'))->setPaper('a4');
-    //     $pdfContent = $pdf->output();
-
-    //     $fileName = 'referral_invoice_' . $purchaseId . '.pdf';
-    //     $directory = public_path('uploads/invoice');
-    //     $filePath = $directory . '/' . $fileName;
-
-    //     if (!File::exists($directory)) {
-    //         File::makeDirectory($directory, 0755, true);
-    //     }
-
-    //     file_put_contents($filePath, $pdfContent);
-
-    //     // ========================
-    //     // Build Recipients
-    //     // ========================
-    //     $sendToBillingEmails = [];
-    //     if (!empty($purchase->invoice->billing_email) && filter_var($purchase->invoice->billing_email, FILTER_VALIDATE_EMAIL)) {
-    //         $sendToBillingEmails[] = $purchase->invoice->billing_email;
-    //     }
-
-    //     if (empty($sendToBillingEmails)) {
-    //         return "No valid billing email found for this purchase.";
-    //     }
-
-    //     // CC Emails
-    //     $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
-    //     $validCopyEmails = array_filter($copyEmails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-
-    //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
-
-    //     // ========================
-    //     // Prepare Email Content
-    //     // ========================
-    //     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
-    //     $data = [
-    //         'body' => 'Dear client,<br>
-    //               Please find attached the invoice for policy no. <strong>' . $purchase->policy_no . '</strong>.',
-    //     ];
-
-    //     // ========================
-    //     // Send Email
-    //     // ========================
-    //     try {
-    //         Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
-    //             $message->to($sendToBillingEmails);
-    //             $message->subject($emailSubject);
-    //             $message->cc($ccEmails);
-    //             $message->attach($filePath);
-    //         });
-
-    //         return response()->download($filePath);
-    //     } catch (\Exception $e) {
-    //         return $e->getMessage();
-    //     }
-    // }
-
-
     public function render()
     {
-        // return view('livewire.policy-referral-form-component');
+        return view('livewire.policy-referral-form-component');
 
-        return view('livewire.policy-referral-form-component', [
-            'availableInsurances' => Insurance::with('services')->get(),
-        ]);
+        // return view('livewire.policy-referral-form-component', [
+        //     'availableInsurances' => Insurance::with('services')->get(),
+        // ]);
     }
 }

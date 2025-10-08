@@ -90,7 +90,7 @@ class FrontController extends Controller
     // }
 
 
-    public function policyBuyer($slug = null)
+    public function policyBuyer($slug = null) 
     {
         $insuranceId = null;
 

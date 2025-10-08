@@ -164,7 +164,8 @@
                     </tr>
 
                     <tr>
-                        <th>Insurance Type:</th>
+                        <!-- <th>Insurance Type:</th> -->
+                         <th>Policy for:</th>
                         <td>{{$referral->product_type ?? 'N/A'}}</td>
                     </tr>
 

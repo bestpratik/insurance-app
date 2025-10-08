@@ -154,7 +154,7 @@
                     <!-- Types (Radio Buttons) -->
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
-                            Types <span class="text-red-600 text-lg">*</span>
+                            Who is this policy for  <span class="text-red-600 text-lg">*</span>
                         </label>
                         <div class="flex space-x-5">
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
@@ -181,7 +181,7 @@
                     <!-- Insurances (Dropdown) -->
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
-                            Insurances <span class="text-red-600">*</span>
+                            Insurance <span class="text-red-600">*</span>
                         </label>
                         <select wire:model="selectedinsuranceId"
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
