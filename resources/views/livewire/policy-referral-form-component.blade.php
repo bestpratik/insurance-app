@@ -114,7 +114,7 @@
                             <span class="text-sm hidden md:inline ml-1">Payment Method</span>
                         </a> -->
 
-                       {{-- <a href="#" data-tab="tab6"
+                        <a href="#" data-tab="tab6"
                             class="tab-btn flex items-center text-center px-4 py-2 font-medium 
                                 @if($currentStep === 6)
                                     border-b-2 border-red-500 text-red-600
@@ -126,12 +126,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
                             </svg>
-                            <span class="text-sm hidden md:inline ml-1">Billing Information</span>
-                        </a>--}}
+                            <span class="text-sm hidden md:inline ml-1">Council Info</span>
+                        </a>
 
                         <a href="#" data-tab="tab6"
                             class="tab-btn flex items-center text-center px-4 py-2 font-medium 
-                                @if($currentStep === 6)
+                                @if($currentStep === 7)
                                     border-b-2 border-red-500 text-red-600
                                 @else
                                     text-gray-600 hover:text-red-600 hover:border-b-2 hover:border-red-500
@@ -241,13 +241,12 @@
                         <span>Save and Next</span>
                     </button>
                 </div>
-            </div>
+            </div>  
             @endif
 
             @if($currentStep === 2)
             <div id="tab2" class="tab-content bg-white p-6 rounded shadow">
                 <div class="grid grid-cols-1 gap-4 mt-5">
-                    <!-- Title -->
                     <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
 
                     <div class="grid md:grid-cols-3 gap-4">
@@ -271,7 +270,6 @@
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
-
                         <div class="mb-2">
                             <label class="block font-semibold mb-1">
                                 Rent Amount (£) <span class="text-red-600">*</span>
@@ -282,6 +280,29 @@
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+
+                         @if($insuranceType === 'renewal')
+        <div class="col-md-12 mt-3">
+            <div class="form-group">
+                <label class="block font-semibold mb-1">
+                    Do you have any rent arrears in past 12 months? <span class="text-red-600">*</span>
+                </label>
+                <div class="flex items-center space-x-6 mt-2">
+                    <div class="flex items-center">
+                        <input wire:model="rentArrears" id="arrears_yes" type="radio" value="Yes" class="mr-1">
+                        <label for="arrears_yes">Yes</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input wire:model="rentArrears" id="arrears_no" type="radio" value="No" class="mr-1">
+                        <label for="arrears_no">No</label>
+                    </div>
+                </div>
+                @error('rentArrears')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        @endif
                     </div>
 
                     <h5 class="text-lg font-semibold my-3">Property Details</h5>
@@ -377,6 +398,8 @@
                 </div>
             </div>
             @endif
+
+            
 
             {{--
             @if($currentStep === 3)
@@ -990,6 +1013,28 @@
                 <span class="text-sm text-red-600">{{ $message }}</span>
                 @enderror
             </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Referral Name<span
+                        class="text-red-600">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="referralName">
+                @error('referralName')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+             <div>
+                <label class="block text-sm font-medium text-gray-700">Referral Email<span
+                        class="text-red-600">*</span></label>
+                <input type="email"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="referralEmail">
+                @error('referralEmail')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
         <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
 
@@ -1023,33 +1068,77 @@
 </div>
 @endif
 
-{{-- @if($currentStep === 6)
-            <div id="tab6" class="tab-content bg-white p-6 rounded shadow" style="display: none;">
-                <div class="space-y-4 mt-6">
-                    <p class="font-semibold text-gray-800 text-lg mb-1">Payment Method</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Select Payment Method <span
-                                    class="text-red-600">*</span></label>
-                            <select
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                wire:model="paymentMethod">
-                                <option value="">-- Select Payment Method --</option>
-                                <option value="pay_later">Paylater</option>
-                                <option value="bank_transfer">Bank Transfer</option>
-                            </select>
-                            @error('paymentMethod')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-@enderror
-</div>
-</div>
-</div>
-</div>
-@endif --}}
-
-
 
 @if($currentStep === 6)
+<div id="tab6" class="tab-content bg-white p-6 rounded shadow">
+    <div class="space-y-4 mt-6">
+        <p class="font-semibold text-gray-800 text-lg mb-1">Council Details <span class="text-danger">*</span></p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Council Name<span class="text-red-600">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="councilName">
+                @error('councilName')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Council Officer Name<span class="text-red-600">*</span></label>
+                <input type="text"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="councilOfficerName">
+                @error('councilOfficerName')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Council Officer Email<span class="text-red-600">*</span></label>
+                <input type="email"
+                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    wire:model="councilOfficerEmail">
+                @error('councilOfficerEmail')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+
+            <button type="button"
+                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                        stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <span>Back</span>
+            </button>
+
+            <button type="button"
+                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                        stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <span>Save and Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+@endif
+
+
+@if($currentStep === 7)
 <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
     <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
         <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
@@ -1109,7 +1198,7 @@
     </button>
     @endif
 
-    @if($currentStep < 6)
+    @if($currentStep < 7)
         <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
         class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
         <span wire:loading wire:target="nextStep" class="inline">
@@ -1137,7 +1226,7 @@
             </button>--}}
         @endif
 
-        @if($currentStep == 6)
+        @if($currentStep == 7)
         <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
             class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
             <span wire:loading wire:target="submitForm" class="inline">
@@ -1152,6 +1241,7 @@
         </button>
         @endif
 </div>
+
 </section>
 
 </div>

@@ -70,6 +70,14 @@ class PolicyReferralFormComponent extends Component
     public $tenantPhone;
     public $tenantEmail;
 
+    public $referralName;
+    public $referralEmail;
+
+    //  public $paymentMethod;
+    public $councilName;
+    public $councilOfficerName;
+    public $councilOfficerEmail;
+
     // Step 6: Payment Method
     // public $paymentMethod;
 
@@ -213,6 +221,16 @@ class PolicyReferralFormComponent extends Component
                 'tenantName' => 'nullable',
                 'tenantPhone' => 'nullable',
                 'tenantEmail' => 'nullable',
+                'referralName' => 'required',
+                'referralEmail' => 'required',
+            ];
+        }
+         elseif ($step === 6) {
+             return [
+                // 'paymentMethod' => 'required',
+                'councilName' => 'required',
+                'councilOfficerName' => 'required',
+                'councilOfficerEmail' => 'required',
             ];
         }
         //  elseif ($step == 6) {
@@ -239,10 +257,10 @@ class PolicyReferralFormComponent extends Component
     {
         $this->validate($this->rulesForStep($this->currentStep));
 
-        if ($this->currentStep < 6) {
+        if ($this->currentStep < 7) {
             $this->currentStep++;
 
-            if ($this->currentStep === 6) {
+            if ($this->currentStep === 7) {
                 $this->prepareSummaryData();
             }
         }
@@ -419,38 +437,11 @@ class PolicyReferralFormComponent extends Component
         $purchase->tenant_phone = $this->tenantPhone;
         $purchase->tenant_email = $this->tenantEmail;
 
+        $purchase->referral_name = $this->referralName;
+        $purchase->referral_email = $this->referralEmail;
+
         $purchase->save();
 
-        // $invoice = new Invoice();
-        // $invoice->policyreferralform_id = $purchase->id;
-        // $invoice->billing_name = $this->billingName;
-        // $invoice->billing_email = $this->billingEmail;
-        // $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
-        // $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
-        //     ->filter()
-        //     ->map(fn($email) => trim($email))
-        //     ->unique()
-        //     ->implode(',');
-        // $invoice->billing_phone = $this->billingPhone;
-        // $invoice->billing_address_one = $this->billingAddressOne;
-        // $invoice->billing_address_two = $this->billingAddressTwo;
-        // $invoice->billing_postcode = $this->billingPostcode;
-        // $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-        // $invoice->pon = $this->ponNo;
-
-        // $curDate = date('Y-m-d');
-        // $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
-        // $invoice->payment_due_date = $payment_due_date;
-
-        // $invoice->invoice_no = $purchase->id;
-        // $invoice->invoice_date  = $curDate;
-
-
-        // $invoice->is_invoice = 1;
-
-        // $invoice->save();
-
-        // $this->successMessage = "Form submitted successfully!"; 
 
         $this->send_email_one($purchase->id);
 
