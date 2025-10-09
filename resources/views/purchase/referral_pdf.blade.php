@@ -82,7 +82,7 @@
                         <th colspan="2" class="section-header">Property Details</th>
                     </tr>
                     <tr>
-                        <th>Insurances:</th>
+                        <th>Insurance:</th>
                         <td> {{ $referral->insurance->name }}</td>
                     </tr>
                     <tr>
@@ -226,6 +226,36 @@
                     <tr>
                         <th>Email Address:</th>
                         <td>{{$referral->policy_holder_email}}</td>
+                    </tr>
+
+                     <tr>
+                        <th colspan="2" class="section-header">Council Details (From which the tenant is from)</th>
+                    </tr>
+
+                    <tr>
+                        <!-- <th>Insurance Type:</th> -->
+                         <th>Council Name:</th>
+                        <td>{{$referral->council_name ?? 'N/A'}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Council officer Name: </th>
+                        <td>{{$referral->council_officer_name}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Council_officer_email:</th>
+                        <td>{{$referral->council_officer_email}}</td>
+                    </tr>
+
+                     <tr>
+                        <th>Referral Name: </th>
+                        <td>{{$referral->referral_name}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Referral Email:</th>
+                        <td>{{$referral->referral_email}}</td>
                     </tr>
 
                     

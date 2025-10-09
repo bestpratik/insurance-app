@@ -13,7 +13,9 @@ use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 use Illuminate\Validation\Rule;
@@ -40,6 +42,10 @@ class PolicyReferralFormComponent extends Component
     public $addressTwo;
     public $addressThree;
     public $postCode;
+    public $noOfBedrooms;
+
+    public $rentArrears;
+
 
     // Step 3: Policy Holder Info
     public $policyHoldertype = 'Individual'; // default  
@@ -108,10 +114,41 @@ class PolicyReferralFormComponent extends Component
 
     public function updatedProductType($value)
     {
-        if ($value === 'Agent') {
+        if ($value === 'I’m an Agent') {
             $this->policyHoldertype = 'Both';
         }
     }
+
+
+
+    // public function updatedInsuranceType($value)
+    // {
+    //     if ($value !== 'renewal') {
+    //         $this->rentArrears = null;
+    //     }
+    // }
+
+    public function setInsuranceType($value)
+    {
+        $this->insuranceType = $value;
+
+        if ($value !== 'renewal') {
+            $this->rentArrears = null; // hide or clear rent arrears
+        }
+    }
+
+
+
+    public function updatedInsurancesRequired()
+    {
+        if (!in_array('Malicious Damage/Contents', $this->insurancesRequired ?? [])) {
+            $this->yearOfPurchase = null;
+            $this->yearOfBuild = null;
+        }
+    }
+
+
+
 
     public function updatedSelectedinsuranceId($value)
     {
@@ -145,7 +182,7 @@ class PolicyReferralFormComponent extends Component
 
             ];
         } elseif ($step == 2) {
-            return [
+            $rules = [
                 'insuranceType' => 'required',
                 'rentAmount' => [
                     'required',
@@ -155,20 +192,23 @@ class PolicyReferralFormComponent extends Component
                             return;
                         }
                         $minRentAmount = $this->insuranceDetails->rent_amount_from;
-
                         $maxRentAmount = $this->insuranceDetails->rent_amount_to;
                         if ($value < $minRentAmount || $value > $maxRentAmount) {
                             $fail("The $attribute must be between £$minRentAmount and £$maxRentAmount.");
                         }
                     },
                 ],
-                // 'yearOfPurchase' => 'required_if:insurancesRequired,Malicious Damage/Contents|digits:4',
-                // 'yearOfBuild' => 'required_if:insurancesRequired,Malicious Damage/Contents|digits:4',
                 'doorNo' => 'required|string',
                 'addressOne' => 'required|string',
                 'postCode' => 'required|string',
+                'noOfBedrooms' => 'required',
             ];
- 
+
+            // ✅ Fix the condition
+            if ($this->insuranceType === 'renewal') {
+                $rules['rentArrears'] = 'required|in:Yes,No';
+            }
+
             if (
                 is_array($this->insurancesRequired) &&
                 in_array('Malicious Damage/Contents', $this->insurancesRequired)
@@ -224,9 +264,8 @@ class PolicyReferralFormComponent extends Component
                 'referralName' => 'required',
                 'referralEmail' => 'required',
             ];
-        }
-         elseif ($step === 6) {
-             return [
+        } elseif ($step === 6) {
+            return [
                 // 'paymentMethod' => 'required',
                 'councilName' => 'required',
                 'councilOfficerName' => 'required',
@@ -260,9 +299,9 @@ class PolicyReferralFormComponent extends Component
         if ($this->currentStep < 7) {
             $this->currentStep++;
 
-            if ($this->currentStep === 7) {
-                $this->prepareSummaryData();
-            }
+            // if ($this->currentStep === 7) {
+            //     $this->prepareSummaryData();
+            // }
         }
     }
 
@@ -273,53 +312,53 @@ class PolicyReferralFormComponent extends Component
         }
     }
 
-    public function prepareSummaryData()
-    {
-        $policyEndDate = $this->policyStartDate
-            ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
-            : '';
+    // public function prepareSummaryData()
+    // {
+    //     $policyEndDate = $this->policyStartDate
+    //         ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
+    //         : '';
 
-        // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+    //     // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
 
-        $this->summaryData = [
-            'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
-            'Policy for:' => $this->productType,
-            'Insurance Type:' => $this->insuranceType,
-            'Rent Amount:' => '£- ' . $this->rentAmount,
-            // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
-            'Property Address:' => trim(implode(', ', array_filter([
-                $this->doorNo,
-                $this->addressOne,
-                $this->addressTwo,
-                $this->addressThree,
-                $this->postCode
-            ]))),
+    //     $this->summaryData = [
+    //         'Insurance:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
+    //         'Policy Required For:' => $this->productType,
+    //         'Insurance Type:' => $this->insuranceType,
+    //         'Rent Amount:' => '£- ' . $this->rentAmount,
+    //         // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
+    //         'Property Address:' => trim(implode(', ', array_filter([
+    //             $this->doorNo,
+    //             $this->addressOne,
+    //             $this->addressTwo,
+    //             $this->addressThree,
+    //             $this->postCode
+    //         ]))),
 
-            'Policy Holder Type:' => $this->policyHoldertype,
-            'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
-            'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
-            'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
-            'Policy Holder Email:' => $this->policyholderEmail,
-            'Policy Holder Phone:' => $this->policyholderPhone,
-            'Policy Term:' => $this->policyTerm . ' Year',
-            'Policy Start Date:' => Carbon::parse($this->policyStartDate)->format('d F Y'),
-            'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
+    //         'Policy Holder Type:' => $this->policyHoldertype,
+    //         'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
+    //         'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+    //         'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
+    //         'Policy Holder Email:' => $this->policyholderEmail,
+    //         'Policy Holder Phone:' => $this->policyholderPhone,
+    //         'Policy Term:' => $this->policyTerm . ' Year',
+    //         'Policy Start Date:' => Carbon::parse($this->policyStartDate)->format('d F Y'),
+    //         'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
 
-            'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
-            // 'Billing Name' => $this->billingName,
-            // 'Billing Email' => $this->billingEmail,
-            // 'Billing Phone' => $this->billingPhone,
-            // 'Billing Postcode' => $this->billingPostcode,
-            // 'Billing Address' => $billingAddress,
-            // 'Pon No' => $this->ponNo,
-            // 'Policy End Date' => $this->policyEndDate,
-            // 'Premium Amount' => $this->premiumAmount,
-            'Tenant Name:' => $this->tenantName ?? 'N/A',
-            'Tenant Phone:' => $this->tenantPhone ?? 'N/A',
-            'Tenant Email:' => $this->tenantEmail ?? 'N/A',
-            // 'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
-        ];
-    }
+    //         'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
+    //         // 'Billing Name' => $this->billingName,
+    //         // 'Billing Email' => $this->billingEmail,
+    //         // 'Billing Phone' => $this->billingPhone,
+    //         // 'Billing Postcode' => $this->billingPostcode,
+    //         // 'Billing Address' => $billingAddress,
+    //         // 'Pon No' => $this->ponNo,
+    //         // 'Policy End Date' => $this->policyEndDate,
+    //         // 'Premium Amount' => $this->premiumAmount,
+    //         'Tenant Name:' => $this->tenantName ?? 'N/A',
+    //         'Tenant Phone:' => $this->tenantPhone ?? 'N/A',
+    //         'Tenant Email:' => $this->tenantEmail ?? 'N/A',
+    //         // 'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
+    //     ];
+    // }
 
     private function resetForm()
     {
@@ -332,6 +371,7 @@ class PolicyReferralFormComponent extends Component
             'yearOfBuild',
             'insuranceType',
             'rentAmount',
+            'rentArrears',
             'doorNo',
             'addressOne',
             'addressTwo',
@@ -356,6 +396,12 @@ class PolicyReferralFormComponent extends Component
             'tenantName',
             'tenantPhone',
             'tenantEmail',
+            'referralName',
+            'referralEmail',
+            // 'paymentMethod',
+            'councilName',
+            'councilOfficerName',
+            'councilOfficerEmail',
             // 'billingName',
             // 'billingEmail',
             'copyBillingEmail',
@@ -365,6 +411,7 @@ class PolicyReferralFormComponent extends Component
             // 'billingPostcode',
             // 'ponNo',
         ]);
+
 
         $this->currentStep = 1; // go back to first step
     }
@@ -401,6 +448,20 @@ class PolicyReferralFormComponent extends Component
         $purchase->address_three = $this->addressThree;
         $purchase->post_code = $this->postCode;
         $purchase->policy_holder_type = $this->policyHoldertype;
+        $purchase->no_of_bedroom = $this->noOfBedrooms;
+        $purchase->rent_arrears = $this->rentArrears;
+        $purchase->policy_holder_address = trim(
+            $this->policyholderAddress1 . ' ' .
+                $this->policyholderAddress2 . ' ' .
+                $this->policyholderPostcode
+        );
+        $purchase->copy_email = $this->copyEmail;
+        $purchase->council_name = $this->councilName;
+        $purchase->council_officer_name = $this->councilOfficerName;
+        $purchase->council_officer_email = $this->councilOfficerEmail;
+        // $purchase->is_invoice = $this->isInvoice ? 1 : 0;
+        // $purchase->copy_billing_email = $this->copyBillingEmail;
+        // $purchase->payment_method = $this->paymentMethod;
 
         // Company/Individual info
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
@@ -417,11 +478,11 @@ class PolicyReferralFormComponent extends Component
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
-        $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
+        // $purchase->policy_no = $this->insuranceDetails->prefix . '-' . rand(1000000000, 9999999999);
         $purchase->policy_start_date = $this->policyStartDate;
         $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
-        $purchase->purchase_date = now();
+        // $purchase->purchase_date = now();
         $purchase->policy_term = $this->policyTerm;
 
         // Premium
@@ -452,165 +513,359 @@ class PolicyReferralFormComponent extends Component
 
         $this->resetForm();
         // return redirect()->route('policy-referral.success');
-        	// return redirect()->route('policy-referral.success', ['purchase_id' => $purchase->id]);
-            return redirect()->route('policy-referral.success');
-            
+        // return redirect()->route('policy-referral.success', ['purchase_id' => $purchase->id]);
+        return redirect()->route('policy-referral.success');
     }
 
-   
-    public function send_email_one($purchaseId)
+
+
+
+    // public function send_email_one($purchaseId)
+    // {
+    //     $purchase = Policyreferralform::with('invoice')->findOrFail($purchaseId);
+
+    //     if (!$purchase) {
+    //         return false;
+    //     }
+
+    //     $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')
+    //         ->findOrFail($purchase->insurance_id);
+
+    //     // ======================
+    //     // Collect all documents
+    //     // ======================
+    //     $allDocs = [];
+
+
+
+    //     // ======================
+    //     // Build Recipients
+    //     // ======================
+    //     $sendToemails = [];
+
+    //     if ($purchase->policy_holder_type === 'Company') {
+    //         $sendToemails[] = $purchase->policy_holder_company_email;
+    //     } elseif ($purchase->policy_holder_type === 'Individual') {
+    //         $sendToemails[] = $purchase->policy_holder_email;
+    //     } elseif ($purchase->policy_holder_type === 'Both') {
+    //         $sendToemails[] = $purchase->policy_holder_email;
+    //         $sendToemails[] = $purchase->policy_holder_company_email;
+    //     }
+
+    //     // Filter invalid emails
+    //     $sendToemails = array_values(array_filter($sendToemails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
+
+    //     if (empty($sendToemails)) {
+    //         return "No valid recipient emails found.";
+    //     }
+
+    //     // CC Emails
+    //     $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
+    //     $validCopyEmails = array_values(array_filter($copyEmails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
+    //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+
+    //     // ======================
+    //     // Send Email
+    //     // ======================
+    //     $email_subject = $insurance->insurancemailtemplate->title ?? 'Policy Referral';
+    //     $data = [
+    //         'body'      => $insurance->insurancemailtemplate->description ?? '',
+    //         'bodyValue' => $bodyValue,
+    //     ];
+
+    //     try {
+    //         Mail::send('email.policy_referral_email', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+    //             $messages->to($sendToemails);
+    //             $messages->subject($email_subject);
+    //             $messages->cc($ccEmails);
+
+    //             foreach ($allDocs as $attachment) {
+    //                 $messages->attach($attachment);
+    //             }
+    //         });
+
+    //         return true;
+    //     } catch (\Exception $e) {
+    //         return $e->getMessage();
+    //     }
+    // }
+
+    //  public function send_email_one($referralId)
+    // {
+    //     // dd($insurance_purchase_data);
+    //     $referral = Policyreferralform::findorfail($referralId);
+    //     // dd($purchase);
+    //     if (!$referral) {
+    //         return response()->json(['status' => 'error', 'message' => 'Purchase record not found']);
+    //     }
+
+    //     if ($referral) {
+
+    //         $sendToemails = [
+
+    //             'anuradha.mondal2013@gmail.com'
+    //         ];
+
+    //         $sendToemails = array_filter($sendToemails, function ($email) {
+    //             return filter_var($email, FILTER_VALIDATE_EMAIL);
+    //         });
+
+    //         $rawAddress = implode('_', array_filter([
+    //             $referral->door_no,
+    //             $referral->address_one,
+    //             $referral->address_two ?: null,
+    //             $referral->address_three ?: null,
+    //         ]));
+
+    //         $fileName = 'referral_' . $rawAddress . '.pdf';
+    //         $directory = public_path('uploads/insuranceReferral'); 
+    //         $filePath = $directory . '/' . $fileName;
+
+    //         try { 
+    //             if (!File::exists($directory)) {
+    //                 File::makeDirectory($directory, 0755, true);
+    //             }
+
+    //             $pdf = Pdf::loadView('purchase.referral_pdf', compact('referral'))->setPaper('a4');
+    //             file_put_contents($filePath, $pdf->output());
+    //         } catch (Exception $e) {
+    //             Log::error('PDF generation failed: ' . $e->getMessage());
+    //             return response()->json(['status' => 'error', 'message' => 'PDF generation failed']);
+    //         }
+    //         $email_subject = 'New Policy Referral - Verification and Processing Required - Moneywise Investments Plc';
+    //         $data = [
+    //             'referral' => $referral,
+    //         ];
+
+    //         try {
+
+    //             $copyEmails = explode(',', $referral->copy_email ?? '');
+    //             $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+    //                 return filter_var($email, FILTER_VALIDATE_EMAIL);
+    //             });
+
+    //             $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+
+    //             foreach ($sendToemails as $email) {
+    //                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                     throw new Exception("Invalid To Email: $email");
+    //                 }
+    //             }
+
+    //             Mail::send('email.policy_referral_email', ['referral' => $referral], function ($messages) use ($sendToemails, $email_subject, $ccEmails, $filePath) {
+    //                 $messages->to($sendToemails)
+    //                     ->subject($email_subject)
+    //                     ->cc($ccEmails)
+    //                     // ->bcc(['bestpratik@gmail.com'])
+    //                     ->attach($filePath);
+    //             });
+
+
+    //             return response()->json(['status' => 'success', 'message' => 'Email sent successfully']);
+    //         } catch (Exception $e) {
+    //             Log::error('Email sending failed: ' . $e->getMessage());
+    //             return response()->json(['status' => 'error', 'message' => 'Email sending failed']);
+    //         }
+    //     }
+    // }
+
+
+    //     public function send_email_one($referralId)
+    // {
+    //     $referral = Policyreferralform::find($referralId);
+
+    //     if (!$referral) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Referral record not found'
+    //         ]);
+    //     }
+
+    //     // Define recipients
+    //     $sendToemails = ['anuradha.mondal2013@gmail.com'];
+    //     $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
+
+    //     // Generate file path for PDF
+    //     $rawAddress = implode('_', array_filter([
+    //         $referral->door_no,
+    //         $referral->address_one,
+    //         $referral->address_two ?: null,
+    //         $referral->address_three ?: null,
+    //     ]));
+    //     $fileName = 'referral_' . $rawAddress . '.pdf';
+    //     $directory = public_path('uploads/insuranceReferral');
+    //     $filePath = $directory . '/' . $fileName;
+
+    //     try {
+    //         if (!File::exists($directory)) {
+    //             File::makeDirectory($directory, 0755, true);
+    //         }
+
+    //         $pdf = Pdf::loadView('purchase.referral_pdf', compact('referral'))->setPaper('a4');
+    //         file_put_contents($filePath, $pdf->output());
+    //     } catch (\Exception $e) {
+    //         Log::error('PDF generation failed: ' . $e->getMessage());
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'PDF generation failed'
+    //         ]);
+    //     }
+
+    //     $email_subject = 'New Policy Referral - Verification and Processing Required - Moneywise Investments Plc';
+
+    //     // Prepare CC emails
+    //     $copyEmails = explode(',', $referral->copy_email ?? '');
+    //     $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
+    //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+
+    //     try {
+    //         // Validate To emails
+    //         foreach ($sendToemails as $email) {
+    //             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                 throw new \Exception("Invalid To Email: $email");
+    //             }
+    //         }
+
+    //         // Send email
+    //         Mail::send('email.policy_referral_email', ['referral' => $referral], function ($message) use ($sendToemails, $email_subject, $ccEmails, $filePath) {
+    //             $message->to($sendToemails)
+    //                     ->subject($email_subject)
+    //                     ->cc($ccEmails)
+    //                     ->attach($filePath);
+    //         });
+
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'Email sent successfully'
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         Log::error('Email sending failed: ' . $e->getMessage());
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Email sending failed'
+    //         ]);
+    //     }
+    // }
+
+
+    public function send_email_one($referralId)
     {
-        $purchase = Policyreferralform::with('invoice')->findOrFail($purchaseId);
+        $referral = Policyreferralform::find($referralId);
 
-        if (!$purchase) {
-            return false;
+        if (!$referral) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Referral record not found'
+            ]);
         }
 
-        $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')
-            ->findOrFail($purchase->insurance_id);
+        // Define recipients
+        $sendToemails = ['anuradha.mondal2013@gmail.com'];
+        $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
-        // ======================
-        // Collect all documents
-        // ======================
-        $allDocs = [];
+        // Generate file path for PDF
+        $rawAddress = implode('_', array_filter([
+            $referral->door_no,
+            $referral->address_one,
+            $referral->address_two ?: null,
+            $referral->address_three ?: null,
+        ]));
+        $fileName = 'referral_' . $rawAddress . '.pdf';
+        $directory = public_path('uploads/insuranceReferral');
+        $filePath = $directory . '/' . $fileName;
 
-        // 1. Static documents
-        if ($insurance->staticdocuments) {
-            foreach ($insurance->staticdocuments as $docs) {
-                $filePath = public_path('uploads/insurance_document/' . $docs->document);
-                if (file_exists($filePath)) {
-                    $allDocs[] = $filePath;
-                }
+        try {
+            if (!File::exists($directory)) {
+                File::makeDirectory($directory, 0755, true);
             }
+
+            $pdf = Pdf::loadView('purchase.referral_pdf', compact('referral'))->setPaper('a4');
+            file_put_contents($filePath, $pdf->output());
+        } catch (\Exception $e) {
+            Log::error('PDF generation failed: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'PDF generation failed'
+            ]);
         }
 
-        // 2. Dynamic PDFs
-        $pdfDynamicval = [
-            $insurance->name,
-            $purchase->policy_no,
-            $purchase->policy_holder_address,
-            date('jS F Y', strtotime($purchase->policy_start_date)),
-            date('jS F Y', strtotime($purchase->policy_end_date)),
-            date('jS F Y', strtotime($purchase->purchase_date)),
-            $purchase->policy_term,
-            $purchase->net_premium,
-            $purchase->ipt,
-            $purchase->gross_premium,
-            $purchase->rent_amount,
-        ];
+        $email_subject = 'New Policy Referral - Verification and Processing Required - Moneywise Investments Plc';
 
-        $riskAddress = trim(
-            $purchase->door_no . ' ' .
-                $purchase->address_one . ' ' .
-                $purchase->address_two . ' ' .
-                $purchase->address_three . ' ' .
-                $purchase->post_code
-        );
-
-        $insurartitle = match ($purchase->policy_holder_type) {
-            'Company'   => $purchase->company_name,
-            'Individual' => $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname,
-            default     => $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname,
-        };
-
-        $pdfDynamicval[] = $riskAddress;
-        $pdfDynamicval[] = $insurartitle;
-        $pdfDynamicval[] = $insurance->details_of_cover;
-
-        if ($insurance->dynamicdocument) {
-            foreach ($insurance->dynamicdocument as $dydocs) {
-                $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
-
-                $data = [
-                    'templateTitle'   => $dydocs->title,
-                    'templateBody'    => $dydocs->description,
-                    'templateHeder'   => $dydocs->header,
-                    'templateFooter'  => $dydocs->footer,
-                    'templatebodyValue' => $pdfDynamicval,
-                ];
-
-                $pdf = PDF::loadView('purchase.pdfs.policy_referral_dynamic_document_email', ['data' => $data]);
-                $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
-                $pdf->save($pdfPath);
-
-                if (file_exists($pdfPath)) {
-                    $allDocs[] = $pdfPath;
-                }
-            }
-        }
-
-        // ======================
-        // Prepare Email Template
-        // ======================
-        $bodyValue = [
-            $insurance->name,
-            $purchase->policy_no,
-            $purchase->policy_holder_address,
-            date('jS F Y', strtotime($purchase->policy_start_date)),
-            date('jS F Y', strtotime($purchase->policy_end_date)),
-            date('jS F Y', strtotime($purchase->purchase_date)),
-            $purchase->policy_term,
-            $purchase->net_premium,
-            $purchase->ipt,
-            $purchase->gross_premium,
-            $purchase->rent_amount,
-            $purchase->payable_amount,
-            $riskAddress,
-            $insurartitle,
-            $insurance->details_of_cover,
-        ];
-
-        // ======================
-        // Build Recipients
-        // ======================
-        $sendToemails = [];
-
-        if ($purchase->policy_holder_type === 'Company') {
-            $sendToemails[] = $purchase->policy_holder_company_email;
-        } elseif ($purchase->policy_holder_type === 'Individual') {
-            $sendToemails[] = $purchase->policy_holder_email;
-        } elseif ($purchase->policy_holder_type === 'Both') {
-            $sendToemails[] = $purchase->policy_holder_email;
-            $sendToemails[] = $purchase->policy_holder_company_email;
-        }
-
-        // Filter invalid emails
-        $sendToemails = array_values(array_filter($sendToemails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
-
-        if (empty($sendToemails)) {
-            return "No valid recipient emails found.";
-        }
-
-        // CC Emails
-        $copyEmails = array_filter(array_map('trim', explode(',', $purchase->copy_email ?? '')));
-        $validCopyEmails = array_values(array_filter($copyEmails, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
+        // Prepare CC emails
+        $copyEmails = explode(',', $referral->copy_email ?? '');
+        $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
         $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-        // ======================
-        // Send Email
-        // ======================
-        $email_subject = $insurance->insurancemailtemplate->title ?? 'Policy Referral';
-        $data = [
-            'body'      => $insurance->insurancemailtemplate->description ?? '',
-            'bodyValue' => $bodyValue,
+        // Prepare body template and values for Blade
+        $body = "
+            Insurance Name: %InsuranceName%
+            Policy No: %policyNo%
+            Policy Holder Address1: %policyHolderAddress1%
+            Policy Start Date: %policyStartdate%
+            Policy End Date: %policyEnddate%
+            Purchase Date: %purchaseDate%
+            Policy Term: %policyTerm%
+            Net Annual Premium: %netAnnualpremium%
+            Insurance Premium Tax: %insurancePremiumtax%
+            Gross Premium: %grossPremium%
+            Rent Amount: %rentAmount%
+            Payable Amount: %payableAmount%
+            Risk Address: %riskAddress%
+            Insurer Title: %insurerTitle%
+            Details of Cover: %detailsofCover%
+            ";
+
+        $bodyValue = [
+            $referral->insurance_name,
+            $referral->policy_no,
+            $referral->policy_holder_address1,
+            $referral->policy_start_date,
+            $referral->policy_end_date,
+            $referral->purchase_date,
+            $referral->policy_term,
+            $referral->net_annual_premium,
+            $referral->insurance_premium_tax,
+            $referral->gross_premium,
+            $referral->rent_amount,
+            $referral->payable_amount,
+            $referral->risk_address,
+            $referral->insurer_title,
+            $referral->details_of_cover,
         ];
 
         try {
-            Mail::send('email.policy_referral_email', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                $messages->to($sendToemails);
-                $messages->subject($email_subject);
-                $messages->cc($ccEmails);
-
-                foreach ($allDocs as $attachment) {
-                    $messages->attach($attachment);
+            // Validate To emails
+            foreach ($sendToemails as $email) {
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception("Invalid To Email: $email");
                 }
+            }
+
+            // Send email
+            Mail::send('email.policy_referral_email', [
+                'referral' => $referral,
+                'body' => $body,
+                'bodyValue' => $bodyValue
+            ], function ($message) use ($sendToemails, $email_subject, $ccEmails, $filePath) {
+                $message->to($sendToemails)
+                    ->subject($email_subject)
+                    ->cc($ccEmails)
+                    ->attach($filePath);
             });
 
-            return true;
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Email sent successfully'
+            ]);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            Log::error('Email sending failed: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email sending failed'
+            ]);
         }
     }
+
 
 
 

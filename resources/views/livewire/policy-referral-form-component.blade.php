@@ -154,18 +154,18 @@
                     <!-- Types (Radio Buttons) -->
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
-                            Who is this policy for  <span class="text-red-600 text-lg">*</span>
+                            Policy Required For <span class="text-red-600 text-lg">*</span>
                         </label>
                         <div class="flex space-x-5">
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
                                 <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
-                                    value="Landlord">
-                                <span>Landlord</span>
+                                    value="I’m an Landlord">
+                                <span>I’m a Landlord</span>
                             </label>
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
                                 <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
-                                    value="Agent">
-                                <span>Agent</span>
+                                    value="I’m an Agent">
+                                <span>I’m an Agent</span>
                             </label>
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
                                 <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
@@ -241,7 +241,7 @@
                         <span>Save and Next</span>
                     </button>
                 </div>
-            </div>  
+            </div>
             @endif
 
             @if($currentStep === 2)
@@ -254,7 +254,7 @@
                             <label class="block font-semibold mb-1">
                                 Type Of Insurance <span class="text-red-600">*</span>
                             </label>
-                            <div class="flex items-center space-x-4">
+                            <!-- <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
                                     <input id="typeOfinsurancenew" type="radio" wire:model="insuranceType" value="new"
                                         class="mr-1">
@@ -265,7 +265,26 @@
                                         value="renewal" class="mr-1">
                                     <label for="typeOfinsurancerenewal">Renewal</label>
                                 </div>
+                            </div> -->
+
+                            <div class="flex items-center space-x-4">
+                                <div>
+                                    <input type="radio" id="typeOfinsurancenew"
+                                        wire:model="insuranceType"
+                                        wire:click="setInsuranceType('new')"
+                                        value="new">
+                                    <label for="typeOfinsurancenew">New</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="typeOfinsurancerenewal"
+                                        wire:model="insuranceType"
+                                        wire:click="setInsuranceType('renewal')"
+                                        value="renewal">
+                                    <label for="typeOfinsurancerenewal">Renewal</label>
+                                </div>
                             </div>
+
                             @error('insuranceType')
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
@@ -274,45 +293,48 @@
                             <label class="block font-semibold mb-1">
                                 Rent Amount (£) <span class="text-red-600">*</span>
                             </label>
-                            <input type="text" wire:model="rentAmount"
+                            <input type="doubleval" wire:model="rentAmount"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('rentAmount')
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
 
-                         @if($insuranceType === 'renewal')
-        <div class="col-md-12 mt-3">
-            <div class="form-group">
-                <label class="block font-semibold mb-1">
-                    Do you have any rent arrears in past 12 months? <span class="text-red-600">*</span>
-                </label>
-                <div class="flex items-center space-x-6 mt-2">
-                    <div class="flex items-center">
-                        <input wire:model="rentArrears" id="arrears_yes" type="radio" value="Yes" class="mr-1">
-                        <label for="arrears_yes">Yes</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input wire:model="rentArrears" id="arrears_no" type="radio" value="No" class="mr-1">
-                        <label for="arrears_no">No</label>
-                    </div>
-                </div>
-                @error('rentArrears')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        @endif
+                        <!-- Rent Arrears (only for renewal) -->
+                        @if($insuranceType === 'renewal')
+                        <div class="col-md-12 mt-3">
+                            <div class="form-group">
+                                <label class="block font-semibold mb-1">
+                                    Do you have any rent arrears in past 12 months? <span class="text-red-600">*</span>
+                                </label>
+                                <div class="flex items-center space-x-6 mt-2">
+                                    <div class="flex items-center">
+                                        <input wire:model="rentArrears" id="arrears_yes" type="radio" value="Yes" class="mr-1">
+                                        <label for="arrears_yes">Yes</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input wire:model="rentArrears" id="arrears_no" type="radio" value="No" class="mr-1">
+                                        <label for="arrears_no">No</label>
+                                    </div>
+                                </div>
+                                @error('rentArrears')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        @endif
+
+
                     </div>
 
                     <h5 class="text-lg font-semibold my-3">Property Details</h5>
 
                     <div class="grid md:grid-cols-3 gap-4">
-                        @if($insurancesRequired === 'Malicious Damage/Contents')
+                        @if(is_array($insurancesRequired) && in_array('Malicious Damage/Contents', $insurancesRequired))
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="mb-2">
                                 <label class="block mb-1">Year of Purchase <span class="text-red-600">*</span></label>
-                                <input type="number" placeholder="Enter year..." wire:model="yearOfPurchase"
+                                <input type="number" wire:model="yearOfPurchase"
                                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                                 @error('yearOfPurchase')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
@@ -321,7 +343,7 @@
 
                             <div class="mb-2">
                                 <label class="block mb-1">Year of Build <span class="text-red-600">*</span></label>
-                                <input type="number" placeholder="Enter year..." wire:model="yearOfBuild"
+                                <input type="number" wire:model="yearOfBuild"
                                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                                 @error('yearOfBuild')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
@@ -370,6 +392,26 @@
                             <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div class="mb-2">
+                            <label class="block mb-1">No of Bedrooms<span class="text-red-600">*</span></label>
+                            <select wire:model="noOfBedrooms" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">choose..</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            @error('noOfBedrooms')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
@@ -399,24 +441,28 @@
             </div>
             @endif
 
-            
 
-            {{--
+
+
             @if($currentStep === 3)
             <div id="tab3" class="tab-content bg-white p-6 rounded shadow">
                 <div class="grid grid-cols-1 gap-4 mt-6" x-data="{ policyHoldertype: @entangle('policyHoldertype') }">
-                    <p class="font-bold mb-0">Can we have the policy holder information?</p>
+                    <!-- <p class="font-bold mb-0">Can we have the policy holder information?</p> -->
                     <p class="text-gray-700 mb-4">
-                        This is the person who will make the claim. If the property is managed, enter the managing
+                        <!-- This is the person who will make the claim. If the property is managed, enter the managing
                         agent's
-                        information.
+                        information. -->
+
+                        This is the person who will make the claim. If the property is managed, enter the managing agent's information and whomever the tenancy agreement is under (Landlord name)
                     </p>
 
                     <div class="grid md:grid-cols-3 gap-4">
+                        @if($productType != 'I’m an Agent')
                         <div>
                             <label class="block font-semibold mb-1">
                                 Policy holder type <span class="text-red-600">*</span>
                             </label>
+
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center">
                                     <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
@@ -434,498 +480,263 @@
                                     <label for="policyHoldertypeThree">Both</label>
                                 </div>
                             </div>
+
                             @error('policyHoldertype')
                             <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                            @enderror
+                        </div>
+                        @endif
 
-        <div x-show="policyHoldertype === 'Company'">
-            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
-            <input type="text" placeholder="Enter..." wire:model="companyName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('companyName')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
-        <div x-show="policyHoldertype === 'Company'">
-            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
-            <input type="email" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderCompanyEmail')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        @if(in_array($policyHoldertype, ['Company', 'Both']))
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('companyName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Company'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @endif
 
-        <div x-show="policyHoldertype === 'Individual'">
-            <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
-            <select wire:model="policyholderTitle"
-                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
-                <option value="">Select Title</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-                <option value="Other">Other</option>
-            </select>
-            @error('policyholderTitle')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        @if(in_array($policyHoldertype, ['Individual', 'Both']))
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
+                            <select wire:model="policyholderTitle"
+                                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            @error('policyholderTitle')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Individual'">
-            <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
-            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderFirstName')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderFirstName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Individual'">
-            <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
-            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderLastName')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderLastName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Individual'">
-            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
-            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderEmail')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        <div x-show="policyHoldertype === 'Individual'">
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
+                            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block font-semibold mb-1">Title</label>
-            <select wire:model="policyholderTitle"
-                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
-                <option value="">Select Title</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-                <option value="Other">Other</option>
-            </select>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
+                            <select wire:model="policyholderTitle"
+                                class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
+                                <option value="">Select Title</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            @error('policyholderTitle')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        </div>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderFirstName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block mb-1">First Name</label>
-            <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderLastName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        </div>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
+                            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block mb-1">Last Name</label>
-            <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="companyName"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('companyName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div x-show="policyHoldertype === 'Both'">
+                            <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderCompanyEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @endif
 
-        </div>
+                        <div>
+                            <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
+                            <input type="number" placeholder="Enter..." wire:model="policyholderPhone"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderPhone')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block mb-1">Contact Email</label>
-            <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        <div>
+                            <label class="block mb-1">Alternative Phone</label>
+                            <input type="number" placeholder="Enter..." wire:model="policyholderAlternativePhone"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
 
-        </div>
+                        </div>
 
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block mb-1">Company Name</label>
-            <input type="text" placeholder="Enter..." wire:model="companyName"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        <div>
+                            <label class="block mb-1">Address1</label>
+                            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress1"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
 
-        </div>
-        <div x-show="policyHoldertype === 'Both'">
-            <label class="block mb-1">Company email</label>
-            <input type="email" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        <div>
+                            <label class="block mb-1">Address2</label>
+                            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress2"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
 
-        </div>
+                        <div>
+                            <label class="block mb-1">Postcode<span class="text-red-600">*</span></label>
+                            <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('policyholderPostcode')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div>
-            <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
-            <input type="number" placeholder="Enter..." wire:model="policyholderPhone"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderPhone')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
+                        <div>
+                            <label class="block mb-1">Copy email</label>
 
-        <div>
-            <label class="block mb-1">Alternative Phone</label>
-            <input type="number" placeholder="Enter..." wire:model="policyholderAlternativePhone"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            <textarea id=""
+                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
+                                rows="2"></textarea>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send documents to additional people other than policy holder</p>
 
-        </div>
-
-        <div>
-            <label class="block mb-1">Address1</label>
-            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress1"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-        </div>
-
-        <div>
-            <label class="block mb-1">Address2</label>
-            <input type="text" placeholder="Enter address..." wire:model="policyholderAddress2"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-        </div>
-
-        <div>
-            <label class="block mb-1">Postcode<span class="text-red-600">*</span></label>
-            <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
-                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            @error('policyholderPostcode')
-            <span class="text-sm text-red-600">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div>
-            <label class="block mb-1">Copy email</label>
-            <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send documents to additional people other than policy holder</p>
-            <textarea id=""
-                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
-                rows="2"></textarea>
-
-            <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
+                            <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"> -->
 
-        </div>
+                        </div>
 
 
 
 
 
-</div>
-</div>
-<div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-    <button type="button"
-        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-
-        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-            </circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-        </svg>
-        <span>Back</span>
-    </button>
-
-    <button type="button"
-        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-
-        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-            </circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-        </svg>
-        <span>Save and Next</span>
-    </button>
-</div>
-</div>
-@endif
---}}
-
-@if($currentStep === 3)
-<div id="tab3" class="tab-content bg-white p-6 rounded shadow">
-    <div class="grid grid-cols-1 gap-4 mt-6" x-data="{ policyHoldertype: @entangle('policyHoldertype') }">
-        <!-- <p class="font-bold mb-0">Can we have the policy holder information?</p> -->
-        <p class="text-gray-700 mb-4">
-            <!-- This is the person who will make the claim. If the property is managed, enter the managing
-                        agent's
-                        information. -->
-
-            This is the person who will make the claim. If the property is managed, enter the managing agent's information and whomever the tenancy agreement is under (Landlord name)
-        </p>
-
-        <div class="grid md:grid-cols-3 gap-4">
-            @if($productType != 'Agent')
-            <div>
-                <label class="block font-semibold mb-1">
-                    Policy holder type <span class="text-red-600">*</span>
-                </label>
-
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
-                        <input id="policyHoldertypeOne" type="radio" x-model="policyHoldertype" value="Company"
-                            class="mr-1">
-                        <label for="policyHoldertypeOne">Company</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input id="policyHoldertypeTwo" type="radio" x-model="policyHoldertype"
-                            value="Individual" class="mr-1">
-                        <label for="policyHoldertypeTwo">Individual</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input id="policyHoldertypeThree" type="radio" x-model="policyHoldertype"
-                            value="Both" class="mr-1">
-                        <label for="policyHoldertypeThree">Both</label>
                     </div>
                 </div>
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+                    <button type="button"
+                        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
 
-                @error('policyHoldertype')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
+                </div>
             </div>
             @endif
 
-            @if(in_array($policyHoldertype, ['Company', 'Both']))
-            <div x-show="policyHoldertype === 'Company'">
-                <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="companyName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('companyName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-            <div x-show="policyHoldertype === 'Company'">
-                <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderCompanyEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-            @endif
+            @if($currentStep === 4)
+            <div id="tab4" class="tab-content bg-white p-6 rounded shadow">
+                <div class="space-y-4 mt-6">
+                    <p class="font-semibold text-gray-800 mb-1 text-lg">Policy Details</p>
 
-            @if(in_array($policyHoldertype, ['Individual', 'Both']))
-            <div x-show="policyHoldertype === 'Individual'">
-                <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
-                <select wire:model="policyholderTitle"
-                    class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
-                    <option value="">Select Title</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Ms">Ms</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Dr">Dr</option>
-                    <option value="Other">Other</option>
-                </select>
-                @error('policyholderTitle')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Individual'">
-                <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderFirstName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Individual'">
-                <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderLastName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Individual'">
-                <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
-                <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block font-semibold mb-1">Title <span class="text-red-600">*</span></label>
-                <select wire:model="policyholderTitle"
-                    class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring focus:ring-blue-200">
-                    <option value="">Select Title</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Ms">Ms</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Dr">Dr</option>
-                    <option value="Other">Other</option>
-                </select>
-                @error('policyholderTitle')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block mb-1">First Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderFirstName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderFirstName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block mb-1">Last Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderLastName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderLastName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block mb-1">Contact Email <span class="text-red-600">*</span></label>
-                <input type="email" placeholder="Enter..." wire:model="policyholderEmail"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block mb-1">Company Name <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="companyName"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('companyName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-            <div x-show="policyHoldertype === 'Both'">
-                <label class="block mb-1">Company email <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderCompanyEmail"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderCompanyEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-            @endif
-
-            <div>
-                <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderPhone"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderPhone')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div>
-                <label class="block mb-1">Alternative Phone</label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderAlternativePhone"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-
-            </div>
-
-            <div>
-                <label class="block mb-1">Address1</label>
-                <input type="text" placeholder="Enter address..." wire:model="policyholderAddress1"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-1">Address2</label>
-                <input type="text" placeholder="Enter address..." wire:model="policyholderAddress2"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-            </div>
-
-            <div>
-                <label class="block mb-1">Postcode<span class="text-red-600">*</span></label>
-                <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                @error('policyholderPostcode')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div>
-                <label class="block mb-1">Copy email</label>
-
-                <textarea id=""
-                    class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyEmail"
-                    rows="2"></textarea>
-                <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send documents to additional people other than policy holder</p>
-
-                <!-- <input type="text" placeholder="Enter..." wire:model="copyEmail"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"> -->
-
-            </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Policy Start Date <span
+                                    class="text-red-600">*</span></label>
+                            <input type="date" min="{{ now()->toDateString() }}"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="policyStartDate">
+                            @error('policyStartDate')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
 
 
-
-
-        </div>
-    </div>
-    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-        <button type="button"
-            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-
-            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                </circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-            <span>Back</span>
-        </button>
-
-        <button type="button"
-            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-
-            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                </circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-            <span>Save and Next</span>
-        </button>
-    </div>
-</div>
-@endif
-
-@if($currentStep === 4)
-<div id="tab4" class="tab-content bg-white p-6 rounded shadow">
-    <div class="space-y-4 mt-6">
-        <p class="font-semibold text-gray-800 mb-1 text-lg">Policy Details</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Policy Start Date <span
-                        class="text-red-600">*</span></label>
-                <input type="date" min="{{ now()->toDateString() }}"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="policyStartDate">
-                @error('policyStartDate')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
-                        class="text-red-600">*</span></label>
-                <input type="date"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="astStartDate">
-                @error('astStartDate')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="mb-2">
-                <label class="block font-semibold mb-1">
-                    Policy Term <span class="text-red-600">*</span>
-                </label>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
-                        <input id="policyterm1" type="radio" wire:model="policyTerm" value="1"
-                            class="mr-1">
-                        <label for="policyterm1">1 Year</label>
-                    </div>
-                    {{-- <div class="flex items-center">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ast Start Date <span
+                                    class="text-red-600">*</span></label>
+                            <input type="date"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="astStartDate">
+                            @error('astStartDate')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-2">
+                            <label class="block font-semibold mb-1">
+                                Policy Term <span class="text-red-600">*</span>
+                            </label>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center">
+                                    <input id="policyterm1" type="radio" wire:model="policyTerm" value="1"
+                                        class="mr-1">
+                                    <label for="policyterm1">1 Year</label>
+                                </div>
+                                {{-- <div class="flex items-center">
                                     <input id="policyterm2" type="radio" wire:model="policyTerm" value="2"
                                         class="mr-1">
                                     <label for="policyterm2">2 Year</label>
@@ -940,246 +751,401 @@
                                         class="mr-1">
                                     <label for="policyterm4">4 Year</label>
                                 </div> --}}
+                            </div>
+                            @error('policyTerm')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+                        <button type="button"
+                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Back</span>
+                        </button>
+
+                        <button type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Save and Next</span>
+                        </button>
+                    </div>
                 </div>
-                @error('policyTerm')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
             </div>
+            @endif
 
-        </div>
-        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-            <button type="button"
-                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+            @if($currentStep === 5)
+            <div id="tab5" class="tab-content bg-white p-6 rounded shadow">
+                <div class="space-y-4 mt-6">
+                    <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details</p><small>(optional)</small>
 
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Back</span>
-            </button>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Name</label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="tenantName">
+                            @error('tenantName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-            <button type="button"
-                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
+                            <input type="number"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="tenantPhone">
+                            @error('tenantPhone')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Save and Next</span>
-            </button>
-        </div>
-    </div>
-</div>
-@endif
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tenant Email</label>
+                            <input type="email"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="tenantEmail">
+                            @error('tenantEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-@if($currentStep === 5)
-<div id="tab5" class="tab-content bg-white p-6 rounded shadow">
-    <div class="space-y-4 mt-6">
-        <p class="font-semibold text-gray-800 text-lg mb-1">Tenant Details</p><small>(optional)</small>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Referral Name<span
+                                    class="text-red-600">*</span></label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="referralName">
+                            @error('referralName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Tenant Name</label>
-                <input type="text"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="tenantName">
-                @error('tenantName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Referral Email<span
+                                    class="text-red-600">*</span></label>
+                            <input type="email"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="referralEmail">
+                            @error('referralEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+
+                        <button type="button"
+                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Back</span>
+                        </button>
+
+                        <button type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Save and Next</span>
+                        </button>
+                    </div>
+                </div>
             </div>
+            @endif
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
-                <input type="number"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="tenantPhone">
-                @error('tenantPhone')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
+
+            @if($currentStep === 6)
+            <div id="tab6" class="tab-content bg-white p-6 rounded shadow">
+                <div class="space-y-4 mt-6">
+                    <p class="font-semibold text-gray-800 text-lg mb-1">Council Details <span class="text-danger">*</span></p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Council Name<span class="text-red-600">*</span></label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="councilName">
+                            @error('councilName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Council Officer Name<span class="text-red-600">*</span></label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="councilOfficerName">
+                            @error('councilOfficerName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Council Officer Email<span class="text-red-600">*</span></label>
+                            <input type="email"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="councilOfficerEmail">
+                            @error('councilOfficerEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+
+                        <button type="button"
+                            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Back</span>
+                        </button>
+
+                        <button type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4">
+                                </circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                            </svg>
+                            <span>Save and Next</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Tenant Email</label>
-                <input type="email"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="tenantEmail">
-                @error('tenantEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Referral Name<span
-                        class="text-red-600">*</span></label>
-                <input type="text"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="referralName">
-                @error('referralName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-             <div>
-                <label class="block text-sm font-medium text-gray-700">Referral Email<span
-                        class="text-red-600">*</span></label>
-                <input type="email"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="referralEmail">
-                @error('referralEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-
-            <button type="button"
-                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Back</span>
-            </button>
-
-            <button type="button"
-                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Save and Next</span>
-            </button>
-        </div>
-    </div>
-</div>
-@endif
+            @endif
 
 
-@if($currentStep === 6)
-<div id="tab6" class="tab-content bg-white p-6 rounded shadow">
-    <div class="space-y-4 mt-6">
-        <p class="font-semibold text-gray-800 text-lg mb-1">Council Details <span class="text-danger">*</span></p>
+            {{-- @if($currentStep === 7)
+            <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
+                <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Council Name<span class="text-red-600">*</span></label>
-                <input type="text"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="councilName">
-                @error('councilName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Council Officer Name<span class="text-red-600">*</span></label>
-                <input type="text"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="councilOfficerName">
-                @error('councilOfficerName')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Council Officer Email<span class="text-red-600">*</span></label>
-                <input type="email"
-                    class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    wire:model="councilOfficerEmail">
-                @error('councilOfficerEmail')
-                <span class="text-sm text-red-600">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-
-            <button type="button"
-                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Back</span>
-            </button>
-
-            <button type="button"
-                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Save and Next</span>
-            </button>
-        </div>
-    </div>
-</div>
-@endif
-
-
-@if($currentStep === 7)
-<div id="tab8" class="tab-content bg-white p-6 rounded shadow">
-    <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
-
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach($summaryData as $key => $value)
-            <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
-                <p class="text-gray-800 text-base">{{ $value }}</p>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach($summaryData as $key => $value)
+                        <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                            <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
+            <p class="text-gray-800 text-base">{{ $value }}</p>
             </li>
             @endforeach
-        </ul>
+            </ul>
+        </div>
+        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+
+            <button type="button"
+                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <span>Back</span>
+            </button>
+
+            <button type="button"
+                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+                <span>Submit</span>
+            </button>
+        </div>
+</div>
+@endif --}}
+
+
+{{--@if($currentStep === 7)
+            <div class="bg-white p-6 rounded shadow">
+
+                <h2 class="text-xl font-bold mb-4">Review Your Application</h2>
+
+                <!-- Insurance Details -->
+                <h3 class="font-bold text-lg">Insurance Details</h3>
+                <p><strong>Policy for:</strong> {{ $productType }}</p>
+<p><strong>Selected Insurance:</strong> {{ $this->getInsuranceName($selectInsurance) }}</p>
+<hr class="my-3">
+
+<!-- Property Information -->
+<h3 class="font-bold text-lg">Property Information</h3>
+<p><strong>Policy Type:</strong> {{ $policyType }}</p>
+<p><strong>Rent Amount:</strong> £{{ $rentAmount }}</p>
+@if($policyType === 'renewal')
+<p><strong>Rent Arrears:</strong> {{ $rentArrears }}</p>
+@endif
+<p><strong>Property Address:</strong><br>
+    {{ $doorNo }}
+    @if($addressOne), {{ $addressOne }} @endif
+    @if($addressTwo), {{ $addressTwo }} @endif
+    @if($addressThree), {{ $addressThree }} @endif
+    @if($postCode), {{ $postCode }} @endif
+</p>
+<hr class="my-3">
+
+<!-- Policy Holder Details -->
+<h3 class="font-bold text-lg">Policy Holder Details</h3>
+<p><strong>Policy Holder Type:</strong> {{ $policyHoldertype }}</p>
+@if($companyName)
+<p><strong>Company Name:</strong> {{ $companyName }}</p>
+@endif
+@if($policyHolderfirstname || $policyHolderlastname)
+<p><strong>Name:</strong> {{ $policyHoldertitle }} {{ $policyHolderfirstname }} {{ $policyHolderlastname }}</p>
+@endif
+<p><strong>Contact Email:</strong> {{ $contactEmail }}</p>
+<p><strong>Contact Phone:</strong> {{ $contactPhone }}</p>
+@if($alternatePhone)
+<p><strong>Alternate Phone:</strong> {{ $alternatePhone }}</p>
+@endif
+<p><strong>Policy Holder Address:</strong><br>
+    {{ $policyHolderaddressone }}
+    @if($policyHolderaddresstwo), {{ $policyHolderaddresstwo }} @endif
+    @if($policyHolderpostcode), {{ $policyHolderpostcode }} @endif
+</p>
+<hr class="my-3">
+
+<!-- Tenant Details -->
+<h3 class="font-bold text-lg">Tenant Details</h3>
+<p><strong>Tenant Name:</strong> {{ $tenantName }}</p>
+<p><strong>Tenant Email:</strong> {{ $tenantEmail }}</p>
+<p><strong>Tenant Phone:</strong> {{ $tenantPhone }}</p>
+<hr class="my-3">
+
+<!-- Billing Information -->
+<h3 class="font-bold text-lg">Billing Details</h3>
+<p><strong>Billing Name:</strong> {{ $billingName }}</p>
+<p><strong>Billing Email:</strong> {{ $billingEmail }}</p>
+<p><strong>Billing Phone:</strong> {{ $billngPhone }}</p>
+<p><strong>Billing Address:</strong><br>
+    {{ $billingAddressone }}
+    @if($billingAddresstwo), {{ $billingAddresstwo }} @endif
+    @if($billingPostcode), {{ $billingPostcode }} @endif
+</p>
+
+</div>
+@endif--}}
+
+@if($currentStep === 7)
+<div class="bg-gray-50 p-6 rounded-2xl shadow-xl border border-gray-200 space-y-8">
+
+    <h2 class="text-3xl font-extrabold text-gray-800 border-b pb-3 mb-6">Review Your Application</h2>
+
+    <!-- Insurance Details -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Insurance Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+            <p><span class="font-medium">Policy for:</span> {{ $productType }}</p>
+            <p><span class="font-medium">Selected Insurance:</span> {{ $insuranceDetails->name ?? 'N/A' }}</p>
+        </div>
     </div>
-    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
 
-        <button type="button"
-            class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-
-            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                </circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-            <span>Back</span>
-        </button>
-
-        <button type="button"
-            class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-
-            <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                </circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-            </svg>
-            <span>Submit</span>
-        </button>
+    <!-- Property Information -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Property Information</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+            <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p>
+            <p><span class="font-medium">Rent Amount:</span> £{{ $rentAmount }}</p>
+            @if($insuranceType === 'renewal')
+            <p><span class="font-medium">Rent Arrears:</span> £{{ $rentArrears }}</p>
+            @endif
+            <p><span class="font-medium">Property Address:</span><br>
+                {{ $doorNo }}
+                @if($addressOne), {{ $addressOne }} @endif
+                @if($addressTwo), {{ $addressTwo }} @endif
+                @if($addressThree), {{ $addressThree }} @endif
+                @if($postCode), {{ $postCode }} @endif
+            </p>
+        </div>
     </div>
+
+    <!-- Policy Holder Details -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Policy Holder Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+            <p><span class="font-medium">Policy Holder Type:</span> {{ $policyHoldertype }}</p>
+            @if($companyName)
+            <p><span class="font-medium">Company Name:</span> {{ $companyName }}</p>
+            @endif
+            @if($policyholderFirstName || $policyholderLastName)
+            <p><span class="font-medium">Name:</span> {{ $policyholderTitle }} {{ $policyholderFirstName }} {{ $policyholderLastName }}</p>
+            @endif
+            <p><span class="font-medium">Contact Email:</span> {{ $policyholderEmail ?? $policyholderCompanyEmail }}</p>
+            <p><span class="font-medium">Contact Phone:</span> {{ $policyholderPhone }}</p>
+            @if($policyholderAlternativePhone)
+            <p><span class="font-medium">Alternate Phone:</span> {{ $policyholderAlternativePhone }}</p>
+            @endif
+            <p><span class="font-medium">Address:</span><br>
+                {{ $policyholderAddress1 }}
+                @if($policyholderAddress2), {{ $policyholderAddress2 }} @endif
+                @if($policyholderPostcode), {{ $policyholderPostcode }} @endif
+            </p>
+        </div>
+    </div>
+
+    <!-- Tenant Details -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Tenant Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+            <p><span class="font-medium">Tenant Name:</span> {{ $tenantName ?? 'N/A' }}</p>
+            <p><span class="font-medium">Tenant Email:</span> {{ $tenantEmail ?? 'N/A' }}</p>
+            <p><span class="font-medium">Tenant Phone:</span> {{ $tenantPhone ?? 'N/A' }}</p>
+        </div>
+    </div>
+
+    <!-- Referral & Council Details -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Referral & Council Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+            <p><span class="font-medium">Referral Name:</span> {{ $referralName }}</p>
+            <p><span class="font-medium">Referral Email:</span> {{ $referralEmail }}</p>
+            <p><span class="font-medium">Council Name:</span> {{ $councilName }}</p>
+            <p><span class="font-medium">Council Officer:</span> {{ $councilOfficerName }}</p>
+            <p><span class="font-medium">Council Officer Email:</span> {{ $councilOfficerEmail }}</p>
+        </div>
+    </div>
+
 </div>
 @endif
+
+
+
 </div>
 
 <div class="pt-3 flex justify-center gap-3 border-t">

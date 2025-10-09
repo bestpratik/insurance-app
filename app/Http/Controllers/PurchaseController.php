@@ -145,7 +145,7 @@ class PurchaseController extends Controller
         $referral = Policyreferralform::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
         // dd($purchase);
         return view('purchase.referral_detail_page', compact('referral'));  
-    }
+    } 
 
     function referrralForm_pdf($id)
     {

@@ -158,7 +158,7 @@
                                 <a href="{{route('referral.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900" title="Details View">
                                     <x-heroicon-o-eye class="w-5 h-5" />
                                 </a>
-                               <a href="{{ route('referral.download', $row->id) }}" 
+                               <a href="{{ route('referral.download', $row->id) }}"  
    class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
     <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" /> Download Referral
 </a>

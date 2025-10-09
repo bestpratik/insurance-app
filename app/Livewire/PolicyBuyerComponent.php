@@ -509,6 +509,7 @@ class PolicyBuyerComponent extends Component
         // return redirect()->route('purchase.success');
     }
 
+    
 
     //Policy holder email
     public function send_email_one($purchaseId)

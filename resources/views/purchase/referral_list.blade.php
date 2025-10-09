@@ -29,7 +29,7 @@
                 
 
 
-               <livewire:referral-list-component />      
+               <livewire:referral-list-component />       
                 
             </div>
         </div>
