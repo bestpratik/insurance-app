@@ -136,7 +136,9 @@
                         </p>
                         <p>Landlord/Agent Email: {{$referral->policy_holder_email}}</p>
                         <p>Insurance Name: {{$referral->insurance->name}}</p>
+                        @if($referral->tenant_name)
                         <p>Tenant Name: {{$referral->tenant_name}}</p>
+                        @endif
                         @php use Carbon\Carbon; @endphp
                         <p>AST Start Date: {{ $referral->ast_start_date ? Carbon::parse($referral->ast_start_date)->format('jS M Y') : 'N/A' }} </p><br>
 

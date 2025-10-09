@@ -797,43 +797,7 @@ class PolicyReferralFormComponent extends Component
         $ccEmails = $validCopyEmails;
         // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-        // Prepare body template and values for Blade
-        // $body = "
-        //     Insurance Name: %InsuranceName%
-        //     Policy No: %policyNo%
-        //     Policy Holder Address1: %policyHolderAddress1%
-        //     Policy Start Date: %policyStartdate%
-        //     Policy End Date: %policyEnddate%
-        //     Purchase Date: %purchaseDate%
-        //     Policy Term: %policyTerm%
-        //     Net Annual Premium: %netAnnualpremium%
-        //     Insurance Premium Tax: %insurancePremiumtax%
-        //     Gross Premium: %grossPremium%
-        //     Rent Amount: %rentAmount%
-        //     Payable Amount: %payableAmount%
-        //     Risk Address: %riskAddress%
-        //     Insurer Title: %insurerTitle%
-        //     Details of Cover: %detailsofCover%
-        //     ";
-
-        // $bodyValue = [
-        //     $referral->insurance_name,
-        //     $referral->policy_no,
-        //     $referral->policy_holder_address1,
-        //     $referral->policy_start_date,
-        //     $referral->policy_end_date,
-        //     $referral->purchase_date,
-        //     $referral->policy_term,
-        //     $referral->net_annual_premium,
-        //     $referral->insurance_premium_tax,
-        //     $referral->gross_premium,
-        //     $referral->rent_amount,
-        //     $referral->payable_amount,
-        //     $referral->risk_address,
-        //     $referral->insurer_title,
-        //     $referral->details_of_cover,
-        // ];
-
+    
         try {
             // Validate To emails
             foreach ($sendToemails as $email) {
@@ -845,8 +809,6 @@ class PolicyReferralFormComponent extends Component
             // Send email
             Mail::send('email.policy_referral_email', [
                 'referral' => $referral,
-                // 'body' => $body,
-                // 'bodyValue' => $bodyValue
             ], function ($message) use ($sendToemails, $email_subject, $ccEmails, $filePath) {
                 $message->to($sendToemails)
                     ->subject($email_subject)
