@@ -760,7 +760,7 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['anuradha.mondal2013@gmail.com'];
+        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF
@@ -794,7 +794,8 @@ class PolicyReferralFormComponent extends Component
         // Prepare CC emails
         $copyEmails = explode(',', $referral->copy_email ?? '');
         $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+        $ccEmails = $validCopyEmails;
+        // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
         // Prepare body template and values for Blade
         // $body = "
@@ -850,7 +851,7 @@ class PolicyReferralFormComponent extends Component
                 $message->to($sendToemails)
                     ->subject($email_subject)
                     ->cc($ccEmails)
-                    // ->bcc(['bestpratik@gmail.com'])
+                    ->bcc(['bestpratik@gmail.com'])
                     ->attach($filePath);
             });
 
