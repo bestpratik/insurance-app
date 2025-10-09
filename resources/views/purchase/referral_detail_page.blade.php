@@ -72,7 +72,14 @@
                             <div class="border rounded-lg shadow-sm">
                                 <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Property Details</div>
                                 <div class="p-4 text-sm text-gray-700 space-y-2">
-                                    <div><span class="font-medium">Address:</span> {{ $referral->door_no }}, {{ $referral->address_one ?? '' }}, {{ $referral->address_two ?? '' }}, {{ $referral->address_three ?? '' }}, {{ $referral->post_code ?? '' }}</div>
+                                   
+                                    <div>
+                                        <span class="font-medium">Address:</span> 
+                                        {{ collect([$referral->door_no, $referral->address_one, $referral->address_two, $referral->address_three, $referral->post_code])
+                                            ->filter()   {{-- remove empty/null values --}}
+                                            ->implode(', ') }}
+                                    </div>
+
                                     <div><span class="font-medium">No of bedrooms:</span> {{ $referral->bedrooms ?? '' }}</div>
                                     <div><span class="font-medium">Rent Amount (£):</span> {{ $referral->rent_amount ?? '' }}</div>
                                     <div><span class="font-medium">LHA Rate (Rent PCM in £):</span> {{ $referral->rent_amount ?? '' }}</div>

@@ -1073,6 +1073,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
             <p><span class="font-medium">Policy for:</span> {{ $productType }}</p>
             <p><span class="font-medium">Selected Insurance:</span> {{ $insuranceDetails->name ?? 'N/A' }}</p>
+            <p><span class="font-medium">Also need:</span> 
+                {{ is_array($insurancesRequired) ? implode(', ', $insurancesRequired) : $insurancesRequired }}
+            </p>
+
         </div>
     </div>
 
@@ -1081,21 +1085,26 @@
         <h3 class="text-xl font-semibold text-gray-700 mb-4">Property Information</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
             <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p>
+            <p><span class="font-medium">Rent Arrears:</span> {{ $rentArrears }}</p>
             <p><span class="font-medium">Rent Amount:</span> £{{ $rentAmount }}</p>
-            @if($insuranceType === 'renewal')
+            @if($rentArrears)
             <p><span class="font-medium">Rent Arrears:</span> £{{ $rentArrears }}</p>
-            @endif
+            @endif 
+            
             <p><span class="font-medium">Property Address:</span><br>
-                {{ $doorNo }}
-                @if($addressOne), {{ $addressOne }} @endif
-                @if($addressTwo), {{ $addressTwo }} @endif
-                @if($addressThree), {{ $addressThree }} @endif
-                @if($postCode), {{ $postCode }} @endif
+                {{ implode(', ', array_filter([$doorNo, $addressOne, $addressTwo, $addressThree, $postCode])) }}
             </p>
+
+            @if($yearOfPurchase)
+            <p><span class="font-medium">Year of Purchase:</span> {{ $yearOfPurchase }}</p>
+            @endif
+            @if($yearOfBuild)
+            <p><span class="font-medium">Year of Build:</span> {{ $yearOfBuild }}</p>
+            @endif
         </div>
     </div>
 
-    <!-- Policy Holder Details -->
+    <!-- Policy Holder Details --> 
     <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xl font-semibold text-gray-700 mb-4">Policy Holder Details</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
@@ -1111,11 +1120,11 @@
             @if($policyholderAlternativePhone)
             <p><span class="font-medium">Alternate Phone:</span> {{ $policyholderAlternativePhone }}</p>
             @endif
+
             <p><span class="font-medium">Address:</span><br>
-                {{ $policyholderAddress1 }}
-                @if($policyholderAddress2), {{ $policyholderAddress2 }} @endif
-                @if($policyholderPostcode), {{ $policyholderPostcode }} @endif
+                {{ implode(', ', array_filter([$policyholderAddress1, $policyholderAddress2, $policyholderPostcode])) }}
             </p>
+
         </div>
     </div>
 
