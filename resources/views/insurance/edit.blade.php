@@ -13,16 +13,16 @@
 
     <div class="card bg-white rounded-lg border">
         <div class="d-md-flex align-content-stretch">
-            <div class="card-body flex-fill mx-md-4"> 
+            <div class="card-body flex-fill mx-md-4">
                 @include('insurance.menu')
 
 
 
 
                 @if($message = Session::get('onboarderror'))
-                    <div class="alert alert-success alert-dismissible">
-                        {{ $message }}
-                    </div>
+                <div class="alert alert-success alert-dismissible">
+                    {{ $message }}
+                </div>
                 @endif
                 <form class="p-3 md:px-6 md:pb-6 w-full space-y-4" method="post"
                     action="{{ route('insurances.update', $insurance->uuid) }}" enctype="multipart/form-data">
@@ -42,13 +42,13 @@
                                     <span>New</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal" 
+                                    <input type="radio" name="type_of_insurance" class="form-radio" value="Renewal"
                                         @if($insurance->type_of_insurance == 'Renewal') checked @endif>
                                     <span>Renewal</span>
                                 </label>
                             </div>
                             @error('type_of_insurance')
-                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
 
@@ -61,87 +61,108 @@
                             <input name="name" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
                                 placeholder="Enter the insurance name..." value="{{$insurance->name ?? ''}}">
                             @error('name')
-                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
                     </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                <label class="block">
-                    <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
-                    <p class="text-gray-500" style="font-size: 12px;">Select the insurance company or provider
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                        <label class="block">
+                            <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Select the insurance company or provider
                                 offering this policy.</p>
-                    <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
-                        <option value="">choose..</option>
-                        @foreach($provider as $row)
-                            <option value="{{ $row->id }}" @if($row->id == $insurance->provider_type) selected @endif>
-                                {{ $row->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('provider_type')
-                        <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
-                    @enderror
-                </label>
+                            <select name="provider_type" class="w-full mt-1 p-2 border rounded-md border-[#66666660]">
+                                <option value="">choose..</option>
+                                @foreach($provider as $row)
+                                <option value="{{ $row->id }}" @if($row->id == $insurance->provider_type) selected @endif>
+                                    {{ $row->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('provider_type')
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
 
-                <label class="block">
-                    <span class="text-gray-700">Prefix</span>
-                    <p class="text-gray-500" style="font-size: 12px;">Enter the short code or abbreviation used
+                        <label class="block">
+                            <span class="text-gray-700">Prefix</span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the short code or abbreviation used
                                 to identify this insurance.</p>
-                    <input name="prefix" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
-                        placeholder="Enter.." value="{{$insurance->prefix ?? ''}}">
-                </label>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <input name="prefix" type="text" class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
+                                placeholder="Enter.." value="{{$insurance->prefix ?? ''}}">
+                        </label>
 
-                <label class="block">
-                    <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
-                    <p class="text-gray-500" style="font-size: 12px;">Specify the duration the insurance is
+                        <label class="block">
+                            <span class="text-gray-700">Show on Referral Form<span class="text-red-600 text-xl">* </span></span>
+                            <div class="flex items-center space-x-6 mt-2">
+
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="show_on_referral_form" class="form-radio" value="Yes" @if($insurance->show_on_referral_form == 'Yes') checked @endif>
+                                    <span>Yes</span>
+                                </label>
+
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="show_on_referral_form" class="form-radio" value="No" @if($insurance->show_on_referral_form == 'No') checked @endif>
+                                    <span>No</span>
+                                </label>
+
+                            </div>
+                            @error('show_on_referral_form')
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                        <label class="block">
+                            <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Specify the duration the insurance is
                                 valid for (e.g., 365 days).</p>
-                    <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter.."
-                        value="{{$insurance->validity ?? ''}}">
-                    @error('validity')
-                        <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
-                    @enderror
-                </label>
+                            <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter.."
+                                value="{{$insurance->validity ?? ''}}">
+                            @error('validity')
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
 
-                <label class="block">
-                    <span class="text-gray-700">Rent From <span class="text-red-600 text-xl">* </span></span>
-                    <p class="text-gray-500" style="font-size: 12px;">Enter the minimum or base rent amount for this
+                        <label class="block">
+                            <span class="text-gray-700">Rent From <span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the minimum or base rent amount for this
                                 insurance policy.</p>
-                    <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded"
-                       placeholder="Enter minimum price (e.g., £-500)" value="{{$insurance->rent_amount_from ?? ''}}">
-                    @error('rent_amount_from')
-                        <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
-                    @enderror
-                </label>
+                            <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded"
+                                placeholder="Enter minimum price (e.g., £-500)" value="{{$insurance->rent_amount_from ?? ''}}">
+                            @error('rent_amount_from')
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
 
-                <label class="block">
-                    <span class="text-gray-700">Rent To<span class="text-red-600 text-xl">* </span></span>
-                     <p class="text-gray-500" style="font-size: 12px;">Enter the maximum possible rent amount for this
+                        <label class="block">
+                            <span class="text-gray-700">Rent To<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter the maximum possible rent amount for this
                                 insurance policy.</p>
-                    <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter maximum price (e.g., £-5000)" value="{{$insurance->rent_amount_to ?? ''}}">
-                    @error('rent_amount_to')
-                        <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
-                    @enderror
-                </label>
+                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded"
+                                placeholder="Enter maximum price (e.g., £-5000)" value="{{$insurance->rent_amount_to ?? ''}}">
+                            @error('rent_amount_to')
+                            <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
 
 
 
-                <label class="block">
-                    <span class="text-gray-700">Image</span>
-                    <input type="file"
-                        class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center"
-                        id="customFile" name="image" onchange="loadFile(event)">
-                </label>
-                <img src="{{ asset('uploads/insurance/' . $insurance->image) }}" style="height:50px;width:75px;">
+                        <label class="block">
+                            <span class="text-gray-700">Image</span>
+                            <input type="file"
+                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center"
+                                id="customFile" name="image" onchange="loadFile(event)">
+                        </label>
+                        <img src="{{ asset('uploads/insurance/' . $insurance->image) }}" style="height:50px;width:75px;">
 
-                 <label class="block">
+                        <label class="block">
                             <span class="text-gray-700">Purchase Mode<span class="text-red-600 text-xl">* </span></span>
                             <div class="flex items-center space-x-6 mt-2">
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline" 
+                                    <input type="radio" name="purchase_mode" class="form-radio" value="Offline"
                                         @if($insurance->purchase_mode == 'Offline') checked @endif>
                                     <span>Offline</span>
                                 </label>
@@ -151,28 +172,28 @@
                                     <span>Online</span>
                                 </label>
                             </div>
-                </label>
+                        </label>
+
+                    </div>
+                    <label class="block">
+                        <span class="text-gray-700">Details of cover</span>
+                        <textarea name="details_of_cover" id=""
+                            class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote"
+                            rows="2">{!! $insurance->details_of_cover ?? '' !!}</textarea>
+                    </label>
+
+                    <div class="pt-6 flex justify-center">
+                        <button
+                            class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
+                            <span class="text-md">Next</span>
+                            <x-heroicon-o-chevron-right class="h-6 w-6" />
+                        </button>
+
+                    </div>
+                </form>
 
             </div>
-            <label class="block">
-                <span class="text-gray-700">Details of cover</span>
-                <textarea name="details_of_cover" id=""
-                    class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center summernote"
-                    rows="2">{!! $insurance->details_of_cover ?? '' !!}</textarea>
-            </label>
-
-            <div class="pt-6 flex justify-center">
-                <button
-                    class="flex items-center justify-between text-center rounded-md md:w-[100px] w-[130px]  px-3 py-2 bg-blue-800 text-white rounded hover:bg-blue-600 transition-all duration-300">
-                    <span class="text-md">Next</span>
-                    <x-heroicon-o-chevron-right class="h-6 w-6" />
-                </button>
-
-            </div>
-            </form>
-
         </div>
-    </div>
     </div>
 
 
@@ -185,7 +206,7 @@
 <!-- Summernote) -->
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.summernote').summernote({
             height: 50,
             toolbar: [

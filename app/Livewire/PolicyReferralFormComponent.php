@@ -109,7 +109,13 @@ class PolicyReferralFormComponent extends Component
         $this->policyTerm = 1;
         $this->isInvoice = true;
 
-        $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')->get();
+        $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
+                                                ->where('show_on_referral_form', 'Yes')
+                                                ->first();
+
+        if ($this->availableInsurances) {
+            $this->selectedinsuranceId = $this->availableInsurances->name; 
+        }
     }
 
     public function updatedProductType($value)

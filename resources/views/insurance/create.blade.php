@@ -98,6 +98,7 @@
                                 <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
                             @enderror
                         </label>
+                        
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -125,6 +126,26 @@
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
                                 placeholder="Enter insurance prefix (e.g., RSA)" value="{{ old('prefix') }}">
                         </label>
+
+                        <label class="block">
+                            <span class="text-gray-700">Show on Referral Form<span class="text-red-600 text-xl">* </span></span>
+                            <div class="flex items-center space-x-6 mt-2">
+
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="show_on_referral_form" class="form-radio" value="Yes">
+                                    <span>Yes</span>
+                                </label>
+
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="show_on_referral_form" class="form-radio" value="No">
+                                    <span>No</span>
+                                </label>
+
+                            </div>
+                            @error('show_on_referral_form')
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
@@ -144,7 +165,7 @@
                             <span class="text-gray-700">Rent From<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Enter the minimum or base rent amount for this
                                 insurance policy.</p>
-                            <input name="rent_amount_from" type="text"
+                            <input name="rent_amount_from" type="number"
                                 class="w-full border-[#66666660] mt-1 p-2 border rounded"
                                 placeholder="Enter price (e.g., £-500)" value="{{ old('rent_amount_from') }}">
                             @error('rent_amount_from')
@@ -156,7 +177,7 @@
                             <span class="text-gray-700">Rent To<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Enter the maximum possible rent amount for this
                                 insurance policy.</p>
-                            <input name="rent_amount_to" type="text"
+                            <input name="rent_amount_to" type="number"
                                 class="w-full mt-1 p-2 border border-[#66666660] rounded"
                                 placeholder="Enter maximum price (e.g., £-5000)" value="{{ old('rent_amount_to') }}">
                             @error('rent_amount_to')

@@ -180,7 +180,7 @@
 
                     <!-- Insurances (Dropdown) -->
                     <div>
-                        <label class="block text-gray-700 font-medium mb-1">
+                        {{--<label class="block text-gray-700 font-medium mb-1">
                             Insurance <span class="text-red-600">*</span>
                         </label>
                         <select wire:model="selectedinsuranceId"
@@ -189,7 +189,17 @@
                             @foreach($availableInsurances as $avinsurance)
                             <option value="{{ $avinsurance->id }}">{{ $avinsurance->name }}</option>
                             @endforeach
-                        </select>
+                        </select>--}}
+
+                        <label class="block text-gray-700 font-medium mb-1">
+                            Display Name <span class="text-red-600">*</span>
+                        </label>
+
+                        <input type="text"
+                        wire:model="selectedinsuranceId"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter Insurance Name">
+
                         @error('selectedinsuranceId')
                         <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
                         @enderror
@@ -1084,7 +1094,7 @@
     <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xl font-semibold text-gray-700 mb-4">Property Information</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p>
+            <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p> 
             <p><span class="font-medium">Rent Arrears:</span> {{ $rentArrears }}</p>
             <p><span class="font-medium">Rent Amount:</span> £{{ $rentAmount }}</p>
             @if($rentArrears)

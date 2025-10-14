@@ -25,7 +25,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <label class="block">
                             <span class="text-gray-700">Net Premium<span class="text-red-600 text-xl">* </span></span>
-                            <input name="net_premium" type="text"
+                            <input name="net_premium" type="number"
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter net premium amount .." value="{{ old('net_premium', $insurance->net_premium) }}">
                             @error('net_premium')
                                 <p class="text-theme-xs text-red-500 mt-1.5"  style="font-size: 14px;">{{ $message }}</p>
@@ -34,7 +34,7 @@
 
                         <label class="block">
                             <span class="text-gray-700">Commission<span class="text-red-600 text-xl">* </span></span>
-                            <input name="commission" type="text"
+                            <input name="commission" type="number"
                                 class="w-full mt-1 p-2 border rounded-md border-[#66666660]" placeholder="Enter commission amount .." value="{{ old('commission', $insurance->commission) }}">
                             @error('commission')
                                 <p class="text-theme-xs text-red-500 mt-1.5"  style="font-size: 14px;">{{ $message }}</p>
@@ -44,22 +44,22 @@
 
                         <label class="block">
                             <span class="text-gray-700">Gross Premium <span class="text-gray-500" style="font-size: 12px;">(Gross Premium = Net Premium + Commission)</span> </span>
-                            <input name="gross_premium" type="text" class="w-full mt-1 p-2 border border-[#66666660]  rounded" placeholder="Gross Premium = Net Premium + Commission" value="{{ old('gross_premium', $insurance->gross_premium) }}" readonly>
+                            <input name="gross_premium" type="number" class="w-full mt-1 p-2 border border-[#66666660]  rounded" placeholder="Gross Premium = Net Premium + Commission" value="{{ old('gross_premium', $insurance->gross_premium) }}" readonly>
                         </label>
 
                         <label class="block">
                             <span class="text-gray-700">IPT <span class="text-gray-500" style="font-size: 12px;">(12% of Gross Premium)</span> </span>
-                            <input name="ipt" type="text" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter name" value="{{ old('ipt', $insurance->ipt) }}" readonly>
+                            <input name="ipt" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter name" value="{{ old('ipt', $insurance->ipt) }}" readonly>
                         </label>
 
                         <label class="block">
                             <span class="text-gray-700">Total Premium</span>
-                            <input name="total_premium" type="text" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter name" value="{{ old('total_premium', $insurance->total_premium) }}" readonly>
+                            <input name="total_premium" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter name" value="{{ old('total_premium', $insurance->total_premium) }}" readonly>
                         </label>
 
                         <label class="block">
                             <span class="text-gray-700">Broker Fee</span>
-                            <input name="admin_fee" type="floatval" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter admin fee" value="{{ old('admin_fee', $insurance->admin_fee) }}">
+                            <input name="admin_fee" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter admin fee" value="{{ old('admin_fee', $insurance->admin_fee) }}">
                         </label>
 
                         <label class="block">

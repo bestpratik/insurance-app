@@ -47,7 +47,7 @@
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
             <x-heroicon-o-document-text class="h-6 w-6 " />
-            <span class="text-sm hidden md:inline">Policy Details</span> 
+            <span class="text-sm hidden md:inline">Policy Details</span>
         </a>
 
         {{-- Step 5: Tenant Details --}}
@@ -154,6 +154,47 @@
 
             @if($currentStep === 2)
             <div class="grid grid-cols-1 gap-4">
+                <div x-data x-init="() => {
+                    const autocompleteInput = document.getElementById('autocomplete');
+                    if(autocompleteInput) {
+                        const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, {
+                            types: ['geocode'],
+                            componentRestrictions: { country: 'UK' }
+                        });
+                        autocomplete.setFields(['address_component', 'geometry']);
+                        autocomplete.addListener('place_changed', () => {
+                            const place = autocomplete.getPlace();
+                            const components = {
+                                route: 'long_name',
+                                street_number: 'long_name',
+                                subpremise: 'long_name',
+                                locality: 'long_name',
+                                postal_code: 'long_name',
+                                country: 'long_name',
+                            };
+                            let route_val = '';
+                            let st_num_val = '';
+                            let premise_val = '';
+                            for (const comp of place.address_components) {
+                                const type = comp.types[0];
+                                if(components[type]) {
+                                    const val = comp[components[type]];
+                                    document.getElementById(type).value = val;
+                                    if(type === 'route') route_val = val;
+                                    if(type === 'street_number') st_num_val = val;
+                                    if(type === 'subpremise') {
+                                        const match = val.match(/\d+/);
+                                        premise_val = match ? match[0] : '';
+                                    }
+                                }
+                            }
+                            document.getElementById('subpremise').value = premise_val;
+                            document.getElementById('property_address').value = st_num_val + ' ' + route_val;
+                            document.getElementById('lat_code').value = place.geometry.location.lat();
+                            document.getElementById('lng_code').value = place.geometry.location.lng();
+                        });
+                    }
+                }">
                 <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
 
                 <div class="grid md:grid-cols-3 gap-4">
@@ -192,10 +233,45 @@
 
                 <h5 class="text-lg font-semibold my-3">Property Details</h5>
 
+                
+                    <!-- <div class="mb-3 w-full">
+                        <label for="searchpropertyAddress" class="block font-semibold mb-2">
+                            What is the Property Address?
+                        </label>
+                        <input
+                            type="text"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            name="searchaddress"
+                            id="autocomplete"
+                            placeholder="Start typing the address and choose from auto suggest..."
+                            value="{{ old('searchaddress', $landlord_Property->address ?? '') }}">
+
+                    </div> -->
+
+                    <div wire:ignore>
+                        <input
+                            type="text"
+                            id="autocomplete"
+                            placeholder="Start typing the address..."
+                            class="w-full border rounded px-3 py-2"
+                            value="{{ old('searchaddress', $landlord_Property->address ?? '') }}">
+                    </div>
+
+                
+                          <!-- route -->
+                    <input type="text" name="route" value="" id="route">
+                    <!-- street_number -->
+                    <input type="text" name="street_number" value="" id="street_number">
+                    <!-- country -->
+                    <input type="text" class="form-control" name="country" id="country" value="{{ old('country') }}">
+                    <!-- lat/lng -->
+                    <input type="text" name="lat_code" id="lat_code" value="{{ old('lat_code', $landlord_Property->lat_code ?? '') }}">
+                    <input type="text" name="lng_code" id="lng_code" value="{{ old('lng_code', $landlord_Property->lng_code ?? '') }}">
+
                 <div class="grid md:grid-cols-3 gap-4">
                     <div class="mb-2">
                         <label class="block mb-1">Door No <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter..." wire:model="doorNo"
+                        <input type="text" placeholder="Enter..." wire:model="doorNo" id="subpremise"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('doorNo')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -204,8 +280,8 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 1 <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter address..." wire:model="addressOne"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">        
+                        <input type="text" placeholder="Enter address..." wire:model="addressOne" id="property_address"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('addressOne')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
@@ -213,23 +289,24 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 2</label>
-                        <input type="text" placeholder="Enter address..." wire:model="addressTwo"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">  
+                        <input type="text" placeholder="Enter address..." wire:model="addressTwo" id="postal_town"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                     </div>
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 3</label>
                         <input type="text" placeholder="Enter address..." wire:model="addressThree"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">  
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                     </div>
 
                     <div class="mb-2">
                         <label class="block mb-1">Post Code <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter..." wire:model="postCode"
+                        <input type="text" placeholder="Enter..." wire:model="postCode" id="postal_code"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('postCode')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
+                    </div>
                     </div>
                 </div>
             </div>
@@ -414,7 +491,7 @@
                         <input type="text" placeholder="Enter..." wire:model="policyholderPostcode"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('policyholderPostcode')
-                        <span class="text-sm text-red-600">{{ $message }}</span> 
+                        <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -644,7 +721,7 @@
                         <input type="text"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             wire:model="billingPostcode">
-                          @error('billingPostcode')
+                        @error('billingPostcode')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
                     </div>
@@ -654,11 +731,11 @@
                         <input type="text"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             wire:model="ponNo">
-                          @error('ponNo')
+                        @error('ponNo')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
                     </div>
-                    
+
                     <div>
                         <label class="block">
                             <span class="text-sm text-gray-600">Send Invoice</span>
@@ -671,24 +748,24 @@
             @endif
 
             @if($currentStep === 8)
-                <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
+            <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
 
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($summaryData as $key => $value)
-                            <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                                <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
-                                <p class="text-gray-800 text-base">{{ $value }}</p>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach($summaryData as $key => $value)
+                    <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                        <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
+                        <p class="text-gray-800 text-base">{{ $value }}</p>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
             @endif
 
- 
+
 
         </div>
-    </div> 
+    </div>
 
 
 
@@ -734,10 +811,10 @@
                 </span>
                 <span wire:loading.remove wire:target="submitForm">Submit</span>
             </button>--}}
-        @endif
+            @endif
 
-        @if($currentStep == 8)
-        <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
+            @if($currentStep == 8)
+            <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700 transition inline-flex items-center gap-2">
                 <span wire:loading wire:target="submitForm" class="inline">
                     <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -749,8 +826,7 @@
                 </span>
                 <span wire:loading.remove wire:target="submitForm">Submit</span>
             </button>
-        @endif
+            @endif
     </div>
 
 </div>
-
