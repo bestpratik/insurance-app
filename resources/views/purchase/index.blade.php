@@ -26,7 +26,9 @@
         </div>
     </div>
 </x-app-layout>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChHFMmxHF5B555l9v54PAZZmy7_uEzg1Q&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+
 <script type="text/javascript">
     function confirmDelete() {
         return confirm('Are you sure you want to delete this data ?');

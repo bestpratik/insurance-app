@@ -85,12 +85,12 @@
                                             <!-- Add content if needed -->
                                             <!-- <span class="text-gray-500 italic">No details provided</span> -->
                                             @if($purchase->policy_holder_type == 'Company')
-                                                {{ $purchase->company_name ?? '' }}
+                                            {{ $purchase->company_name ?? '' }}
                                             @elseif($purchase->policy_holder_type == 'Individual')
-                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
+                                            {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
                                             @else
-                                                {{ $purchase->company_name ?? '' }} <br>
-                                                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
+                                            {{ $purchase->company_name ?? '' }} <br>
+                                            {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
                                             @endif
                                             </br>
 
@@ -103,9 +103,24 @@
                                 <div class="space-y-4">
                                     <div class="border rounded-lg">
                                         <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Property Details</div>
+                                        
+                                        @php
+                                            $addressParts = [
+                                                $purchase->door_no,
+                                                $purchase->address_one,
+                                                $purchase->address_two,
+                                                $purchase->address_three,
+                                                $purchase->post_code,
+                                            ];
+
+                                        $address = implode(', ', array_filter($addressParts));
+                                        
+                                        @endphp
+
                                         <div class="p-4 text-sm text-gray-700">
-                                            {{ $purchase->door_no }}, {{ $purchase->address_one ?? '' }}, {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}, {{ $purchase->post_code ?? '' }}
+                                            {{ $address }}
                                         </div>
+
                                     </div>
 
                                     <div class="border rounded-lg">
@@ -135,11 +150,19 @@
                                             <td class="p-2">{{ $purchase->invoice->billing_name ?? '' }}</td>
                                             <td class="p-2">{{ $purchase->invoice->billing_email ?? '' }}</td>
                                             <td class="p-2">{{ $purchase->invoice->billing_phone ?? '' }}</td>
+                                           
+                                            @php
+                                                $billingAddress = array_filter([
+                                                    $purchase->invoice->billing_address_one ?? '',
+                                                    $purchase->invoice->billing_address_two ?? '',
+                                                    $purchase->invoice->billing_postcode ?? ''
+                                                ]);
+                                            @endphp
+
                                             <td class="p-2">
-                                                {{ $purchase->invoice->billing_address_one ?? '' }},
-                                                {{ $purchase->invoice->billing_address_two ?? '' }},
-                                                {{ $purchase->invoice->billing_postcode ?? '' }}
+                                                {{ implode(', ', $billingAddress) }}
                                             </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -166,7 +189,7 @@
                             <div class="border rounded-lg">
                                 <div class="px-4 py-2 font-semibold">Dynamic Policy Documents</div>
                                 <div class="p-4 space-x-2">
-                                    @foreach($purchase->insurance->dynamicdocument as $document) 
+                                    @foreach($purchase->insurance->dynamicdocument as $document)
                                     <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
                                         target="_blank"
                                         class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-2 rounded space-x-1">

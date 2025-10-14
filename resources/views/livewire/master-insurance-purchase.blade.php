@@ -156,7 +156,7 @@
             <div class="grid grid-cols-1 gap-4">
                 <div x-data x-init="() => {
                     const autocompleteInput = document.getElementById('autocomplete');
-                    if(autocompleteInput) {
+                    if (autocompleteInput) {
                         const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, {
                             types: ['geocode'],
                             componentRestrictions: { country: 'UK' }
@@ -172,29 +172,47 @@
                                 postal_code: 'long_name',
                                 country: 'long_name',
                             };
+
                             let route_val = '';
                             let st_num_val = '';
                             let premise_val = '';
+                            let postal_code_val = '';
+
+                            // Loop through address components
                             for (const comp of place.address_components) {
                                 const type = comp.types[0];
-                                if(components[type]) {
+                                if (components[type]) {
                                     const val = comp[components[type]];
                                     document.getElementById(type).value = val;
-                                    if(type === 'route') route_val = val;
-                                    if(type === 'street_number') st_num_val = val;
-                                    if(type === 'subpremise') {
+
+                                    if (type === 'route') route_val = val;
+                                    if (type === 'street_number') st_num_val = val;
+                                    if (type === 'subpremise') {
                                         const match = val.match(/\d+/);
                                         premise_val = match ? match[0] : '';
                                     }
+                                    if (type === 'postal_code') postal_code_val = val;
                                 }
                             }
+
+                            // Set input fields
                             document.getElementById('subpremise').value = premise_val;
                             document.getElementById('property_address').value = st_num_val + ' ' + route_val;
+                            document.getElementById('postal_code').value = postal_code_val;
                             document.getElementById('lat_code').value = place.geometry.location.lat();
                             document.getElementById('lng_code').value = place.geometry.location.lng();
+
+                            
+                            window.livewire.emit('updateAddressFromJs', {
+                                doorNo: premise_val,
+                                addressOne: st_num_val + ' ' + route_val,
+                                postCode: postal_code_val
+                            });
+                            
                         });
                     }
                 }">
+
                 <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
 
                 <div class="grid md:grid-cols-3 gap-4">
@@ -259,19 +277,19 @@
 
                 
                           <!-- route -->
-                    <input type="text" name="route" value="" id="route">
+                    <input type="hidden" name="route" value="" id="route">
                     <!-- street_number -->
-                    <input type="text" name="street_number" value="" id="street_number">
+                    <input type="hidden" name="street_number" value="" id="street_number">
                     <!-- country -->
-                    <input type="text" class="form-control" name="country" id="country" value="{{ old('country') }}">
+                    <input type="hidden" class="form-control" name="country" id="country" value="{{ old('country') }}">
                     <!-- lat/lng -->
-                    <input type="text" name="lat_code" id="lat_code" value="{{ old('lat_code', $landlord_Property->lat_code ?? '') }}">
-                    <input type="text" name="lng_code" id="lng_code" value="{{ old('lng_code', $landlord_Property->lng_code ?? '') }}">
+                    <input type="hidden" name="lat_code" id="lat_code" value="{{ old('lat_code', $landlord_Property->lat_code ?? '') }}">
+                    <input type="hidden" name="lng_code" id="lng_code" value="{{ old('lng_code', $landlord_Property->lng_code ?? '') }}">
 
                 <div class="grid md:grid-cols-3 gap-4">
                     <div class="mb-2">
                         <label class="block mb-1">Door No <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter..." wire:model="doorNo" id="subpremise"
+                        <input type="text" placeholder="Enter..." wire:model.defer="doorNo" id="subpremise"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('doorNo')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -280,7 +298,7 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Address 1 <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter address..." wire:model="addressOne" id="property_address"
+                        <input type="text" placeholder="Enter address..." wire:model.defer="addressOne" id="property_address"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('addressOne')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -301,7 +319,7 @@
 
                     <div class="mb-2">
                         <label class="block mb-1">Post Code <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter..." wire:model="postCode" id="postal_code"
+                        <input type="text" placeholder="Enter..." wire:model.defer="postCode" id="postal_code"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('postCode')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -460,7 +478,7 @@
 
                     <div>
                         <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
-                        <input type="text" placeholder="Enter..." wire:model="policyholderPhone"
+                        <input type="number" placeholder="Enter..." wire:model="policyholderPhone"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('policyholderPhone')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -469,7 +487,7 @@
 
                     <div>
                         <label class="block mb-1">Alternative Phone</label>
-                        <input type="text" placeholder="Enter..." wire:model="policyholderAlternativePhone"
+                        <input type="number" placeholder="Enter..." wire:model="policyholderAlternativePhone"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
 
                     </div>
@@ -607,7 +625,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
-                        <input type="text"
+                        <input type="number"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             wire:model="tenantPhone">
                         @error('tenantPhone')
@@ -690,7 +708,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
-                        <input type="text"
+                        <input type="number"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             wire:model="billingPhone">
                         @error('billingPhone')
