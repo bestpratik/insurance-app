@@ -224,83 +224,166 @@
             @if($currentStep === 2)
             <div id="tab2" class="tab-content bg-white p-6 rounded shadow">
                 <div class="grid grid-cols-1 gap-4 mt-5">
-                    <!-- Title -->
-                    <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
+                    <div x-data x-init="() => {
+                        const autocompleteInput = document.getElementById('autocomplete');
+                        if (autocompleteInput) {
+                            const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, {
+                                types: ['geocode'],
+                                componentRestrictions: { country: 'UK' }
+                            });
+                            autocomplete.setFields(['address_components', 'geometry']);
 
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div class="mb-2">
-                            <label class="block font-semibold mb-1">
-                                Type Of Insurance <span class="text-red-600">*</span>
-                            </label>
-                            <div class="flex items-center space-x-4">
-                                <div class="flex items-center">
-                                    <input id="typeOfinsurancenew" type="radio" wire:model="insuranceType" value="new"
-                                        class="mr-1">
-                                    <label for="typeOfinsurancenew">New</label>
+                            autocomplete.addListener('place_changed', () => {
+                                const place = autocomplete.getPlace();
+
+                                const componentsMap = {
+                                    route: 'long_name',
+                                    street_number: 'long_name',
+                                    subpremise: 'long_name',
+                                    locality: 'long_name',
+                                    postal_code: 'long_name',
+                                    postal_town: 'long_name',
+                                    country: 'long_name',
+                                };
+
+                                let route_val = '';
+                                let st_num_val = '';
+                                let subpremise_val = '';
+                                let postal_code_val = '';
+                                let postal_town_val = '';
+
+                                for (const comp of place.address_components) {
+                                    const type = comp.types[0];
+                                    if (componentsMap[type]) {
+                                        const val = comp[componentsMap[type]];
+
+                                        if (type === 'route') route_val = val;
+                                        if (type === 'street_number') st_num_val = val;
+                                        if (type === 'subpremise') subpremise_val = val;
+                                        if (type === 'postal_code') postal_code_val = val;
+                                        if (type === 'postal_town') postal_town_val = val;
+
+                                        const input = document.getElementById(type);
+                                        if (input) input.value = val;
+                                    }
+                                }
+
+                                document.getElementById('subpremise').value = subpremise_val;
+                                document.getElementById('property_address').value = [st_num_val, route_val].filter(Boolean).join(' ');
+                                document.getElementById('postal_code').value = postal_code_val;
+                                document.getElementById('postal_town').value = postal_town_val;
+                                document.getElementById('lat_code').value = place.geometry.location.lat();
+                                document.getElementById('lng_code').value = place.geometry.location.lng();
+
+                                
+                                @this.set('addressOne', [st_num_val, route_val].filter(Boolean).join(' '));
+                                @this.set('addressTwo', postal_town_val||'');
+                                @this.set('postCode', postal_code_val||'');
+
+                            });
+                        }
+                    }">
+
+                        <!-- Title -->
+                        <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="mb-2">
+                                <label class="block font-semibold mb-1">
+                                    Type Of Insurance <span class="text-red-600">*</span>
+                                </label>
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex items-center">
+                                        <input id="typeOfinsurancenew" type="radio" wire:model="insuranceType" value="new"
+                                            class="mr-1">
+                                        <label for="typeOfinsurancenew">New</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="typeOfinsurancerenewal" type="radio" wire:model="insuranceType"
+                                            value="renewal" class="mr-1">
+                                        <label for="typeOfinsurancerenewal">Renewal</label>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <input id="typeOfinsurancerenewal" type="radio" wire:model="insuranceType"
-                                        value="renewal" class="mr-1">
-                                    <label for="typeOfinsurancerenewal">Renewal</label>
-                                </div>
+                                @error('insuranceType')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
                             </div>
-                            @error('insuranceType')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+
+                            <div class="mb-2">
+                                <label class="block font-semibold mb-1">
+                                    Rent Amount (£) <span class="text-red-600">*</span>
+                                </label>
+                                <input type="text" wire:model="rentAmount"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('rentAmount')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="mb-2">
-                            <label class="block font-semibold mb-1">
-                                Rent Amount (£) <span class="text-red-600">*</span>
-                            </label>
-                            <input type="text" wire:model="rentAmount"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('rentAmount')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
+                        <h5 class="text-lg font-semibold my-3">Property Details</h5>
 
-                    <h5 class="text-lg font-semibold my-3">Property Details</h5>
+                            <div wire:ignore>
+                                <label class="block mb-1">What is the Property Address?</label>
+                                <input
+                                    type="text"
+                                    id="autocomplete"
+                                    placeholder="Start typing the address and choose from auto Suggest..."
+                                    class="w-full border rounded px-3 py-2"
+                                    value="{{ old('searchaddress', $landlord_Property->address ?? '') }}">
+                            </div>
 
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div class="mb-2">
-                            <label class="block mb-1">Door No <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter..." wire:model="doorNo"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('doorNo')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        
+                                <!-- route -->
+                            <input type="hidden" name="route" value="" id="route">
+                            <!-- street_number -->
+                            <input type="hidden" name="street_number" value="" id="street_number">
+                            <!-- country -->
+                            <input type="hidden" class="form-control" name="country" id="country" value="{{ old('country') }}">
+                            <!-- lat/lng -->
+                            <input type="hidden" name="lat_code" id="lat_code" value="{{ old('lat_code', $landlord_Property->lat_code ?? '') }}">
+                            <input type="hidden" name="lng_code" id="lng_code" value="{{ old('lng_code', $landlord_Property->lng_code ?? '') }}">
 
-                        <div class="mb-2">
-                            <label class="block mb-1">Address 1 <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter address..." wire:model="addressOne"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('addressOne')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
 
-                        <div class="mb-2">
-                            <label class="block mb-1">Address 2</label>
-                            <input type="text" placeholder="Enter address..." wire:model="addressTwo"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                        </div>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="mb-2">
+                                <label class="block mb-1">Door No</label>
+                                <input type="text" placeholder="Enter..." wire:model.defer="doorNo" id="subpremise"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('doorNo')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-2">
-                            <label class="block mb-1">Address 3</label>
-                            <input type="text" placeholder="Enter address..." wire:model="addressThree"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                        </div>
+                            <div class="mb-2">
+                                <label class="block mb-1">Address 1 <span class="text-red-600">*</span></label>
+                                <input type="text" placeholder="Enter address..." wire:model.defer="addressOne" id="property_address"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('addressOne')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                        <div class="mb-2">
-                            <label class="block mb-1">Post Code <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter..." wire:model="postCode"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-                            @error('postCode')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+                            <div class="mb-2">
+                                <label class="block mb-1">Postal Town</label>
+                                <input type="text" placeholder="Enter address..." wire:model="addressTwo" id="postal_town"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="block mb-1">Address 3</label>
+                                <input type="text" placeholder="Enter address..." wire:model="addressThree"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="block mb-1">Post Code <span class="text-red-600">*</span></label>
+                                <input type="text" placeholder="Enter..." wire:model.defer="postCode" id="postal_code"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                                @error('postCode')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -889,7 +972,7 @@
 </div>
 </div>
 @endif
-
+ 
 @if($currentStep === 7) 
 <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
     <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">

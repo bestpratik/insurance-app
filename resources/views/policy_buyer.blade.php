@@ -20,8 +20,10 @@
     <!-- TAB MENU -->
 
 
-     <livewire:policy-buyer-component :insuranceId="$insuranceId" />
+     <livewire:policy-buyer-component :insuranceId="$insuranceId" /> 
 
+ 
 
+</x-front> 
 
-</x-front>   
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>

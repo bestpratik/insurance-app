@@ -101,7 +101,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId'));
+        return view('policy_buyer', compact('insuranceId')); 
     }
 
 

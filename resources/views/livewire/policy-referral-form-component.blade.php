@@ -354,7 +354,7 @@
 
 
                         <div class="mb-2">
-                            <label class="block mb-1">Door No <span class="text-red-600">*</span></label>
+                            <label class="block mb-1">Door No</label>
                             <input type="text" placeholder="Enter..." wire:model="doorNo"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('doorNo')

@@ -201,7 +201,7 @@ class PolicyReferralFormComponent extends Component
                         }
                     },
                 ],
-                'doorNo' => 'required|string',
+                'doorNo' => 'nullable',
                 'addressOne' => 'required|string',
                 'postCode' => 'required|string',
                 'noOfBedrooms' => 'required',

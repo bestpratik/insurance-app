@@ -147,10 +147,11 @@
 
         <h5 class="text-lg font-semibold my-3">Property Details</h5>
                 <div wire:ignore>
+                    <label class="block mb-1">What is the Property Address?</label>
                         <input
                             type="text"
                             id="autocomplete"
-                            placeholder="Start typing the address..."
+                            placeholder="Start typing the address and choose from auto Suggest..."
                             class="w-full border rounded px-3 py-2"
                             value="{{ old('searchaddress', $landlord_Property->address ?? '') }}">
                 </div>
