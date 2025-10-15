@@ -115,7 +115,7 @@ class PurchaseController extends Controller
 
     public function purchaselist_edit($policy_no){ 
         $purchase = Purchase::where('policy_no', $policy_no)->firstOrFail();
-        return view('purchase.edit', compact('purchase'));
+        return view('purchase.edit', compact('purchase')); 
     }
 
 

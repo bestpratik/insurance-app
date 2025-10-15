@@ -265,7 +265,7 @@ class MasterInsurancePurchase extends Component
         ];
     }
 
-    protected $listeners = ['updateAddressFromJs'];
+    protected $listeners = ['updateAddressFromJs']; 
 
     public function updateAddressFromJs($data)
     {

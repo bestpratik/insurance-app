@@ -21,13 +21,16 @@
                     </div>
                 @endif
                 
-                <livewire:purchase-edit :policyNo="$purchase->policy_no"/>    
+                <livewire:purchase-edit :policyNo="$purchase->policy_no"/>     
             </div>
         </div>
     </div>
 
 
 </x-app-layout>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
+
 
 <!-- Summernote) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

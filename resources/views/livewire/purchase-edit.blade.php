@@ -83,7 +83,7 @@
                 @enderror
             </div>
 
-        </div>
+        </div> 
 
         <h5 class="text-lg font-semibold my-3">Property Details</h5>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
