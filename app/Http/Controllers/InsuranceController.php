@@ -158,7 +158,7 @@ class InsuranceController extends Controller
     public function create()
     {
         $provider = Provider::where('status', 1)->get();
-        return view('insurance.create', compact('provider'));  
+        return view('insurance.create', compact('provider'));   
     }
 
     
@@ -173,6 +173,7 @@ class InsuranceController extends Controller
         'rent_amount_to' => 'required',
         'purchase_mode' => 'required',
         'show_on_referral_form' => 'required',
+        'display_name'     => 'required',
        ]);
 
         $insurance = new Insurance;
@@ -189,6 +190,7 @@ class InsuranceController extends Controller
         $insurance->provider_type = $request->provider_type;
         $insurance->prefix = str_replace('-', '', $request->prefix);
         $insurance->show_on_referral_form = $request->show_on_referral_form;
+        $insurance->display_name = $request->display_name;
         $insurance->type_of_insurance = $request->type_of_insurance;
         $insurance->validity = $request->validity;
         $insurance->rent_amount_from = $request->rent_amount_from;
@@ -463,15 +465,25 @@ class InsuranceController extends Controller
   
     public function update(Request $request, string $uuid)
     {
-         $request->validate([
-            'name'           => 'required',
-        ]);
+        $request->validate([
+            'type_of_insurance' => 'required',
+            'name' => 'required',
+            'provider_type' => 'required',
+            'validity' => 'required',
+            'rent_amount_from' => 'required',
+            'rent_amount_to' => 'required',
+            'purchase_mode' => 'required',
+            'show_on_referral_form' => 'required',
+            'display_name'     => 'required',
+       ]);
 
         $insurance = Insurance::where('uuid', $uuid)->firstOrFail();
         $insurance->name = $request->name;
         $insurance->provider_type = $request->provider_type;
         $insurance->purchase_mode = $request->purchase_mode;
         $insurance->prefix = $request->prefix;
+        $insurance->show_on_referral_form = $request->show_on_referral_form;
+        $insurance->display_name = $request->display_name;
         $insurance->type_of_insurance = $request->type_of_insurance;
         $insurance->validity = $request->validity;
         $insurance->rent_amount_from = $request->rent_amount_from;

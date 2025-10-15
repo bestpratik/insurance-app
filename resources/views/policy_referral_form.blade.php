@@ -19,7 +19,7 @@
         
 
         <!-- TAB MENU -->
-         <livewire:policy-referral-form-component />    
+         <livewire:policy-referral-form-component />     
         <!-- SCRIPT -->
         <!-- <script>
         const tabButtons = document.querySelectorAll(".tab-btn");

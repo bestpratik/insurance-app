@@ -153,7 +153,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('providers', ProviderController::class);
-    Route::resource('insurances', InsuranceController::class);  
+    Route::resource('insurances', InsuranceController::class);   
     Route::resource('purchases', PurchaseController::class);  
 
     /*All Purchase List*/

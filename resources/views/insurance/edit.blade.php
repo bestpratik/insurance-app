@@ -69,6 +69,17 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
                         <label class="block">
+                            <span class="text-gray-700">Display Name<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Provide a display name that will be visible to users instead of the insurance name.</p>
+                            <input name="display_name" type="text"
+                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
+                                placeholder="Enter insurance display Name" value="{{$insurance->display_name ?? ''}}">
+                            @error('display_name')
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
+
+                        <label class="block">
                             <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Select the insurance company or provider
                                 offering this policy.</p>
@@ -119,7 +130,7 @@
                             <span class="text-gray-700">Validity<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Specify the duration the insurance is
                                 valid for (e.g., 365 days).</p>
-                            <input name="validity" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter.."
+                            <input name="validity" type="number" class="w-full mt-1 p-2 border rounded" placeholder="Enter.."
                                 value="{{$insurance->validity ?? ''}}">
                             @error('validity')
                             <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
@@ -130,7 +141,7 @@
                             <span class="text-gray-700">Rent From <span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Enter the minimum or base rent amount for this
                                 insurance policy.</p>
-                            <input name="rent_amount_from" type="text" class="w-full mt-1 p-2 border rounded"
+                            <input name="rent_amount_from" type="number" class="w-full mt-1 p-2 border rounded"
                                 placeholder="Enter minimum price (e.g., £-500)" value="{{$insurance->rent_amount_from ?? ''}}">
                             @error('rent_amount_from')
                             <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
@@ -141,7 +152,7 @@
                             <span class="text-gray-700">Rent To<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Enter the maximum possible rent amount for this
                                 insurance policy.</p>
-                            <input name="rent_amount_to" type="text" class="w-full mt-1 p-2 border rounded"
+                            <input name="rent_amount_to" type="number" class="w-full mt-1 p-2 border rounded"
                                 placeholder="Enter maximum price (e.g., £-5000)" value="{{$insurance->rent_amount_to ?? ''}}">
                             @error('rent_amount_to')
                             <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>

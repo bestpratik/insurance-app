@@ -104,6 +104,17 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
                         <label class="block">
+                            <span class="text-gray-700">Display Name<span class="text-red-600 text-xl">* </span></span>
+                            <p class="text-gray-500" style="font-size: 12px;">Provide a display name that will be visible to users instead of the insurance name.</p>
+                            <input name="display_name" type="text"
+                                class="w-full mt-1 p-2 border rounded-md border-[#66666660]"
+                                placeholder="Enter insurance display Name" value="{{ old('display_name') }}">
+                            @error('display_name')
+                                <p class="text-theme-xs text-red-500 mt-1.5" style="font-size: 14px;">{{ $message }}</p>
+                            @enderror
+                        </label>
+
+                        <label class="block">
                             <span class="text-gray-700">Provider<span class="text-red-600 text-xl">* </span></span>
                             <p class="text-gray-500" style="font-size: 12px;">Select the insurance company or provider
                                 offering this policy.</p>

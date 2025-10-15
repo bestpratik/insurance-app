@@ -269,7 +269,7 @@ class MasterInsurancePurchase extends Component
 
     public function updateAddressFromJs($data)
     {
-        dd($data);
+       
         $this->doorNo = $data['doorNo'];
         $this->addressOne = $data['addressOne'];
         $this->postCode = $data['postCode'];
