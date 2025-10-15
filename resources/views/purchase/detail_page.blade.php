@@ -123,14 +123,16 @@
 
                                     </div>
 
-                                    <div class="border rounded-lg">
-                                        <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Tenant Details</div>
-                                        <div class="p-4 text-sm text-gray-700 space-y-1">
-                                            <div>{{ $purchase->tenant_name ?? '' }}</div>
-                                            <div>{{ $purchase->tenant_email ?? '' }}</div>
-                                            <div>{{ $purchase->tenant_phone ?? '' }}</div>
+                                    @if(!empty($purchase->tenant_name || $purchase->tenant_email || $purchase->tenant_phone))
+                                        <div class="border rounded-lg">
+                                            <div class="bg-gray-800 text-white px-4 py-2 font-semibold">Tenant Details</div>
+                                            <div class="p-4 text-sm text-gray-700 space-y-1">
+                                                <div>{{ $purchase->tenant_name ?? '' }}</div>
+                                                <div>{{ $purchase->tenant_email ?? '' }}</div>
+                                                <div>{{ $purchase->tenant_phone ?? '' }}</div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                             <!-- Billing Department -->

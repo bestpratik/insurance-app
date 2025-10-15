@@ -145,7 +145,7 @@ class PurchaseEdit extends Component
             'policyTerm' => 'required',
             'policyholderPostcode' => 'required',
             'rentAmount' => 'required',
-            'doorNo' => 'required',
+            'doorNo' => 'nullable',
             'addressOne' => 'required',
 
         ]);

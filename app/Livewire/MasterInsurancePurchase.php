@@ -265,15 +265,15 @@ class MasterInsurancePurchase extends Component
         ];
     }
 
-    protected $listeners = ['updateAddressFromJs']; 
+    // protected $listeners = ['updateAddressFromJs']; 
 
-    public function updateAddressFromJs($data)
-    {
+    // public function updateAddressFromJs($data)
+    // {
        
-        $this->doorNo = $data['doorNo'];
-        $this->addressOne = $data['addressOne'];
-        $this->postCode = $data['postCode'];
-    }
+    //     $this->doorNo = $data['doorNo'];
+    //     $this->addressOne = $data['addressOne'];
+    //     $this->postCode = $data['postCode'];
+    // }
     
 
     public function submitForm()
