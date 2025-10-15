@@ -206,18 +206,10 @@
                             document.getElementById('lng_code').value = place.geometry.location.lng();
 
                             
-                            @this.set('doorNo', subpremise_val||'');
                             @this.set('addressOne', [st_num_val, route_val].filter(Boolean).join(' '));
                             @this.set('addressTwo', postal_town_val||'');
                             @this.set('postCode', postal_code_val||'');
 
-
-                            window.livewire.emit('updateAddressFromJs', {
-                                doorNo: subpremise_val,
-                                addressOne: [st_num_val, route_val].filter(Boolean).join(' '),
-                                postCode: postal_code_val,
-                                postalTown: postal_town_val
-                            });
                         });
                     }
                 }">
@@ -251,7 +243,7 @@
                         <label class="block font-semibold mb-1">
                             Rent Amount (£) <span class="text-red-600">*</span>
                         </label>
-                        <input type="text" wire:model="rentAmount"
+                        <input type="number" wire:model="rentAmount"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('rentAmount')
                         <span class="text-sm text-red-600">{{ $message }}</span>
@@ -298,7 +290,7 @@
 
                 <div class="grid md:grid-cols-3 gap-4">
                      <div class="mb-2">
-                        <label class="block mb-1">Door No <span class="text-red-600">*</span></label>
+                        <label class="block mb-1">Door No</label>
                         <input type="text" placeholder="Enter..." wire:model.defer="doorNo" id="subpremise"
                             class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                         @error('doorNo')

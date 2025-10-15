@@ -144,7 +144,7 @@ class MasterInsurancePurchase extends Component
                         }
                     },
                 ],
-                'doorNo' => 'required|string',
+                'doorNo' => 'nullable',
                 'addressOne' => 'required|string',
                 'postCode' => 'required|string',
             ];
