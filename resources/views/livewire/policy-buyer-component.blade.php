@@ -585,7 +585,7 @@
 
                         <div>
                             <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
-                            <input type="text" placeholder="Enter..." wire:model="policyholderPhone"
+                            <input type="number" placeholder="Enter..." wire:model="policyholderPhone"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('policyholderPhone')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -594,7 +594,7 @@
 
                         <div>
                             <label class="block mb-1">Alternative Phone</label>
-                            <input type="text" placeholder="Enter..." wire:model="policyholderAlternativePhone"
+                            <input type="number" placeholder="Enter..." wire:model="policyholderAlternativePhone"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
 
                         </div>
@@ -777,7 +777,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
-                            <input type="text"
+                            <input type="number"
                                 class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantPhone">
                             @error('tenantPhone')
@@ -888,7 +888,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
-                <input type="text"
+                <input type="number"
                     class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     wire:model="billingPhone">
                 @error('billingPhone')
