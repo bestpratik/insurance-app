@@ -353,7 +353,7 @@ class StripePaymentController extends Controller
 
         $copyEmails = explode(',', $purchase->copy_email);
         $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+        $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
         $email_subject = $insurance->insurancemailtemplate->title ?? '';
         $data = [
@@ -397,7 +397,7 @@ class StripePaymentController extends Controller
         if (filter_var($billingEmail, FILTER_VALIDATE_EMAIL)) {
             $copyEmails = explode(',', $purchase->copy_email);
             $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-            $invoiceCopyEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+            $invoiceCopyEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
             $invoiceEmailData = [
                 'body' => 'Dear client,<br>Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
