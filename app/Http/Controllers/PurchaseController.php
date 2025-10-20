@@ -23,7 +23,7 @@ class PurchaseController extends Controller
         $purchases = Purchase::where('status', 1)
                     ->with('insurance','provider')
                     ->get();
-        return view('purchase.index', compact('purchases')); 
+        return view('purchase.index', compact('purchases'));  
     }
 
     

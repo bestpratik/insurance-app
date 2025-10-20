@@ -80,7 +80,7 @@ class PurchaseEdit extends Component
             $this->addressOne = $this->purchaseData->address_one;
             $this->addressTwo = $this->purchaseData->address_two;
             $this->addressThree = $this->purchaseData->address_three;
-            $this->postCode = $this->purchaseData->post_code;
+            $this->postCode = $this->purchaseData->post_code; 
 
 
             // policy holder

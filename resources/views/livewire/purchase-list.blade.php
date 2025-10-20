@@ -26,7 +26,7 @@
             <input type="text" wire:model.live="landlordagencyAddress" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div> --}}
         <div class="sm:w-64">
-            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Email</label>
+            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Landlord/Agency Email</label>  
             <input type="text" wire:model.live="landlordagencyEmail" placeholder="Search..." class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
         <div class="sm:w-64">
@@ -198,7 +198,12 @@
                             {{ $row->policy_holder_address }}
                         </td> --}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_email }}
+                            @if(!empty($row->policy_holder_email))
+                                {{ $row->policy_holder_email }}
+                            @else
+                                {{ $row->policy_holder_company_email }}
+                            @endif
+
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->policy_start_date)) }}
@@ -479,7 +484,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> 
 
 
                     <div class="mt-6 flex justify-end space-x-4">

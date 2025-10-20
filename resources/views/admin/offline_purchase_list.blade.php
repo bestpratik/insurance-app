@@ -29,7 +29,7 @@
                 
 
 
-               <livewire:offline-purchase-list />     
+               <livewire:offline-purchase-list />      
                 
             </div>
         </div>

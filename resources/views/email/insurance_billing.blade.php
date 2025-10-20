@@ -102,7 +102,7 @@
 </head>
 
 <body>
-  	<div class="container">
+  	<div class="container"> 
        @php
         $placeholders = [
             '%InsuranceName%' => $bodyValue[0],
@@ -123,6 +123,7 @@
         ];
 
         $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $body);
+        
     @endphp
 
     {!! $output_string !!}

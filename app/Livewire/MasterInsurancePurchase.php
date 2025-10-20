@@ -319,7 +319,7 @@ class MasterInsurancePurchase extends Component
         // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
         // $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
         // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
-        // $purchase->policy_holder_email = $this->policyholderEmail;
+        // $purchase->policy_holder_email = $this->policyholderEmail; 
 
         // ✅ Save Company details if Company or Both
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {

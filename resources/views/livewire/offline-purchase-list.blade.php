@@ -198,7 +198,11 @@
                             {{ $row->policy_holder_address }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_email }}
+                             @if(!empty($row->policy_holder_email))
+                                {{ $row->policy_holder_email }}
+                            @else
+                                {{ $row->policy_holder_company_email }}
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ date('jS F Y', strtotime($row->policy_start_date)) }}

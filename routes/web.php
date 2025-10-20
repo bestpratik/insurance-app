@@ -217,6 +217,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('online-purchase', [UserController::class, 'online_purchase'])->name('online.purchase');
     Route::get('offline-purchase', [UserController::class, 'offline_purchase'])->name('offline.purchase');
 
+    Route::get('test-mail', [StripePaymentController::class, 'test_mail']);
+
 
     
 //About sections
