@@ -4,22 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Banner;
+use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Client;
 use App\Models\Contact;
-use App\Models\Policyreferralform;
-use App\Models\Fact;
-use App\Models\Service;
-use App\Models\Insurance;
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Purchase;
 use App\Models\Content;
+use App\Models\Fact;
+use App\Models\Insurance;
+use App\Models\Policyreferralform;
+use App\Models\Purchase;
+use App\Models\Service;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 
@@ -90,7 +92,7 @@ class FrontController extends Controller
     // }
 
 
-    public function policyBuyer($slug = null) 
+    public function policyBuyer($slug = null)
     {
         $insuranceId = null;
 
@@ -101,7 +103,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId')); 
+        return view('policy_buyer', compact('insuranceId'));
     }
 
 
@@ -527,6 +529,25 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-        return view('policy_referral_form');  
+        return view('policy_referral_form');
+    }
+
+    public function blogs()
+    {
+        $blogs = Blog::with('categories')
+            ->where('status', 1)
+            ->latest()
+            ->paginate(9);
+
+        $categories = BlogCategory::where('status', 1)->get();
+        return view('blog', compact('blogs', 'categories'));
+    }
+
+    public function blog_details($slug)
+    {
+        $blogs = Blog::where('slug', $slug)->firstOrFail();
+        $relatedBlogs = Blog::where('id', '!=', $blogs->id)
+            ->latest()->take(3)->get();
+        return view('blog_details', compact('blogs', 'relatedBlogs'));
     }
 }

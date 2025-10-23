@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\FactController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ContactformController;
 use App\Http\Controllers\FrontController;
@@ -17,9 +20,13 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\UserController;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 
 
@@ -50,7 +57,8 @@ Route::get('/service/{slug}', [FrontController::class, 'service_details'])->name
 Route::get('policy-buyer/{slug}', [FrontController::class, 'policyBuyer'])->name('policy.buyer');  
 Route::get('referral-form', [FrontController::class, 'referralForm'])->name('referral.form');
 Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form'); 
-
+Route::get('blogs', [FrontController::class, 'blogs'])->name('blogs');
+Route::get('blogs/{slug}', [FrontController::class, 'blog_details'])->name('blog.details');
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
 Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login'); 
@@ -282,6 +290,34 @@ Route::post('save-content', [ContentController::class, 'store'])->name('save.con
 Route::get('/content/{id}/edit', [ContentController::class, 'edit'])->name('edit.content');
 Route::put('/content/{id}/update', [ContentController::class, 'update'])->name('update.content');
 Route::delete('/content/{id}/delete', [ContentController::class, 'destroy'])->name('delete.content');
+
+//Blogsections
+Route::get('blog', [BlogController::class, 'index'])->name('blog');
+Route::get('create-blog', [BlogController::class, 'create'])->name('create.blog');
+Route::post('save-blog', [BlogController::class, 'store'])->name('save.blog');
+Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('edit.blog');
+Route::put('/blog/{id}/update', [BlogController::class, 'update'])->name('update.blog');
+Route::delete('/blog/{id}/delete', [BlogController::class, 'destroy'])->name('delete.blog');
+
+
+//Blogcategorysections
+Route::get('blog-category', [CategoryController::class, 'index'])->name('blog.category');
+Route::get('create-blog-category', [CategoryController::class, 'create'])->name('create.blog.category');
+Route::post('save-blog-category', [CategoryController::class, 'store'])->name('save.blog.category');
+Route::get('/blog-category/{id}/edit', [CategoryController::class, 'edit'])->name('edit.blog.category');
+Route::put('/blog-category/{id}/update', [CategoryController::class, 'update'])->name('update.blog.category');
+Route::delete('/blog-category/{id}/delete', [CategoryController::class, 'destroy'])->name('delete.blog.category');
+Route::patch('/blog-category/{id}/status', [CategoryController::class,'status'])->name('categories.status');
+
+//Blogtagsections
+Route::get('blog-tag', [TagController::class, 'index'])->name('blog.tag');
+Route::get('create-blog-tag', [TagController::class, 'create'])->name('create.blog.tag');
+Route::post('save-blog-tag', [TagController::class, 'store'])->name('save.blog.tag');
+Route::get('/blog-tag/{id}/edit', [TagController::class, 'edit'])->name('edit.blog.tag');
+Route::put('/blog-tag/{id}/update', [TagController::class, 'update'])->name('update.blog.tag');
+Route::delete('/blog-tag/{id}/delete', [TagController::class, 'destroy'])->name('delete.blog.tag');
+Route::patch('/blog-tag/{id}/status', [TagController::class,'status'])->name('tag.status');
+Route::patch('/blog-tag/{id}/popular', [TagController::class,'isPopular'])->name('tag.ispopular');
 
 
 // Contact Form

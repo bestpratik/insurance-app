@@ -91,6 +91,7 @@
                         class="{{ request()->routeIs('service') ? 'text-red-600' : '' }}">Our Services</a></li>
                 <li><a href="{{route('terms.conditions')}}" class="hover:text-red-500">Terms & Condition</a></li>
                 <li><a href="{{route('policy.referral.form')}}" class="hover:text-red-500">Referral Form</a></li>
+                <li><a href="{{route('blogs')}}" class="hover:text-red-500">Blog</a></li>
             </ul>
         </div>
 
