@@ -25,11 +25,12 @@ class TagController extends Controller
             'tag_name' => 'required',
         ]);
 
-        BlogTag::create([
-            'tag_name'   => $request->tag_name,
-            'status' => $request->status ?? 0,
-            'is_popular' => $request->is_popular ?? 0,
-        ]);
+        $tag = new BlogTag;
+        $tag->tag_name = $request->tag_name;
+        $tag->status = 1;
+        $tag->is_popular = $request->is_popular ?? 0;
+
+        $tag->save();
 
         return redirect()->route('blog.tag')->with('message', 'Tag added successfully!');
     }

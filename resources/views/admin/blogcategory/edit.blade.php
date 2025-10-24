@@ -26,10 +26,10 @@
             </div>
 
             {{-- Status --}}
-            <label class="inline-flex items-center mt-2">
+            {{-- <label class="inline-flex items-center mt-2">
                 <input type="checkbox" name="status" value="1" {{ $category->status ? 'checked' : '' }}
                     class="mr-2"> Active
-            </label>
+            </label> --}}
 
             <button type="submit" class="w-full mt-4 p-2 bg-blue-600 text-white rounded">Update</button>
         </form>

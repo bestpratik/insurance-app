@@ -58,7 +58,7 @@ class BlogController extends Controller
         $blog->title = $request['title'];
         $blog->slug = $slug;
         $blog->description = $request['description'];
-        $blog->status = $request->status ?? 0;
+        $blog->status = 1;
         $blog->blog_author = $request['blog_author'];
         $blog->date = $request['date'];
         $blog->type = $request['type'];
@@ -127,7 +127,7 @@ class BlogController extends Controller
         $blog->title = $request['title'];
         $blog->slug = $slug;
         $blog->description = $request['description'];
-        $blog->status = $request->status ?? 0;
+        $blog->status = 1;
         $blog->blog_author = $request['blog_author'];
         $blog->date = $request['date'];
         $blog->type = $request['type'];
@@ -160,5 +160,14 @@ class BlogController extends Controller
 
         $blog->delete();
         return redirect('blog')->with('success', 'Blog deleted successfully');
+    }
+
+    function status($id)
+    {
+        $blog = Blog::find($id);
+        $blog->status = !$blog->status;
+        $blog->save();
+
+        return redirect('blog')->with('success', 'Blog status updated successfully!');
     }
 }

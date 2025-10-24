@@ -25,10 +25,12 @@ class CategoryController extends Controller
             'title'  => 'required',
         ]);
 
-        BlogCategory::create([
-            'title'   => $request->title,
-            'status' => $request->status ?? 0,
-        ]);
+        $category = new BlogCategory; 
+
+        $category->title = $request->title;
+        $category->status = 1;
+
+        $category->save();
 
         return redirect()->route('blog.category')->with('message', 'Category added successfully!');
     }
@@ -47,8 +49,8 @@ class CategoryController extends Controller
             'title' => 'required',
         ]);
 
-        $category->title   = $request->title;
-        $category->status = $request->status ?? 0;
+        $category->title = $request->title;
+        $category->status = 1;
         $category->save();
 
         return redirect()->route('blog.category')->with('message', 'Category updated successfully!');

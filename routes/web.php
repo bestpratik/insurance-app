@@ -298,7 +298,7 @@ Route::post('save-blog', [BlogController::class, 'store'])->name('save.blog');
 Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('edit.blog');
 Route::put('/blog/{id}/update', [BlogController::class, 'update'])->name('update.blog');
 Route::delete('/blog/{id}/delete', [BlogController::class, 'destroy'])->name('delete.blog');
-
+Route::patch('/blog/{id}/status', [BlogController::class,'status'])->name('blog.status');
 
 //Blogcategorysections
 Route::get('blog-category', [CategoryController::class, 'index'])->name('blog.category');

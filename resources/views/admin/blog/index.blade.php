@@ -82,6 +82,14 @@
                                         </p>
                                     </div>
                                 </th>
+
+                                <th class="px-6 py-3 whitespace-nowrap">
+                                    <div class="flex items-center justify-center">
+                                        <p class="font-medium text-gray-500 text-theme-xs ">
+                                            Action
+                                        </p>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <!-- table header end -->
@@ -175,6 +183,22 @@
                                                 class="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400">
                                                 <x-heroicon-o-pencil-square class="w-6 h-6 text-gray-700 " />
                                             </a>
+                                            <form action="{{ route('blog.status', $row->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <label class="inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" onchange="this.form.submit()"
+                                                        class="sr-only peer" {{ $row->status ? 'checked' : '' }}>
+                                                    <div
+                                                        class="ml-1 w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 
+                                                                peer-focus:ring-2 peer-focus:ring-green-300 relative 
+                                                                after:content-[''] after:absolute after:top-[2px] after:start-[2px] 
+                                                                after:bg-white after:border-gray-300 after:border 
+                                                                after:rounded-full after:h-5 after:w-5 after:transition-all 
+                                                                peer-checked:after:translate-x-full peer-checked:after:border-white">
+                                                    </div>
+                                                </label>
+                                            </form>
                                             <form action="{{ route('delete.blog', $row->id) }}" method="POST"
                                                 onsubmit="return confirmDelete()">
                                                 @csrf

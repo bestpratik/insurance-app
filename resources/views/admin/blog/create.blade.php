@@ -93,13 +93,13 @@
                 </select>
             </div>
 
-            <!-- Status -->
+            {{-- <!-- Status -->
             <div class="grid grid-cols-2 gap-4 mt-4">
                 <label class="inline-flex items-center">
                     <input type="checkbox" name="status" value="1" {{ old('status') ? 'checked' : '' }} class="mr-2">
                     Active
                 </label>
-            </div>
+            </div> --}}
 
             <!-- Submit -->
             <button type="submit" class="w-full mt-4 p-2 bg-blue-600 text-white rounded">Submit</button>

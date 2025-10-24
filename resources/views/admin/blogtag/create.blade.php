@@ -32,11 +32,11 @@
 
             <!-- Status -->
             <div class="flex gap-4">
-                <label class="inline-flex items-center mt-2">
+                {{-- <label class="inline-flex items-center mt-2">
                     <input type="checkbox" name="status" value="1" {{ old('status') ? 'checked' : '' }}
                         class="mr-2">
                     Active
-                </label>
+                </label> --}}
 
                 <!-- Is Popular -->
                 <label class="inline-flex items-center mt-2">

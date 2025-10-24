@@ -124,19 +124,25 @@
                                             <form action="{{ route('tag.ispopular', $row->id) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <label class="inline-flex items-center cursor-pointer">
-                                                    <input type="checkbox" onchange="this.form.submit()"
-                                                        class="sr-only peer" {{ $row->is_popular ? 'checked' : '' }}>
-                                                    <div
-                                                        class="ml-1 w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-500 
-                                            peer-focus:ring-2 peer-focus:ring-blue-300 relative 
-                                            after:content-[''] after:absolute after:top-[2px] after:start-[2px] 
-                                            after:bg-white after:border-gray-300 after:border 
-                                            after:rounded-full after:h-5 after:w-5 after:transition-all 
-                                            peer-checked:after:translate-x-full peer-checked:after:border-white">
-                                                    </div>
-                                                </label>
+                                                <button type="submit"
+                                                    class="group relative flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-300 
+               hover:border-yellow-400 transition-all duration-300 bg-white shadow-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-5 h-5 text-gray-400 group-hover:text-yellow-400 transition-colors duration-300
+                {{ $row->is_popular ? 'fill-yellow-400 text-yellow-400' : '' }}"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="1.8" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <polygon
+                                                            points="12 2 15 9 22 9 17 14 19 22 12 18 5 22 7 14 2 9 9 9" />
+                                                    </svg>
+                                                    <span
+                                                        class="text-sm {{ $row->is_popular ? 'text-yellow-500 font-medium' : 'text-gray-500' }}">
+                                                        {{ $row->is_popular ? 'Popular' : 'Mark Popular' }}
+                                                    </span>
+                                                </button>
                                             </form>
+
                                             <form action="{{ route('delete.blog.tag', $row->id) }}" method="POST"
                                                 onsubmit="return confirmDelete()">
                                                 @csrf
