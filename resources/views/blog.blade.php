@@ -34,8 +34,8 @@
                                 @endforeach
                             @else
                                 <span
-                                    class="inline-block text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-medium mb-2">
-                                    Uncategorized
+                                    class="inline-block text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-medium mb-2 hidden">
+                                    Uncategorized 
                                 </span>
                             @endif
 

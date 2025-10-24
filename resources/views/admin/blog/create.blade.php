@@ -6,7 +6,8 @@
         </div>
     @endif
 
-    <div class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
+    <div
+        class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
         <h2 class="font-semibold text-xl text-gray-800 m-0">Add Blog</h2>
 
         <a href="{{ route('blog') }}"
@@ -22,7 +23,8 @@
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span></label>
-                <input name="title" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Title" value="{{ old('title') }}">
+                <input name="title" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Title"
+                    value="{{ old('title') }}">
                 @error('title')
                     <span class="mt-1 text-sm text-red-500">{{ $message }}</span>
                 @enderror
@@ -31,26 +33,30 @@
             <!-- Blog Image -->
             <div>
                 <label class="block">Blog Image</label>
-                <input id="blogImageInput" name="image" type="file" class="w-full mt-1 p-2 border rounded" onchange="previewImage(event, 'blogPreview')">
+                <input id="blogImageInput" name="image" type="file" class="w-full mt-1 p-2 border rounded"
+                    onchange="previewImage(event, 'blogPreview')">
                 <img id="blogPreview" class="mt-2 border rounded" style="height: 50px; width: 75px; display:none;">
             </div>
 
             <!-- Description -->
             <div>
                 <label class="block">Description</label>
-                <textarea name="description" rows="5" class="w-full mt-1 p-2 border rounded summernote" placeholder="Enter Description">{{ old('description') }}</textarea>
+                <textarea name="description" rows="5" class="w-full mt-1 p-2 border rounded summernote"
+                    placeholder="Enter Description">{{ old('description') }}</textarea>
             </div>
 
             <!-- Blog Author -->
             <div>
                 <label class="block">Blog Author</label>
-                <input name="blog_author" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Blog Author" value="{{ old('blog_author') }}">
+                <input name="blog_author" type="text" class="w-full mt-1 p-2 border rounded"
+                    placeholder="Enter Blog Author" value="{{ old('blog_author') }}">
             </div>
 
             <!-- Author Image -->
             <div>
                 <label class="block">Author Image</label>
-                <input id="authorImageInput" name="author_image" type="file" class="w-full mt-1 p-2 border rounded" onchange="previewImage(event, 'authorPreview')">
+                <input id="authorImageInput" name="author_image" type="file" class="w-full mt-1 p-2 border rounded"
+                    onchange="previewImage(event, 'authorPreview')">
                 <img id="authorPreview" class="mt-2 border rounded" style="height: 50px; width: 75px; display:none;">
             </div>
 
@@ -88,7 +94,7 @@
                 <label class="block">Tags</label>
                 <select name="tags[]" multiple class="select2 w-full mt-1 p-2 border rounded">
                     @foreach ($tags as $tag)
-                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        <option value="{{ $tag->id }}">{{ $tag->tag_name }}</option>
                     @endforeach
                 </select>
             </div>
