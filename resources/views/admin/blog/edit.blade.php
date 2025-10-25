@@ -31,7 +31,7 @@
                     <input id="blogImageInput" name="image" type="file" class="w-full mt-1 p-2 border rounded"
                         onchange="previewImage(event, 'blogPreview')">
                 </label>
-                <img id="blogPreview" class="mt-2 border rounded" style="height: 50px; width: 75px; display:none;"
+                <img id="blogPreview" class="mt-2 border rounded" style="height: 50px; width: 75px;"
                     src="{{ asset('uploads/blogs/' . $blog->image) }}" />
             </div>
 
@@ -55,7 +55,7 @@
                     <input id="authorImageInput" name="author_image" type="file"
                         class="w-full mt-1 p-2 border rounded" onchange="previewImage(event, 'authorPreview')">
                 </label>
-                <img id="authorPreview" class="mt-2 border rounded" style="height: 50px; width: 75px; display:none;"Â
+                <img id="authorPreview" class="mt-2 border rounded" style="height: 50px; width: 75px;"
                     src="{{ asset('uploads/blogs/' . $blog->author_image) }}" />
             </div>
 

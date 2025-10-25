@@ -8,8 +8,10 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\FactController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ContactformController;
 use App\Http\Controllers\FrontController;
@@ -24,6 +26,8 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -256,6 +260,14 @@ Route::get('/fact/{id}/edit', [FactController::class, 'edit'])->name('edit.fact'
 Route::put('/fact/{id}/update', [FactController::class, 'update'])->name('update.fact');
 Route::delete('/fact/{id}/delete', [FactController::class, 'destroy'])->name('delete.fact');
 
+//Faq sections
+Route::get('faq', [FaqController::class, 'index'])->name('faq');
+Route::get('create-faq', [FaqController::class, 'create'])->name('create.faq');
+Route::post('save-faq', [FaqController::class, 'store'])->name('save.faq');
+Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('edit.faq');
+Route::put('/faq/{id}/update', [FaqController::class, 'update'])->name('update.faq');
+Route::delete('/faq/{id}/delete', [FaqController::class, 'destroy'])->name('delete.faq');
+
 
 //Service sections
 Route::get('services', [ServiceController::class, 'index'])->name('services');
@@ -264,6 +276,14 @@ Route::post('save-service', [ServiceController::class, 'store'])->name('save.ser
 Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('edit.service');
 Route::put('/service/{id}/update', [ServiceController::class, 'update'])->name('update.service');
 Route::delete('/service/{id}/delete', [ServiceController::class, 'destroy'])->name('delete.service');
+
+//Testimonial sections
+Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonial');
+Route::get('create-testimonial', [TestimonialController::class, 'create'])->name('create.testimonial');
+Route::post('save-testimonial', [TestimonialController::class, 'store'])->name('save.testimonial');
+Route::get('/testimonial/{id}/edit', [TestimonialController::class, 'edit'])->name('edit.testimonial');
+Route::put('/testimonial/{id}/update', [TestimonialController::class, 'update'])->name('update.testimonial');
+Route::delete('/testimonial/{id}/delete', [TestimonialController::class, 'destroy'])->name('delete.testimonial');
 
 //Client sections
 Route::get('client', [ClientController::class, 'index'])->name('client');
