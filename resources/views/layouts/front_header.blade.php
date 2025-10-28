@@ -1,8 +1,8 @@
 <section class="bg-white px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-40 backdrop-blur-2xl">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
-        <a href="/" class="text-red-600 font-bold text-xl">
-            <img src="./logo.jpg" alt="Logo" class="h-14 w-auto">
+        <a href="{{ route('home') }}" class="text-red-600 font-bold text-xl">
+            <img src="{{asset('logo.jpg')}}" alt="Logo" class="h-14 w-auto">
         </a>
     </div>
 
