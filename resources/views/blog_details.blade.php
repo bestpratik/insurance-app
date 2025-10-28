@@ -7,8 +7,11 @@
 
         <!-- Author Info -->
         <div class="flex items-center justify-center space-x-3 mb-6">
-            <img src="{{ asset('uploads/blogs/' . $blogs->author_image) ?? '' }}" alt="Author"
-                class="w-10 h-10 rounded-full">
+            <img src="{{ asset('uploads/blogs/' . $blogs->author_image) ?? '' }}"
+                alt="Author"
+                width="60" height="60"
+                class="rounded-full object-cover"
+                style="object-fit:cover;">
             <div class="text-sm text-gray-600">
                 <p class="font-medium text-gray-800">{{ $blogs->blog_author ?? '' }}</p>
                 <p>{{ $blogs->date ?? '' }} • 5 min read</p>
@@ -24,7 +27,10 @@
         <!-- Feature Image -->
         <div class="mb-8">
             <img src="{{ asset('uploads/blogs/' . $blogs->image)}}"
-                alt="Financial Planning" class="w-full rounded-lg shadow">
+                alt="Blog"
+                width="1280" height="720"
+                class="object-cover"
+                style="object-fit:cover;">
         </div>
 
         <!-- Blog Content -->

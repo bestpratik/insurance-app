@@ -75,7 +75,7 @@ class BlogController extends Controller
             $blog->tags()->sync($request->tags);
         }
 
-        return redirect('blog.index')->with('success', 'Blog added successfully');
+        return redirect('blog-index')->with('success', 'Blog added successfully');
     }
 
     function edit($id)
@@ -140,7 +140,7 @@ class BlogController extends Controller
         $blog->categories()->sync($request->categories ?? []);
         $blog->tags()->sync($request->tags ?? []);
 
-        return redirect('blog.index')->with('success', 'Blog updated successfully');
+        return redirect('blog-index')->with('success', 'Blog updated successfully');
     }
 
     function destroy($id)
@@ -168,6 +168,6 @@ class BlogController extends Controller
         $blog->status = !$blog->status;
         $blog->save();
 
-        return redirect('blog.index')->with('success', 'Blog status updated successfully!');
+        return redirect('blog-index')->with('success', 'Blog status updated successfully!');
     }
 }
