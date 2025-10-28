@@ -10,6 +10,11 @@
         <h2 class="font-semibold text-xl text-gray-800 m-0">
             Edit Service
         </h2>
+        <a href="{{ route('services') }}"
+            class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 
+                   focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            <x-heroicon-o-arrow-left class="w-4 h-4" />
+        </a>
         <form class="bg-white w-full space-y-4" method="post" action="{{ route('update.service', $service->id) }}"
             enctype="multipart/form-data">
             @csrf
@@ -58,6 +63,19 @@
                     <img id='preview_img' class="h-16 w-16 object-cover rounded-full" src="{{ asset('uploads/service/' . $service->image) }}"
                         alt="Current photo" />
                 </div>
+            </div>
+
+            <div>
+                <label class="block"><span class="text-gray-700">Tag</span>
+                    <input name="tag" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag" value="{{ $service->tag }}">
+                </label>
+            </div>
+
+            <div>
+                <label class="block"><span class="text-gary-700">Price</span>
+                    <input name="price" type="number" class="w-full mt-1 p-2 border rounded"
+                        placeholder="Enter Price" value="{{ $service->price }}">
+                </label>
             </div>
 
             <div>

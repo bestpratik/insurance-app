@@ -1,28 +1,39 @@
 <section class="bg-white px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-40 backdrop-blur-2xl">
     <!-- Logo -->
     <div class="flex items-center space-x-2">
-        <a href="{{ route('home') }}" class="text-red-600 font-bold text-xl">
-            <img src="{{asset('logo.jpg')}}" alt="Logo" class="h-14 w-auto" />
+        <a href="/" class="text-red-600 font-bold text-xl">
+            <img src="./logo.jpg" alt="Logo" class="h-14 w-auto">
         </a>
     </div>
 
     <!-- Desktop Nav -->
-    <nav class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-lg text-gray-600 space-x-10 items-center">
+    <nav
+        class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-xl font-medium text-gray-600 space-x-10 items-center">
         <a href="{{ route('home') }}"
             class="{{ request()->routeIs('home') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Home</a>
         <a href="{{ route('about.us') }}"
             class="{{ request()->routeIs('about.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">About
             Us</a>
         <a href="{{ route('service') }}"
-            class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Buy
-            Insurance Now</a>
+            class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Purchase
+            Policy Online</a>
+        <a href="#" class="hover:text-red-600">Making claim</a>
+        <a href="{{ route('blogs', ['type' => 'resource']) }}"
+            class="{{ request()->is('resource*') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+            Resources
+        </a>
+        <a href="{{ route('blogs', ['type' => 'blog']) }}"
+            class="{{ request()->is('blog*') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+            Blog
+        </a>
         <a href="{{ route('contact.us') }}"
             class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact
             Us</a>
 
         <!-- ✅ Account Dropdown -->
         <div class="relative ml-auto">
-            <button id="accountBtn" class="flex items-center space-x-2 border-l-2 border-red-700 pl-3 focus:outline-none
+            <button id="accountBtn"
+                class="flex items-center space-x-2 border-l-2 border-red-700 pl-3 focus:outline-none
         {{ Auth::check() ? 'text-red-600 font-medium' : 'hover:text-red-600' }} ">
                 <!-- User Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -34,7 +45,7 @@
                     @auth
                         {{ Auth::user()->name }}
                     @else
-                        Account
+                        My Account
                     @endauth
                 </span>
                 <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +56,7 @@
             <!-- Dropdown -->
             <div id="accountMenu"
                 class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 hidden">
-                @if(Auth::check())
+                @if (Auth::check())
                     <a href="{{ route('dashboard.frontend') }}"
                         class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
                         <!-- Dashboard Icon -->
@@ -85,28 +96,9 @@
         </div>
     </nav>
 
-    <script>
-        const accountBtn = document.getElementById('accountBtn');
-        const accountMenu = document.getElementById('accountMenu');
-
-        accountBtn.addEventListener('click', () => {
-            accountMenu.classList.toggle('hidden');
-        });
-
-        window.addEventListener('click', (e) => {
-            if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
-                accountMenu.classList.add('hidden');
-            }
-        });
-    </script>
-
-
-
-
-
 
     <!-- Quote Button -->
-    <a href="{{route('referral.form')}}"
+    <a href="{{ route('referral.form') }}"
         class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
         <span class="relative z-10">Get A Quote</span>
     </a>
@@ -114,8 +106,7 @@
     <!-- Mobile Toggle -->
     <button id="menuToggle" class="lg:hidden text-2xl text-red-600">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="size-8"
-            x="0" y="0" viewBox="0 0 464.205 464.205" style="enable-background:new 0 0 512 512" xml:space="preserve"
-            class="">
+            x="0" y="0" viewBox="0 0 464.205 464.205" style="enable-background:new 0 0 512 512" xml:space="preserve">
             <g>
                 <path
                     d="M435.192 406.18H29.013C12.989 406.18 0 393.19 0 377.167s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.99 29.013 29.013-.001 16.023-12.99 29.013-29.014 29.013zM435.192 261.115H29.013C12.989 261.115 0 248.126 0 232.103s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.989 29.013 29.013s-12.99 29.012-29.014 29.012zM435.192 116.051H29.013C12.989 116.051 0 103.062 0 87.038s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.989 29.013 29.013s-12.99 29.013-29.014 29.013z"
@@ -124,3 +115,33 @@
         </svg>
     </button>
 </section>
+
+<!-- Mobile Menu Drawer -->
+<div id="mobileMenu"
+    class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-40">
+    <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-lg font-semibold">Menu</h3>
+        <button id="menuClose" class="text-red-600 text-xl">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <nav class="flex flex-col p-4 space-y-4 text-gray-700">
+        <a href="{{ route('home') }}"
+            class="{{ request()->routeIs('home') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Home</a>
+        <a href="{{ route('about.us') }}"
+            class="{{ request()->routeIs('about.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">About
+            Us</a>
+        <a href="{{ route('service') }}"
+            class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Our
+            Services</a>
+        <a href="#">Pages</a>
+        <a href="{{ route('contact.us') }}"
+            class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact
+            Us</a>
+        <a href="{{ route('referral.form') }}"
+            class="mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
+    </nav>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>

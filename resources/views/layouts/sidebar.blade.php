@@ -146,9 +146,11 @@
             request()->is('content*') ||
             request()->is('contactform_list*') ||
             request()->is('newsletter_list*') ||
-            request()->is('blog*') ||
+            request()->is('blog-index*') ||
             request()->is('blog-category*') ||
-            request()->is('blog-tag*');
+            request()->is('blog-tag*') ||
+            request()->is('rent*') ||
+            request()->is('seo*');
     @endphp
 
     <div x-data="{ open: {{ $frontendActive ? 'true' : 'false' }} }" x-init="open = {{ $frontendActive ? 'true' : 'false' }}" class="mb-2">
@@ -191,12 +193,12 @@
             </a>
 
             <!-- Blog -->
-            <a href="{{ url('blog') }}"
+            <a href="{{ route('blog.index') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-   @if (request()->is('blog') || request()->is('blog/*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+   @if (request()->is('blog.index') || request()->is('blog.index/*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-document-text
                     class="w-5 h-5 mr-3 flex-shrink-0 
-        @if (request()->is('blog') || request()->is('blog/*')) text-white @else text-[25304e] @endif" />
+        @if (request()->is('blog.index') || request()->is('blog.index/*')) text-white @else text-[25304e] @endif" />
                 <span>Blog</span>
             </a>
 
@@ -284,12 +286,20 @@
             <a href="{{ url('content') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('content*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-
                 <x-heroicon-o-document-check
                     class="w-5 h-5 mr-3 flex-shrink-0
             @if (request()->is('content*')) text-white @else text-[25304e] @endif" />
-
                 <span>Terms & Conditions</span>
+            </a>
+
+            <!-- Rent -->
+            <a href="{{ url('rent') }}"
+                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+            @if (request()->is('rent*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+                <x-heroicon-o-document-check
+                    class="w-5 h-5 mr-3 flex-shrink-0
+            @if (request()->is('rent*')) text-white @else text-[25304e] @endif" />
+                <span>Rent Guarantee</span>
             </a>
 
             <!-- Contact Form -->
@@ -312,11 +322,17 @@
                 <span>News Letter List</span>
             </a>
 
+            <!-- Seo -->
+            <a href="{{ route('seo') }}"
+                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+           @if (request()->is('seo*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+                <x-heroicon-o-magnifying-glass-circle
+                    class="w-5 h-5 mr-3 flex-shrink-0 
+                @if (request()->is('seo*')) text-white @else text-[25304e] @endif" />
+                <span>Seo Management</span>
+            </a>
         </div>
     </div>
-
-
-
 
     <!-- Insurance -->
     <!-- <a href="{{ url('insurances') }}"

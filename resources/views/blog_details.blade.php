@@ -2,7 +2,7 @@
     <section class="max-w-4xl mx-auto py-10 px-4">
         <!-- Blog Title -->
         <h1 class="text-2xl md:text-3xl font-semibold text-center text-gray-800 mb-4">
-            {{ $blogs->title }}
+            {{ $blogs->title ?? '' }}
         </h1>
 
         <!-- Author Info -->
@@ -10,8 +10,8 @@
             <img src="{{ asset('uploads/blogs/' . $blogs->author_image) ?? '' }}" alt="Author"
                 class="w-10 h-10 rounded-full">
             <div class="text-sm text-gray-600">
-                <p class="font-medium text-gray-800">{{ $blogs->blog_author }}</p>
-                <p>{{ $blogs->date }} • 5 min read</p>
+                <p class="font-medium text-gray-800">{{ $blogs->blog_author ?? '' }}</p>
+                <p>{{ $blogs->date ?? '' }} • 5 min read</p>
             </div>
             <div class="flex space-x-3 ml-4">
                 <a href="#" class="text-gray-500 hover:text-blue-600"><i class="fa-brands fa-facebook"></i></a>
@@ -23,7 +23,7 @@
 
         <!-- Feature Image -->
         <div class="mb-8">
-            <img src="https://images.unsplash.com/photo-1581092334426-87d352ffde68?auto=format&fit=crop&w=1200&q=60"
+            <img src="{{ asset('uploads/blogs/' . $blogs->image)}}"
                 alt="Financial Planning" class="w-full rounded-lg shadow">
         </div>
 
@@ -38,9 +38,9 @@
                 <h2 class="text-xl font-semibold text-gray-800 mb-6">Related Posts</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     @foreach ($relatedBlogs as $related)
-                        <a href="{{ route('blog.details', $related->slug) }}"
+                        <a href="{{ route('blog.details', [$type, $related->slug]) }}"
                             class="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition">
-                            <img src="{{ asset('uploads/blogs/' . $related->image) ?? 'https://via.placeholder.com/600x300' }}"
+                            <img src="{{ asset('uploads/blogs/' . $related->image) ?? '' }}"
                                 alt="{{ $related->title }}" class="w-full h-40 object-cover">
                             <div class="p-4">
                                 <h4 class="text-gray-800 font-semibold text-base mb-1 line-clamp-2">

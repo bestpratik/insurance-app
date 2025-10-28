@@ -43,7 +43,7 @@
                             <p class="text-gray-600 text-sm mb-3 line-clamp-3">
                                 {!! \Illuminate\Support\Str::limit(strip_tags($blog->description), 120) !!}
                             </p>
-                            <a href="{{ route('blog.details', $blog->slug) }}"
+                            <a href="{{ route('blog.details', [$type, $blog->slug]) }}"
                                 class="text-indigo-600 text-sm font-medium hover:underline">
                                 Read more..
                             </a>
@@ -54,11 +54,11 @@
             </div>
 
             <!-- Load More Button -->
-            <div class="text-center mt-10">
+            {{-- <div class="text-center mt-10">
                 <button class="bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-2 rounded-full transition">
                     Load More
                 </button>
-            </div>
+            </div> --}}
         </div>
     </section>
 </x-front>

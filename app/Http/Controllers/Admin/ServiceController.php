@@ -19,7 +19,7 @@ class ServiceController extends Controller
 
     public function create()
     {
-        
+
         $insurances = Insurance::where('purchase_mode', 'Online')->get();
         return view('admin.service.create', compact('insurances'));
     }
@@ -34,7 +34,6 @@ class ServiceController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -44,7 +43,6 @@ class ServiceController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/service/'), $filename);
-            // $fullPath = url('uploads/fact/' . $filename);
             $service->image = $filename;
         }
 
@@ -54,6 +52,8 @@ class ServiceController extends Controller
         $service->insurance_id = $request['insurance_id'];
         $service->sub_title = $request['sub_title'];
         $service->page_slug = $page_slug;
+        $service->tag = $request['tag'];
+        $service->price = $request['price'];
         $service->description = $request['description'];
         $service->offer = $request['offer'];
         $service->created_at = date('Y-m-d H:i:s');
@@ -92,19 +92,21 @@ class ServiceController extends Controller
             $service->image = $filename;
         }
 
-       
+
 
         $page_slug = Str::slug($request['title']);
         $service->title = $request['title'];
         $service->insurance_id = $request['insurance_id'];
         $service->page_slug = $page_slug;
         $service->sub_title = $request['sub_title'];
+        $service->tag = $request['tag'];
+        $service->price = $request['price'];
         $service->offer = $request['offer'];
         $service->description = $request['description'];
         $service->updated_at = date('Y-m-d H:i:s');
 
         $service->update();
-        return redirect('services')->with('success', 'Service updated successfully'); 
+        return redirect('services')->with('success', 'Service updated successfully');
     }
 
     public function destroy($id)
@@ -123,6 +125,4 @@ class ServiceController extends Controller
             return redirect('services')->with('success', 'No Service found to delete!!');
         }
     }
-    
 }
-

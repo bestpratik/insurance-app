@@ -10,10 +10,13 @@ use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Content;
 use App\Models\Fact;
+use App\Models\Faq;
 use App\Models\Insurance;
 use App\Models\Policyreferralform;
 use App\Models\Purchase;
+use App\Models\RentGuarantee;
 use App\Models\Service;
+use App\Models\Testimonial;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,10 +36,17 @@ class FrontController extends Controller
         $banner = Banner::all();
         $aboutFirst = About::first();
         $service = Service::with('insurance')->get();
-        $fact = Fact::all();
+        $fact = Fact::first();
         $client = Client::all();
-        return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact'));
+        $testimonial = Testimonial::all();
+        $faqs = Faq::all();
+        $rent = RentGuarantee::first();
+        $rentAll = RentGuarantee::all();
+        $rentSecond = $rentAll->skip(1)->first();
+        $rentThird = $rentAll->skip(2)->first();
+        return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact', 'testimonial', 'faqs', 'rent', 'rentSecond', 'rentThird'));
     }
+
     public function about()
     {
         $aboutAll = About::all();
@@ -532,22 +542,23 @@ class FrontController extends Controller
         return view('policy_referral_form');
     }
 
-    public function blogs()
+    public function blogs($type)
     {
         $blogs = Blog::with('categories')
             ->where('status', 1)
+            ->where('type', $type)
             ->latest()
             ->paginate(9);
 
         $categories = BlogCategory::where('status', 1)->get();
-        return view('blog', compact('blogs', 'categories'));
+        return view('blog', compact('blogs', 'categories', 'type'));
     }
 
-    public function blog_details($slug)
+    public function blog_details($type, $slug)
     {
         $blogs = Blog::where('slug', $slug)->firstOrFail();
         $relatedBlogs = Blog::where('id', '!=', $blogs->id)
-            ->latest()->take(3)->get();
-        return view('blog_details', compact('blogs', 'relatedBlogs'));
+            ->where('type', $type)->latest()->take(3)->get();
+        return view('blog_details', compact('blogs', 'relatedBlogs', 'type'));
     }
 }

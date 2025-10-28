@@ -2,18 +2,85 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'UCMASWB') }}</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-
+    <title>MoneyWise PLC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- ✅ Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: "Istok Web", sans-serif;
+            font-weight: 400;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Skeleton Loader Styles */
+        @keyframes shimmer {
+            100% {
+                transform: translateX(200%);
+            }
+        }
+
+        @keyframes fadeInFast {
+            from {
+                opacity: 0;
+                transform: scale(0.99);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInFast .25s ease forwards;
+        }
+
+        .skeleton-shimmer {
+            position: relative;
+            background-color: #e8e8e8;
+            overflow: hidden;
+        }
+
+        .skeleton-shimmer::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            height: 100%;
+            width: 150%;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0.6),
+                    rgba(255, 255, 255, 0));
+            animation: shimmer 1.3s linear infinite;
+        }
+
+        /* Fade Out */
+        #skeletonLoader.fade-out {
+            opacity: 0;
+            transition: opacity .6s ease, visibility .6s ease;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
 
     <!-- (Optional) Tailwind Config for Custom Theme -->
     <script>
@@ -21,48 +88,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0d9488',
+                        primary: '#300303ff',
                     }
                 }
             }
         }
     </script>
-    <style>
-        /* Hide scrollbars on scroll container */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
 
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
-
-    <style>
-        .note-editor.note-airframe .note-editing-area .note-editable,
-        .note-editor.note-frame .note-editing-area .note-editable {
-            background: #fff;
-        }
-
-        @media (max-width: 768px) {
-            .fixed-bottom-insurance {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                z-index: 50;
-                background: #b91c1c;
-                color: #fff;
-                text-align: center;
-                padding: 8px 0;
-                font-size: 1.2rem;
-                font-weight: 600;
-                box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-            }
-        }
-    </style>
-    @livewireStyles
 </head>
 
 <body>
@@ -72,83 +104,298 @@
     {{ $slot }}
 
     @include('layouts.front_footer')
-    <!-- Mobile Menu Drawer -->
-    <div id="mobileMenu"
-        class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-40">
-        <div class="flex justify-between items-center p-4 border-b">
-            <h3 class="text-lg font-semibold">Menu</h3>
-            <button id="menuClose" class="text-red-600 text-xl">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="flex flex-col p-4 space-y-4 text-gray-700">
-            <a href="{{ route('home') }}"
-                class="{{ request()->routeIs('home') ? 'text-red-600 font-bold' : '' }}">Home</a>
-            <a href="{{ route('about.us') }}"
-                class="{{ request()->routeIs('about.us') ? 'text-red-600 font-bold' : '' }}">About Us</a>
-            <a href="{{ route('service') }}"
-                class="{{ request()->routeIs('service') ? 'text-red-600 font-bold' : '' }}">Buy
-                Insurance Now</a>
-            <a href="{{ route('contact.us') }}"
-                class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-bold' : '' }}">Contact Us</a>
-
-
-            <!-- Account Dropdown -->
-            <div class="relative">
-                <button id="accountBtnMobile" class="flex items-center justify-between w-full px-2 py-2 border-t border-b border-red-100
-        {{ Auth::check() ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
-                    <div class="flex items-center space-x-2">
-                        <!-- User Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                        <span class="font-medium">
-                            @auth
-                                {{ Auth::user()->name }}
-                            @else
-                                Account
-                            @endauth
-                        </span>
+    <!-- Skeleton loader (insert at page start) -->
+    <div id="skeletonLoader" role="status" aria-live="polite"
+        class="fixed inset-0 z-50 bg-white flex items-start justify-center p-6 overflow-hidden">
+        <div class="w-full  animate-fade-in space-y-8">
+            <div class="border-gray-100 w-full h-10 rounded-md skeleton-shimmer"></div>
+            <div class="flex items-center justify-between py-3 border-b border-gray-200">
+                <div class="flex items-center gap-4">
+                    <div class="w-40 h-8 rounded-md skeleton-shimmer bg-gray-200"></div>
+                    <div class="hidden md:flex gap-3">
+                        <div class="w-16 h-6 rounded-md skeleton-shimmer"></div>
+                        <div class="w-20 h-6 rounded-md skeleton-shimmer"></div>
+                        <div class="w-24 h-6 rounded-md skeleton-shimmer"></div>
+                        <div class="w-28 h-6 rounded-md skeleton-shimmer"></div>
                     </div>
-                    <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
+                </div>
+                <div class="w-28 h-8 rounded-md skeleton-shimmer"></div>
+            </div>
 
-                <!-- Dropdown Menu -->
-                <div id="accountMenuMobile"
-                    class="mt-2 ml-4 flex flex-col bg-white border border-gray-200 rounded shadow-md hidden">
-                    @auth
-                        <a href="{{ route('dashboard.frontend') }}"
-                            class="px-4 py-2 text-gray-700 hover:bg-gray-100 border-b">Dashboard</a>
-                        <a href="{{ route('user.logout') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
-                    @else
-                        <a href="{{ route('user.login') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
-                        <a href="{{route('user.register')}}">SIGN UP</a>
-                    @endauth
+            <!-- 🏠 Hero Section -->
+            <div class="bg-[#f9fafb] rounded-xl p-8 flex flex-col md:flex-row gap-8 items-start">
+                <!-- Left Text -->
+                <div class="flex-1 space-y-4">
+                    <div class="w-3/4 h-8 rounded-md skeleton-shimmer"></div>
+                    <div class="w-5/6 h-6 rounded-md skeleton-shimmer"></div>
+                    <div class="w-2/3 h-6 rounded-md skeleton-shimmer"></div>
+                    <div class="flex gap-4 mt-6">
+                        <div class="w-40 h-10 rounded-md skeleton-shimmer bg-[#b30000] opacity-70"></div>
+                        <div class="w-40 h-10 rounded-md skeleton-shimmer border border-[#b30000]"></div>
+                    </div>
+                </div>
+                <!-- Right Image -->
+                <div class="flex-1 hidden md:block">
+                    <div class="w-full h-52 rounded-lg skeleton-shimmer"></div>
                 </div>
             </div>
 
+            <!-- 📦 Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
+                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
+                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
+                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
+                </div>
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
+                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
+                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
+                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
+                </div>
+                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
+                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
+                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
+                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
+                </div>
+            </div>
 
-            <a href="{{route('referral.form')}}"
-                class="{{ request()->routeIs('referral.form') ? 'text-red-600 font-bold' : '' }} mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get
-                A Quote</a>
-        </nav>
+            <!-- ⚪ Footer Placeholder -->
+            <div class="flex flex-col md:flex-row justify-between gap-4 pt-4 border-t border-gray-200">
+                <div class="w-1/3 h-6 rounded-md skeleton-shimmer"></div>
+                <div class="w-1/4 h-6 rounded-md skeleton-shimmer"></div>
+                <div class="w-1/5 h-6 rounded-md skeleton-shimmer"></div>
+            </div>
+        </div>
+
+
     </div>
+
 
     <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
 
-    <button id="scrollToTopBtn"
-        class="fixed bottom-24 right-6 z-50 hidden bg-red-600 text-white p-3 w-10 h-10 flex justify-center align-center rounded-full shadow-lg hover:bg-red-800 transition duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75 12 3m0 0 3.75 3.75M12 3v18" />
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top"
+        class="hidden fixed right-6 bottom-6 z-50 p-3 rounded-full bg-red-600 text-white shadow-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition-opacity duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
         </svg>
-
     </button>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        (function() {
+            const btn = document.getElementById('backToTop');
+            const showAfter = 300; // px scrolled
+
+            function updateVisibility() {
+                if (window.scrollY > showAfter) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
+                }
+            }
+
+            // Smooth scroll to top
+            function scrollTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Init
+            window.addEventListener('scroll', updateVisibility, {
+                passive: true
+            });
+            btn.addEventListener('click', scrollTop);
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    scrollTop();
+                }
+            });
+
+            // Make sure visibility is correct on load
+            updateVisibility();
+        })();
+    </script>
+
+
+
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: 2,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 40,
+                },
+            },
+            navigation: {
+                nextEl: ".testimonial-next",
+                prevEl: ".testimonial-prev",
+            },
+            speed: 800,
+            grabCursor: true,
+        });
+    </script>
+
+    <script>
+        // Mobile Menu Functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const menuClose = document.getElementById('menuClose');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        });
+
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+        });
+    </script>
+    <script>
+        // banner Slider Functionality
+        const sliderWrapper = document.getElementById('sliderWrapper');
+        const slides = sliderWrapper.children;
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+
+        const updateSlider = () => {
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        };
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        });
+    </script>
+    <script>
+        // FAQ Accordion Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqs = document.querySelectorAll('.faq-btn');
+            faqs.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector('i');
+                    document.querySelectorAll('.faq-content').forEach(c => {
+                        if (c !== content) {
+                            c.style.maxHeight = null;
+                            c.previousElementSibling.querySelector('i').classList.remove(
+                                'rotate-90');
+                        }
+                    });
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.classList.remove('rotate-90');
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.classList.add('rotate-90');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Testimonial Swiper Initialization
+        const testimonialSwiper = new Swiper(".testimonialSwiper", {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".testimonial-next",
+                prevEl: ".testimonial-prev",
+            },
+            slidesPerView: 1,
+            spaceBetween: 30,
+            centeredSlides: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 1,
+                    centeredSlides: false,
+                },
+                1100: {
+                    slidesPerView: 2,
+                    centeredSlides: false,
+                },
+            },
+        });
+    </script>
+
+
+    <script>
+        const accountBtn = document.getElementById('accountBtn');
+        const accountMenu = document.getElementById('accountMenu');
+
+        accountBtn.addEventListener('click', () => {
+            accountMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                accountMenu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <script>
+        // Skeleton Loader Logic
+        (function() {
+            const loader = document.getElementById('skeletonLoader');
+            const minDisplayMs = 3000; // at least 3s visible
+            const maxForceRemoveMs = 12000; // safety remove after 12s
+
+            const start = Date.now();
+            document.documentElement.classList.add('overflow-hidden');
+
+            function removeLoaderNow() {
+                if (!loader) return;
+                loader.classList.add('fade-out');
+                setTimeout(() => {
+                    document.documentElement.classList.remove('overflow-hidden');
+                    if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+                }, 700);
+            }
+
+            function handleFinish() {
+                const elapsed = Date.now() - start;
+                const remaining = Math.max(0, minDisplayMs - elapsed);
+                setTimeout(removeLoaderNow, remaining);
+            }
+
+            window.addEventListener('load', handleFinish);
+            setTimeout(() => {
+                if (document.contains(loader)) removeLoaderNow();
+            }, maxForceRemoveMs);
+        })();
+    </script>
 
 
     <!-- Swiper JS -->
@@ -333,7 +580,8 @@
         tabButtons.forEach(btn => {
             btn.addEventListener('click', e => {
                 e.preventDefault();
-                document.querySelector('.active-tab')?.classList.remove('text-red-600', 'border-red-500', 'active-tab');
+                document.querySelector('.active-tab')?.classList.remove('text-red-600', 'border-red-500',
+                    'active-tab');
                 btn.classList.add('text-red-600', 'border-red-500', 'active-tab');
                 btn.scrollIntoView({
                     behavior: 'smooth',

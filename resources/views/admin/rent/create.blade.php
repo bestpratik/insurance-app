@@ -1,9 +1,4 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight max-w-4xl mx-auto">
-            Add Service
-        </h2>
-    </x-slot> --}}
     @if ($message = Session::get('message'))
         <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
@@ -13,30 +8,17 @@
     <div
         class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
         <h2 class="font-semibold text-xl text-gray-800 m-0">
-            Add Service
+            Add Rent
         </h2>
-        <a href="{{ route('services') }}"
+
+        <a href="{{ route('rent') }}"
             class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 
                    focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             <x-heroicon-o-arrow-left class="w-4 h-4" />
         </a>
-        <form class="bg-white w-full space-y-4" method="post" action="{{ route('save.service') }}"
+        <form class="bg-white w-full space-y-4" method="post" action="{{ route('save.rent') }}"
             enctype="multipart/form-data">
             @csrf
-
-            <div>
-                <label class="block">Insurance <span class="text-red-700">*</span></label>
-                <select name="insurance_id" class="w-full mt-1 p-2 border rounded">
-                    <option value="">Choose Insurance...</option>
-                    @foreach ($insurances as $row)
-                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                    @endforeach
-                </select>
-
-                @if ($errors->has('insurance_id'))
-                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('insurance_id') }}</span>
-                @endif
-            </div>
 
             <!-- Title -->
             <div>
@@ -50,21 +32,9 @@
             </div>
             <!-- End Title -->
 
-            <!-- Sub Title -->
-            <div>
-                <label class="block">Sub Title<span class="text-red-700">*</span>
-                    <input name="sub_title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Sub Title">
-                    @if ($errors->has('sub_title'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
-                    @endif
-                </label>
-            </div>
-            <!-- End Sub Title -->
-
             <!--Image file-->
             <div>
-                <label class="block">Image <span class="text-red-700">*</span>
+                <label class="block">Image<span class="text-red-700">*</span>
                     <input id="imageInput" name="image" type="file" class="w-full mt-1 p-2 border rounded"
                         onchange="previewImage(event)">
 
@@ -74,48 +44,48 @@
                 </label>
 
                 <!-- Preview Image -->
-                <img id="preview" src="{{ isset($service) && $service->image ? asset($service->image) : '' }}"
+                <img id="preview" src="{{ isset($rent) && $rent->image ? asset($rent->image) : '' }}"
                     class="mt-2 border rounded"
-                    style="height: 50px; width: 75px; {{ isset($service) && $service->image ? '' : 'display: none;' }}">
+                    style="height: 50px; width: 75px; {{ isset($rent) && $rent->image ? '' : 'display: none;' }}">
             </div>
-            <!--end image file-->
+            <!--end Image file-->
 
-            <div>
-                <label class="block"><span class="text-gray-700">Tag</span>
-                    <input name="tag" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag">
-                </label>
-            </div>
-
-            <div>
-                <label class="block"><span class="text-gary-700">Price</span>
-                    <input name="price" type="number" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Price">
-                </label>
-            </div>
-
-            <div>
-                <label class="block">Offer
-                    <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Offer">
-                    @if ($errors->has('offer'))
-                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
-                    @endif
-                </label>
-            </div>
-
+            <!-- Description -->
             <div>
                 <label class="block">
                     <span class="text-gray-700">Description</span>
-                    <textarea name="description" rows="5" class="w-full mt-1 p-2 border rounded summernote"
+                    <textarea name="description" id="" rows="5" class="w-full mt-1 p-2 border rounded summernote"
                         placeholder="Enter Description">{{ old('description') }}</textarea>
+                </label>
+            </div>
+
+            <div>
+                <label class="block">Button Text
+                    <input name="button_text" type="text" class="w-full mt-1 p-2 border rounded"
+                        placeholder="Enter Button Text">
+                </label>
+            </div>
+
+            <div>
+                <label class="block">Button Link
+                    <input name="button_link" type="text" class="w-full mt-1 p-2 border rounded"
+                        placeholder="Enter Button Link">
+                </label>
+            </div>
+
+            <div>
+                <label class="block">Phone Number
+                    <input name="phone_number" type="text" class="w-full mt-1 p-2 border rounded"
+                        placeholder="Enter Phone Number">
                 </label>
             </div>
 
             <button type="submit" class="w-full mt-4 p-2 bg-blue-600 text-white rounded">Submit</button>
         </form>
-
     </div>
+
 </x-app-layout>
+
 
 <script>
     function previewImage(event) {
@@ -134,7 +104,6 @@
         }
     }
 </script>
-
 
 <!-- Summernote) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
