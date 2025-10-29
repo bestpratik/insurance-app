@@ -31,4 +31,10 @@ class ContactformController extends Controller
 
         return response()->json(['message' => 'Your comment has been submitted successfully!']);
     }
+
+    public function destroy($id)
+    {
+        Contactform::findOrFail($id)->delete();
+        return redirect()->route('contactform.list')->with('message', 'Contactform deleted successfully!');
+    }
 }

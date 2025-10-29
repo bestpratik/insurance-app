@@ -14,8 +14,8 @@
             class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500  dark:hover:bg-blue-500 dark:focus:ring-blue-800">
             <x-heroicon-o-arrow-left class="w-4 h-4" />
         </a>
-        <form class="bg-white w-full space-y-4" method="post" action="{{ route('update.testimonial', $testimonial->id) }}"
-            enctype="multipart/form-data">
+        <form class="bg-white w-full space-y-4" method="post"
+            action="{{ route('update.testimonial', $testimonial->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -24,7 +24,7 @@
                     <span class="text-red-700">*</span>
                     <input name="name" type="text" class="w-full mt-1 p-2 border rounded"
                         value="{{ $testimonial->name ?? '' }}" placeholder="Enter Name">
-                        @if ($errors->has('name'))
+                    @if ($errors->has('name'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('name') }}</span>
                     @endif
                 </label>
@@ -33,12 +33,13 @@
             <div>
                 <label class="block">
                     <span class="text-gray-700">Image</span>
+                    <small class="text-gray-500 block mt-1">Recommended size: 542×542px</small>
                     <input name="image" type="file" onchange="loadFile(event)"
                         class="w-full mt-1 p-2 border rounded">
                 </label>
                 <div class="shrink-0">
-                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full" src="{{ asset('uploads/'.$testimonial->image ) }}"
-                        alt="Current photo" />
+                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full"
+                        src="{{ asset('uploads/' . $testimonial->image) }}" alt="Current photo" />
                 </div>
             </div>
 
@@ -53,8 +54,7 @@
             <div>
                 <label class="block">
                     <span class="text-gray-700">Review</span>
-                    <textarea name="review" rows="5" class="w-full mt-1 p-2 border rounded summernote"
-                        placeholder="Enter Review">{{ old('review', $testimonial->review) }}</textarea>
+                    <textarea name="review" rows="5" class="w-full mt-1 p-2 border rounded summernote" placeholder="Enter Review">{{ old('review', $testimonial->review) }}</textarea>
                 </label>
             </div>
 

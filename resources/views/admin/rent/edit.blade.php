@@ -32,6 +32,7 @@
             <div>
                 <label class="block">
                     <span class="text-gray-700">Image</span>
+                    <small class="text-gray-500 block mt-1">Recommended size: 700×580px</small>
                     <input name="image" type="file" onchange="loadFile(event)"
                         class="w-full mt-1 p-2 border rounded">
                 </label>

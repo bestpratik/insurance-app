@@ -150,6 +150,7 @@
             request()->is('blog-category*') ||
             request()->is('blog-tag*') ||
             request()->is('rent*') ||
+            request()->is('testimonial*') ||
             request()->is('seo*');
     @endphp
 

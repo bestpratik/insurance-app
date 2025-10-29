@@ -65,6 +65,7 @@
             <!--Image file-->
             <div>
                 <label class="block">Image <span class="text-red-700">*</span>
+                    <small class="text-gray-500 block mt-1">Recommended size: 1200×896px</small>
                     <input id="imageInput" name="image" type="file" class="w-full mt-1 p-2 border rounded"
                         onchange="previewImage(event)">
 

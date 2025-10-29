@@ -1,9 +1,9 @@
 <x-app-layout>
     @if ($message = Session::get('message'))
-    <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-        {{ $message }}
-    </div>
+        <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+            {{ $message }}
+        </div>
     @endif
     <div
         class="bg-white border rounded-lg col-span-2 mt-4 p-8 flex flex-wrap align-center justify-between max-w-4xl mx-auto">
@@ -24,50 +24,62 @@
                 <label class="block">Insurance <span class="text-red-700">*</span></label>
                 <select name="insurance_id" class="w-full mt-1 p-2 border rounded">
                     <option value="">Choose Insurance...</option>
-                    @foreach($insurances as $row)
-                    <option value="{{ $row->id }}"
-                        {{ old('insurance_id', $service->insurance_id) == $row->id ? 'selected' : '' }}>
-                        {{ $row->name }}
-                    </option>
+                    @foreach ($insurances as $row)
+                        <option value="{{ $row->id }}"
+                            {{ old('insurance_id', $service->insurance_id) == $row->id ? 'selected' : '' }}>
+                            {{ $row->name }}
+                        </option>
                     @endforeach
                 </select>
 
                 @if ($errors->has('insurance_id'))
-                <span class="mt-1 text-sm text-red-500">{{ $errors->first('insurance_id') }}</span>
+                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('insurance_id') }}</span>
                 @endif
             </div>
 
 
             <div>
-                <label class="block">
-                    <span class="text-gray-700">Title</span>
+                <label class="block">Title
+                    <span class="text-red-700">*</span>
                     <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
                         value="{{ $service->title }}" placeholder="Enter Title">
+                    @if ($errors->has('title'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
+                    @endif
                 </label>
             </div>
 
             <div>
-                <label class="block">
-                    <span class="text-gray-700">Sub Title</span>
+                <label class="block">Sub Title
+                    <span class="text-red-700">*</span>
                     <input name="sub_title" type="text" class="w-full mt-1 p-2 border rounded"
                         value="{{ $service->sub_title }}" placeholder="Enter Sub Title">
+                        @if ($errors->has('sub_title'))
+                <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
+                @endif
                 </label>
             </div>
 
             <div>
                 <label class="block">
                     <span class="text-gray-700">Image</span>
-                    <input name="image" type="file" onchange="loadFile(event)" class="w-full mt-1 p-2 border rounded">
+                    <small class="text-gray-500 block mt-1">Recommended size: 1200×896px</small>
+                    <input name="image" type="file" onchange="loadFile(event)"
+                        class="w-full mt-1 p-2 border rounded">
                 </label>
                 <div class="shrink-0">
-                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full" src="{{ asset('uploads/service/' . $service->image) }}"
-                        alt="Current photo" />
+                    <img id='preview_img' class="h-16 w-16 object-cover rounded-full"
+                        src="{{ asset('uploads/service/' . $service->image) }}" alt="Current photo" />
+                    @if ($errors->has('image'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image') }}</span>
+                    @endif
                 </div>
             </div>
 
             <div>
                 <label class="block"><span class="text-gray-700">Tag</span>
-                    <input name="tag" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag" value="{{ $service->tag }}">
+                    <input name="tag" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag"
+                        value="{{ $service->tag }}">
                 </label>
             </div>
 
@@ -83,7 +95,7 @@
                     <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Offer" value="{{ $service->offer }}">
                     @if ($errors->has('offer'))
-                    <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
                     @endif
                 </label>
             </div>

@@ -10,6 +10,11 @@
         <h2 class="font-semibold text-xl text-gray-800 m-0">
             Edit Fact
         </h2>
+        <a href="{{ route('fact') }}"
+            class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 
+                   focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            <x-heroicon-o-arrow-left class="w-4 h-4" />
+        </a>
         <form class="bg-white w-full space-y-4" method="post" action="{{ route('update.fact', $fact->id) }}"
             enctype="multipart/form-data">
             @csrf
@@ -26,12 +31,13 @@
             <div>
                 <label class="block">
                     <span class="text-gray-700">Image</span>
+                    <small class="text-gray-500 block mt-1">Recommended size: 600×591px</small>
                     <input name="image" type="file" onchange="loadFile(event)"
                         class="w-full mt-1 p-2 border rounded">
                 </label>
                 <div class="shrink-0">
-                    <img id='preview_img' class="h-16 w-16 bg-gray-600 p-4 rounded-md border" src="{{ asset('uploads/fact/' . $fact->image) }}"
-                        alt="Current photo" />
+                    <img id='preview_img' class="h-16 w-16 bg-gray-600 p-4 rounded-md border"
+                        src="{{ asset('uploads/fact/' . $fact->image) }}" alt="Current photo" />
                 </div>
             </div>
 

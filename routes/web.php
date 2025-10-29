@@ -354,13 +354,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Contact Form
     Route::get('/contactform_list', [ContactFormController::class, 'index'])->name('contactform.list');
-    Route::get('/contactform/create', [ContactFormController::class, 'create'])->name('contactform.create');
+    Route::delete('/contactform/{id}/delete', [ContactFormController::class, 'destroy'])->name('contactform.delete');
     Route::post('/contactform/store', [ContactFormController::class, 'store'])->name('contactform.store');
 
 
     // Newsletter
     Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
     Route::get('/newsletter_list', [NewsletterController::class, 'index'])->name('newsletter.list');
+    Route::delete('/newsletter/{id}/delete', [NewsletterController::class, 'destroy'])->name('newsletter.delete');
 
 
     //SEO sections

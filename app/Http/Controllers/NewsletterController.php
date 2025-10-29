@@ -13,6 +13,7 @@ class NewsletterController extends Controller
         $newsletter_list = Newsletter::all();
         return view('admin.newsletter_list.index', compact('newsletter_list'));
     }
+
     public function subscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -33,5 +34,11 @@ class NewsletterController extends Controller
             'success' => true,
             'message' => 'Thank you for subscribing!'
         ]);
+    }
+
+    public function destroy($id)
+    {
+        Newsletter::findOrFail($id)->delete();
+        return redirect()->route('newsletter.list')->with('message', 'Newsletter deleted successfully!');
     }
 }
