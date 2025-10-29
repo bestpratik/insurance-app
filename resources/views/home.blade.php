@@ -16,9 +16,9 @@
                                 {{ $bann->title ?? '' }}
                             </h1>
                             <div class="flex flex-wrap justify-center sm:justify-start gap-4">
-                                <a href="#"
+                                <a href="{{ $bann->button_link }}"
                                     class="inline-block bg-[#a10c0c] border-2 border-[#a10c0c] text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-transparent hover:text-[#a10c0c]">
-                                    Buy Insurance Online
+                                    {{ $bann->button_text }}
                                 </a>
                                 <a href="{{ route('referral.form') }}"
                                     class="inline-block border-2 border-[#a10c0c] text-[#a10c0c] font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-[#a10c0c] hover:text-white">
@@ -53,6 +53,7 @@
         </button>
     </section>
 
+    <!--Rent Guarantee Section -->
     <section class="md:py-24 py-0 bg-white">
         <div
             class="max-w-7xl mx-auto p-8 md:flex md:items-center md:gap-12 bg-[#FAF9F2] rounded-xl border border-gray-100">
@@ -72,9 +73,9 @@
                 </p>
                 <div class="bg-[#f9f7f2]">
                     <!-- Button -->
-                    <a href="#"
+                    <a href="{{ $rent->button_link }}"
                         class="inline-block mt-2 border-2 border-[#b91c1c] text-[#b91c1c] font-semibold px-6 py-3 rounded-md transition-all duration-300 hover:bg-[#b91c1c] hover:text-white">
-                        Buy Insurance Online
+                        {{ $rent->button_text }}
                     </a>
 
                     <!-- Call text -->
@@ -91,6 +92,7 @@
         </div>
     </section>
 
+    <!-- Service Section -->
     <section class="bg-gray-100 py-14">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-wrap justify-center gap-10">
@@ -148,6 +150,7 @@
         </div>
     </section>
 
+    <!-- Who Should Buy Rent Guarantee Section -->
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
 
@@ -161,9 +164,9 @@
                     {!! $rentSecond->description ?? '' !!}
                 </p>
 
-                <a href="#"
+                <a href="{{ $rentSecond->button_link }}"
                     class="inline-block mt-2 border-2 border-[#a10c0c] text-[#a10c0c] font-semibold md:px-6 px-4 py-3 rounded-md transition-all duration-300 hover:bg-[#a10c0c] hover:text-white">
-                    Buy Rent Guarantee Insurance Online
+                    {{ $rentSecond->button_text }}
                 </a>
             </div>
 
@@ -176,6 +179,7 @@
         </div>
     </section>
 
+    <!-- Benefit of Rent Guarantee Section -->
     <section class="bg-[#072b47] text-white py-14 relative">
         <div
             class="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-2 md:gap-10 px-6">
@@ -197,7 +201,7 @@
         </div>
     </section>
 
-    <!-- Bottom Section -->
+    <!-- Get Protected Section -->
     <section class="bg-white py-12 mt-24">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 px-6 items-center">
             <div>
@@ -207,9 +211,9 @@
                 <p class="text-gray-600 mb-4">
                     {!! $rentThird->description ?? '' !!}
                 </p>
-                <a href="#"
+                <a href="{{ $rentThird->button_link }}"
                     class="inline-block mt-2 bg-[#a10c0c] text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-[#8b0a0a] hover:shadow-md">
-                    Buy Online Now
+                    {{ $rentThird->button_text }}
                 </a>
                 <p class="mt-4 text-gray-600">
                     or call
@@ -227,6 +231,7 @@
         </div>
     </section>
 
+    <!-- Testimonial Section -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-[#0B3C5D] mb-10">Testimonials</h2>
@@ -274,6 +279,7 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
 
@@ -318,6 +324,7 @@
         </div>
     </section>
 
+    <!-- Question About Rent Guarantee Section -->
     <section class="bg-[#144562] text-white py-8 relative mt-36">
         <div class="max-w-7xl mx-auto flex  justify-between md:gap-10 gap-0 px-6">
             <div class="lg:w-1/2 flex justify-center">
@@ -342,6 +349,7 @@
         </div>
     </section>
 
+    <!-- Client Section -->
     <section class="clients bg-gray-50 md:py-16 py-8">
 
         <!-- Swiper Container -->
