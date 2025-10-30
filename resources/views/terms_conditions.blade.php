@@ -8,8 +8,8 @@
             <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
 
             <!-- Content -->
-            <div class="relative z-10 py-24 px-6 text-center">
-                <div class="max-w-4xl mx-auto">
+            <div class="relative z-10 py-16 px-6">
+                <div class="max-w-7xl mx-auto">
                     <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $terms->title ?? '' }}</h1>
                     <!-- <p class="text-lg md:text-xl">{{ $aboutSecond->terms ?? '' }}</p> -->
                 </div>

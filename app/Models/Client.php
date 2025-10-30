@@ -11,6 +11,7 @@ class Client extends Model
     protected $fillable = [
         'title',
         'image',
+        'image_alt',
         'created_at',
         'updated_at'
     ];

@@ -21,11 +21,13 @@ class Seo extends Model
         'url',
         'site_name',
         'ogimage',
+        'image_alt',
         'twitter_card',
         'twitter_site',
         'twitter_title',
         'twitter_description',
         'twitter_image',
+        'img_alt',
         'has_short_slug',
         'short_slug'
     ];

@@ -24,7 +24,8 @@
                 @foreach ($blogs as $blog)
                     <div class="relative bg-white shadow border rounded-lg overflow-hidden hover:shadow-2xl transition">
                         <a href="{{ route('blog.details', [$type, $blog->slug]) }}">
-                            <img src="{{ asset('uploads/blogs/' . $blog->image) ?? '' }}" alt="Blog Image"
+                            <img src="{{ $blog->image ? asset('uploads/blogs/' . $blog->image) : asset('img/default-banner.jpg') }}"
+                                alt="{{ $blog->image_alt ?? 'Blog Image - ' . ($blog->title ?? '') }}"
                                 class="w-full h-48 object-cover">
                         </a>
 

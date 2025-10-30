@@ -9,7 +9,8 @@ class Fact extends Model
     protected $table = 'facts';
     protected $fillable = [
         'title',
-        'icon',
+        'image',
+        'image_alt',
         'description',
         'created_at',
         'updated_at'

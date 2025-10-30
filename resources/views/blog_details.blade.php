@@ -43,7 +43,8 @@
             <div class="flex items-center justify-between pb-3">
                 <!-- Author Info -->
                 <div class="flex items-center space-x-3 mb-2">
-                    <img src="{{ asset('uploads/blogs/' . $blogs->author_image) ?? '' }}" alt="Author"
+                    <img src="{{ $blogs->image ? asset('uploads/blogs/' . $blogs->author_image) : asset('img/default-banner.jpg') }}"
+                        alt="{{ $blogs->img_alt ?? 'Blog Author - ' . ($blogs->title ?? '') }}"
                         class="w-14 h-14 rounded-full object-cover">
                     <div class="text-sm text-gray-600">
                         <p class="font-medium text-gray-800">{{ $blogs->blog_author ?? '' }}</p>
@@ -85,7 +86,8 @@
 
             <!-- Feature Image -->
             <div class="mb-8">
-                <img src="{{ asset('uploads/blogs/' . $blogs->image) }}" alt="Blog"
+                <img src="{{ $blogs->image ? asset('uploads/blogs/' . $blogs->image) : asset('img/default-banner.jpg') }}"
+                    alt="{{ $blogs->image_alt ?? 'Blog Image - ' . ($blogs->title ?? '') }}"
                     class="w-full rounded-lg object-cover">
             </div>
 
@@ -104,8 +106,9 @@
                         @foreach ($relatedBlogs as $related)
                             <a href="{{ route('blog.details', [$type, $related->slug]) }}"
                                 class="flex items-center bg-white border rounded-md shadow-sm hover:shadow-md transition p-2">
-                                <img src="{{ asset('uploads/blogs/' . $related->image) ?? '' }}"
-                                    alt="{{ $related->title }}" class="w-20 h-20 rounded object-cover flex-shrink-0">
+                                <img src="{{ $related->image ? asset('uploads/blogs/' . $related->image) : asset('img/default-banner.jpg') }}"
+                                    alt="{{ $related->image_alt ?? 'Blog Image - ' . ($related->title ?? '') }}"
+                                    class="w-20 h-20 rounded object-cover flex-shrink-0">
                                 <div class="ml-3">
                                     <h4 class="text-gray-800 font-semibold text-sm line-clamp-2">
                                         {{ $related->title }}

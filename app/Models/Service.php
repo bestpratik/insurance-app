@@ -11,8 +11,12 @@ class Service extends Model
     protected $fillable = [
         'insurance_id',
         'title',
+        'page_slug',
         'sub_title',
         'image',
+        'image_alt',
+        'price',
+        'tag',
         'offer',
         'description',
         'created_at',

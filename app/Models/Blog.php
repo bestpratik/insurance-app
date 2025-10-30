@@ -14,6 +14,8 @@ class Blog extends Model
         'slug',
         'description',
         'image',
+        'image_alt',
+        'img_alt',
         'status',
         'blog_author',
         'author_image',

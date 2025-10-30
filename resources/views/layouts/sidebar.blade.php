@@ -161,7 +161,7 @@
         {{ $frontendActive ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
             <div class="flex items-center">
                 <x-heroicon-o-eye class="mr-3 h-6 w-6 {{ $frontendActive ? 'text-blue-700' : 'text-[#25304e]' }}" />
-                <span class="sidebar-item-text">Frontend</span>
+                <span class="sidebar-item-text">Home Pages</span>
             </div>
             <svg class="h-5 w-5 {{ $frontendActive ? 'text-blue-700' : 'text-gray-400' }}"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

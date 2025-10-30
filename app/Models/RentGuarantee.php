@@ -10,6 +10,7 @@ class RentGuarantee extends Model
     protected $fillable = [
         'title',
         'image',
+        'image_alt',
         'description',
         'button_text',
         'button_link',

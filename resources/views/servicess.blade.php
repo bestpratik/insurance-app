@@ -22,7 +22,8 @@
                       <div
                           class="bg-white rounded-xl shadow-md overflow-hidden relative group transition transform hover:scale-[1.005] hover:shadow-xl">
                           <div class="relative">
-                              <img src="{{ asset('uploads/service/' . $row->image) }}" alt="Landlord Protection"
+                              <img src="{{ $row->image ? asset('uploads/service/' . $row->image) : asset('img/default-banner.jpg') }}"
+                                  alt="{{ $row->image_alt ?? 'Landlord Protection - ' . ($row->title ?? '') }}"
                                   class="w-full h-64 object-cover rounded-t-xl">
                               <div
                                   class="absolute bottom-4 left-4 bg-red-100 text-red-700 px-4 py-1 rounded-lg text-sm font-bold shadow-md">

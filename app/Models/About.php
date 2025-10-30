@@ -11,6 +11,7 @@ class About extends Model
     protected $fillable = [
         'image',
         'title',
+        'image_alt',
         'sub_title',
         'description',
         'created_at',

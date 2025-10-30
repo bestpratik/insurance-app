@@ -11,6 +11,7 @@ class Testimonial extends Model
         'name',
         'location',
         'image',
+        'image_alt',
         'review'
     ];
 }

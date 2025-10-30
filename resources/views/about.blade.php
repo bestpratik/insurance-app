@@ -24,7 +24,8 @@
                     <p class="text-lg leading-relaxed">{!! $aboutSecond->description ?? '' !!}</p>
                 </div>
                 <div class="bg-white shadow-lg rounded-xl p-6 border-l-4 border-red-600">
-                    <img src="{{ asset('uploads/about/' . $aboutSecond->image ?? '') }}" alt="" class="w-full">
+                    <img src="{{ $aboutSecond->image ? asset('uploads/about/' . $aboutSecond->image) : asset('img/default-banner.jpg') }}"
+                        alt="{{ $aboutSecond->image_alt ?? 'About - ' . ($aboutSecond->title ?? '') }}" class="w-full">
                 </div>
             </div>
         </section>
@@ -41,7 +42,9 @@
                     <div class="p-6 bg-white rounded-lg shadow-sm">
                         <div
                             class="mx-auto mb-4 flex items-center justify-center h-20 w-20 rounded-full bg-red-100 overflow-hidden">
-                            <img src="{{ asset('uploads/about/' . $row->image) }}" alt="Profile Image" class="h-full w-full object-cover" />
+                            <img src="{{ $row->image ? asset('uploads/about/' . $row->image) : asset('img/default-banner.jpg') }}"
+                                alt="{{ $row->image_alt ?? 'Profile Image - ' . ($row->title ?? '') }}"
+                                class="h-full w-full object-cover" />
                         </div>
 
                         <h3 class="text-xl font-semibold text-red-600 mb-2">{{ $row->title ?? '' }}</h3>

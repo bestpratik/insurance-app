@@ -30,7 +30,8 @@
 
                     <!-- Image -->
                     <div class="absolute sm:static inset-0 sm:inset-auto flex-1">
-                        <img src="{{ asset('uploads/banner/' . $bann->image ?? '') }}" alt="Slide 1"
+                        <img src="{{ $bann->image ? asset('uploads/banner/' . $bann->image) : asset('img/default-banner.jpg') }}"
+                            alt="{{ $test->image_alt ?? 'Banner - ' . ($bann->title ?? '') }}"
                             class="w-full h-full object-cover" />
                         <div class="absolute inset-0 bg-black/30 sm:hidden"></div>
                     </div>
@@ -59,7 +60,8 @@
             class="max-w-7xl mx-auto p-8 md:flex md:items-center md:gap-12 bg-[#FAF9F2] rounded-xl border border-gray-100">
             <!-- Left: Image + Badge -->
             <div class="relative md:w-1/2">
-                <img src="{{ asset('uploads/rent/' . $rent->image ?? '') }}" alt="about"
+                <img src="{{ $rent->image ? asset('uploads/rent/' . $rent->image) : asset('img/default-banner.jpg') }}"
+                    alt="{{ $rent->image_alt ?? 'Rent Guarantee - ' . ($rent->title ?? '') }}"
                     class="rounded-md shadow-lg">
             </div>
 
@@ -103,7 +105,8 @@
                     <div
                         class="bg-white border rounded-md shadow-md overflow-hidden relative group transition-all duration-500 hover:shadow-md w-full sm:w-[48%] lg:w-[31%]">
                         <div class="relative">
-                            <img src="{{ asset('uploads/service/' . $row->image ?? '') }}" alt="Landlord Protection"
+                            <img src="{{ $row->image ? asset('uploads/service/' . $row->image) : asset('img/default-banner.jpg') }}"
+                                alt="{{ $row->image_alt ?? 'LandLord Protection - ' . ($row->title ?? '') }}"
                                 class="w-full h-64 object-cover rounded-t-md group-hover:brightness-90 transition-all duration-300">
 
                             <!-- 💰 Ribbon Price -->
@@ -173,7 +176,8 @@
 
             <!-- Right Image Section -->
             <div class="flex justify-center">
-                <img src="{{ asset('uploads/rent/' . $rentSecond->image ?? '') }}" alt="Rent Guarantee Insurance"
+                <img src="{{ $rentSecond->image ? asset('uploads/rent/' . $rentSecond->image) : asset('img/default-banner.jpg') }}"
+                    alt="{{ $rentSecond->image_alt ?? 'Rent Guarantee Insurance - ' . ($rent->title ?? '') }}"
                     class="rounded-lg w-full max-w-md">
             </div>
 
@@ -186,7 +190,8 @@
             class="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-2 md:gap-10 px-6">
 
             <div class="lg:w-1/2 flex justify-center">
-                <img src="{{ asset('uploads/fact/' . $fact->image ?? '') }}" alt="Group of people sitting together"
+                <img src="{{ $fact->image ? asset('uploads/fact/' . $fact->image) : asset('img/default-banner.jpg') }}"
+                    alt="{{ $fact->image_alt ?? 'Group of people sitting together - ' . ($fact->title ?? '') }}"
                     class="rounded-xl shadow-xl object-cover w-full max-w-[480px] md:absolute relative md:top-12 top-5 " />
             </div>
             <div class="lg:w-1/2 space-y-4">
@@ -227,7 +232,8 @@
                 </p>
             </div>
             <div class="flex justify-center">
-                <img src="{{ asset('uploads/rent/' . $rentThird->image ?? '') }}" alt="Red house miniature"
+                <img src="{{ $rentThird->image ? asset('uploads/rent/' . $rentThird->image) : asset('img/default-banner.jpg') }}"
+                    alt="{{ $rentThird->image_alt ?? 'Red house miniature - ' . ($rentThird->title ?? 'Happy Client') }}"
                     class="rounded-lg shadow-md" />
             </div>
         </div>
@@ -244,8 +250,10 @@
                     <!-- Slide 1 -->
                     @foreach ($testimonial as $test)
                         <div class="swiper-slide flex flex-col md:flex-row items-center  gap-8 text-left">
-                            <div class="w-40 h-40 bg-[#144562] rounded-2xl flex-shrink-0 shadow-lg">
-                                <img src="{{ asset('uploads/testimonial/' . $test->image ?? '') }}" alt="testimonial"
+                            <div
+                                class="w-40 h-40 bg-[#144562] rounded-2xl flex justify-center item-center p-3 flex-shrink-0 shadow-lg">
+                                <img src="{{ $test->image ? asset('uploads/testimonial/' . $test->image) : asset('img/default-banner.jpg') }}"
+                                    alt="{{ $test->image_alt ?? 'Customer testimonial - ' . ($test->name ?? 'Happy Client') }}"
                                     class="rounded-lg shadow-md" />
                             </div>
                             <div>
@@ -311,7 +319,7 @@
                     <div class="border-b border-gray-200 pb-3">
                         <button
                             class="faq-btn flex items-center justify-between w-full text-left font-medium text-lg text-gray-900 hover:text-[#144562] transition">
-                            <span>{{ $faq->question ?? '' }}</span>
+                            <span>{{ $loop->iteration }}. {{ $faq->question ?? '' }}</span>
                             <i class="fa-solid fa-arrow-right text-red-600 transition-transform duration-300"></i>
                         </button>
                         <div
@@ -361,8 +369,8 @@
                 @foreach ($client as $row)
                     <div
                         class=" swiper-slide border rounded-md  hover:scale-103 transition-transform duration-300 flex items-center justify-center">
-                        <img src="{{ asset('uploads/client/' . $row->image ?? '') }}" class=" px-5 py-3"
-                            alt="">
+                        <img src="{{ $row->image ? asset('uploads/client/' . $row->image) : asset('img/default-banner.jpg') }}"
+                            alt="{{ $row->image_alt ?? 'Client - ' . ($row->title ?? '') }}" class=" px-5 py-3">
                     </div>
                 @endforeach
             </div>

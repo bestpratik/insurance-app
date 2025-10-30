@@ -39,7 +39,7 @@ class FrontController extends Controller
         $fact = Fact::first();
         $client = Client::all();
         $testimonial = Testimonial::all();
-        $faqs = Faq::all();
+        $faqs = Faq::take(6)->get();
         $rent = RentGuarantee::first();
         $rentAll = RentGuarantee::all();
         $rentSecond = $rentAll->skip(1)->first();
