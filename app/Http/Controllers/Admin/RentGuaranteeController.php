@@ -24,6 +24,7 @@ class RentGuaranteeController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
@@ -43,6 +44,7 @@ class RentGuaranteeController extends Controller
         }
 
         $rent->title = $request['title'];
+        $rent->image_alt = $request['image_alt'];
         $rent->description = $request['description'];
         $rent->button_text = $request['button_text'];
         $rent->button_link = $request['button_link'];
@@ -58,7 +60,7 @@ class RentGuaranteeController extends Controller
     function edit($id)
     {
         $rent = RentGuarantee::find($id);
-        return view('admin.rent.edit', compact('rent')); 
+        return view('admin.rent.edit', compact('rent'));
     }
 
     function update(Request $request, $id)
@@ -83,6 +85,7 @@ class RentGuaranteeController extends Controller
         }
 
         $rent->title = $request['title'];
+        $rent->image_alt = $request['image_alt'];
         $rent->description = $request['description'];
         $rent->button_text = $request['button_text'];
         $rent->button_link = $request['button_link'];
@@ -112,5 +115,3 @@ class RentGuaranteeController extends Controller
         }
     }
 }
-
-

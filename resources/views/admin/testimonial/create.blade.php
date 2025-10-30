@@ -46,6 +46,18 @@
             </div>
             <!--end image file-->
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700 text-sm">*</span>
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($testimonial) ? $testimonial->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                    @if ($errors->has('image_alt'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image_alt') }}</span>
+                    @endif
+                </label>
+            </div>
+
             <!--Location-->
             <div>
                 <label class="block">Location

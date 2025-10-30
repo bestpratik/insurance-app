@@ -35,11 +35,13 @@ class SeoController extends Controller
             'url' => 'nullable|string|max:255',
             'site_name' => 'nullable|string|max:255',
             'ogimage' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp',
+            // 'image_alt' => 'required',
             'twitter_card' => 'nullable|string|max:255',
             'twitter_site' => 'nullable|string|max:255',
             'twitter_title' => 'nullable|string|max:255',
             'twitter_description' => 'nullable|string',
             'twitter_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp',
+            // 'img_alt' => 'required',
             // 'short_slug' => 'nullable|string|max:255',
         ]);
 
@@ -73,10 +75,12 @@ class SeoController extends Controller
         $seo->type = $request['type'];
         $seo->url = $request['url'];
         $seo->site_name = $request['site_name'];
+        $seo->image_alt = $request['image_alt'];
         $seo->twitter_card = $request['twitter_card'];
         $seo->twitter_site = $request['twitter_site'];
         $seo->twitter_title = $request['twitter_title'];
         $seo->twitter_description = $request['twitter_description'];
+        $seo->img_alt = $request['img_alt'];
 
         $seo->save();
 
@@ -154,10 +158,12 @@ class SeoController extends Controller
         $seo->type = $request['type'];
         $seo->url = $request['url'];
         $seo->site_name = $request['site_name'];
+        $seo->image_alt = $request['image_alt'];
         $seo->twitter_card = $request['twitter_card'];
         $seo->twitter_site = $request['twitter_site'];
         $seo->twitter_title = $request['twitter_title'];
         $seo->twitter_description = $request['twitter_description'];
+        $seo->img_alt = $request['img_alt'];
 
         $seo->save();
 

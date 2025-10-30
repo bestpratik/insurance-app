@@ -42,6 +42,15 @@
                 </div>
             </div>
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($client) ? $client->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
+            </div>
+
             <button type="submit" class="w-full mt-4 p-2 bg-blue-600 text-white rounded">Update</button>
         </form>
 

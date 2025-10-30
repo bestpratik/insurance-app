@@ -23,8 +23,8 @@
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span>
-                    <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Title">
+                    <input name="title" type="text" value="{{ old('title') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Title">
                     @if ($errors->has('title'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
                     @endif
@@ -51,6 +51,18 @@
             </div>
             <!--end Image file-->
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700 text-sm">*</span>
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($rent) ? $rent->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                    @if ($errors->has('image_alt'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image_alt') }}</span>
+                    @endif
+                </label>
+            </div>
+
             <!-- Description -->
             <div>
                 <label class="block">
@@ -60,24 +72,27 @@
                 </label>
             </div>
 
+            <!-- Button Text -->
             <div>
                 <label class="block">Button Text
-                    <input name="button_text" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Button Text">
+                    <input name="button_text" type="text" value="{{ old('button_text') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Button Text">
                 </label>
             </div>
 
+            <!-- Button Link -->
             <div>
                 <label class="block">Button Link
-                    <input name="button_link" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Button Link">
+                    <input name="button_link" type="text" value="{{ old('button_link') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Button Link">
                 </label>
             </div>
 
+            <!-- Phone Number -->
             <div>
                 <label class="block">Phone Number
-                    <input name="phone_number" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Phone Number">
+                    <input name="phone_number" type="text" value="{{ old('phone_number') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Phone Number">
                 </label>
             </div>
 

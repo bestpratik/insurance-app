@@ -25,6 +25,7 @@ class TestimonialController extends Controller
         $request->validate([
             'name' => 'required',
             'location' => 'required',
+            'image_alt' => 'required',
         ]);
 
         $testimonial = new Testimonial;
@@ -37,6 +38,7 @@ class TestimonialController extends Controller
         }
 
         $testimonial->name = $request['name'];
+        $testimonial->image_alt = $request['image_alt'];
         $testimonial->location = $request['location'];
         $testimonial->review = $request['review'];
         $testimonial->created_at = date("Y-m-d H:i:s");
@@ -75,6 +77,7 @@ class TestimonialController extends Controller
         }
 
         $testimonial->name = $request['name'];
+        $testimonial->image_alt = $request['image_alt'];
         $testimonial->location = $request['location'];
         $testimonial->review = $request['review'];
         $testimonial->created_at = null;

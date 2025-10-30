@@ -29,6 +29,8 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required',
             'sub_title' => 'required',
+            'insurance_id' => 'required',
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
@@ -52,6 +54,7 @@ class ServiceController extends Controller
         $service->insurance_id = $request['insurance_id'];
         $service->sub_title = $request['sub_title'];
         $service->page_slug = $page_slug;
+        $service->image_alt = $request['image_alt'];
         $service->tag = $request['tag'];
         $service->price = $request['price'];
         $service->description = $request['description'];
@@ -88,10 +91,8 @@ class ServiceController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/service/'), $filename);
-            // $fullPath = url('uploads/fact/' . $filename);
             $service->image = $filename;
         }
-
 
 
         $page_slug = Str::slug($request['title']);
@@ -99,6 +100,7 @@ class ServiceController extends Controller
         $service->insurance_id = $request['insurance_id'];
         $service->page_slug = $page_slug;
         $service->sub_title = $request['sub_title'];
+        $service->image_alt = $request['image_alt'];
         $service->tag = $request['tag'];
         $service->price = $request['price'];
         $service->offer = $request['offer'];

@@ -91,7 +91,16 @@
                         onchange="previewImage(event, 'ogPreview')">
                 </label>
                 <img id="ogPreview" class="mt-2 border rounded" style="height: 50px; width: 75px;"
-                    src="{{ asset('uploads/seo/' . $seo->ogimage) }}" />
+                    src="{{ $seo->ogimage ? asset('uploads/seo/' . $seo->ogimage) : asset('img/default-banner.jpg') }}" />
+            </div>
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($seo) ? $seo->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
             </div>
 
             {{-- Twitter Info --}}
@@ -118,8 +127,17 @@
                         class="w-full mt-1 p-2 border rounded" onchange="previewImage(event, 'twitterPreview')">
                 </label>
                 <img id="twitterPreview" class="mt-2 border rounded" style="height: 50px; width: 75px;"
-                    src="{{ asset('uploads/seo/' . $seo->twitter_image) }}" />
+                    src="{{ $seo->twitter_image ? asset('uploads/seo/' . $seo->twitter_image) : asset('img/default-banner.jpg') }}" />
             </div>
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="img_alt" value="{{ old('img_alt', isset($seo) ? $seo->img_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
+            </div>
+
             <div class="col-span-2">
                 <label>Twitter Description</label>
                 <textarea name="twitter_description" class="w-full mt-1 p-2 border rounded summernote" rows="3">{{ old('twitter_description', $seo->twitter_description ?? '') }}</textarea>

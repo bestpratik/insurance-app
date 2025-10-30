@@ -27,8 +27,8 @@
             <!-- Question -->
             <div>
                 <label class="block">Question<span class="text-red-700">*</span>
-                    <input name="question" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Question">
+                    <input name="question" type="text" value="{{ old('question') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Question">
                     @if ($errors->has('question'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('question') }}</span>
                     @endif
@@ -42,7 +42,7 @@
                     <span class="text-red-700">*</span>
                     <textarea name="answer" id="" rows="5" class="w-full mt-1 p-2 border rounded summernote"
                         placeholder="Enter Answer">{{ old('answer') }}</textarea>
-                         @if ($errors->has('answer'))
+                    @if ($errors->has('answer'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('answer') }}</span>
                     @endif
                 </label>

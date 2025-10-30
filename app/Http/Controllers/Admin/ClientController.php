@@ -23,12 +23,12 @@ class ClientController extends Controller
     function store(Request $request)
     {
         $request->validate([
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -38,12 +38,11 @@ class ClientController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client'), $filename);
-            // $fullPath = url('uploads/client/' . $filename);
             $client->image = $filename;
         }
 
         $client->title = $request['title'];
-        
+        $client->image_alt = $request['image_alt'];
         $client->created_at = date("Y-m-d H:i:s");
         $client->updated_at = null;
 
@@ -77,12 +76,11 @@ class ClientController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client'), $filename);
-            // $fullPath = url('uploads/client/' . $filename);
             $client->image = $filename;
         }
 
         $client->title = $request['title'];
-       
+        $client->image_alt = $request['image_alt'];
         $client->created_at = null;
         $client->updated_at = date("Y-m-d H:i:s");
 
@@ -108,4 +106,3 @@ class ClientController extends Controller
         }
     }
 }
-

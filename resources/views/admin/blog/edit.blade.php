@@ -36,6 +36,15 @@
                     src="{{ asset('uploads/blogs/' . $blog->image) }}" />
             </div>
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($blog) ? $blog->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
+            </div>
+
             {{-- Description --}}
             <div>
                 <label class="block">Description</label>
@@ -59,6 +68,15 @@
                 <small class="text-gray-500 block mt-1">Recommended size: 1600×1600px</small>
                 <img id="authorPreview" class="mt-2 border rounded" style="height: 50px; width: 75px;"
                     src="{{ asset('uploads/blogs/' . $blog->author_image) }}" />
+            </div>
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="img_alt"
+                        value="{{ old('img_alt', isset($blog) ? $blog->img_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
             </div>
 
             {{-- Date --}}

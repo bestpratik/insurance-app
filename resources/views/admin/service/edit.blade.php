@@ -54,9 +54,9 @@
                     <span class="text-red-700">*</span>
                     <input name="sub_title" type="text" class="w-full mt-1 p-2 border rounded"
                         value="{{ $service->sub_title }}" placeholder="Enter Sub Title">
-                        @if ($errors->has('sub_title'))
-                <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
-                @endif
+                    @if ($errors->has('sub_title'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
+                    @endif
                 </label>
             </div>
 
@@ -74,6 +74,15 @@
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('image') }}</span>
                     @endif
                 </div>
+            </div>
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($service) ? $service->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
             </div>
 
             <div>

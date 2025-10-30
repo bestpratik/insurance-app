@@ -29,9 +29,11 @@ class BlogController extends Controller
     {
         $request->validate([
             'title'        => 'required|string|max:255',
+            'image_alt'    => 'required',
+            'img_alt'      => 'required',
             'description'  => 'nullable|longtext',
-            'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp',
-            'author_image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'image'        => 'required|image|mimes:jpg,jpeg,png,webp',
+            'author_image' => 'required|image|mimes:jpg,jpeg,png,webp',
             'blog_author'  => 'nullable|string|max:255',
             'date'         => 'nullable|date',
             'type'         => 'required|in:blog,resource',
@@ -57,8 +59,10 @@ class BlogController extends Controller
         $slug = Str::slug($request['title']);
         $blog->title = $request['title'];
         $blog->slug = $slug;
+        $blog->image_alt = $request['image_alt'];
         $blog->description = $request['description'];
         $blog->status = 1;
+        $blog->img_alt = $request['img_alt'];
         $blog->blog_author = $request['blog_author'];
         $blog->date = $request['date'];
         $blog->type = $request['type'];
@@ -126,8 +130,10 @@ class BlogController extends Controller
         $slug = Str::slug($request['title']);
         $blog->title = $request['title'];
         $blog->slug = $slug;
+        $blog->image_alt = $request['image_alt'];
         $blog->description = $request['description'];
         $blog->status = 1;
+        $blog->img_alt = $request['img_alt'];
         $blog->blog_author = $request['blog_author'];
         $blog->date = $request['date'];
         $blog->type = $request['type'];

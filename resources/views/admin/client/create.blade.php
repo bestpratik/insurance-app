@@ -1,9 +1,4 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight max-w-4xl mx-auto">
-            Add Banner
-        </h2>
-    </x-slot> --}}
     @if ($message = Session::get('message'))
         <div class="alert alert-success alert-dismissible max-w-4xl mx-auto">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
@@ -27,8 +22,8 @@
             <!-- Title -->
             <div>
                 <label class="block"><span class="text-gray-700">Title</span>
-                    <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Title">
+                    <input name="title" type="text" value="{{ old('title') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Title">
                 </label>
             </div>
             <!-- End Title -->
@@ -51,6 +46,18 @@
                     style="height: 50px; width: 75px; {{ isset($client) && $client->image ? '' : 'display: none;' }}">
             </div>
             <!--end image file-->
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700 text-sm">*</span>
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($client) ? $client->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                    @if ($errors->has('image_alt'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image_alt') }}</span>
+                    @endif
+                </label>
+            </div>
 
             <button type="submit" class="w-full mt-4 p-2 bg-blue-600 text-white rounded">Submit</button>
         </form>

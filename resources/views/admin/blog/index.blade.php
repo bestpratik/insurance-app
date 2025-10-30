@@ -134,7 +134,7 @@
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <img src="{{ asset('uploads/blogs/'. $row->image) }}" alt="Blog Image"
+                                                    <img src="{{ $row->image ? asset('uploads/blogs/' . $row->image) : asset('img/default-banner.jpg')  }}" alt="Blog Image"
                                                         class="w-16 h-16 object-cover rounded-md border">
                                                 </div>
                                             </div>
@@ -170,7 +170,7 @@
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <img src="{{ asset('uploads/blogs/'. $row->author_image) }}" alt="Blog Author Image"
+                                                    <img src="{{ $row->author_image ? asset('uploads/blogs/' . $row->author_image) : asset('img/default-banner.jpg')  }}" alt="Blog Author Image"
                                                         class="w-16 h-16 object-cover rounded-md border">
                                                 </div>
                                             </div>

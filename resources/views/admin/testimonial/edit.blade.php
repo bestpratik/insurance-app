@@ -39,8 +39,17 @@
                 </label>
                 <div class="shrink-0">
                     <img id='preview_img' class="h-16 w-16 object-cover rounded-full"
-                        src="{{ asset('uploads/' . $testimonial->image) }}" alt="Current photo" />
+                        src="{{ $testimonial->image ? asset('uploads/testimonial/' . $testimonial->image) : asset('img/default-banner.jpg') }}" alt="Testimonial photo" />
                 </div>
+            </div>
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($testimonial) ? $testimonial->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
             </div>
 
             <div>

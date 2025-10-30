@@ -25,12 +25,12 @@ class BannerController extends Controller
         $request->validate([
             'title' => 'required',
             'sub_title' => 'required',
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -40,13 +40,13 @@ class BannerController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/banner'), $filename);
-            // $fullPath = url('uploads/banner/' . $filename);
             $banner->image = $filename;
         }
 
         $banner->title = $request['title'];
         $banner->sub_title = $request['sub_title'];
-        $banner->button_text= $request['button_text'];
+        $banner->image_alt = $request['image_alt'];
+        $banner->button_text = $request['button_text'];
         $banner->button_link = $request['button_link'];
         $banner->created_at = date("Y-m-d H:i:s");
         $banner->updated_at = null;
@@ -81,12 +81,12 @@ class BannerController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/banner'), $filename);
-            // $fullPath = url('uploads/banner/' . $filename);
             $banner->image = $filename;
         }
 
         $banner->title = $request['title'];
         $banner->sub_title = $request['sub_title'];
+        $banner->image_alt = $request['image_alt'];
         $banner->button_text = $request['button_text'];
         $banner->button_link = $request['button_link'];
         $banner->created_at = null;

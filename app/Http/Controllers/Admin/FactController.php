@@ -24,13 +24,13 @@ class FactController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
-            ]         
+            ]
         ]);
 
         $fact = new Fact;
@@ -39,13 +39,12 @@ class FactController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/fact'), $filename);
-            // $fullPath = url('uploads/fact/' . $filename);
             $fact->image = $filename;
         }
 
         $fact->title = $request['title'];
         $fact->description = $request['description'];
-        
+        $fact->image_alt = $request['image_alt'];
         $fact->created_at = date("Y-m-d H:i:s");
         $fact->updated_at = null;
 
@@ -68,7 +67,7 @@ class FactController extends Controller
 
         $fact = Fact::find($id);
 
-         if ($request->hasfile('image')) {
+        if ($request->hasfile('image')) {
             $destination = 'uploads/fact/' . $fact->image;
             $imageName = basename($destination);
             if (File::exists('uploads/fact/' . $imageName)) {
@@ -78,13 +77,12 @@ class FactController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/fact'), $filename);
-            // $fullPath = url('uploads/fact/' . $filename);
             $fact->image = $filename;
         }
 
         $fact->title = $request['title'];
         $fact->description = $request['description'];
-
+        $fact->image_alt = $request['image_alt'];
         $fact->created_at = null;
         $fact->updated_at = date("Y-m-d H:i:s");
 
@@ -97,7 +95,6 @@ class FactController extends Controller
     {
         $fact = Fact::find($id);
         if ($fact) {
-
 
             $fact->delete();
             return redirect('fact')->with('success', 'Fact deleted successfully');

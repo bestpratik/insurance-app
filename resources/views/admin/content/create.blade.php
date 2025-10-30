@@ -27,7 +27,7 @@
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span>
-                    <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
+                    <input name="title" type="text" value="{{ old('title') }}" class="w-full mt-1 p-2 border rounded"
                         placeholder="Enter Title">
                     @if ($errors->has('title'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>

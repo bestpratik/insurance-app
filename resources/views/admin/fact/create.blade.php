@@ -27,8 +27,8 @@
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span>
-                    <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Title">
+                    <input name="title" type="text" value="{{ old('title') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Title">
                     @if ($errors->has('title'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
                     @endif
@@ -54,6 +54,18 @@
                     style="height: 50px; width: 75px; {{ isset($fact) && $fact->image ? '' : 'display: none;' }}">
             </div>
             <!--end Image file-->
+
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700 text-sm">*</span>
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($fact) ? $fact->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                    @if ($errors->has('image_alt'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image_alt') }}</span>
+                    @endif
+                </label>
+            </div>
 
             <!-- Description -->
             <div>

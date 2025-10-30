@@ -24,12 +24,12 @@ class AboutController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                // \Illuminate\Validation\Rule::dimensions()->maxWidth(1200)->maxHeight(900),
             ]
         ]);
 
@@ -40,12 +40,12 @@ class AboutController extends Controller
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/about'), $filename);
-            // $fullPath = url('uploads/about/' . $filename);
             $about->image = $filename;
         }
 
         $about->title = $request['title'];
         $about->sub_title = $request['sub_title'];
+        $about->image_alt = $request['image_alt'];
         $about->description = $request['description'];
         $about->created_at = date("Y-m-d H:i:s");
         $about->updated_at = null;
@@ -58,7 +58,7 @@ class AboutController extends Controller
     function edit($id)
     {
         $about = About::find($id);
-        return view('admin.about.edit', compact('about')); 
+        return view('admin.about.edit', compact('about'));
     }
 
     function update(Request $request, $id)
@@ -85,6 +85,7 @@ class AboutController extends Controller
 
         $about->title = $request['title'];
         $about->sub_title = $request['sub_title'];
+        $about->image_alt = $request['image_alt'];
         $about->description = $request['description'];
         $about->created_at = null;
         $about->updated_at = date("Y-m-d H:i:s");

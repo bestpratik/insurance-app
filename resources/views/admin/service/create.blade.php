@@ -41,8 +41,8 @@
             <!-- Title -->
             <div>
                 <label class="block">Title<span class="text-red-700">*</span>
-                    <input name="title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Title">
+                    <input name="title" type="text" value="{{ old('title') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Title">
                     @if ($errors->has('title'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('title') }}</span>
                     @endif
@@ -53,8 +53,8 @@
             <!-- Sub Title -->
             <div>
                 <label class="block">Sub Title<span class="text-red-700">*</span>
-                    <input name="sub_title" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Sub Title">
+                    <input name="sub_title" type="text" value="{{ old('sub_title') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Sub Title">
                     @if ($errors->has('sub_title'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('sub_title') }}</span>
                     @endif
@@ -81,29 +81,46 @@
             </div>
             <!--end image file-->
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700 text-sm">*</span>
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($service) ? $service->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                    @if ($errors->has('image_alt'))
+                        <span class="mt-1 text-sm text-red-500">{{ $errors->first('image_alt') }}</span>
+                    @endif
+                </label>
+            </div>
+
+            <!-- Tag -->
             <div>
                 <label class="block"><span class="text-gray-700">Tag</span>
-                    <input name="tag" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag">
+                    <input name="tag" type="text" value="{{ old('tag') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Tag">
                 </label>
             </div>
 
+            <!-- Price -->
             <div>
                 <label class="block"><span class="text-gary-700">Price</span>
-                    <input name="price" type="number" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Price">
+                    <input name="price" type="number" value="{{ old('price') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Price">
                 </label>
             </div>
 
+            <!-- Offer -->
             <div>
                 <label class="block">Offer
-                    <input name="offer" type="text" class="w-full mt-1 p-2 border rounded"
-                        placeholder="Enter Offer">
+                    <input name="offer" type="text" value="{{ old('offer') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter Offer">
                     @if ($errors->has('offer'))
                         <span class="mt-1 text-sm text-red-500">{{ $errors->first('offer') }}</span>
                     @endif
                 </label>
             </div>
 
+            <!-- Description -->
             <div>
                 <label class="block">
                     <span class="text-gray-700">Description</span>

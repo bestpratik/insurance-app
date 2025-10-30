@@ -8,8 +8,8 @@
            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
 
            <!-- Content -->
-           <div class="relative z-1 py-24 px-6 text-center">
-               <div class="max-w-4xl mx-auto">
+           <div class="relative z-1 py-24 px-6">
+               <div class="max-w-7xl mx-auto">
                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
                    <p class="text-lg md:text-xl">Building lasting financial relationships since 1978</p>
                </div>
@@ -36,7 +36,6 @@
                                <path strokeLinecap="round" strokeLinejoin="round"
                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                            </svg>
-
                        </div>
                        <div class="ml-4">
                            <h4 class="font-semibold text-gray-800">Our Address</h4>
@@ -68,7 +67,6 @@
                                <path stroke-linecap="round" stroke-linejoin="round"
                                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                            </svg>
-
                        </div>
                        <div class="ml-4">
                            <h4 class="font-semibold text-gray-800">Email Us</h4>
@@ -180,9 +178,8 @@
                            data-sitekey="6Lcs4HorAAAAANcx64Mp-_pletYxJDEvQwQ3nAt2"></div>
                        <div id="captcha"></div>
                        <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
-                       <span style="color:red;" id="g-recaptcha-responseErrorcourse" class="error"></span>
+                       <span style="color:red;" id="g-recaptcha-responseError" class="error"></span>
 
-                       
                        <button type="button" id="submitBtn"
                            class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded transition duration-300">
                            SUBMIT NOW

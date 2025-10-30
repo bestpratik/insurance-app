@@ -50,6 +50,15 @@
                 </div>
             </div>
 
+            <!-- Image Alt Text for SEO -->
+            <div>
+                <label class="block mt-3">Alt Text (for SEO)
+                    <input type="text" name="image_alt"
+                        value="{{ old('image_alt', isset($banner) ? $banner->image_alt : '') }}"
+                        class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
+                </label>
+            </div>
+
             <div>
                 <label class="block">
                     <span class="text-gray-700">Button Text</span>

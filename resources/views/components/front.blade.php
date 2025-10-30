@@ -104,71 +104,6 @@
     {{ $slot }}
 
     @include('layouts.front_footer')
-    <!-- Skeleton loader (insert at page start) -->
-    <div id="skeletonLoader" role="status" aria-live="polite"
-        class="fixed inset-0 z-50 bg-white flex items-start justify-center p-6 overflow-hidden">
-        <div class="w-full  animate-fade-in space-y-8">
-            <div class="border-gray-100 w-full h-10 rounded-md skeleton-shimmer"></div>
-            <div class="flex items-center justify-between py-3 border-b border-gray-200">
-                <div class="flex items-center gap-4">
-                    <div class="w-40 h-8 rounded-md skeleton-shimmer bg-gray-200"></div>
-                    <div class="hidden md:flex gap-3">
-                        <div class="w-16 h-6 rounded-md skeleton-shimmer"></div>
-                        <div class="w-20 h-6 rounded-md skeleton-shimmer"></div>
-                        <div class="w-24 h-6 rounded-md skeleton-shimmer"></div>
-                        <div class="w-28 h-6 rounded-md skeleton-shimmer"></div>
-                    </div>
-                </div>
-                <div class="w-28 h-8 rounded-md skeleton-shimmer"></div>
-            </div>
-
-            <!-- 🏠 Hero Section -->
-            <div class="bg-[#f9fafb] rounded-xl p-8 flex flex-col md:flex-row gap-8 items-start">
-                <!-- Left Text -->
-                <div class="flex-1 space-y-4">
-                    <div class="w-3/4 h-8 rounded-md skeleton-shimmer"></div>
-                    <div class="w-5/6 h-6 rounded-md skeleton-shimmer"></div>
-                    <div class="w-2/3 h-6 rounded-md skeleton-shimmer"></div>
-                    <div class="flex gap-4 mt-6">
-                        <div class="w-40 h-10 rounded-md skeleton-shimmer bg-[#b30000] opacity-70"></div>
-                        <div class="w-40 h-10 rounded-md skeleton-shimmer border border-[#b30000]"></div>
-                    </div>
-                </div>
-                <!-- Right Image -->
-                <div class="flex-1 hidden md:block">
-                    <div class="w-full h-52 rounded-lg skeleton-shimmer"></div>
-                </div>
-            </div>
-
-            <!-- 📦 Feature Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
-                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
-                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
-                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
-                </div>
-                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
-                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
-                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
-                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
-                </div>
-                <div class="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
-                    <div class="w-full h-40 rounded-md skeleton-shimmer mb-4"></div>
-                    <div class="w-3/4 h-5 rounded-md skeleton-shimmer mb-2"></div>
-                    <div class="w-1/2 h-4 rounded-md skeleton-shimmer"></div>
-                </div>
-            </div>
-
-            <!-- ⚪ Footer Placeholder -->
-            <div class="flex flex-col md:flex-row justify-between gap-4 pt-4 border-t border-gray-200">
-                <div class="w-1/3 h-6 rounded-md skeleton-shimmer"></div>
-                <div class="w-1/4 h-6 rounded-md skeleton-shimmer"></div>
-                <div class="w-1/5 h-6 rounded-md skeleton-shimmer"></div>
-            </div>
-        </div>
-
-
-    </div>
 
 
     <!-- Overlay -->
@@ -222,8 +157,6 @@
         })();
     </script>
 
-
-
     <script>
         const swiper = new Swiper(".mySwiper", {
             slidesPerView: 2,
@@ -274,6 +207,7 @@
             overlay.classList.add('hidden');
         });
     </script>
+
     <script>
         // banner Slider Functionality
         const sliderWrapper = document.getElementById('sliderWrapper');
@@ -295,6 +229,7 @@
             updateSlider();
         });
     </script>
+
     <script>
         // FAQ Accordion Functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -321,6 +256,7 @@
             });
         });
     </script>
+
     <script>
         // Testimonial Swiper Initialization
         const testimonialSwiper = new Swiper(".testimonialSwiper", {
@@ -349,7 +285,6 @@
         });
     </script>
 
-
     <script>
         const accountBtn = document.getElementById('accountBtn');
         const accountMenu = document.getElementById('accountMenu');
@@ -365,41 +300,7 @@
         });
     </script>
 
-    <script>
-        // Skeleton Loader Logic
-        (function() {
-            const loader = document.getElementById('skeletonLoader');
-            const minDisplayMs = 3000; // at least 3s visible
-            const maxForceRemoveMs = 12000; // safety remove after 12s
-
-            const start = Date.now();
-            document.documentElement.classList.add('overflow-hidden');
-
-            function removeLoaderNow() {
-                if (!loader) return;
-                loader.classList.add('fade-out');
-                setTimeout(() => {
-                    document.documentElement.classList.remove('overflow-hidden');
-                    if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-                }, 700);
-            }
-
-            function handleFinish() {
-                const elapsed = Date.now() - start;
-                const remaining = Math.max(0, minDisplayMs - elapsed);
-                setTimeout(removeLoaderNow, remaining);
-            }
-
-            window.addEventListener('load', handleFinish);
-            setTimeout(() => {
-                if (document.contains(loader)) removeLoaderNow();
-            }, maxForceRemoveMs);
-        })();
-    </script>
-
-
     <!-- Swiper JS -->
-
     <script>
         const swiper = new Swiper('.mySwiper', {
             slidesPerView: 1,
@@ -453,6 +354,7 @@
             overlay.classList.add('hidden');
         });
     </script>
+
     <script>
         const sliderWrapper = document.getElementById('sliderWrapper');
         const slides = sliderWrapper.children;
@@ -473,6 +375,7 @@
             updateSlider();
         });
     </script>
+
     <!-- this is a simple script to handle the scroll to top button -->
     <script>
         const btn = document.getElementById("scrollToTopBtn");
@@ -492,6 +395,7 @@
             });
         });
     </script>
+
     <!-- ===================================this is tab menu script ======================================== -->
     <script>
         const tabButtons = document.querySelectorAll(".tab-btn");
@@ -540,6 +444,7 @@
         window.addEventListener('resize', updateButtons);
         window.addEventListener('load', updateButtons);
     </script>
+
     <script>
         const wrapper = document.getElementById('tabWrapper');
         const leftBtn = document.getElementById('scrollLeft');
