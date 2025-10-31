@@ -305,7 +305,7 @@
                     We’ve got clear, simple answers to help you understand your coverage,
                     payments, and claims—so you can stay confident and protected.
                 </p>
-                <a href="#"
+                <a href="{{ route('faq.details') }}"
                     class="inline-block border border-red-600 text-red-600 font-semibold px-5 py-2 rounded hover:bg-red-600 hover:text-white transition">
                     View All FAQ
                 </a>

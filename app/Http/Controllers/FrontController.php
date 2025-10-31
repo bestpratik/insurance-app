@@ -76,7 +76,11 @@ class FrontController extends Controller
         return view('service_details', compact('service'));
     }
 
-
+    public function faq()
+    {
+        $faqs = Faq::all();
+        return view('faq_details', compact('faqs'));
+    }
 
 
 

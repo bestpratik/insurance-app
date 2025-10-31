@@ -71,6 +71,7 @@ Route::get('/{type}', [FrontController::class, 'blogs'])
 Route::get('/{type}/{slug}', [FrontController::class, 'blog_details'])
     ->where('type', 'blog|resource')
     ->name('blog.details');
+    Route::get('/faqs', [FrontController::class, 'faq'])->name('faq.details');
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
 Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login');

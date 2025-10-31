@@ -63,7 +63,13 @@ class SeoController extends Controller
             $seo->twitter_image = $twitterImageName;
         }
 
-        $page_slug = Str::slug($request['meta_title']);
+        // === Generate Page Slug ===
+        $page_slug = Str::slug($request['page_title']);
+
+        // ✅ If this is homepage, use "/" slug instead of "home"
+        if (strtolower($request['page_title']) === 'home' || strtolower($request['page_title']) === 'homepage') {
+            $page_slug = '/';
+        }
         $seo->meta_title = $request['meta_title'];
         $seo->page_slug = $page_slug;
         $seo->meta_description = $request['meta_description'];
@@ -146,7 +152,13 @@ class SeoController extends Controller
             $seo->twitter_image = $twitterImageName;
         }
 
-        $page_slug = Str::slug($request['meta_title']);
+        // === Generate Page Slug ===
+        $page_slug = Str::slug($request['page_title']);
+
+        // ✅ If this is homepage, use "/" slug instead of "home"
+        if (strtolower($request['page_title']) === 'home' || strtolower($request['page_title']) === 'homepage') {
+            $page_slug = '/';
+        }
         $seo->meta_title = $request['meta_title'];
         $seo->page_slug = $page_slug;
         $seo->meta_description = $request['meta_description'];
