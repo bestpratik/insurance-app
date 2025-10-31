@@ -165,7 +165,7 @@ class BlogController extends Controller
         $blog->tags()->detach();
 
         $blog->delete();
-        return redirect('blog.index')->with('success', 'Blog deleted successfully');
+        return redirect('blog-index')->with('success', 'Blog deleted successfully');
     }
 
     function status($id)
