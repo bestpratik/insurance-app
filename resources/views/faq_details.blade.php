@@ -46,7 +46,7 @@
                         <button
                             class="faq-btn flex justify-between items-center w-full text-left font-semibold text-lg text-gray-900 hover:text-red-600 transition">
                             <span>{{ $loop->iteration }}. {{ $faq->question }}</span>
-                            <i class="fa-solid fa-chevron-down text-red-600 transition-transform duration-300"></i>
+                            <i class="fa-solid fa-arrow-right text-red-600 transition-transform duration-300"></i>
                         </button>
                         <div
                             class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out mt-3 text-gray-700 leading-relaxed">
