@@ -82,7 +82,7 @@
 
             <!-- Image Alt Text for SEO -->
             <div>
-                <label class="block mt-3">Alt Text (for SEO)
+                <label class="block mt-3">Alt Text (for SEO) <span class="text-red-700">*</span>
                     <input type="text" name="img_alt"
                         value="{{ old('img_alt', isset($blog) ? $blog->img_alt : '') }}"
                         class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">

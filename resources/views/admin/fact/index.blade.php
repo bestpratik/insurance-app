@@ -117,9 +117,9 @@
                                     <td class="px-6 py-3 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
-                                                <div class="bg-gray-600 p-4 rounded-md border">
+                                                <div>
                                                     <img src="{{ $row->image ? asset('uploads/fact/' . $row->image) : asset('img/default-banner.jpg')  }}" alt="Fact Image"
-                                                        class="w-8 h-8 object-cover ">
+                                                        class="w-16 h-16 object-cover rounded-md border">
                                                 </div>
                                             </div>
                                         </div>
