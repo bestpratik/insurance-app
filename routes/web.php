@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClaimController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContentController;
@@ -28,6 +29,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -71,7 +73,8 @@ Route::get('/{type}', [FrontController::class, 'blogs'])
 Route::get('/{type}/{slug}', [FrontController::class, 'blog_details'])
     ->where('type', 'blog|resource')
     ->name('blog.details');
-    Route::get('/faqs', [FrontController::class, 'faq'])->name('faq.details');
+Route::get('/faqs', [FrontController::class, 'faq'])->name('faq.details');
+Route::get('/claims', [FrontController::class, 'claim'])->name('claim.details');
 Route::get('user-register', [FrontController::class, 'userSignin'])->name('user.register');
 Route::post('user-register-submit', [FrontController::class, 'user_register_submit'])->name('user.register.submit');
 Route::get('user-login', [FrontController::class, 'userLogin'])->name('user.login');
@@ -290,6 +293,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/service/{id}/update', [ServiceController::class, 'update'])->name('update.service');
     Route::delete('/service/{id}/delete', [ServiceController::class, 'destroy'])->name('delete.service');
 
+
     //Testimonial sections
     Route::get('testimonial', [TestimonialController::class, 'index'])->name('testimonial');
     Route::get('create-testimonial', [TestimonialController::class, 'create'])->name('create.testimonial');
@@ -298,6 +302,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/testimonial/{id}/update', [TestimonialController::class, 'update'])->name('update.testimonial');
     Route::delete('/testimonial/{id}/delete', [TestimonialController::class, 'destroy'])->name('delete.testimonial');
 
+
     //Client sections
     Route::get('client', [ClientController::class, 'index'])->name('client');
     Route::get('create-client', [ClientController::class, 'create'])->name('create.client');
@@ -305,6 +310,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/client/{id}/edit', [ClientController::class, 'edit'])->name('edit.client');
     Route::put('/client/{id}/update', [ClientController::class, 'update'])->name('update.client');
     Route::delete('/client/{id}/delete', [ClientController::class, 'destroy'])->name('delete.client');
+
+
+    //Claim sections
+    Route::get('claim', [ClaimController::class, 'index'])->name('claim');
+    Route::get('create-claim', [ClaimController::class, 'create'])->name('create.claim');
+    Route::post('save-claim', [ClaimController::class, 'store'])->name('save.claim');
+    Route::get('/claim/{id}/edit', [ClaimController::class, 'edit'])->name('edit.claim');
+    Route::put('/claim/{id}/update', [ClaimController::class, 'update'])->name('update.claim');
+    Route::delete('/claim/{id}/delete', [ClaimController::class, 'destroy'])->name('delete.claim');
 
 
     //Contact sections
@@ -323,6 +337,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/content/{id}/edit', [ContentController::class, 'edit'])->name('edit.content');
     Route::put('/content/{id}/update', [ContentController::class, 'update'])->name('update.content');
     Route::delete('/content/{id}/delete', [ContentController::class, 'destroy'])->name('delete.content');
+
 
     //Blogsections
     Route::get('blog-index', [BlogController::class, 'index'])->name('blog.index');

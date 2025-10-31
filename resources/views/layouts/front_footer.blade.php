@@ -100,7 +100,9 @@
                 <li><a href="{{ route('service') }}"
                         class="{{ request()->routeIs('service') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">Purchase
                         Policy Online</a></li>
-                <li><a href="#" class="hover:text-red-500">Making claim</a></li>
+                <li><a href="{{ route('claim.details') }}"
+                        class="{{ request()->routeIs('claim.details') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Making
+                        claim</a></li>
                 <li><a href="{{ route('blogs', ['type' => 'resource']) }}"
                         class="{{ request()->is('resource*') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">
                         Resources

@@ -2,7 +2,7 @@
     <!-- Logo -->
     <div class="flex items-center space-x-2">
         <a href="{{ route('home') }}" class="text-red-600 font-bold text-xl">
-            <img src="{{asset('logo.jpg')}}" alt="Logo" class="h-14 w-auto">
+            <img src="{{ asset('logo.jpg') }}" alt="Logo" class="h-14 w-auto">
         </a>
     </div>
 
@@ -17,7 +17,9 @@
         <a href="{{ route('service') }}"
             class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Purchase
             Policy Online</a>
-        <a href="#" class="hover:text-red-600">Making claim</a>
+        <a href="{{ route('claim.details') }}"
+            class="{{ request()->routeIs('claim.details') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Making
+            claim</a>
         <a href="{{ route('blogs', ['type' => 'resource']) }}"
             class="{{ request()->is('resource*') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
             Resources
@@ -134,7 +136,8 @@
         <a href="{{ route('service') }}"
             class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Our
             Services</a>
-        <a href="#">Pages</a>
+        <a href="{{ route('claim.details') }}"
+            class="{{ request()->routeIs('claim.details') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Pages</a>
         <a href="{{ route('contact.us') }}"
             class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact
             Us</a>

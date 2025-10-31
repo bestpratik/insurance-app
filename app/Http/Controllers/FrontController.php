@@ -6,6 +6,7 @@ use App\Models\About;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\Claim;
 use App\Models\Client;
 use App\Models\Contact;
 use App\Models\Content;
@@ -82,7 +83,11 @@ class FrontController extends Controller
         return view('faq_details', compact('faqs'));
     }
 
-
+    public function claim()
+    {
+        $claims = Claim::first();
+        return view('claim', compact('claims'));
+    }
 
     // public function policyBuyer()
     // {
