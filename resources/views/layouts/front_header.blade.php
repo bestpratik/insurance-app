@@ -47,7 +47,7 @@
                     @auth
                         {{ Auth::user()->name }}
                     @else
-                        My Account
+                        Account
                     @endauth
                 </span>
                 <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

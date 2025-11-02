@@ -10,8 +10,8 @@
             <!-- Content -->
             <div class="relative z-10 py-24 px-6">
                 <div class="max-w-7xl mx-auto">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Claim Policy</h1>
-                    <p class="text-lg md:text-xl">Building lasting financial relationships since 1978</p>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">How to Make a Claim</h1>
+                    <p class="text-lg md:text-xl">Read if You need to Make a Claim</p>
                 </div>
             </div>
         </section>
