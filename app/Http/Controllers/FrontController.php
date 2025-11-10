@@ -37,6 +37,7 @@ class FrontController extends Controller
         $banner = Banner::all();
         $aboutFirst = About::first();
         $service = Service::with('insurance')->get();
+        // dd($service);
         $fact = Fact::first();
         $client = Client::all();
         $testimonial = Testimonial::all();

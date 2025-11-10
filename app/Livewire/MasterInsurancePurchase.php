@@ -224,7 +224,8 @@ class MasterInsurancePurchase extends Component
             ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
             : '';
 
-        $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        
 
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
@@ -240,8 +241,10 @@ class MasterInsurancePurchase extends Component
                 $this->postCode,
             ])),
             'Policy Holder Type:' => $this->policyHoldertype,
-            'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
-            'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+            // 'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
+            // 'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+            'Company Name:' => in_array($this->policyHoldertype, ['Company', 'Both']) ? $this->companyName : 'N/A',
+            'Company Email:' => in_array($this->policyHoldertype, ['Company', 'Both']) ? $this->policyholderCompanyEmail : 'N/A',
             'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
             'Policy Holder Email:' => $this->policyholderEmail,
             'Policy Holder Phone:' => $this->policyholderPhone,
@@ -254,7 +257,13 @@ class MasterInsurancePurchase extends Component
             'Billing Email' => $this->billingEmail,
             'Billing Phone' => $this->billingPhone,
             'Billing Postcode' => $this->billingPostcode,
-            'Billing Address' => $billingAddress,
+            // 'Billing Address' => $billingAddress,
+            
+            'Billing Address:' => implode(', ', array_filter([
+                            $this->billingAddressOne,
+                            $this->billingAddressTwo,
+                            $this->billingPostcode,
+                        ])),
             'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
