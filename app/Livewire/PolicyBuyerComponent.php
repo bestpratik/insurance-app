@@ -286,11 +286,14 @@ class PolicyBuyerComponent extends Component
                 $this->addressTwo,
                 $this->addressThree,
                 $this->postCode,
-            ])),
+            ])), 
 
             'Policy Holder Type:' => $this->policyHoldertype,
-            'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
-            'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+            // 'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
+            // 'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
+            'Company Name:' => in_array($this->policyHoldertype, ['Company', 'Both']) ? $this->companyName : 'N/A',
+            'Company Email:' => in_array($this->policyHoldertype, ['Company', 'Both']) ? $this->policyholderCompanyEmail : 'N/A',
+
             'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
             'Policy Holder Email:' => $this->policyholderEmail,
             'Policy Holder Phone:' => $this->policyholderPhone,
