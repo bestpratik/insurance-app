@@ -187,7 +187,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Choose Insurance...</option>
                             @foreach($availableInsurances as $avinsurance)
-                            <option value="{{ $avinsurance->id }}">{{ $avinsurance->display_name }}</option>
+                            <option value="{{ $avinsurance->id }}">{{ $avinsurance->display_name ?? $avinsurance->name }}</option>
                             @endforeach
                         </select>
 

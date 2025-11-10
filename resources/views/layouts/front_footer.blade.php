@@ -121,8 +121,8 @@
                 <li><a href="{{ route('contact.us') }}"
                         class="{{ request()->routeIs('contact.us') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">Contact
                         Us</a></li>
-                <li><a href="{{ route('referral.form') }}"
-                        class="{{ request()->routeIs('referral.form') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">Get
+                <li><a href="{{ route('policy.referral.form') }}"
+                        class="{{ request()->routeIs('policy.referral.form') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">Get
                         A Quote</a></li>
                 <li><a href="{{ route('user.login') }}"
                         class="{{ request()->routeIs('user.login') ? 'text-red-500 font-medium' : 'hover:text-red-500' }}">My
