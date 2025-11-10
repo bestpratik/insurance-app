@@ -899,14 +899,14 @@
             @if($currentStep > 1)
             <button type="button" wire:click="previousStep" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                <span wire:loading wire:target="previousStep" class="inline">
+                {{-- <span wire:loading wire:target="previousStep" class="inline">
                     <svg class="animate-spin h-4 w-4 text-gray-600 inline-flex" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                     </svg>
                     Loading...
-                </span>
+                </span> --}}
                 <span wire:loading.remove wire:target="previousStep">Back</span>
             </button>
             @endif
@@ -914,14 +914,14 @@
             @if($currentStep < 7)
                 <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
                 class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                <span wire:loading wire:target="nextStep" class="inline">
+                {{-- <span wire:loading wire:target="nextStep" class="inline">
                     <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                     </svg>
                     Loading...
-                </span>
+                </span> --}}
                 <span wire:loading.remove wire:target="nextStep">Next</span>
                 </button>
                 @else
@@ -942,14 +942,14 @@
                 @if($currentStep == 7)
                 <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
                     class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                    <span wire:loading wire:target="submitForm" class="inline">
+                    {{-- <span wire:loading wire:target="submitForm" class="inline">
                         <svg class="animate-spin h-4 w-4 text-white inline-flex" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                         </svg>
                         Loading...
-                    </span>
+                    </span> --}}
                     <span wire:loading.remove wire:target="submitForm">Submit</span>
                 </button>
                 @endif

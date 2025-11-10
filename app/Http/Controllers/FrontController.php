@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-
+use Exception;
 
 
 class FrontController extends Controller
