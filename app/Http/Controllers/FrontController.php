@@ -549,7 +549,7 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-        return view('policy_referral_form');
+        return view('policy_referral_form'); 
     }
 
     public function blogs($type)

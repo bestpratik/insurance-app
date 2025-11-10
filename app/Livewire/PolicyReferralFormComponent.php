@@ -100,7 +100,7 @@ class PolicyReferralFormComponent extends Component
     public $isInvoice;
     public $curDate;
 
-    // Step 7: Summary data
+    // Step 7: Summary data 
     public $summaryData = [];
 
     public function mount()
