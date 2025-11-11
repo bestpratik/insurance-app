@@ -82,57 +82,6 @@
                </div>
 
                <!-- Right: Contact Form -->
-               {{-- <form method="POST" id="contact-form">
-                   @csrf
-                   <div class="space-y-4">
-                       <!-- Name and Phone -->
-                       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label class="block">Name<span class="text-red-700">*</span>
-                           <input type="text" id="name" name="name" placeholder="Name"
-                               class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                        </label>
-                        <label class="block">Phone<span class="text-red-700">*</span>
-                           <input type="text" id="phone" name="phone" placeholder="Phone"
-                               class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                        </label>
-                       </div>
-
-                       <!-- Email -->
-                       <label class="block">Email<span class="text-red-700">*</span>
-                       <input type="email" id="email" name="email" placeholder="Email"
-                           class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                       </label>
-
-                       <!-- Message -->
-                       <label class="block">Comment
-                       <textarea id="comment" name="comment" placeholder="Comments" rows="5"
-                           class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
-                       </label>
-
-                       <!-- This is for captcha -->
-                       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                       <div class="form-group col-sm-12 g-recaptcha"
-                           data-sitekey="6Le-VW4rAAAAAEnvCYWvKVRQ6jhNxCfqDL_qdeHq"></div>
-                       <div id="captcha"></div>
-                       <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
-                       <span style="color:red;" id="g-recaptcha-responseErrorcourse" class="error"></span>
-
-                       <!-- End Captcha -->
-
-                       <!-- Submit Button -->
-                       <button type="button" id="submitBtn"
-                           class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded transition duration-300">
-                           SUBMIT NOW
-                       </button>
-                   </div>
-               </form> --}}
-
-               @if (session('message'))
-                   <div
-                       class="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50  dark:text-green-400">
-                       {{ session('message') }}
-                   </div>
-               @endif
                <form method="POST" id="contact-form">
                    @csrf
                    <div class="space-y-4">
@@ -141,16 +90,13 @@
                            <label class="block">Name<span class="text-red-700">*</span>
                                <input type="text" id="name" name="name" placeholder="Name"
                                    class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                               @if ($errors->has('name'))
-                                   <span style="color: red">{{ $errors->first('name') }}</span>
-                               @endif
+                               <span class="error" style="color:red;"></span>
                            </label>
+
                            <label class="block">Phone<span class="text-red-700">*</span>
                                <input type="text" id="phone" name="phone" placeholder="Phone"
                                    class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                               @if ($errors->has('phone'))
-                                   <span style="color: red">{{ $errors->first('phone') }}</span>
-                               @endif
+                               <span class="error" style="color:red;"></span>
                            </label>
                        </div>
 
@@ -158,28 +104,25 @@
                        <label class="block">Email<span class="text-red-700">*</span>
                            <input type="email" id="email" name="email" placeholder="Email"
                                class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500">
-                           @if ($errors->has('email'))
-                               <span style="color: red">{{ $errors->first('email') }}</span>
-                           @endif
+                           <span class="error" style="color:red;"></span>
                        </label>
 
-                       <!-- Message -->
+                       <!-- Comment -->
                        <label class="block">Comment
                            <textarea id="comment" name="comment" placeholder="Comments" rows="5"
                                class="p-3 rounded border border-gray-300 bg-white w-full focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
-                           @if ($errors->has('comment'))
-                               <span style="color: red">{{ $errors->first('comment') }}</span>
-                           @endif
+                           <span class="error" style="color:red;"></span>
                        </label>
 
                        <!-- This is for captcha -->
                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                       <div class="form-group col-sm-12 g-recaptcha"
-                           data-sitekey="6Lcs4HorAAAAANcx64Mp-_pletYxJDEvQwQ3nAt2"></div>
+                       <div class="form-group col-sm-12 g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}">
+                       </div>
                        <div id="captcha"></div>
                        <div class="form-group col-sm-12" id="g-recaptcha-response" name="g-recaptcha-response"></div>
-                       <span style="color:red;" id="g-recaptcha-responseError" class="error"></span>
+                       <span id="g-recaptcha-responseError" class="error" style="color:red;"></span>
 
+                       <!-- Submit -->
                        <button type="button" id="submitBtn"
                            class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded transition duration-300">
                            SUBMIT NOW
@@ -201,36 +144,44 @@
                $('#submitBtn').click(function(e) {
                    e.preventDefault();
 
-                   // Clear previous error messages
-                   $('span.text-danger').remove();
+                   // Clear old errors
+                   $('.error').text('');
+
+                   var btn = $('#submitBtn');
+                   btn.prop('disabled', true).html('Submitting...');
 
                    $.ajax({
                        url: "{{ route('contactform.store') }}",
-                       type: "POST",
+                       method: "POST",
                        data: $('#contact-form').serialize(),
                        success: function(response) {
                            Swal.fire({
                                icon: 'success',
                                title: 'Submitted!',
-                               text: 'Your comment has been submitted successfully.',
+                               text: response.message,
                            });
 
                            $('#contact-form')[0].reset();
+                           grecaptcha.reset();
+                           btn.prop('disabled', false).html('SUBMIT NOW');
                        },
                        error: function(xhr) {
-                           if (xhr.status === 422) {
-                               let errors = xhr.responseJSON.errors;
-                               $.each(errors, function(key, value) {
-                                   let input = $('#' + key);
-                                   input.after(
-                                       '<span class="text-danger" style="color:red;">' +
-                                       value[0] + '</span>');
+                           btn.prop('disabled', false).html('SUBMIT NOW');
+
+                           if (xhr.status === 422 && xhr.responseJSON.errors) {
+                               $.each(xhr.responseJSON.errors, function(key, messages) {
+                                   if (key === 'g-recaptcha-response') {
+                                       $('#g-recaptcha-responseError').text(messages[0]);
+                                   } else {
+                                       $('[name="' + key + '"]').closest('label').find(
+                                           '.error').text(messages[0]);
+                                   }
                                });
                            } else {
                                Swal.fire({
                                    icon: 'error',
                                    title: 'Error!',
-                                   text: 'Something went wrong. Please try again.',
+                                   text: 'Something went wrong. Please try again later.',
                                });
                            }
                        }

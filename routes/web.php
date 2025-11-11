@@ -370,7 +370,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Contact Form
     Route::get('/contactform_list', [ContactFormController::class, 'index'])->name('contactform.list');
-    Route::delete('/contactform/{id}/delete', [ContactFormController::class, 'destroy'])->name('contactform.delete');
+    Route::delete('/contactform/{id}/delete', [ContactFormController::class, 'contactform_destroy'])->name('contactform.delete');
     Route::post('/contactform/store', [ContactFormController::class, 'store'])->name('contactform.store');
 
 
