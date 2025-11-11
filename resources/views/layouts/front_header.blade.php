@@ -8,7 +8,7 @@
 
     <!-- Desktop Nav -->
     <nav
-        class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-xl font-medium text-gray-600 space-x-10 items-center">
+        class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-xl font-medium text-gray-600 2xl:space-x-10 xl:space-x-6 space-x-4 items-center">
         <a href="{{ route('home') }}"
             class="{{ request()->routeIs('home') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Home</a>
         <a href="{{ route('about.us') }}"
@@ -101,7 +101,7 @@
 
     <!-- Quote Button -->
     <a href="{{ route('referral.form') }}"
-        class="hidden lg:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
+        class="hidden 2xl:flex relative rounded-lg h-[50px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-56 hover:before:w-56">
         <span class="relative z-10">Get A Quote</span>
     </a>
 
