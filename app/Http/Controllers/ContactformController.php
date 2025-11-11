@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contactform;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class ContactformController extends Controller
 {
@@ -15,26 +17,52 @@ class ContactformController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Use Validator instead of $request->validate()
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|min:10|max:15',
             'email' => 'required|email',
-            'comment' => 'nullable|string',
+            'phone' => 'required',
+            'g-recaptcha-response' => 'required',
+        ], [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.'
         ]);
 
-        Contactform::create($request->only([
-            'name',
-            'phone',
-            'email',
-            'comment'
-        ]));
+        if ($validator->fails()) {
+            // Return JSON response for AJAX
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Verify Google reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+        ]);
+
+        if (!$response->json('success')) {
+            return response()->json([
+                'errors' => ['g-recaptcha-response' => ['Invalid reCAPTCHA. Please try again.']]
+            ], 422);
+        }
+
+        // Save form
+        $contactform_list = new Contactform();
+        $contactform_list->name = $request->name;
+        $contactform_list->phone = $request->phone;
+        $contactform_list->email = $request->email;
+        $contactform_list->comment = $request->comment;
+        $contactform_list->save();
 
         return response()->json(['message' => 'Your comment has been submitted successfully!']);
     }
 
-    public function destroy($id)
+    public function contactform_destroy($id)
     {
-        Contactform::findOrFail($id)->delete();
-        return redirect()->route('contactform.list')->with('message', 'Contactform deleted successfully!');
+        $contactform_list = Contactform::find($id);
+        if ($contactform_list) {
+            $contactform_list->delete();
+            return redirect()->back()->with('message', 'Form deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'No data found to delete.');
+        }
     }
 }
