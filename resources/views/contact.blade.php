@@ -140,6 +140,15 @@
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
        <script>
+    // Ensure all jQuery AJAX requests carry the CSRF token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    });
+</script>
+
+       <script>
            $(document).ready(function() {
                $('#submitBtn').click(function(e) {
                    e.preventDefault();
