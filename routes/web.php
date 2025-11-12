@@ -371,11 +371,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Contact Form
     Route::get('/contactform_list', [ContactFormController::class, 'index'])->name('contactform.list');
     Route::delete('/contactform/{id}/delete', [ContactFormController::class, 'contactform_destroy'])->name('contactform.delete');
-    Route::post('/contactform/store', [ContactFormController::class, 'store'])->name('contactform.store');
+    
 
 
     // Newsletter
-    Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+    
     Route::get('/newsletter_list', [NewsletterController::class, 'index'])->name('newsletter.list');
     Route::delete('/newsletter/{id}/delete', [NewsletterController::class, 'destroy'])->name('newsletter.delete');
 
@@ -390,8 +390,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 
-
-
+Route::post('/contactform/store', [ContactFormController::class, 'store'])->name('contactform.store');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 
 // Route::middleware('auth')->group(function () {
