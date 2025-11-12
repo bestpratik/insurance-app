@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <x-seo-meta />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- ✅ Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +15,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -95,9 +96,14 @@
         }
     </script>
 
+
+
 </head>
 
 <body>
+
+
+
     @include('layouts.front_navigation')
     @include('layouts.front_header')
 
@@ -301,80 +307,9 @@
     </script>
 
     <!-- Swiper JS -->
-    <script>
-        const swiper = new Swiper('.mySwiper', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true, // or false if it jumps at loop point
-            speed: 10000, // super slow and smooth
-            autoplay: {
-                delay: 0,
-                disableOnInteraction: false,
-            },
-            freeMode: true,
-            freeModeMomentum: false,
-            grabCursor: true,
-            breakpoints: {
-                640: {
-                    slidesPerView: 2
-                },
-                768: {
-                    slidesPerView: 3
-                },
-                1024: {
-                    slidesPerView: 5
-                },
-            },
-        });
 
-        // Pause on hover
-        const swiperEl = document.querySelector('.mySwiper');
-        swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
-        swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
-    </script>
 
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const menuClose = document.getElementById('menuClose');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const overlay = document.getElementById('overlay');
 
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.remove('translate-x-full');
-            overlay.classList.remove('hidden');
-        });
-
-        menuClose.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-            overlay.classList.add('hidden');
-        });
-
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-            overlay.classList.add('hidden');
-        });
-    </script>
-
-    <script>
-        const sliderWrapper = document.getElementById('sliderWrapper');
-        const slides = sliderWrapper.children;
-        const totalSlides = slides.length;
-        let currentIndex = 0;
-
-        const updateSlider = () => {
-            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-        };
-
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateSlider();
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlider();
-        });
-    </script>
 
     <!-- this is a simple script to handle the scroll to top button -->
     <script>
