@@ -29,57 +29,6 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
         }
-
-        /* Skeleton Loader Styles */
-        @keyframes shimmer {
-            100% {
-                transform: translateX(200%);
-            }
-        }
-
-        @keyframes fadeInFast {
-            from {
-                opacity: 0;
-                transform: scale(0.99);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInFast .25s ease forwards;
-        }
-
-        .skeleton-shimmer {
-            position: relative;
-            background-color: #e8e8e8;
-            overflow: hidden;
-        }
-
-        .skeleton-shimmer::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            height: 100%;
-            width: 150%;
-            background: linear-gradient(90deg,
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0.6),
-                    rgba(255, 255, 255, 0));
-            animation: shimmer 1.3s linear infinite;
-        }
-
-        /* Fade Out */
-        #skeletonLoader.fade-out {
-            opacity: 0;
-            transition: opacity .6s ease, visibility .6s ease;
-            visibility: hidden;
-            pointer-events: none;
-        }
     </style>
 
     <!-- (Optional) Tailwind Config for Custom Theme -->
@@ -157,78 +106,6 @@
         })();
     </script>
 
-    <script>
-        const swiper = new Swiper(".mySwiper", {
-            slidesPerView: 2,
-            spaceBetween: 20,
-            loop: true,
-            autoplay: {
-                delay: 2000,
-                disableOnInteraction: false,
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 5,
-                    spaceBetween: 40,
-                },
-            },
-            navigation: {
-                nextEl: ".testimonial-next",
-                prevEl: ".testimonial-prev",
-            },
-            speed: 800,
-            grabCursor: true,
-        });
-    </script>
-
-    <script>
-        // Mobile Menu Functionality
-        const menuToggle = document.getElementById('menuToggle');
-        const menuClose = document.getElementById('menuClose');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const overlay = document.getElementById('overlay');
-
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.remove('translate-x-full');
-            overlay.classList.remove('hidden');
-        });
-
-        menuClose.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-            overlay.classList.add('hidden');
-        });
-
-        overlay.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-            overlay.classList.add('hidden');
-        });
-    </script>
-
-    <script>
-        // banner Slider Functionality
-        const sliderWrapper = document.getElementById('sliderWrapper');
-        const slides = sliderWrapper.children;
-        const totalSlides = slides.length;
-        let currentIndex = 0;
-
-        const updateSlider = () => {
-            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-        };
-
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateSlider();
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlider();
-        });
-    </script>
 
     <script>
         // FAQ Accordion Functionality
@@ -302,38 +179,47 @@
 
     <!-- Swiper JS -->
     <script>
-        const swiper = new Swiper('.mySwiper', {
+        const swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
             spaceBetween: 20,
-            loop: true, // or false if it jumps at loop point
-            speed: 10000, // super slow and smooth
+            loop: true,
+            speed: 10000, // slow and smooth scroll
             autoplay: {
-                delay: 0,
+                delay: 0, // continuous movement
                 disableOnInteraction: false,
             },
             freeMode: true,
             freeModeMomentum: false,
             grabCursor: true,
+            navigation: {
+                nextEl: ".testimonial-next",
+                prevEl: ".testimonial-prev",
+            },
             breakpoints: {
                 640: {
-                    slidesPerView: 2
+                    slidesPerView: 2,
+                    spaceBetween: 30,
                 },
                 768: {
-                    slidesPerView: 3
+                    slidesPerView: 3,
+                    spaceBetween: 30,
                 },
                 1024: {
-                    slidesPerView: 5
+                    slidesPerView: 5,
+                    spaceBetween: 40,
                 },
             },
         });
 
-        // Pause on hover
+        // Pause autoplay on hover
         const swiperEl = document.querySelector('.mySwiper');
         swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
         swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
     </script>
 
+
     <script>
+        // Mobile Menu Functionality
         const menuToggle = document.getElementById('menuToggle');
         const menuClose = document.getElementById('menuClose');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -355,7 +241,9 @@
         });
     </script>
 
+
     <script>
+        // banner Slider Functionality
         const sliderWrapper = document.getElementById('sliderWrapper');
         const slides = sliderWrapper.children;
         const totalSlides = slides.length;
