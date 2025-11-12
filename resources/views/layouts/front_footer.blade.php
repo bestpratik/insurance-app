@@ -7,7 +7,9 @@
         <!-- Logo and About -->
         <div>
             <div class="flex items-center gap-2 mb-4">
-                <img src="./logo-white.png" alt="">
+                <a href="{{ route('home') }}">
+                    <img src="./logo-white.png" alt="Logo">
+                </a>
             </div>
             <!-- <p class="text-gray-400 mb-4">Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.</p>
                 <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
@@ -139,57 +141,47 @@
             class="text-red-600">moneywise plc</span>, All Rights Reserved.
     </div>
 </footer>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // Ensure input is clear on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('email_id').value = '';
-    });
+    $(document).ready(function() {
+        // Clear input on page load
+        $('#email_id').val('');
 
-    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+        $('#newsletterForm').on('submit', function(e) {
+            e.preventDefault();
 
-        const emailInput = document.getElementById('email_id');
-        const email_id = emailInput.value.trim();
-        const messageDiv = document.getElementById('message');
+            let email_id = $('#email_id').val().trim();
+            let messageDiv = $('#message');
+            messageDiv.text('').removeClass('text-green-500 text-red-500');
 
-        // Clear previous messages
-        messageDiv.textContent = '';
-        messageDiv.classList.remove('text-green-500', 'text-red-500');
+            if (email_id === '') {
+                messageDiv.text('Please enter your email.').addClass('text-red-500');
+                return;
+            }
 
-        if (!email_id) {
-            messageDiv.textContent = 'Please enter your email.';
-            messageDiv.classList.add('text-red-500');
-            return;
-        }
-
-        fetch('{{ route('newsletter.subscribe') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
+            $.ajax({
+                url: "{{ route('newsletter.subscribe') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
                     email_id: email_id
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    messageDiv.textContent = data.message;
-                    messageDiv.classList.add('text-green-500');
-                    document.getElementById('newsletterForm').reset();
-                } else {
-                    messageDiv.textContent = data.message;
-                    messageDiv.classList.add('text-red-500');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        messageDiv.text(response.message).addClass('text-green-500');
+                        $('#newsletterForm')[0].reset();
+                    } else {
+                        messageDiv.text(response.message).addClass('text-red-500');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    messageDiv.text('Something went wrong. Please try again.').addClass(
+                        'text-red-500');
                 }
-            })
-            .catch(error => {
-                console.error(error);
-                messageDiv.textContent = 'Something went wrong. Please try again.';
-                messageDiv.classList.add('text-red-500');
             });
+        });
     });
 </script>
