@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<!-- CSRF Token -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <head>
     <meta charset="UTF-8">
