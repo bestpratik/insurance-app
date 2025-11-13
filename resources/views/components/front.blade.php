@@ -30,57 +30,6 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 400;
         }
-
-        /* Skeleton Loader Styles */
-        @keyframes shimmer {
-            100% {
-                transform: translateX(200%);
-            }
-        }
-
-        @keyframes fadeInFast {
-            from {
-                opacity: 0;
-                transform: scale(0.99);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInFast .25s ease forwards;
-        }
-
-        .skeleton-shimmer {
-            position: relative;
-            background-color: #e8e8e8;
-            overflow: hidden;
-        }
-
-        .skeleton-shimmer::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            height: 100%;
-            width: 150%;
-            background: linear-gradient(90deg,
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0.6),
-                    rgba(255, 255, 255, 0));
-            animation: shimmer 1.3s linear infinite;
-        }
-
-        /* Fade Out */
-        #skeletonLoader.fade-out {
-            opacity: 0;
-            transition: opacity .6s ease, visibility .6s ease;
-            visibility: hidden;
-            pointer-events: none;
-        }
     </style>
 
     <!-- (Optional) Tailwind Config for Custom Theme -->
@@ -95,14 +44,9 @@
             }
         }
     </script>
-
-
-
 </head>
 
 <body>
-
-
 
     @include('layouts.front_navigation')
     @include('layouts.front_header')
