@@ -287,11 +287,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     //Service sections
     Route::get('services', [ServiceController::class, 'index'])->name('services');
-    Route::get('create-service', [ServiceController::class, 'create'])->name('create.service');
-    Route::post('save-service', [ServiceController::class, 'store'])->name('save.service');
-    Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('edit.service');
-    Route::put('/service/{id}/update', [ServiceController::class, 'update'])->name('update.service');
-    Route::delete('/service/{id}/delete', [ServiceController::class, 'destroy'])->name('delete.service');
+    Route::get('create-services', [ServiceController::class, 'create'])->name('create.service');
+    Route::post('save-services', [ServiceController::class, 'store'])->name('save.service');
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('edit.service');
+    Route::put('/services/{id}/update', [ServiceController::class, 'update'])->name('update.service');
+    Route::delete('/services/{id}/delete', [ServiceController::class, 'destroy'])->name('delete.service');
 
 
     //Testimonial sections
@@ -339,14 +339,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/content/{id}/delete', [ContentController::class, 'destroy'])->name('delete.content');
 
 
-    //Blogsections
-    Route::get('blog-index', [BlogController::class, 'index'])->name('blog.index');
-    Route::get('create-blog', [BlogController::class, 'create'])->name('create.blog');
-    Route::post('save-blog', [BlogController::class, 'store'])->name('save.blog');
-    Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('edit.blog');
-    Route::put('/blog/{id}/update', [BlogController::class, 'update'])->name('update.blog');
-    Route::delete('/blog/{id}/delete', [BlogController::class, 'destroy'])->name('delete.blog');
-    Route::patch('/blog/{id}/status', [BlogController::class, 'status'])->name('blog.status');
+    //Blog Sections
+    Route::get('blogs', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('create-blogs', [BlogController::class, 'create'])->name('create.blog');
+    Route::post('save-blogs', [BlogController::class, 'store'])->name('save.blog');
+    Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->name('edit.blog');
+    Route::put('/blogs/{id}/update', [BlogController::class, 'update'])->name('update.blog');
+    Route::delete('/blogs/{id}/delete', [BlogController::class, 'destroy'])->name('delete.blog');
+    Route::patch('/blogs/{id}/status', [BlogController::class, 'status'])->name('blog.status');
 
     //Blogcategorysections
     Route::get('blog-category', [CategoryController::class, 'index'])->name('blog.category');

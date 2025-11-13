@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{'Moneywise Investments Plc'}}</title>
+    <title>{{ 'Moneywise Investments Plc' }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,11 +16,11 @@
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('apple-touch-icon.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon-16x16.png')}}">
-    <link rel="manifest" href="{{asset('site.webmanifest')}}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
 
     <!-- Scripts -->
@@ -28,8 +28,10 @@
     @livewireStyles
 
     <style>
-        .note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable{
-        background: #fff;}
+        .note-editor.note-airframe .note-editing-area .note-editable,
+        .note-editor.note-frame .note-editing-area .note-editable {
+            background: #fff;
+        }
     </style>
 </head>
 
@@ -54,30 +56,29 @@
                     @include('layouts.sidebar')
                 </div>
             </div>
-        </div> 
+        </div>
 
         <!-- Desktop Sidebar -->
         <div id="desktop-sidebar"
             class="hidden md:flex md:flex-col md:w-64 bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ">
             {{-- <div class="flex flex-col h-full"> --}}
-                <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200">
-                    <div class="sidebar-logo flex items-center">
-                        <img src="{{asset('logo.jpg')}}" alt="logo" style="max-width: 180px; margin: 0 auto;">
-                        {{-- <span class="ml-2 text-xl font-semibold text-gray-900 sidebar-text">
+            <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+                <div class="sidebar-logo flex items-center">
+                    <img src="{{ asset('logo.jpg') }}" alt="logo" style="max-width: 180px; margin: 0 auto;">
+                    {{-- <span class="ml-2 text-xl font-semibold text-gray-900 sidebar-text">
                                 {{ config('app.name', 'Moneywise Investments Plc') }}
                             </span> --}}
-                    </div>
-                    <button id="toggle-sidebar"
-                        class="p-1 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
                 </div>
-                <div class="flex-1 overflow-y-auto pt-4">
-                    @include('layouts.sidebar')
-                </div>
+                <button id="toggle-sidebar" class="p-1 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto pt-4">
+                @include('layouts.sidebar')
+            </div>
             {{-- </div> --}}
         </div>
 
@@ -106,7 +107,7 @@
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-4 bg-gray-50">
                 <!-- Page Heading -->
-           
+
 
                 <div class="max-w-7xl mx-auto min-h-[80vh]">
                     @isset($header)
@@ -120,7 +121,7 @@
 
                 </div>
                 <footer class=" mt-12 pt-4 border-t text-center text-gray-600 text-sm">
-                    <p>Insurance APP © {{ date("Y") }} All rights reserved. <a href="#"
+                    <p>Insurance APP © {{ date('Y') }} All rights reserved. <a href="#"
                             class="text-blue-500 hover:underline">Privacy
                             Policy</a> | <a href="#" class="text-blue-500 hover:underline">T&amp;C</a> | <a
                             href="#" class="text-blue-500 hover:underline">System Status</a></p>
@@ -131,8 +132,83 @@
 
     @livewireScripts
 
+    <script>
+        $(document).ready(function() {
+            $('#toggle-sidebar').on('click', function() {
+                // Toggle collapsed class on the sidebar
+                $('#desktop-sidebar').toggleClass('collapsed');
 
+                // Close all open Alpine dropdowns
+                document.querySelectorAll('[x-data]').forEach(function(el) {
+                    if (el.__x && el.__x.$data.open !== undefined) {
+                        el.__x.$data.open = false;
+                    }
+                });
+            });
+        });
+    </script>
 
+    <style>
+        /* Sidebar collapse behavior */
+        #desktop-sidebar.collapsed {
+            width: 70px;
+            /* collapsed width */
+        }
+
+        #desktop-sidebar.collapsed .sidebar-item-text {
+            display: none;
+        }
+
+        #desktop-sidebar.collapsed .sidebar-logo img {
+            max-width: 50px;
+            margin: 0 auto;
+        }
+
+        #desktop-sidebar.collapsed button svg {
+            transform: rotate(0deg);
+        }
+
+        #desktop-sidebar.collapsed .pl-8 {
+            display: none !important;
+            /* hide submenus */
+        }
+    </style>
+    
+    <style>
+        /* Prevent the entire app layout from scrolling */
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* disable page-level scroll */
+        }
+
+        /* Make the outer flex container fill the screen */
+        .min-h-screen {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar: only scroll inside it when content overflows */
+        #desktop-sidebar {
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Main content area handles its own scroll */
+        main {
+            height: calc(100vh - 64px);
+            /* subtract header height if needed */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Prevent inner scrollbars from appearing on the wrapper div */
+        .flex-1.flex.flex-col.overflow-hidden {
+            overflow: hidden !important;
+        }
+    </style>
 
 </body>
 

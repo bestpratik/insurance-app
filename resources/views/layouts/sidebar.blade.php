@@ -136,23 +136,37 @@
     @php
         $frontendActive =
             request()->is('about*') ||
+            request()->is('create-about') ||
             request()->is('banner*') ||
+            request()->is('create-banner') ||
             request()->is('fact*') ||
+            request()->is('create-fact') ||
             request()->is('faq*') ||
+            request()->is('create-faq') ||
             request()->is('services*') ||
+            request()->is('create-services') ||
             request()->is('client*') ||
-            request()->is('contact') ||
-            request()->is('contact/') ||
+            request()->is('create-client') ||
+            request()->is('contact*') ||
+            request()->is('create-contact') ||
             request()->is('content*') ||
+            request()->is('create-content') ||
             request()->is('contactform_list*') ||
             request()->is('newsletter_list*') ||
-            request()->is('blog-index*') ||
+            request()->is('blogs*') ||
+            request()->is('create-blogs') ||
             request()->is('blog-category*') ||
+            request()->is('create-blog-category') ||
             request()->is('blog-tag*') ||
+            request()->is('create-blog-tag') ||
             request()->is('rent*') ||
+            request()->is('create-rent') ||
             request()->is('testimonial*') ||
-            request()->is('claim') ||
-            request()->is('seo*');
+            request()->is('create-testimonial') ||
+            request()->is('claim*') ||
+            request()->is('create-claim') ||
+            request()->is('seo*') ||
+            request()->is('create-seo');
     @endphp
 
     <div x-data="{ open: {{ $frontendActive ? 'true' : 'false' }} }" x-init="open = {{ $frontendActive ? 'true' : 'false' }}" class="mb-2">
@@ -177,174 +191,176 @@
             <!-- About -->
             <a href="{{ url('about') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('about*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('about*') || request()->is('create-about')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-information-circle
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('about*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('about*') || request()->is('create-about')) text-white @else text-[#25304e] @endif" />
                 <span>About</span>
             </a>
 
             <!-- Banner -->
             <a href="{{ url('banner') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('banner*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('banner*') || request()->is('create-banner')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-photo
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('banner*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('banner*') || request()->is('create-banner')) text-white @else text-[#25304e] @endif" />
                 <span>Banner</span>
             </a>
 
             <!-- Blog -->
-            <a href="{{ route('blog.index') }}"
+            <a href="{{ url('blogs') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-   @if (request()->is('blog.index') || request()->is('blog.index/*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('blogs*') || request()->is('create-blogs')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-document-text
                     class="w-5 h-5 mr-3 flex-shrink-0 
-        @if (request()->is('blog.index') || request()->is('blog.index/*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('blogs*') || request()->is('create-blogs')) text-white @else text-[#25304e] @endif" />
                 <span>Blog</span>
             </a>
 
             <!-- Blog Category -->
             <a href="{{ url('blog-category') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-   @if (request()->is('blog-category') || request()->is('blog-category/*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('blog-category*') || request()->is('create-blog-category')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-folder-open
                     class="w-5 h-5 mr-3 flex-shrink-0 
-        @if (request()->is('blog-category') || request()->is('blog-category/*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('blog-category*') || request()->is('create-blog-category')) text-white @else text-[#25304e] @endif" />
                 <span>Blog Category</span>
             </a>
 
             <!-- Blog Tag -->
             <a href="{{ url('blog-tag') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-   @if (request()->is('blog-tag') || request()->is('blog-tag/*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('blog-tag*') || request()->is('create-blog-tag')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-tag
                     class="w-5 h-5 mr-3 flex-shrink-0 
-        @if (request()->is('blog-tag') || request()->is('blog-tag/*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('blog-tag*') || request()->is('create-blog-tag')) text-white @else text-[#25304e] @endif" />
                 <span>Blog Tag</span>
             </a>
 
             <!-- Fact -->
             <a href="{{ url('fact') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('fact*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('fact*') || request()->is('create-fact')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-chart-bar
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('fact*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('fact*') || request()->is('create-fact')) text-white @else text-[#25304e] @endif" />
                 <span>Fact</span>
             </a>
 
-            <!-- Faq -->
+            <!-- FAQ -->
             <a href="{{ url('faq') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('faq*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('faq*') || request()->is('create-faq')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-question-mark-circle
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('faq*')) text-white @else text-[25304e] @endif" />
-                <span>Faq</span>
+                @if (request()->is('faq*') || request()->is('create-faq')) text-white @else text-[#25304e] @endif" />
+                <span>FAQ</span>
             </a>
 
-            <!-- Service -->
+            <!-- Services -->
             <a href="{{ url('services') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('services*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('services*') || request()->is('create-services')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-cog
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('services*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('services*') || request()->is('create-services')) text-white @else text-[#25304e] @endif" />
                 <span>Service</span>
             </a>
 
             <!-- Testimonial -->
             <a href="{{ url('testimonial') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('testimonial*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('testimonial*') || request()->is('create-testimonial')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-star
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('testimonial*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('testimonial*') || request()->is('create-testimonial')) text-white @else text-[#25304e] @endif" />
                 <span>Testimonial</span>
             </a>
 
             <!-- Client -->
             <a href="{{ url('client') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('client*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('client*') || request()->is('create-client')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-users
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('client*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('client*') || request()->is('create-client')) text-white @else text-[#25304e] @endif" />
                 <span>Client</span>
             </a>
 
             <!-- Claim -->
             <a href="{{ url('claim') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('claim*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('claim*') || request()->is('create-claim')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-clipboard-document-check
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('claim*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('claim*') || request()->is('create-claim')) text-white @else text-[#25304e] @endif" />
                 <span>Claim</span>
             </a>
 
             <!-- Contact -->
             <a href="{{ url('contact') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('contact') || request()->is('contact/')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('contact*') || request()->is('create-contact')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-user-circle
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('contact') || request()->is('contact/')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('contact*') || request()->is('create-contact')) text-white @else text-[#25304e] @endif" />
                 <span>Contact</span>
             </a>
 
-            <!-- Content -->
+            <!-- Terms & Conditions -->
             <a href="{{ url('content') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-            @if (request()->is('content*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('content*') || request()->is('create-content')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-document-check
-                    class="w-5 h-5 mr-3 flex-shrink-0
-            @if (request()->is('content*')) text-white @else text-[25304e] @endif" />
+                    class="w-5 h-5 mr-3 flex-shrink-0 
+                @if (request()->is('content*') || request()->is('create-content')) text-white @else text-[#25304e] @endif" />
                 <span>Terms & Conditions</span>
             </a>
 
-            <!-- Rent -->
+            <!-- Rent Guarantee -->
             <a href="{{ url('rent') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-            @if (request()->is('rent*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('rent*') || request()->is('create-rent')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-shield-check
-                    class="w-5 h-5 mr-3 flex-shrink-0
-            @if (request()->is('rent*')) text-white @else text-[25304e] @endif" />
+                    class="w-5 h-5 mr-3 flex-shrink-0 
+                @if (request()->is('rent*') || request()->is('create-rent')) text-white @else text-[#25304e] @endif" />
                 <span>Rent Guarantee</span>
             </a>
 
-            <!-- Contact Form -->
+            <!-- Contact Form List -->
             <a href="{{ route('contactform.list') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('contactform_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('contactform_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-bars-3
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('contactform_list*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('contactform_list*')) text-white @else text-[#25304e] @endif" />
                 <span>Contact Form List</span>
             </a>
 
-            <!-- Newsletter -->
+            <!-- Newsletter List -->
             <a href="{{ route('newsletter.list') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('newsletter_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('newsletter_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-newspaper
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('newsletter_list*')) text-white @else text-[25304e] @endif" />
+                @if (request()->is('newsletter_list*')) text-white @else text-[#25304e] @endif" />
                 <span>News Letter List</span>
             </a>
 
-            <!-- Seo -->
+            <!-- SEO Management -->
             <a href="{{ route('seo') }}"
                 class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
-           @if (request()->is('seo*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            @if (request()->is('seo*') || request()->is('create-seo')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
                 <x-heroicon-o-magnifying-glass-circle
                     class="w-5 h-5 mr-3 flex-shrink-0 
-                @if (request()->is('seo*')) text-white @else text-[25304e] @endif" />
-                <span>Seo Management</span>
+                @if (request()->is('seo*') || request()->is('create-seo')) text-white @else text-[#25304e] @endif" />
+                <span>SEO Management</span>
             </a>
+
         </div>
     </div>
+
 
     <!-- Insurance -->
     <!-- <a href="{{ url('insurances') }}"
