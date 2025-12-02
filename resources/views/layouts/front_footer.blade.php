@@ -138,7 +138,7 @@
 
     <!-- Bottom Footer -->
     <div class="mt-10 border-t border-gray-700 pt-6 text-center text-gray-500 text-lg"> © <span
-            class="text-red-600">moneywise plc</span>, All Rights Reserved.
+            class="text-red-600">Moneywise Investments Plc</span>, All Rights Reserved.
     </div>
 </footer>
 
