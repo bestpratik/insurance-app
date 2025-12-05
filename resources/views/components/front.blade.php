@@ -160,12 +160,12 @@
 
     <script>
         // banner Slider Functionality
-        const sliderWrapper = document.getElementById('sliderWrapper');
-        const slides = sliderWrapper.children;
-        const totalSlides = slides.length;
+        var sliderWrapper = document.getElementById('sliderWrapper');
+        var slides = sliderWrapper.children;
+        var totalSlides = slides.length;
         let currentIndex = 0;
 
-        const updateSlider = () => {
+        var updateSlider = () => {
             sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
         };
 
@@ -256,7 +256,7 @@
 
 
     <!-- this is a simple script to handle the scroll to top button -->
-    <script>
+    <!-- <script>
         const btn = document.getElementById("scrollToTopBtn");
 
         window.addEventListener("scroll", () => {
@@ -273,12 +273,12 @@
                 behavior: "smooth"
             });
         });
-    </script>
+    </script> -->
 
     <!-- ===================================this is tab menu script ======================================== -->
-    <script>
-        const tabButtons = document.querySelectorAll(".tab-btn");
-        const tabContents = document.querySelectorAll(".tab-content");
+    <!-- <script>
+        var tabButtons = document.querySelectorAll(".tab-btn");
+        var tabContents = document.querySelectorAll(".tab-content");
 
         tabButtons.forEach(button => {
             button.addEventListener("click", () => {
@@ -291,7 +291,7 @@
                 document.getElementById(button.dataset.tab).classList.remove("hidden");
             });
         });
-    </script>
+    </script> -->
 
     <!-- ----------------------------------------this is tab menu script end-------------------------------------------- -->
     <script>
@@ -300,26 +300,26 @@
         const scrollRight = document.getElementById('scrollRight');
 
         function updateButtons() {
-            const maxScrollLeft = tabWrapper.scrollWidth - tabWrapper.clientWidth;
-            scrollLeft.style.display = tabWrapper.scrollLeft > 0 ? 'inline' : 'none';
-            scrollRight.style.display = tabWrapper.scrollLeft < maxScrollLeft - 5 ? 'inline' : 'none';
+            // const maxScrollLeft = tabWrapper.scrollWidth - tabWrapper.clientWidth;
+            // scrollLeft.style.display = tabWrapper.scrollLeft > 0 ? 'inline' : 'none';
+            // scrollRight.style.display = tabWrapper.scrollLeft < maxScrollLeft - 5 ? 'inline' : 'none';
         }
 
-        scrollLeft.addEventListener('click', () => {
-            tabWrapper.scrollBy({
-                left: -150,
-                behavior: 'smooth'
-            });
-        });
+        // scrollLeft.addEventListener('click', () => {
+        //     tabWrapper.scrollBy({
+        //         left: -150,
+        //         behavior: 'smooth'
+        //     });
+        // });
 
-        scrollRight.addEventListener('click', () => {
-            tabWrapper.scrollBy({
-                left: 150,
-                behavior: 'smooth'
-            });
-        });
+        // scrollRight.addEventListener('click', () => {
+        //     tabWrapper.scrollBy({
+        //         left: 150,
+        //         behavior: 'smooth'
+        //     });
+        // });
 
-        tabWrapper.addEventListener('scroll', updateButtons);
+        // tabWrapper.addEventListener('scroll', updateButtons);
         window.addEventListener('resize', updateButtons);
         window.addEventListener('load', updateButtons);
     </script>
@@ -331,11 +331,11 @@
         const tabButtons = document.querySelectorAll('.tab-btn');
 
         function updateArrowVisibility() {
-            const scrollLeft = wrapper.scrollLeft;
-            const scrollWidth = wrapper.scrollWidth;
-            const clientWidth = wrapper.clientWidth;
-            leftBtn.style.display = scrollLeft > 5 ? 'flex' : 'none';
-            rightBtn.style.display = scrollLeft + clientWidth < scrollWidth - 5 ? 'flex' : 'none';
+            // const scrollLeft = wrapper.scrollLeft;
+            // const scrollWidth = wrapper.scrollWidth;
+            // const clientWidth = wrapper.clientWidth;
+            // leftBtn.style.display = scrollLeft > 5 ? 'flex' : 'none';
+            // rightBtn.style.display = scrollLeft + clientWidth < scrollWidth - 5 ? 'flex' : 'none';
         }
 
         function scrollTab(direction = 'left') {
@@ -345,9 +345,9 @@
             });
         }
 
-        leftBtn.addEventListener('click', () => scrollTab('left'));
-        rightBtn.addEventListener('click', () => scrollTab('right'));
-        wrapper.addEventListener('scroll', updateArrowVisibility);
+        // leftBtn.addEventListener('click', () => scrollTab('left'));
+        // rightBtn.addEventListener('click', () => scrollTab('right'));
+        // wrapper.addEventListener('scroll', updateArrowVisibility);
         window.addEventListener('resize', updateArrowVisibility);
         window.addEventListener('load', () => {
             updateArrowVisibility();
@@ -385,6 +385,27 @@
             });
         }
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const accountBtn = document.getElementById("accountBtn1Btn");
+        const accountMenu = document.getElementById("accountBtn1Menu");
+
+        // Toggle dropdown
+        accountBtn.addEventListener("click", function (e) {
+            e.stopPropagation(); // prevent closing immediately
+            accountMenu.classList.toggle("hidden");
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", function (e) {
+            if (!accountMenu.contains(e.target) && !accountBtn.contains(e.target)) {
+                accountMenu.classList.add("hidden");
+            }
+        });
+    });
+</script>
+
 
     @livewireScripts
 </body>
