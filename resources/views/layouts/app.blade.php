@@ -131,6 +131,7 @@
     </div>
 
     @livewireScripts
+    
 
     <script>
         $(document).ready(function() {
