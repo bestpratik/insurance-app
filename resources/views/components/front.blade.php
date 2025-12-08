@@ -51,7 +51,9 @@
     @include('layouts.front_navigation')
     @include('layouts.front_header')
 
-    {{ $slot }}
+    <main id="main-content" role="main">
+        {{ $slot }}
+    </main>
 
     @include('layouts.front_footer')
 
@@ -387,24 +389,24 @@
     </script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const accountBtn = document.getElementById("accountBtn1Btn");
-        const accountMenu = document.getElementById("accountBtn1Menu");
+        document.addEventListener("DOMContentLoaded", function() {
+            const accountBtn = document.getElementById("accountBtn1Btn");
+            const accountMenu = document.getElementById("accountBtn1Menu");
 
-        // Toggle dropdown
-        accountBtn.addEventListener("click", function (e) {
-            e.stopPropagation(); // prevent closing immediately
-            accountMenu.classList.toggle("hidden");
-        });
+            // Toggle dropdown
+            accountBtn.addEventListener("click", function(e) {
+                e.stopPropagation(); // prevent closing immediately
+                accountMenu.classList.toggle("hidden");
+            });
 
-        // Close when clicking outside
-        document.addEventListener("click", function (e) {
-            if (!accountMenu.contains(e.target) && !accountBtn.contains(e.target)) {
-                accountMenu.classList.add("hidden");
-            }
+            // Close when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!accountMenu.contains(e.target) && !accountBtn.contains(e.target)) {
+                    accountMenu.classList.add("hidden");
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 
     @livewireScripts
