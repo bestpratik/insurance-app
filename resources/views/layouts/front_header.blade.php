@@ -9,28 +9,41 @@
     <!-- Desktop Nav -->
     <nav
         class="hidden lg:flex bg-gray-200 px-6 py-3 rounded-lg text-xl font-medium text-gray-600 2xl:space-x-10 xl:space-x-6 space-x-4 items-center">
+
         <a href="{{ route('home') }}"
-            class="{{ request()->routeIs('home') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Home</a>
+            class="{{ request()->routeIs('home') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
+            Home
+        </a>
+
         <a href="{{ route('about.us') }}"
-            class="{{ request()->routeIs('about.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">About
-            Us</a>
+            class="{{ request()->routeIs('about.us') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
+            About Us
+        </a>
+
         <a href="{{ route('service') }}"
-            class="{{ request()->routeIs('service') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Purchase
-            Policy Online</a>
+            class="{{ request()->routeIs('service') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
+            Purchase Policy Online
+        </a>
+
         <a href="{{ route('claim.details') }}"
-            class="{{ request()->routeIs('claim.details') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Making
-            claim</a>
+            class="{{ request()->routeIs('claim.details') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
+            Making claim
+        </a>
+
         <a href="{{ route('blogs', ['type' => 'resource']) }}"
-            class="{{ request()->is('resource*') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+            class="{{ request()->is('resource*') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
             Resources
         </a>
+
         <a href="{{ route('blogs', ['type' => 'blog']) }}"
-            class="{{ request()->is('blog*') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">
+            class="{{ request()->is('blog*') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
             Blog
         </a>
+
         <a href="{{ route('contact.us') }}"
-            class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact
-            Us</a>
+            class="{{ request()->routeIs('contact.us') ? 'text-red-700 font-semibold' : 'hover:text-red-700' }}">
+            Contact Us
+        </a>
 
         <!-- ✅ Account Dropdown -->
         <div class="relative ml-auto">
