@@ -217,3 +217,7 @@
 
 <!-- Overlay -->
 <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
+
+
+  <!-- Google tag (gtag.js) --> 
+   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17772380751"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-17772380751'); </script>
