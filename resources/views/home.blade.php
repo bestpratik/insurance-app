@@ -40,13 +40,13 @@
         </div>
 
         <!-- Navigation Arrows -->
-        <button id="prevBtn"
+        <button id="prevBtn" aria-label="Previous slide"
             class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-[#a10c0c] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-[#8b0a0a]">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
         </button>
-        <button id="nextBtn"
+        <button id="nextBtn" aria-label="Next slide"
             class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-[#a10c0c] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-[#8b0a0a]">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

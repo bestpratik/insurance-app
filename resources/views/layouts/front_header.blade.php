@@ -161,7 +161,7 @@
     </a>
 
     <!-- Mobile Toggle -->
-    <button id="menuToggle" class="lg:hidden text-2xl text-red-600">
+    <button id="menuToggle" aria-label="Open menu" class="lg:hidden text-2xl text-red-600">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="size-8"
             x="0" y="0" viewBox="0 0 464.205 464.205" style="enable-background:new 0 0 512 512" xml:space="preserve">
             <g>
@@ -179,7 +179,7 @@
     <div class="flex justify-between items-center p-4 border-b">
         <h3 class="text-lg font-semibold">Menu</h3>
 
-        <button id="menuClose" class="text-red-600 text-xl">
+        <button id="menuClose" aria-label="Close menu" class="text-red-600 text-xl">
             <i class="fas fa-times"></i>
         </button>
     </div>
