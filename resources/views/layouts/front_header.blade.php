@@ -45,9 +45,9 @@
                 </svg>
                 <span class="font-medium">
                     @auth
-                    {{ Auth::user()->name }}
+                        {{ Auth::user()->name }}
                     @else
-                    Account
+                        Account
                     @endauth
                 </span>
                 <svg class="w-4 h-4 pt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,47 +59,47 @@
             <div id="accountMenu"
                 class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 hidden">
                 @if (Auth::check())
-                <a href="{{ route('dashboard.frontend') }}"
-                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                    <!-- Dashboard Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    </svg>
+                    <a href="{{ route('dashboard.frontend') }}"
+                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                        <!-- Dashboard Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                        </svg>
 
-                    <span>Dashboard</span>
-                </a>
-                <a href="{{ route('user.logout') }}"
-                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                    <!-- Logout Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                    </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ route('user.logout') }}"
+                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                        <!-- Logout Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                        </svg>
 
-                    <span>Logout</span>
-                </a>
+                        <span>Logout</span>
+                    </a>
                 @else
-                <a href="{{ route('user.login') }}"
-                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                    <!-- Login Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
-                    </svg>
+                    <a href="{{ route('user.login') }}"
+                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                        <!-- Login Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
 
-                    <span>Login</span>
-                </a>
+                        <span>Login</span>
+                    </a>
                 @endif
             </div>
         </div>
     </nav>
 
     <div class="relative ml-auto me-4 flex lg:hidden">
-        <button id="accountBtn1Btn"
+        <button id="accountBtn1Btn" aria-label="Account menu"
             class="flex items-center focus:outline-none
             {{ Auth::check() ? 'text-red-600 font-medium' : 'hover:text-red-600' }} ">
 
@@ -119,36 +119,35 @@
         <div id="accountBtn1Menu"
             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 hidden">
             @if (Auth::check())
-            <a href="{{ route('dashboard.frontend') }}"
-                class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
-                <span>Dashboard</span>
-            </a>
+                <a href="{{ route('dashboard.frontend') }}"
+                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
 
-            <a href="{{ route('user.logout') }}"
-                class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                </svg>
-                <span>Logout</span>
-            </a>
-
+                <a href="{{ route('user.logout') }}"
+                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>
+                    <span>Logout</span>
+                </a>
             @else
-            <a href="{{ route('user.login') }}"
-                class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
-                </svg>
-                <span>Login</span>
-            </a>
+                <a href="{{ route('user.login') }}"
+                    class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                    </svg>
+                    <span>Login</span>
+                </a>
             @endif
         </div>
     </div>
@@ -162,8 +161,9 @@
 
     <!-- Mobile Toggle -->
     <button id="menuToggle" aria-label="Open menu" class="lg:hidden text-2xl text-red-600">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="size-8"
-            x="0" y="0" viewBox="0 0 464.205 464.205" style="enable-background:new 0 0 512 512" xml:space="preserve">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+            class="size-8" x="0" y="0" viewBox="0 0 464.205 464.205" style="enable-background:new 0 0 512 512"
+            xml:space="preserve">
             <g>
                 <path
                     d="M435.192 406.18H29.013C12.989 406.18 0 393.19 0 377.167s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.99 29.013 29.013-.001 16.023-12.99 29.013-29.014 29.013zM435.192 261.115H29.013C12.989 261.115 0 248.126 0 232.103s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.989 29.013 29.013s-12.99 29.012-29.014 29.012zM435.192 116.051H29.013C12.989 116.051 0 103.062 0 87.038s12.989-29.013 29.013-29.013h406.18c16.023 0 29.013 12.989 29.013 29.013s-12.99 29.013-29.014 29.013z"
