@@ -23,6 +23,15 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
 <!-- Summernote) -->
+<!-- Event snippet for Purchase conversion page -->
+<script>
+  gtag('event', 'conversion', {
+      'send_to': 'AW-17772380751/T1H4CP-Igs4bEM-ExJpC',
+      'value': 1.0,
+      'currency': 'GBP',
+      'transaction_id': ''
+  });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

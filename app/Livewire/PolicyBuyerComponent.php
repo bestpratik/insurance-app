@@ -511,7 +511,7 @@ class PolicyBuyerComponent extends Component
         // ✅ Redirect to Stripe
         return redirect()->route('stripe.booking');
 
-        // return redirect()->route('front.purchase.success');
+        // return redirect()->route('front.purchase.success'); 
 
 
         // session()->flash('message', 'Insurance purchase successfully created!');
