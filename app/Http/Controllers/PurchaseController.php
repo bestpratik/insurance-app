@@ -17,6 +17,56 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PurchaseController extends Controller
 {
+    /**
+     * Test function
+     */
+    public function test_case($purchaseId){
+        $purchase = Purchase::with('invoice')->findorfail($purchaseId);
+        if ($purchase) {
+            $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
+            //Load all documents
+            // - 1. Load static documents
+            $allDocs = [];
+            if ($insurance && $insurance->staticdocuments) {
+                foreach ($insurance->staticdocuments as $docs) {
+                    $filePath = public_path('uploads/insurance_document/' . $docs->document);
+                    if (file_exists($filePath)) {
+                        $allDocs[] = $filePath;
+                    }
+                }
+            }
+
+            $pdfDynamicval = array();
+            $pdfDynamicval[] = $insurance->name;
+            $pdfDynamicval[] = $purchase->policy_no;
+            $pdfDynamicval[] = $purchase->policy_holder_address;
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
+            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
+            $pdfDynamicval[] = $purchase->policy_term;
+            $pdfDynamicval[] = $purchase->net_premium;
+            $pdfDynamicval[] = $purchase->ipt;
+            $pdfDynamicval[] = $purchase->gross_premium;
+            $pdfDynamicval[] = $purchase->rent_amount;
+            $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
+
+            $insurartitle = "";
+            if ($purchase->policy_holder_type == 'Company') {
+                $insurartitle = $purchase->company_name;
+            } elseif ($purchase->policy_holder_type == 'Individual') {
+                $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+            } else {
+                $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+            }
+
+            $pdfDynamicval[] = $riskAddress;
+            $pdfDynamicval[] = $insurartitle;
+            $pdfDynamicval[] = $insurance->details_of_cover;
+
+
+            dd($pdfDynamicval);
+        }
+    }
     
     public function index()
     {
