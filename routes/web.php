@@ -55,6 +55,8 @@ Route::get('/login', function () {
 })->middleware(['auth', 'verified'])->name('dashboard'); 
 */
 
+Route::get('test-case/{purchase_id}', [PurchaseController::class, 'test_case']);
+
 
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
