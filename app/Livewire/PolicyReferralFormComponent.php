@@ -319,53 +319,7 @@ class PolicyReferralFormComponent extends Component
         }
     }
 
-    // public function prepareSummaryData()
-    // {
-    //     $policyEndDate = $this->policyStartDate
-    //         ? date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'))
-    //         : '';
 
-    //     // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-
-    //     $this->summaryData = [
-    //         'Insurance:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
-    //         'Policy Required For:' => $this->productType,
-    //         'Insurance Type:' => $this->insuranceType,
-    //         'Rent Amount:' => '£- ' . $this->rentAmount,
-    //         // 'Property Address:' => trim("{$this->doorNo}, {$this->addressOne}, {$this->addressTwo}, {$this->addressThree}, {$this->postCode}"),
-    //         'Property Address:' => trim(implode(', ', array_filter([
-    //             $this->doorNo,
-    //             $this->addressOne,
-    //             $this->addressTwo,
-    //             $this->addressThree,
-    //             $this->postCode
-    //         ]))),
-
-    //         'Policy Holder Type:' => $this->policyHoldertype,
-    //         'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
-    //         'Company Email:' => $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : 'N/A',
-    //         'Policy Holder Name:' => $this->policyHoldertype === 'Individual' ? "{$this->policyholderTitle} {$this->policyholderFirstName} {$this->policyholderLastName}" : 'N/A',
-    //         'Policy Holder Email:' => $this->policyholderEmail,
-    //         'Policy Holder Phone:' => $this->policyholderPhone,
-    //         'Policy Term:' => $this->policyTerm . ' Year',
-    //         'Policy Start Date:' => Carbon::parse($this->policyStartDate)->format('d F Y'),
-    //         'Ast Start Date:' => Carbon::parse($this->astStartDate)->format('d F Y'),
-
-    //         'Policy End Date' => Carbon::parse($policyEndDate)->format('d F Y'),
-    //         // 'Billing Name' => $this->billingName,
-    //         // 'Billing Email' => $this->billingEmail,
-    //         // 'Billing Phone' => $this->billingPhone,
-    //         // 'Billing Postcode' => $this->billingPostcode,
-    //         // 'Billing Address' => $billingAddress,
-    //         // 'Pon No' => $this->ponNo,
-    //         // 'Policy End Date' => $this->policyEndDate,
-    //         // 'Premium Amount' => $this->premiumAmount,
-    //         'Tenant Name:' => $this->tenantName ?? 'N/A',
-    //         'Tenant Phone:' => $this->tenantPhone ?? 'N/A',
-    //         'Tenant Email:' => $this->tenantEmail ?? 'N/A',
-    //         // 'Payment Method' => str_replace('_', ' ', $this->paymentMethod),
-    //     ];
-    // }
 
     private function resetForm()
     {
@@ -538,7 +492,7 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['dcstest201@gmail.com'];
+        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF
@@ -572,8 +526,8 @@ class PolicyReferralFormComponent extends Component
         // Prepare CC emails
         $copyEmails = explode(',', $referral->copy_email ?? '');
         $validCopyEmails = array_filter(array_map('trim', $copyEmails), fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-        // $ccEmails = $validCopyEmails;
-        $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+        $ccEmails = $validCopyEmails;
+        // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
     
         try {
@@ -591,7 +545,7 @@ class PolicyReferralFormComponent extends Component
                 $message->to($sendToemails)
                     ->subject($email_subject)
                     ->cc($ccEmails)
-                    // ->bcc(['bestpratik@gmail.com'])
+                    ->bcc(['bestpratik@gmail.com'])
                     ->attach($filePath);
             });
 

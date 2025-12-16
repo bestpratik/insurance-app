@@ -165,7 +165,7 @@
 
                     <tr>
                         <!-- <th>Insurance Type:</th> -->
-                         <th>Policy for:</th>
+                        <th>Policy for:</th>
                         <td>{{$referral->product_type ?? 'N/A'}}</td>
                     </tr>
 
@@ -195,10 +195,25 @@
                     </tr>
                     <tr>
                         <th>Landlord/Agent Primary Address:</th>
-                        <td>{{ implode(', ', array_filter([
+                        {{-- <td>{{ implode(', ', array_filter([
                                                     $referral->policy_holder_address_one,
                                                     $referral->policy_holder_post_code
-                                                ])) }}  {{ $referral->policy_holder_address }}</td>
+                                                ])) }}  {{ $referral->policy_holder_address }}</td> --}}
+
+                        <td>
+                            @php
+                            $extraAddress = implode(', ', array_filter([
+                            $referral->policy_holder_address_one,
+                            $referral->policy_holder_post_code,
+                            ]));
+                            @endphp
+
+                            @if($extraAddress)
+                            {{ $extraAddress }} {{ $referral->policy_holder_address }}
+                            @else
+                            {{ $referral->policy_holder_address }}
+                            @endif
+                        </td>
                     </tr>
 
                     @if($referral->policy_holder_address_two)
@@ -228,13 +243,13 @@
                         <td>{{$referral->policy_holder_email}}</td>
                     </tr>
 
-                     <tr>
+                    <tr>
                         <th colspan="2" class="section-header">Council Details (From which the tenant is from)</th>
                     </tr>
 
                     <tr>
                         <!-- <th>Insurance Type:</th> -->
-                         <th>Council Name:</th>
+                        <th>Council Name:</th>
                         <td>{{$referral->council_name ?? 'N/A'}}</td>
                     </tr>
 
@@ -248,7 +263,7 @@
                         <td>{{$referral->council_officer_email}}</td>
                     </tr>
 
-                     <tr>
+                    <tr>
                         <th>Referral Name: </th>
                         <td>{{$referral->referral_name}}</td>
                     </tr>
@@ -258,7 +273,7 @@
                         <td>{{$referral->referral_email}}</td>
                     </tr>
 
-                    
+
 
                     <!-- Billing Details  -->
 
@@ -298,7 +313,7 @@
                         <th>Additional Billing Details if any:</th>
                         <td>{{$referral->invoice->additional_billing_details ?? 'N\A'}}</td>
                     </tr> -->
-            
+
 
                 </table>
 
