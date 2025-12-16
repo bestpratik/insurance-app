@@ -412,8 +412,8 @@ class PolicyReferralFormComponent extends Component
         $purchase->no_of_bedroom = $this->noOfBedrooms;
         $purchase->rent_arrears = $this->rentArrears;
         $purchase->policy_holder_address = trim(
-            $this->policyholderAddress1 . ' ' .
-                $this->policyholderAddress2 . ' ' .
+            $this->policyholderAddress1 . ', ' .
+                $this->policyholderAddress2 . ', ' .
                 $this->policyholderPostcode
         );
         $purchase->copy_email = $this->copyEmail;
