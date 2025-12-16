@@ -64,7 +64,10 @@
             {{-- <div class="flex flex-col h-full"> --}}
             <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200">
                 <div class="sidebar-logo flex items-center">
+                    <a href="{{route('home')}}">
                     <img src="{{ asset('logo.jpg') }}" alt="logo" style="max-width: 180px; margin: 0 auto;">
+                    </a>
+
                     {{-- <span class="ml-2 text-xl font-semibold text-gray-900 sidebar-text">
                                 {{ config('app.name', 'Moneywise Investments Plc') }}
                             </span> --}}

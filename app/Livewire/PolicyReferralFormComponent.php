@@ -816,7 +816,7 @@ class PolicyReferralFormComponent extends Component
                 $message->to($sendToemails)
                     ->subject($email_subject)
                     ->cc($ccEmails)
-                    ->bcc(['bestpratik@gmail.com'])
+                    // ->bcc(['bestpratik@gmail.com'])
                     ->attach($filePath);
             });
 
