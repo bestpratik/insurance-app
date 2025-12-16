@@ -22,6 +22,10 @@ use Illuminate\Validation\Rule;
 
 class PolicyReferralFormComponent extends Component
 {
+    /**
+     * This component is responsible for policy referal
+     */
+
     public $successMessage = '';
     public $currentStep = 1;
 
