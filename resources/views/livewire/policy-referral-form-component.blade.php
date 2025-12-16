@@ -176,7 +176,7 @@
                         @error('productType')
                         <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> 
 
                     <!-- Insurances (Dropdown) -->
                     <div>

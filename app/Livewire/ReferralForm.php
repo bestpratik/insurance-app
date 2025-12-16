@@ -432,7 +432,7 @@ class ReferralForm extends Component
             ->filter()
             ->map(fn($email) => trim($email))
             ->unique()
-            ->implode(',');
+            ->implode(','); 
 
         $purchase->policy_holder_address_one = $this->policyholderAddress1;
         $purchase->policy_holder_address_two = $this->policyholderAddress2;
