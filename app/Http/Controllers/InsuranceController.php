@@ -112,7 +112,8 @@ class InsuranceController extends Controller
             $bodyValue[] = $insurance->rent_amount;
             $bodyValue[] = $insurance->payable_amount;
             $bodyValue[] = $riskAddress;
-            $bodyValue[] = $insurartitle;
+            $bodyValue[] = $insurartitle; 
+            $bodyValue[] = $insurance->details_of_cover;
 
             //Now send email
             $sendToemils = array(

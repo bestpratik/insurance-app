@@ -104,6 +104,11 @@
 <body>
   	<div class="container"> 
        @php
+        $grossPremium = (float) $bodyValue[9];
+        $insurancePremiumTax = (float) $bodyValue[8];
+        $payableAmount = $grossPremium + $insurancePremiumTax;
+
+
         $placeholders = [
             '%InsuranceName%' => $bodyValue[0],
             '%policyNo%' => $bodyValue[1],
@@ -116,11 +121,13 @@
             '%insurancePremiumtax%' => $bodyValue[8],
             '%grossPremium%' => $bodyValue[9],
             '%rentAmount%' => $bodyValue[10],
-            '%payableAmount%' => $bodyValue[11],
-            '%riskAddress%' => $bodyValue[12],
-            '%insurerTitle%' => $bodyValue[13],
-            '%detailsofCover%' => $bodyValue[14],
+            '%payableAmount%' => number_format($payableAmount, 2),
+            '%riskAddress%' => $bodyValue[11],
+            '%insurerTitle%' => $bodyValue[12],
+            '%detailsofCover%' => $bodyValue[13] ?? '',
         ];
+
+         //dd($placeholders);
 
         $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $body);
         

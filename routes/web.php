@@ -70,7 +70,7 @@ Route::get('referral-form', [FrontController::class, 'referralForm'])->name('ref
 Route::get('policy-referral-form', [FrontController::class, 'policy_referral_form'])->name('policy.referral.form');
 Route::get('/{type}', [FrontController::class, 'blogs'])
     ->where('type', 'blog|resource')
-    ->name('blogs');
+    ->name('blogs'); 
 
 Route::get('/{type}/{slug}', [FrontController::class, 'blog_details'])
     ->where('type', 'blog|resource')

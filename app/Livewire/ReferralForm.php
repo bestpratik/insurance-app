@@ -111,7 +111,7 @@ class ReferralForm extends Component
         //             $this->prepareSummaryData();
         //         }
         //     }
-        // }
+        // } 
 
 
         if (session()->pull('resume_summary')) {
@@ -680,7 +680,7 @@ class ReferralForm extends Component
                     return filter_var($email, FILTER_VALIDATE_EMAIL);
                 });
 
-                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
                 foreach ($sendToemails as $email) {
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -689,11 +689,13 @@ class ReferralForm extends Component
                     }
                 }
 
+                // dd($data);
+
                 Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
                     $messages->to($sendToemails);
                     $messages->subject($email_subject);
                     $messages->cc($ccEmails);
-                    // $messages->bcc(['bestpratik@gmail.com']);
+                    $messages->bcc(['bestpratik@gmail.com']);
 
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
