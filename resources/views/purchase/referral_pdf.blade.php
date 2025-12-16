@@ -196,9 +196,9 @@
                     <tr>
                         <th>Landlord/Agent Primary Address:</th>
                         <td>{{ implode(', ', array_filter([
-                                                    $referral->policy_holder_address_one ?? $referral->policy_holder_address, 
+                                                    $referral->policy_holder_address_one,
                                                     $referral->policy_holder_post_code
-                                                ])) }}</td>
+                                                ])) }}  {{ $referral->policy_holder_address }}</td>
                     </tr>
 
                     @if($referral->policy_holder_address_two)
