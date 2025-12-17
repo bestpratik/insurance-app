@@ -41,11 +41,16 @@ class DatewisePurchaseList extends Component
  
     public function render()
     {
-        $query = Purchase::with(['insurance.provider', 'invoice'])
+        /*$query = Purchase::with(['insurance.provider', 'invoice'])
             ->where('status', 1)
             ->where('payment_status', 'Paid')
             ->whereNull('purchase_status')
-            ->orderBy('id', 'desc');
+            ->orderBy('id', 'desc');*/
+
+        $query = Purchase::with(['insurance.provider', 'invoice'])
+                ->where('status', 1)
+                ->whereNull('purchase_status')
+                ->orderBy('id', 'desc');
 
         
 
