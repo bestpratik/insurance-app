@@ -20,7 +20,7 @@
                                     class="inline-block bg-[#a10c0c] border-2 border-[#a10c0c] text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-transparent hover:text-[#a10c0c]">
                                     {{ $bann->button_text }}
                                 </a>
-                                <a href="{{ route('referral.form') }}"
+                                <a href="{{ route('policy.referral.form') }}"
                                     class="inline-block border-2 border-[#a10c0c] text-[#a10c0c] font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-[#a10c0c] hover:text-white">
                                     Get Instant Quote
                                 </a>

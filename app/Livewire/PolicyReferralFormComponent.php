@@ -446,7 +446,7 @@ class PolicyReferralFormComponent extends Component
         $purchase->policy_start_date = $this->policyStartDate;
         $purchase->policy_end_date = date('Y-m-d', strtotime($this->policyStartDate . ' + ' . ($this->insuranceDetails->validity - 1) . ' days'));
         $purchase->ast_start_date = $this->astStartDate;
-        // $purchase->purchase_date = now();
+        $purchase->purchase_date = now();
         $purchase->policy_term = $this->policyTerm;
 
         // Premium

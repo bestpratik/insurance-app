@@ -210,7 +210,7 @@
         <a href="{{ route('contact.us') }}"
             class="{{ request()->routeIs('contact.us') ? 'text-red-600 font-medium' : 'hover:text-red-600' }}">Contact
             Us</a>
-        <a href="{{ route('referral.form') }}"
+        <a href="{{ route('policy.referral.form') }}"
             class="mt-4 block text-center bg-red-600 text-white py-2 rounded-lg">Get A Quote</a>
     </nav>
 </div>

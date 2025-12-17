@@ -38,13 +38,16 @@ class DatewisePurchaseList extends Component
             $this->resetPage();
         }
     }
-
+ 
     public function render()
     {
         $query = Purchase::with(['insurance.provider', 'invoice'])
             ->where('status', 1)
+            ->where('payment_status', 'Paid')
             ->whereNull('purchase_status')
             ->orderBy('id', 'desc');
+
+        
 
         if ($this->startDate && $this->endDate) {
             $query->whereBetween('purchase_date', [$this->startDate, $this->endDate]);
