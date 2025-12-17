@@ -1,6 +1,6 @@
 <div>
     @if ($successMessage)
-    <div class="bg-green-100 text-green-800 p-3 rounded mb-3"> 
+    <div class="bg-green-100 text-green-800 p-3 rounded mb-3">
         {{ $successMessage }}
     </div>
     @endif
@@ -121,12 +121,13 @@
                                 @else
                                     text-gray-600 hover:text-red-600 hover:border-b-2 hover:border-red-500
                                 @endif">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                                    d="M3 21h18M5 21V9l7-4 7 4v12M9 21v-6h6v6M3 9h18" />
                             </svg>
                             <span class="text-sm hidden md:inline ml-1">Council Info</span>
+
                         </a>
 
                         <a href="#" data-tab="tab6"
@@ -191,7 +192,7 @@
                         @error('productType')
                         <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
                         @enderror
-                    </div> 
+                    </div>
 
                     <!-- Insurances (Dropdown) -->
                     <div>
@@ -206,7 +207,7 @@
                             @endforeach
                         </select>
 
-                        
+
                     </div>
 
                     <div>
@@ -962,8 +963,8 @@
             </div>
             @endif
 
-            
-               @if($currentStep === 7)
+
+            @if($currentStep === 7)
             <div id="tab7" class="tab-content bg-white p-6 rounded shadow">
                 <div class="space-y-4 mt-6">
                     <p class="font-semibold text-gray-800 text-lg mb-1">Billing Information</p>
@@ -1017,7 +1018,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Billing Address Two</label> 
+                            <label class="block text-sm font-medium text-gray-700">Billing Address Two</label>
                             <input type="text" placeholder="Enter address..." wire:model="billingAddressTwo"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('billingAddressTwo')
@@ -1042,140 +1043,140 @@
                                 wire:model="ponNo">
                             @error('ponNo')
                             <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div> --}}
+                        @enderror
+                    </div> --}}
 
-                        {{--<div>
+                    {{--<div>
                             <label class="block">
                                 <span class="text-sm text-gray-600">Send Invoice</span>
                                 <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600">
                             </label>
                         </div>--}}
-                    </div>
-                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
-                            
-                            <button type="button"
-                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
-                               
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Back</span>
-                            </button>
+                </div>
+                <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
 
-                            <button type="button"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
-                              
-                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4">
-                                    </circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                </svg>
-                                <span>Save and Next</span>
-                            </button>
-                        </div>
+                    <button type="button"
+                        class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+
+                    <button type="button"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+
+                        <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                        </svg>
+                        <span>Save and Next</span>
+                    </button>
                 </div>
             </div>
-            @endif
-           
+        </div>
+        @endif
 
 
-@if($currentStep === 8)
-<div class="bg-gray-50 p-6 rounded-2xl shadow-xl border border-gray-200 space-y-8">
 
-    <h2 class="text-3xl font-extrabold text-gray-800 border-b pb-3 mb-6">Review Your Application</h2>
+        @if($currentStep === 8)
+        <div class="bg-gray-50 p-6 rounded-2xl shadow-xl border border-gray-200 space-y-8">
 
-    <!-- Insurance Details -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Insurance Details</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Policy for:</span> {{ $productType }}</p>
-            <p><span class="font-medium">Selected Insurance:</span> {{ $insuranceDetails->name ?? 'N/A' }}</p>
-            <p><span class="font-medium">Also need:</span> 
-                {{ is_array($insurancesRequired) ? implode(', ', $insurancesRequired) : $insurancesRequired }}
-            </p>
+            <h2 class="text-3xl font-extrabold text-gray-800 border-b pb-3 mb-6">Review Your Application</h2>
+
+            <!-- Insurance Details -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Insurance Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                    <p><span class="font-medium">Policy for:</span> {{ $productType }}</p>
+                    <p><span class="font-medium">Selected Insurance:</span> {{ $insuranceDetails->name ?? 'N/A' }}</p>
+                    <p><span class="font-medium">Also need:</span>
+                        {{ is_array($insurancesRequired) ? implode(', ', $insurancesRequired) : $insurancesRequired }}
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- Property Information -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Property Information</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                    <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p>
+                    <p><span class="font-medium">Rent Arrears:</span> {{ $rentArrears }}</p>
+                    <p><span class="font-medium">Rent Amount:</span> £{{ $rentAmount }}</p>
+                    @if($rentArrears)
+                    <p><span class="font-medium">Rent Arrears:</span> £{{ $rentArrears }}</p>
+                    @endif
+
+                    <p><span class="font-medium">Property Address:</span><br>
+                        {{ implode(', ', array_filter([$doorNo, $addressOne, $addressTwo, $addressThree, $postCode])) }}
+                    </p>
+
+                    @if($yearOfPurchase)
+                    <p><span class="font-medium">Year of Purchase:</span> {{ $yearOfPurchase }}</p>
+                    @endif
+                    @if($yearOfBuild)
+                    <p><span class="font-medium">Year of Build:</span> {{ $yearOfBuild }}</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Policy Holder Details -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Policy Holder Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                    <p><span class="font-medium">Policy Holder Type:</span> {{ $policyHoldertype }}</p>
+                    @if($companyName)
+                    <p><span class="font-medium">Company Name:</span> {{ $companyName }}</p>
+                    @endif
+                    @if($policyholderFirstName || $policyholderLastName)
+                    <p><span class="font-medium">Name:</span> {{ $policyholderTitle }} {{ $policyholderFirstName }} {{ $policyholderLastName }}</p>
+                    @endif
+                    <p><span class="font-medium">Contact Email:</span> {{ $policyholderEmail ?? $policyholderCompanyEmail }}</p>
+                    <p><span class="font-medium">Contact Phone:</span> {{ $policyholderPhone }}</p>
+                    @if($policyholderAlternativePhone)
+                    <p><span class="font-medium">Alternate Phone:</span> {{ $policyholderAlternativePhone }}</p>
+                    @endif
+
+                    <p><span class="font-medium">Address:</span><br>
+                        {{ implode(', ', array_filter([$policyholderAddress1, $policyholderAddress2, $policyholderPostcode])) }}
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- Tenant Details -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Tenant Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                    <p><span class="font-medium">Tenant Name:</span> {{ $tenantName ?? 'N/A' }}</p>
+                    <p><span class="font-medium">Tenant Email:</span> {{ $tenantEmail ?? 'N/A' }}</p>
+                    <p><span class="font-medium">Tenant Phone:</span> {{ $tenantPhone ?? 'N/A' }}</p>
+                </div>
+            </div>
+
+            <!-- Referral & Council Details -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Referral & Council Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                    <p><span class="font-medium">Referral Name:</span> {{ $referralName }}</p>
+                    <p><span class="font-medium">Referral Email:</span> {{ $referralEmail }}</p>
+                    <p><span class="font-medium">Council Name:</span> {{ $councilName }}</p>
+                    <p><span class="font-medium">Council Officer:</span> {{ $councilOfficerName }}</p>
+                    <p><span class="font-medium">Council Officer Email:</span> {{ $councilOfficerEmail }}</p>
+                </div>
+            </div>
 
         </div>
-    </div>
-
-    <!-- Property Information -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Property Information</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Policy Type:</span> {{ $insuranceType }}</p> 
-            <p><span class="font-medium">Rent Arrears:</span> {{ $rentArrears }}</p>
-            <p><span class="font-medium">Rent Amount:</span> £{{ $rentAmount }}</p>
-            @if($rentArrears)
-            <p><span class="font-medium">Rent Arrears:</span> £{{ $rentArrears }}</p>
-            @endif 
-            
-            <p><span class="font-medium">Property Address:</span><br>
-                {{ implode(', ', array_filter([$doorNo, $addressOne, $addressTwo, $addressThree, $postCode])) }}
-            </p>
-
-            @if($yearOfPurchase)
-            <p><span class="font-medium">Year of Purchase:</span> {{ $yearOfPurchase }}</p>
-            @endif
-            @if($yearOfBuild)
-            <p><span class="font-medium">Year of Build:</span> {{ $yearOfBuild }}</p>
-            @endif
-        </div>
-    </div>
-
-    <!-- Policy Holder Details --> 
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Policy Holder Details</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Policy Holder Type:</span> {{ $policyHoldertype }}</p>
-            @if($companyName)
-            <p><span class="font-medium">Company Name:</span> {{ $companyName }}</p>
-            @endif
-            @if($policyholderFirstName || $policyholderLastName)
-            <p><span class="font-medium">Name:</span> {{ $policyholderTitle }} {{ $policyholderFirstName }} {{ $policyholderLastName }}</p>
-            @endif
-            <p><span class="font-medium">Contact Email:</span> {{ $policyholderEmail ?? $policyholderCompanyEmail }}</p>
-            <p><span class="font-medium">Contact Phone:</span> {{ $policyholderPhone }}</p>
-            @if($policyholderAlternativePhone)
-            <p><span class="font-medium">Alternate Phone:</span> {{ $policyholderAlternativePhone }}</p>
-            @endif
-
-            <p><span class="font-medium">Address:</span><br>
-                {{ implode(', ', array_filter([$policyholderAddress1, $policyholderAddress2, $policyholderPostcode])) }}
-            </p>
-
-        </div>
-    </div>
-
-    <!-- Tenant Details -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Tenant Details</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Tenant Name:</span> {{ $tenantName ?? 'N/A' }}</p>
-            <p><span class="font-medium">Tenant Email:</span> {{ $tenantEmail ?? 'N/A' }}</p>
-            <p><span class="font-medium">Tenant Phone:</span> {{ $tenantPhone ?? 'N/A' }}</p>
-        </div>
-    </div>
-
-    <!-- Referral & Council Details -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Referral & Council Details</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
-            <p><span class="font-medium">Referral Name:</span> {{ $referralName }}</p>
-            <p><span class="font-medium">Referral Email:</span> {{ $referralEmail }}</p>
-            <p><span class="font-medium">Council Name:</span> {{ $councilName }}</p>
-            <p><span class="font-medium">Council Officer:</span> {{ $councilOfficerName }}</p>
-            <p><span class="font-medium">Council Officer Email:</span> {{ $councilOfficerEmail }}</p>
-        </div>
-    </div>
-
-</div>
-@endif
+        @endif
 
 
 
