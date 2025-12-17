@@ -29,7 +29,7 @@
     ];
  
     $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $data['templateBody']);
-   
+   //dd($output_string);
 @endphp
 
     {!! $output_string !!}
