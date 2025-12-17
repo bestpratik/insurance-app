@@ -46,9 +46,9 @@
         '%grossPremium%' => number_format($grossPremium, 2),
         '%rentAmount%' => $data['templatebodyValue'][10],
         '%payableAmount%' => number_format($payableAmount, 2), // new placeholder
-        '%riskAddress%' => $data['templatebodyValue'][11],
-        '%insurerTitle%' => $data['templatebodyValue'][12],
-        '%detailsofCover%' => $data['templatebodyValue'][13],
+        '%riskAddress%' => $data['templatebodyValue'][12],
+        '%insurerTitle%' => $data['templatebodyValue'][13],
+        '%detailsofCover%' => $data['templatebodyValue'][14],
     ];
 
     $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $data['templateBody']);
