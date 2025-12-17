@@ -66,18 +66,6 @@ class ReferralListComponent extends Component
         $query = Policyreferralform::with(['insurance.provider', 'invoice'])
                 ->where('status', 1)
                 ->whereNull('purchase_status')
-                ->where(function ($query) {
-                    $query->where(function ($q) {
-                        $q->whereHas('insurance', function ($subQuery) {
-                            $subQuery->where('purchase_mode', 'Online');
-                        })
-                        ->where('payment_status', 'Paid');
-                    })->orWhere(function ($q) {
-                        $q->whereHas('insurance', function ($subQuery) {
-                            $subQuery->where('purchase_mode', 'Offline');
-                        });
-                    });
-                })
                 ->orderBy('id', 'desc');
 
         if (!empty($this->policyNo)) {
