@@ -222,10 +222,10 @@
                         <td>{{ $referral->policy_holder_address_two ?: null }}</td>
                     </tr>
                     @endif
-                    <tr>
+                    {{--<tr>
                         <th>Postcode:</th>
                         <td>{{$referral->policy_holder_post_code}}</td>
-                    </tr>
+                    </tr>--}}
                     <tr>
                         <th>Contact No:</th>
                         <td> {{$referral->policy_holder_phone}}</td>
