@@ -638,6 +638,7 @@ class ReferralForm extends Component
             $bodyValue[] = $purchase->ipt;
             $bodyValue[] = $purchase->gross_premium;
             $bodyValue[] = $purchase->rent_amount;
+            $bodyValue[] = $purchase->payable_amount;
             $bodyValue[] = $riskAddress;
             $bodyValue[] = $insurartitle;
             $bodyValue[] = $insurance->details_of_cover;
