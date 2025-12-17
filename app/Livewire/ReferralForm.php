@@ -371,20 +371,9 @@ class ReferralForm extends Component
 
         $this->validate($allRules);
 
-        // $insurance = Insurance::find($this->selectedinsuranceId);
-        // $validityDays = $insurance->validity;
-
-        // $policyStart = Carbon::parse($this->policyStartDate);
-        // $policyEnd = $policyStart->copy()->addDays($validityDays);
-        // $this->policyEndDate = $policyEnd->toDateString();
 
         $userId = Auth::id();;
         // dd($userId);
-
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-        //     return redirect()->route('user.login');
-        // }
 
 
 
@@ -403,12 +392,6 @@ class ReferralForm extends Component
         $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
         $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
 
-        // $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
-        // $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
-        // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
-        // $purchase->policy_holder_fname = $this->policyHoldertype === 'Individual' ? $this->policyholderFirstName : null;
-        // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
-        // $purchase->policy_holder_email = $this->policyholderEmail;
 
         // ✅ Save Company details if Company or Both
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
@@ -515,43 +498,6 @@ class ReferralForm extends Component
 
         return redirect()->route('referral.purchase.success');
 
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->flash('error', 'You must be logged in to complete your purchase.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->put('guest_redirect_intended', url()->current());
-        //     return redirect()->route('user.register');
-        // }
-
-        // if (!$userId) {
-        //     $guestToken = (string) Str::uuid();
-        //     $purchase->token  = $guestToken;
-        //     $purchase->save();
-
-        //     session()->put('guest_purchase_token', $guestToken);
-        //     session()->put('resume_summary', true);
-
-        //     return redirect()->route('user.register');
-        // }
-
-        // ✅ Store purchase ID in session
-        // session()->put('pending_purchase_id', $purchase->id);
-
-        // ✅ Redirect to Stripe
-        // return redirect()->route('stripe.booking');
-
-        // return redirect()->route('front.purchase.success');
-
-
-        // session()->flash('message', 'Insurance purchase successfully created!');
-        // return redirect()->route('purchase.success');
     }
 
 

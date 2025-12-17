@@ -18,7 +18,7 @@
     </section>
 
     <!-- TAB MENU -->
-     <livewire:referral-form />  
+     <livewire:referral-form />   
     <!-- SCRIPT -->
     <!-- <script>
         const tabButtons = document.querySelectorAll(".tab-btn");
