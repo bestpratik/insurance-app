@@ -139,6 +139,21 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                            </svg>
+                            <span class="text-sm hidden md:inline ml-1">Billing Information</span>
+                        </a>
+
+                        <a href="#" data-tab="tab6"
+                            class="tab-btn flex items-center text-center px-4 py-2 font-medium 
+                                @if($currentStep === 8)
+                                    border-b-2 border-red-500 text-red-600
+                                @else
+                                    text-gray-600 hover:text-red-600 hover:border-b-2 hover:border-red-500
+                                @endif">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
                             </svg>
                             <span class="text-sm hidden md:inline ml-1">Summary</span>
@@ -947,121 +962,131 @@
             </div>
             @endif
 
+            
+               @if($currentStep === 7)
+            <div id="tab7" class="tab-content bg-white p-6 rounded shadow">
+                <div class="space-y-4 mt-6">
+                    <p class="font-semibold text-gray-800 text-lg mb-1">Billing Information</p>
 
-            {{-- @if($currentStep === 7)
-            <div id="tab8" class="tab-content bg-white p-6 rounded shadow">
-                <div class="summary-section p-6 bg-white rounded-xl shadow-md border border-gray-200">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Review Your Summary</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Name<span class="text-red-600 text-lg">*</span></label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="billingName">
+                            @error('billingName')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        @foreach($summaryData as $key => $value)
-                        <li class="p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                            <h6 class="text-sm font-semibold text-gray-600 uppercase mb-1 tracking-wide">{{ $key }}</h6>
-            <p class="text-gray-800 text-base">{{ $value }}</p>
-            </li>
-            @endforeach
-            </ul>
-        </div>
-        <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Email<span class="text-red-600 text-lg">*</span></label>
+                            <input type="email"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="billingEmail">
+                            @error('billingEmail')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-            <button type="button"
-                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+                        <div>
+                            <label class="block mb-1">Copy email</label>
+                            <p class="text-gray-500" style="font-size: 12px;">Enter email ids, separated by comma, if you need to send invoice to additional people other than billing email</p>
+                            <textarea id=""
+                                class="w-full px-2 py-1 border rounded-md border-[#66666660] mt-1 h-[42px] flex items-center" wire:model="copyBillingEmail"
+                                rows="2"></textarea>
+                        </div>
 
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Back</span>
-            </button>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Phone<span class="text-red-600 text-lg">*</span></label>
+                            <input type="number"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="billingPhone">
+                            @error('billingPhone')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-            <button type="button"
-                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Address One<span class="text-red-600 text-lg">*</span></label>
+                            <input type="text" placeholder="Enter address..." wire:model="billingAddressOne"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('billingAddressOne')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                    </circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                </svg>
-                <span>Submit</span>
-            </button>
-        </div>
-</div>
-@endif --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Address Two</label> 
+                            <input type="text" placeholder="Enter address..." wire:model="billingAddressTwo"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                            @error('billingAddressTwo')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Billing Postcode<span class="text-red-600 text-lg">*</span></label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="billingPostcode">
+                            @error('billingPostcode')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- <div>
+                            <label class="block text-sm font-medium text-gray-700">Pon No</label>
+                            <input type="text"
+                                class="mt-1 py-1.5 px-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="ponNo">
+                            @error('ponNo')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div> --}}
+
+                        {{--<div>
+                            <label class="block">
+                                <span class="text-sm text-gray-600">Send Invoice</span>
+                                <input type="checkbox" wire:model="isInvoice" class="form-checkbox text-blue-600">
+                            </label>
+                        </div>--}}
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3 border-t mt-6" style="display: none;">
+                            
+                            <button type="button"
+                                class="px-4 py-2 bg-black text-white rounded-md shadow hover:bg-gray-900 transition inline-flex items-center gap-2">
+                               
+                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
+                                    </circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                                <span>Back</span>
+                            </button>
+
+                            <button type="button"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
+                              
+                                <svg class="hidden animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
+                                    </circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                                <span>Save and Next</span>
+                            </button>
+                        </div>
+                </div>
+            </div>
+            @endif
+           
 
 
-{{--@if($currentStep === 7)
-            <div class="bg-white p-6 rounded shadow">
-
-                <h2 class="text-xl font-bold mb-4">Review Your Application</h2>
-
-                <!-- Insurance Details -->
-                <h3 class="font-bold text-lg">Insurance Details</h3>
-                <p><strong>Policy for:</strong> {{ $productType }}</p>
-<p><strong>Selected Insurance:</strong> {{ $this->getInsuranceName($selectInsurance) }}</p>
-<hr class="my-3">
-
-<!-- Property Information -->
-<h3 class="font-bold text-lg">Property Information</h3>
-<p><strong>Policy Type:</strong> {{ $policyType }}</p>
-<p><strong>Rent Amount:</strong> £{{ $rentAmount }}</p>
-@if($policyType === 'renewal')
-<p><strong>Rent Arrears:</strong> {{ $rentArrears }}</p>
-@endif
-<p><strong>Property Address:</strong><br>
-    {{ $doorNo }}
-    @if($addressOne), {{ $addressOne }} @endif
-    @if($addressTwo), {{ $addressTwo }} @endif
-    @if($addressThree), {{ $addressThree }} @endif
-    @if($postCode), {{ $postCode }} @endif
-</p>
-<hr class="my-3">
-
-<!-- Policy Holder Details -->
-<h3 class="font-bold text-lg">Policy Holder Details</h3>
-<p><strong>Policy Holder Type:</strong> {{ $policyHoldertype }}</p>
-@if($companyName)
-<p><strong>Company Name:</strong> {{ $companyName }}</p>
-@endif
-@if($policyHolderfirstname || $policyHolderlastname)
-<p><strong>Name:</strong> {{ $policyHoldertitle }} {{ $policyHolderfirstname }} {{ $policyHolderlastname }}</p>
-@endif
-<p><strong>Contact Email:</strong> {{ $contactEmail }}</p>
-<p><strong>Contact Phone:</strong> {{ $contactPhone }}</p>
-@if($alternatePhone)
-<p><strong>Alternate Phone:</strong> {{ $alternatePhone }}</p>
-@endif
-<p><strong>Policy Holder Address:</strong><br>
-    {{ $policyHolderaddressone }}
-    @if($policyHolderaddresstwo), {{ $policyHolderaddresstwo }} @endif
-    @if($policyHolderpostcode), {{ $policyHolderpostcode }} @endif
-</p>
-<hr class="my-3">
-
-<!-- Tenant Details -->
-<h3 class="font-bold text-lg">Tenant Details</h3>
-<p><strong>Tenant Name:</strong> {{ $tenantName }}</p>
-<p><strong>Tenant Email:</strong> {{ $tenantEmail }}</p>
-<p><strong>Tenant Phone:</strong> {{ $tenantPhone }}</p>
-<hr class="my-3">
-
-<!-- Billing Information -->
-<h3 class="font-bold text-lg">Billing Details</h3>
-<p><strong>Billing Name:</strong> {{ $billingName }}</p>
-<p><strong>Billing Email:</strong> {{ $billingEmail }}</p>
-<p><strong>Billing Phone:</strong> {{ $billngPhone }}</p>
-<p><strong>Billing Address:</strong><br>
-    {{ $billingAddressone }}
-    @if($billingAddresstwo), {{ $billingAddresstwo }} @endif
-    @if($billingPostcode), {{ $billingPostcode }} @endif
-</p>
-
-</div>
-@endif--}}
-
-@if($currentStep === 7)
+@if($currentStep === 8)
 <div class="bg-gray-50 p-6 rounded-2xl shadow-xl border border-gray-200 space-y-8">
 
     <h2 class="text-3xl font-extrabold text-gray-800 border-b pb-3 mb-6">Review Your Application</h2>
@@ -1172,7 +1197,7 @@
     </button>
     @endif
 
-    @if($currentStep < 7)
+    @if($currentStep < 8)
         <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
         class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
         {{-- <span wire:loading wire:target="nextStep" class="inline">
@@ -1200,7 +1225,7 @@
             </button>--}}
         @endif
 
-        @if($currentStep == 7)
+        @if($currentStep == 8)
         <button type="button" wire:click="submitForm" wire:loading.attr="disabled"
             class="px-4 py-2 bg-red-600 text-white rounded-md shadow hover:bg-red-700 transition inline-flex items-center gap-2">
             {{-- <span wire:loading wire:target="submitForm" class="inline">

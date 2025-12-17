@@ -92,13 +92,13 @@ class PolicyReferralFormComponent extends Component
     // public $paymentMethod;
 
     // Step 6: Biling Department
-    // public $billingName;
-    // public $billingEmail;
+    public $billingName;
+    public $billingEmail;
     public $copyBillingEmail;
-    // public $billingPhone;
-    // public $billingAddressOne;
-    // public $billingAddressTwo;
-    // public $billingPostcode;
+    public $billingPhone;
+    public $billingAddressOne;
+    public $billingAddressTwo;
+    public $billingPostcode;
     // public $ponNo;
 
     public $isInvoice;
@@ -114,7 +114,7 @@ class PolicyReferralFormComponent extends Component
         $this->isInvoice = true;
 
         $this->availableInsurances = Insurance::where('show_on_referral_form', 'Yes')
-                                                ->get();
+            ->get();
 
         //  $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
         //                                         ->where('show_on_referral_form', 'Yes')
@@ -289,15 +289,15 @@ class PolicyReferralFormComponent extends Component
         // }
 
 
-        // elseif ($step == 6) {
-        //     return [
-        //         'billingName' => 'required|string',
-        //         'billingEmail' => 'required|email',
-        //         'billingPhone' => 'required',
-        //         'billingAddressOne' => 'required|string',
-        //         'billingPostcode' => 'required'
-        //     ];
-        // }
+        elseif ($step == 7) {
+            return [
+                'billingName' => 'required|string',
+                'billingEmail' => 'required|email',
+                'billingPhone' => 'required',
+                'billingAddressOne' => 'required|string',
+                'billingPostcode' => 'required'
+            ];
+        }
 
         return [];
     }
@@ -306,7 +306,7 @@ class PolicyReferralFormComponent extends Component
     {
         $this->validate($this->rulesForStep($this->currentStep));
 
-        if ($this->currentStep < 7) {
+        if ($this->currentStep < 8) {
             $this->currentStep++;
 
             // if ($this->currentStep === 7) {
@@ -366,13 +366,13 @@ class PolicyReferralFormComponent extends Component
             'councilName',
             'councilOfficerName',
             'councilOfficerEmail',
-            // 'billingName',
-            // 'billingEmail',
+            'billingName',
+            'billingEmail',
             'copyBillingEmail',
-            // 'billingPhone',
-            // 'billingAddressOne',
-            // 'billingAddressTwo',
-            // 'billingPostcode',
+            'billingPhone',
+            'billingAddressOne',
+            'billingAddressTwo',
+            'billingPostcode',
             // 'ponNo',
         ]);
 
@@ -468,6 +468,38 @@ class PolicyReferralFormComponent extends Component
         $purchase->save();
 
 
+        $invoice = new Invoice();
+        $invoice->policyreferralform_id = $purchase->id;
+        $invoice->billing_name = $this->billingName;
+        $invoice->billing_email = $this->billingEmail;
+        $this->copyBillingEmail = preg_replace('/[\s,]+/', ' ', $this->copyBillingEmail);
+        $invoice->copy_email = collect(explode(' ', str_replace(',', ' ', $this->copyBillingEmail)))
+            ->filter()
+            ->map(fn($email) => trim($email))
+            ->unique()
+            ->implode(',');
+        $invoice->billing_phone = $this->billingPhone;
+        $invoice->billing_address_one = $this->billingAddressOne;
+        $invoice->billing_address_two = $this->billingAddressTwo;
+        $invoice->billing_postcode = $this->billingPostcode;
+        $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+       
+
+        $curDate = date('Y-m-d');
+        $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
+        $invoice->payment_due_date = $payment_due_date;
+
+        $invoice->invoice_no = $purchase->id;
+        $invoice->invoice_date  = $curDate;
+
+
+
+        $invoice->save();
+
+
+
+
+
         $this->send_email_one($purchase->id);
 
         // if ($invoice->is_invoice == 1) {
@@ -495,7 +527,7 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        $sendToemails = ['anuradham.dbt@gmail.com'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF
@@ -532,7 +564,7 @@ class PolicyReferralFormComponent extends Component
         $ccEmails = $validCopyEmails;
         // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-    
+
         try {
             // Validate To emails
             foreach ($sendToemails as $email) {
@@ -548,7 +580,7 @@ class PolicyReferralFormComponent extends Component
                 $message->to($sendToemails)
                     ->subject($email_subject)
                     ->cc($ccEmails)
-                    ->bcc(['bestpratik@gmail.com'])
+                    // ->bcc(['bestpratik@gmail.com'])
                     ->attach($filePath);
             });
 

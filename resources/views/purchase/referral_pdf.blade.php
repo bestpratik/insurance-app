@@ -277,7 +277,7 @@
 
                     <!-- Billing Details  -->
 
-                    {{-- <tr>
+                     <tr>
                         <th colspan="2" class="section-header">Billing Details</th>
                     </tr>
 
@@ -287,11 +287,16 @@
                     </tr>
                     <tr>
                         <th>Billing Address:</th>
-                        <td>{{ implode(', ', array_filter([
+                        {{--<td>{{ implode(', ', array_filter([
                                                     $referral->invoice->billing_address,
                                                     $referral->invoice->billing_city,
-                                                    $referral->invoice->billing_postcode
+                                                    $referral->invoice->billing_postcode,
+                                                ])) }}</td>--}}
+
+                        <td>{{ implode(', ', array_filter([
+                                                    $referral->invoice->billing_full_addresss
                                                 ])) }}</td>
+
                     </tr>
                     <tr>
                         <th>Billing Email:</th>
@@ -300,19 +305,19 @@
                     <tr>
                         <th>Billing Contact:</th>
                         <td>{{$referral->invoice->billing_phone}}</td>
-                    </tr> --}}
-                    <!-- <tr>
+                    </tr> 
+                    {{-- <tr>
                         <th>Contact Person Name:</th>
                         <td>{{$referral->contact_person_name}}</td>
                     </tr>
                     <tr>
                         <th>Contact Person Email:</th>
                         <td>{{$referral->contact_email}}</td>
-                    </tr> -->
-                    <!-- <tr>
+                    </tr> --}}
+                    {{-- <tr>
                         <th>Additional Billing Details if any:</th>
                         <td>{{$referral->invoice->additional_billing_details ?? 'N\A'}}</td>
-                    </tr> -->
+                    </tr> --}}
 
 
                 </table>
