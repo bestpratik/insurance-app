@@ -610,8 +610,8 @@ class PolicyBuyerComponent extends Component
             $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
             $bodyValue[] = $purchase->policy_term;
             $bodyValue[] = $purchase->net_premium;
-            $bodyValue[] = $purchase->ipt;
             $bodyValue[] = $purchase->gross_premium;
+            $bodyValue[] = $purchase->ipt;
             $bodyValue[] = $purchase->rent_amount;
             $bodyValue[] = $purchase->payable_amount;
             $bodyValue[] = $riskAddress;
