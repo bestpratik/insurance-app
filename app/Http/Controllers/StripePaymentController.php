@@ -295,11 +295,11 @@ class StripePaymentController extends Controller
             $purchase->policy_end_date ? date('jS F Y', strtotime($purchase->policy_end_date)) : '',
             $purchase->purchase_date ? date('jS F Y', strtotime($purchase->purchase_date)) : '',
             $purchase->policy_term,
-            $purchase->payable_amount,
             $purchase->net_premium,
             $purchase->ipt,
             $purchase->gross_premium,
             $purchase->rent_amount,
+            $purchase->payable_amount,
         ];
 
         $riskAddress = trim(implode(' ', [
