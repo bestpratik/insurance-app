@@ -31,7 +31,6 @@ class BlogController extends Controller
             'title'        => 'required|string|max:255',
             'image_alt'    => 'required',
             'img_alt'      => 'required',
-            // 'description'  => 'nullable|longtext',
             'image'        => 'required|image|mimes:jpg,jpeg,png,webp',
             'author_image' => 'required|image|mimes:jpg,jpeg,png,webp',
             'blog_author'  => 'nullable|string|max:255',
@@ -96,7 +95,6 @@ class BlogController extends Controller
     {
         $request->validate([
             'title'        => 'required|string|max:255',
-            // 'description'  => 'nullable',
             'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'author_image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'blog_author'  => 'nullable|string|max:255',
