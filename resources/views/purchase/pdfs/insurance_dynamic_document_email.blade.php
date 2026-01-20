@@ -3,10 +3,10 @@
 <head>
     <title>{{ $data['templateTitle'] }}</title>
 </head> 
-<body>
+<body> 
    
     @php
-        $grossPremium = (float) $data['templatebodyValue'][9];
+        //$grossPremium = (float) $data['templatebodyValue'][9];
         $insurancePremiumTax = (float) $data['templatebodyValue'][8];
         //$payableAmount = $grossPremium + $insurancePremiumTax;
  
@@ -19,7 +19,7 @@
         '%purchaseDate%' => $data['templatebodyValue'][5] ?? '',
         '%policyTerm%' => $data['templatebodyValue'][6] ?? '',
         '%netAnnualpremium%' => $data['templatebodyValue'][7] ?? '',
-        '%grossPremium%' => number_format($grossPremium, 2) ?? '',
+        '%grossPremium%' => (float) $data['templatebodyValue'][9] ?? '',
         '%insurancePremiumtax%' => number_format($insurancePremiumTax, 2) ?? '', 
         '%rentAmount%' => $data['templatebodyValue'][10] ?? '',
         '%payableAmount%' => $data['templatebodyValue'][11] ?? '',

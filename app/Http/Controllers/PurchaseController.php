@@ -64,7 +64,7 @@ class PurchaseController extends Controller
             $pdfDynamicval[] = $insurance->details_of_cover;
 
 
-            dd($pdfDynamicval);
+            // dd($pdfDynamicval);
         }
     }
     

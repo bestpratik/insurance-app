@@ -297,7 +297,7 @@ class StripePaymentController extends Controller
             $purchase->policy_term,
             $purchase->net_premium,
             $purchase->ipt,
-            $purchase->gross_premium,
+            $purchase->payable_amount,
             $purchase->rent_amount,
             $purchase->payable_amount,
         ];
