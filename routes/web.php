@@ -126,7 +126,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('policy-detail-page/{id}', [FrontController::class, 'policyDetailPage'])->name('policy.detail.page');
 
-    Route::get('test/{purchaseId}', [FrontController::class, 'test'])->name('test');
+
 
 
 
