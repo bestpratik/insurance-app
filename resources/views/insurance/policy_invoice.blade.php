@@ -54,28 +54,35 @@
       color: #f26522;
       font-weight: bold;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 20px 0;
     }
+
     td {
       vertical-align: top;
       padding: 8px 10px;
     }
+
     .left {
       width: 60%;
     }
+
     .right {
       width: 40%;
     }
+
     .label {
       font-weight: bold;
     }
+
     .orange {
       color: #f26522;
       font-weight: bold;
     }
+
     .red {
       color: red;
       font-weight: bold;
@@ -106,78 +113,100 @@
     .text-success {
       color: green;
     }
-
   </style>
 </head>
 
 <body>
 
   <div class="container">
-    <div class="header">
+    {{--<div class="header">
       <img src="data:image/png;base64,{{ base64_encode(file_get_contents( "http://insurance.moneywiseplc.co.uk/logo.jpg" )) }}" alt="Moneywise Logo" style="max-width: 180px; margin: 0 auto;">
-      <div class="header-right">
-        <div>Invoice No: <strong>{{$purchase->invoice->invoice_no ?? ''}}</strong></div>
-        <div>Invoice Date: <strong>{{ \Carbon\Carbon::parse($purchase->invoice->invoice_date ?? '')->format('d M Y') }}</strong></div>
+    <div class="header-right">
+      <div>Invoice No: <strong>{{$purchase->invoice->invoice_no ?? ''}}</strong></div>
+      <div>Invoice Date: <strong>{{ \Carbon\Carbon::parse($purchase->invoice->invoice_date ?? '')->format('d M Y') }}</strong></div>
+    </div>
+  </div>--}}
+
+  <div class="header">
+
+    <div class="header-left">
+      <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('img/logos.jpg'))) }}"
+        alt="Moneywise Logo"
+        style="max-width:180px;">
+    </div>
+
+    <div class="header-right">
+      <div>Invoice No: <strong>{{ $purchase->invoice->invoice_no ?? '' }}</strong></div>
+      <div>
+        Invoice Date:
+        <strong>
+          {{ $purchase->invoice && $purchase->invoice->invoice_date 
+                    ? \Carbon\Carbon::parse($purchase->invoice->invoice_date)->format('d M Y') 
+                    : '' }}
+        </strong>
       </div>
     </div>
-    <table>
-      <tr>
-        <td>
-          <p><strong>FAO:</strong>{{$purchase->invoice->billing_name ?? ''}}</p>
-           <p><strong>Email:</strong>{{$purchase->invoice->billing_email ?? ''}}<br>
-       <strong>Address:</strong>
-        {{$purchase->invoice->billing_address_one ?? ''}} 
-         @if(!empty($purchase->invoice->billing_address_two ?? ''))
-           , {{$purchase->invoice->billing_address_two ?? ''}}
-         @endif
-         , {{$purchase->invoice->billing_postcode ?? ''}}
-    </p>
-        </td>
-      </tr>
-  <tr>
-    <td colspan="2"><strong>Policy Information</strong></td>
-  </tr>
-  <tr>
-    <td class="left">
+
+  </div>
+
+  <table>
+    <tr>
+      <td>
+        <p><strong>FAO:</strong>{{$purchase->invoice->billing_name ?? ''}}</p>
+        <p><strong>Email:</strong>{{$purchase->invoice->billing_email ?? ''}}<br>
+          <strong>Address:</strong>
+          {{$purchase->invoice->billing_address_one ?? ''}}
+          @if(!empty($purchase->invoice->billing_address_two ?? ''))
+          , {{$purchase->invoice->billing_address_two ?? ''}}
+          @endif
+          , {{$purchase->invoice->billing_postcode ?? ''}}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>Policy Information</strong></td>
+    </tr>
+    <tr>
+      <td class="left">
 
 
-      <p><span class="label">Policy Number:</span>{{$purchase->policy_no ?? ''}}</p>
-     
-      <p><span class="label">Insurance:</span>{{$purchase->insurance->name ?? ''}} </p>
-      <p><span class="label">Landlord:</span><br>
-            @if($purchase->policy_holder_type == 'Company')
-                {{ $purchase->company_name ?? ''}}
-            @elseif($purchase->policy_holder_type == 'Individual')
-                {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
-            @else
-                {{ $purchase->company_name ?? ''}} <br>
-                {{ $purchase->policy_holder_title ?? ''}} {{ $purchase->policy_holder_fname ?? ''}} {{ $purchase->policy_holder_lname ?? ''}}
-            @endif
-      </p>
-      <p><span class="label">Property Addresses:</span><br>
-         {{$purchase->door_no ?? ''}}, {{$purchase->address_one ?? ''}} 
-         @if(!empty($purchase->address_two && $purchase->address_three))
-           , {{$purchase->address_two ?? ''}}, {{$purchase->address_three ?? ''}}
+        <p><span class="label">Policy Number:</span>{{$purchase->policy_no ?? ''}}</p>
 
-        @elseif(!empty($purchase->address_two))
-            {{$purchase->address_two ?? ''}}
-        @else
-            {{$purchase->address_three ?? ''}}
-         @endif
-         , {{$purchase->post_code ?? ''}}
-        
-    </p>
-    </td>
-    <td class="right">
-      <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}</p>
-      <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
-      <p><span class="label">Total Premium:</span> <span class="orange">£ {{$purchase->total_premium ?? ''}} </span></p>
-      @if(!empty($purchase->admin_fee))
-      <p><span class="label">Broker Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
-      @endif
-      <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
+        <p><span class="label">Insurance:</span>{{$purchase->insurance->name ?? ''}} </p>
+        <p><span class="label">Landlord:</span><br>
+          @if($purchase->policy_holder_type == 'Company')
+          {{ $purchase->company_name ?? ''}}
+          @elseif($purchase->policy_holder_type == 'Individual')
+          {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
+          @else
+          {{ $purchase->company_name ?? ''}} <br>
+          {{ $purchase->policy_holder_title ?? ''}} {{ $purchase->policy_holder_fname ?? ''}} {{ $purchase->policy_holder_lname ?? ''}}
+          @endif
+        </p>
+        <p><span class="label">Property Addresses:</span><br>
+          {{$purchase->door_no ?? ''}}, {{$purchase->address_one ?? ''}}
+          @if(!empty($purchase->address_two && $purchase->address_three))
+          , {{$purchase->address_two ?? ''}}, {{$purchase->address_three ?? ''}}
 
-      <!-- <p><span class="label">Payment Status:</span> <span class="red">
+          @elseif(!empty($purchase->address_two))
+          {{$purchase->address_two ?? ''}}
+          @else
+          {{$purchase->address_three ?? ''}}
+          @endif
+          , {{$purchase->post_code ?? ''}}
+
+        </p>
+      </td>
+      <td class="right">
+        <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}</p>
+        <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
+        <p><span class="label">Total Premium:</span> <span class="orange">£ {{$purchase->total_premium ?? ''}} </span></p>
+        @if(!empty($purchase->admin_fee))
+        <p><span class="label">Broker Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
+        @endif
+        <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
+
+        <!-- <p><span class="label">Payment Status:</span> <span class="red">
         @if($purchase->payment_status == 'Pending')
             Unpaid
         @else
@@ -185,19 +214,19 @@
         @endif
       </span></p> -->
 
-      <p>
-        <span class="label">Payment Status:</span>
-        <span class="{{ $purchase->payment_status == 'Pending' ? 'text-danger' : 'text-success' }}">
-          {{ $purchase->payment_status == 'Pending' ? 'Unpaid' : 'PAID' }}
-        </span>
-      </p>
+        <p>
+          <span class="label">Payment Status:</span>
+          <span class="{{ $purchase->payment_status == 'Pending' ? 'text-danger' : 'text-success' }}">
+            {{ $purchase->payment_status == 'Pending' ? 'Unpaid' : 'PAID' }}
+          </span>
+        </p>
 
-    </td>
-  </tr>
-</table>
+      </td>
+    </tr>
+  </table>
 
 
-    <!-- <div class="box">
+  <!-- <div class="box">
       <strong>Payment Instructions:</strong>
       <p>Please make the payment of 
         @if(!empty($purchase->admin_fee))
@@ -213,11 +242,11 @@
       </p>
     </div> -->
 
-    <div class="footer">
-      <p>Moneywise Investments Plc<br>
-        442 Romford Road, London, E7 8DF<br>
-        Company Registration No: 01358056</p>
-    </div>
+  <div class="footer">
+    <p>Moneywise Investments Plc<br>
+      442 Romford Road, London, E7 8DF<br>
+      Company Registration No: 01358056</p>
+  </div>
   </div>
 
 </body>
