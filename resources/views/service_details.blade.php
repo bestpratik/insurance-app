@@ -1,4 +1,4 @@
-<x-front>
+<x-front :seo="$seo">
     <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>
     <!-- Script -->

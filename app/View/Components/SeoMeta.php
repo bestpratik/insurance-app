@@ -15,18 +15,30 @@ class SeoMeta extends Component
      */
 
     public $seo;
+    public $model;   // ✅ ADD THIS
 
-    public function __construct()
+    public function __construct($seo = null, $model = null)
     {
-        // Get the current slug dynamically
+        $this->model = $model;   // ✅ ADD THIS
+
+        if ($seo) {
+            $this->seo = $seo;
+            return;
+        }
+
+        if ($model) {
+            $this->seo = Seo::where('ref_id', $model->id)
+                ->where('page_type', strtolower(class_basename($model)))
+                ->first();
+            return;
+        }
+
         $slug = trim(Request::path(), '/');
 
-        // For homepage
         if ($slug === '' || $slug === '/') {
             $slug = '/';
         }
 
-        // Try to find SEO record
         $this->seo = Seo::where('page_slug', $slug)->first();
     }
 

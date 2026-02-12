@@ -78,6 +78,7 @@ class SeoController extends Controller
         $seo->seo_title = $request['seo_title'];
         $seo->locale = $request['locale'];
         $seo->page_type = $request['page_type'];
+        $seo->ref_id = $request['ref_id']; 
         $seo->type = $request['type'];
         $seo->url = $request['url'];
         $seo->site_name = $request['site_name'];
@@ -167,6 +168,7 @@ class SeoController extends Controller
         $seo->seo_title = $request['seo_title'];
         $seo->locale = $request['locale'];
         $seo->page_type = $request['page_type'];
+        $seo->ref_id = $request['ref_id']; 
         $seo->type = $request['type'];
         $seo->url = $request['url'];
         $seo->site_name = $request['site_name'];

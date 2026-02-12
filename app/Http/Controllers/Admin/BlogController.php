@@ -21,7 +21,7 @@ class BlogController extends Controller
     function create()
     {
         $categories = BlogCategory::all();
-        $tags = BlogTag::all(); 
+        $tags = BlogTag::all();
         return view('admin.blog.create', compact('categories', 'tags'));
     }
 
@@ -69,6 +69,24 @@ class BlogController extends Controller
         $blog->updated_at = null;
 
         $blog->save();
+
+        $ogImageName = $blog->image ?? null;
+
+        $blog->seo()->create([
+            'ref_id' => $blog->id,
+            'page_type' => 'blog',
+            'meta_title' => $request->meta_title ?? $blog->title,
+            'meta_description' => $request->meta_description ??
+                Str::limit(strip_tags($blog->description), 150),
+            'og_title' => $request->og_title ?? $blog->title,
+            'og_description' => $request->og_description ??
+                Str::limit(strip_tags($blog->description), 150),
+            'ogimage' => $ogImageName,
+            'twitter_title' => $request->twitter_title ?? $blog->title,
+            'twitter_description' => $request->twitter_description ??
+                Str::limit(strip_tags($blog->description), 150),
+            'twitter_image' => $ogImageName,
+        ]);
 
         // Attach categories and tags (pivot)
         if ($request->has('categories')) {
@@ -140,38 +158,75 @@ class BlogController extends Controller
 
         $blog->update();
 
-        // Sync categories and tags
-        $blog->categories()->sync($request->categories ?? []);
-        $blog->tags()->sync($request->tags ?? []);
+        $ogImageName = $blog->image ?? null;
 
-        return redirect()->route('blog.index')->with('success', 'Blog updated successfully');
-    }
+        if ($blog->seo) {
 
-    function destroy($id)
-    {
-        $blog = Blog::find($id);
+            $blog->seo->update([
+                'page_type' => 'blog',
+                'meta_title' => $request->meta_title ?? $blog->title,
+                'meta_description' => $request->meta_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'og_title' => $request->og_title ?? $blog->title,
+                'og_description' => $request->og_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'ogimage' => $ogImageName,
+                'twitter_title' => $request->twitter_title ?? $blog->title,
+                'twitter_description' => $request->twitter_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'twitter_image' => $ogImageName,
+            ]);
+        } else {
 
-        if ($blog->image && File::exists(public_path($blog->image))) {
-            File::delete(public_path($blog->image));
+            // Safety fallback
+            $blog->seo()->create([
+                'page_type' => 'blog',
+                'meta_title' => $request->meta_title ?? $blog->title,
+                'meta_description' => $request->meta_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'og_title' => $request->og_title ?? $blog->title,
+                'og_description' => $request->og_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'ogimage' => $ogImageName,
+                'twitter_title' => $request->twitter_title ?? $blog->title,
+                'twitter_description' => $request->twitter_description ??
+                    Str::limit(strip_tags($blog->description), 150),
+                'twitter_image' => $ogImageName,
+            ]);
+
+            // Sync categories and tags
+            $blog->categories()->sync($request->categories ?? []);
+            $blog->tags()->sync($request->tags ?? []);
+
+            return redirect()->route('blog.index')->with('success', 'Blog updated successfully');
         }
-        if ($blog->author_image && File::exists(public_path($blog->author_image))) {
-            File::delete(public_path($blog->author_image));
+
+        function destroy($id)
+        {
+            $blog = Blog::find($id);
+
+            if ($blog->image && File::exists(public_path($blog->image))) {
+                File::delete(public_path($blog->image));
+            }
+            if ($blog->author_image && File::exists(public_path($blog->author_image))) {
+                File::delete(public_path($blog->author_image));
+            }
+
+            // Delete relations
+            $blog->categories()->detach();
+            $blog->tags()->detach();
+
+            $blog->delete();
+            return redirect()->route('blog.index')->with('success', 'Blog deleted successfully');
         }
 
-        // Delete relations
-        $blog->categories()->detach();
-        $blog->tags()->detach();
+        function status($id)
+        {
+            $blog = Blog::find($id);
+            $blog->status = !$blog->status;
+            $blog->save();
 
-        $blog->delete();
-        return redirect()->route('blog.index')->with('success', 'Blog deleted successfully');
-    }
-
-    function status($id)
-    {
-        $blog = Blog::find($id);
-        $blog->status = !$blog->status;
-        $blog->save();
-
-        return redirect()->route('blog.index')->with('success', 'Blog status updated successfully!');
+            return redirect()->route('blog.index')->with('success', 'Blog status updated successfully!');
+        }
     }
 }

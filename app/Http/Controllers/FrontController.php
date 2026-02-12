@@ -16,10 +16,12 @@ use App\Models\Insurance;
 use App\Models\Policyreferralform;
 use App\Models\Purchase;
 use App\Models\RentGuarantee;
+use App\Models\Seo;
 use App\Models\Service;
 use App\Models\Testimonial;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +29,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Exception;
 
 
 class FrontController extends Controller
@@ -46,7 +47,10 @@ class FrontController extends Controller
         $rentAll = RentGuarantee::all();
         $rentSecond = $rentAll->skip(1)->first();
         $rentThird = $rentAll->skip(2)->first();
-        return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact', 'testimonial', 'faqs', 'rent', 'rentSecond', 'rentThird'));
+        $seo = Seo::whereNull('page_type')
+            ->where('page_slug', '/')
+            ->first();
+        return view('home', compact('banner', 'service', 'aboutFirst', 'client', 'fact', 'testimonial', 'faqs', 'rent', 'rentSecond', 'rentThird', 'seo'));
     }
 
     public function about()
@@ -75,7 +79,18 @@ class FrontController extends Controller
             ->where('page_slug', $page_slug)
             ->firstOrFail();
 
-        return view('service_details', compact('service'));
+        $seo = $service->seo;
+
+        if (!$seo) {
+            $seo = new Seo();
+            $seo->meta_title = $service->title;
+            $seo->meta_description = \Illuminate\Support\Str::limit(strip_tags($service->description), 150);
+            $seo->meta_keyword = '';
+            $seo->twitter_title = $service->title;
+            $seo->twitter_description = \Illuminate\Support\Str::limit(strip_tags($service->description), 150);
+        }
+
+        return view('service_details', ['service' => $service, 'seo' => $seo, 'model' => $service]);
     }
 
     public function faq()
@@ -293,7 +308,7 @@ class FrontController extends Controller
         // dd($purchaseId);
         $purchase = Purchase::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
         // dd($purchase);
-        return view('front_success_page', compact('purchaseId', 'purchase')); 
+        return view('front_success_page', compact('purchaseId', 'purchase'));
     }
 
     public function referralSuccessPage(Request $request)
@@ -511,7 +526,7 @@ class FrontController extends Controller
 
     public function referralForm()
     {
-        return view('referral_form'); 
+        return view('referral_form');
     }
 
     public function policyDetailPage($id)
@@ -549,7 +564,7 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-        return view('policy_referral_form');  
+        return view('policy_referral_form');
     }
 
     public function blogs($type)
@@ -566,9 +581,25 @@ class FrontController extends Controller
 
     public function blog_details($type, $slug)
     {
-        $blogs = Blog::where('slug', $slug)->firstOrFail();
+        $blogs = Blog::with('seo')->where('slug', $slug)->firstOrFail();
         $relatedBlogs = Blog::where('id', '!=', $blogs->id)
             ->where('type', $type)->latest()->take(3)->get();
-        return view('blog_details', compact('blogs', 'relatedBlogs', 'type'));
+        $seo = $blogs->seo;
+
+        if (!$seo) {
+            $seo = new Seo();
+            $seo->meta_title = $blogs->title;
+            $seo->meta_description = \Illuminate\Support\Str::limit(strip_tags($blogs->description), 150);
+            $seo->meta_keyword = '';
+            $seo->twitter_title = $blogs->title;
+            $seo->twitter_description = \Illuminate\Support\Str::limit(strip_tags($blogs->description), 150);
+        }
+        return view('blog_details', [
+            'blogs' => $blogs,
+            'relatedBlogs' => $relatedBlogs,
+            'type' => $type,
+            'seo' => $seo,
+            'model' => $blogs,
+        ]);
     }
 }

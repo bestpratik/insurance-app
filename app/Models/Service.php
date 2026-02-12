@@ -33,5 +33,9 @@ class Service extends Model
         return $this->insurance->staticdocuments();
     }
 
-    
+    public function seo()
+    {
+        return $this->hasOne(Seo::class, 'ref_id')
+            ->where('page_type', 'service');
+    }
 }

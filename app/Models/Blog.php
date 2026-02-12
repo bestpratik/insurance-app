@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
+use App\Models\Seo;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
@@ -31,5 +32,11 @@ class Blog extends Model
     public function tags()
     {
         return $this->belongsToMany(BlogTag::class, 'blogwisetags', 'blog_id', 'tag_id');
+    }
+
+    public function seo()
+    {
+        return $this->hasOne(Seo::class, 'ref_id')
+            ->where('page_type', 'blog');
     }
 }

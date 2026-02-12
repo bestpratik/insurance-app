@@ -28,9 +28,9 @@ class ServiceController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'sub_title' => 'required',
+            // 'sub_title' => 'required',
             'insurance_id' => 'required',
-            'image_alt' => 'required',
+            // 'image_alt' => 'required',
             'image' => [
                 'required',
                 'nullable',
@@ -63,6 +63,24 @@ class ServiceController extends Controller
         $service->updated_at = null;
 
         $service->save();
+
+        $ogImageName = $service->image ?? null;
+
+        $service->seo()->create([
+            'ref_id' => $service->id,
+            'page_type' => 'service',
+            'meta_title' => $request->meta_title ?? $service->title,
+            'meta_description' => $request->meta_description ??
+                Str::limit(strip_tags($service->description), 150),
+            'og_title' => $request->og_title ?? $service->title,
+            'og_description' => $request->og_description ??
+                Str::limit(strip_tags($service->description), 150),
+            'ogimage' => $ogImageName,
+            'twitter_title' => $request->twitter_title ?? $service->title,
+            'twitter_description' => $request->twitter_description ??
+                Str::limit(strip_tags($service->description), 150),
+            'twitter_image' => $ogImageName,
+        ]);
         return redirect('services')->with('success', 'Service added successfully');
     }
 
@@ -108,7 +126,44 @@ class ServiceController extends Controller
         $service->updated_at = date('Y-m-d H:i:s');
 
         $service->update();
-        return redirect('services')->with('success', 'Service updated successfully');
+
+        $ogImageName = $service->image ?? null;
+
+        if ($service->seo) {
+
+            $service->seo->update([
+                'page_type' => 'service',
+                'meta_title' => $request->meta_title ?? $service->title,
+                'meta_description' => $request->meta_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'og_title' => $request->og_title ?? $service->title,
+                'og_description' => $request->og_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'ogimage' => $ogImageName,
+                'twitter_title' => $request->twitter_title ?? $service->title,
+                'twitter_description' => $request->twitter_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'twitter_image' => $ogImageName,
+            ]);
+        } else {
+
+            // Safety fallback
+            $service->seo()->create([
+                'page_type' => 'service',
+                'meta_title' => $request->meta_title ?? $service->title,
+                'meta_description' => $request->meta_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'og_title' => $request->og_title ?? $service->title,
+                'og_description' => $request->og_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'ogimage' => $ogImageName,
+                'twitter_title' => $request->twitter_title ?? $service->title,
+                'twitter_description' => $request->twitter_description ??
+                    Str::limit(strip_tags($service->description), 150),
+                'twitter_image' => $ogImageName,
+            ]);
+            return redirect('services')->with('success', 'Service updated successfully');
+        }
     }
 
     public function destroy($id)
