@@ -47,7 +47,7 @@
             </div>
             <div class="col-span-2">
                 <label>Meta Description</label>
-                <textarea name="meta_description" class="w-full mt-1 p-2 border rounded summernote" rows="3">{{ old('meta_description', $seo->meta_description ?? '') }}</textarea>
+                <textarea name="meta_description" class="w-full mt-1 p-2 border rounded" rows="3">{{ old('meta_description', $seo->meta_description ?? '') }}</textarea>
             </div>
 
             {{-- SEO Title & Locale --}}
@@ -136,7 +136,7 @@
 
             <div class="col-span-2">
                 <label>Twitter Description</label>
-                <textarea name="twitter_description" class="w-full mt-1 p-2 border rounded summernote" rows="3">{{ old('twitter_description', $seo->twitter_description ?? '') }}</textarea>
+                <textarea name="twitter_description" class="w-full mt-1 p-2 border rounded" rows="3">{{ old('twitter_description', $seo->twitter_description ?? '') }}</textarea>
             </div>
 
             {{-- Short Slug --}}

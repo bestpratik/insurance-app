@@ -21,6 +21,8 @@
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <input type="hidden" name="ref_id" value="{{ $seo->ref_id }}">
+            <input type="hidden" name="page_type" value="blog">
 
             <!-- Title -->
             <div>
@@ -48,7 +50,7 @@
             </div>
             <div class="col-span-2">
                 <label>Meta Description</label>
-                <textarea name="meta_description" class="w-full mt-1 p-2 border rounded summernote" rows="3">{{ old('meta_description', $seo->meta_description ?? '') }}</textarea>
+                <textarea name="meta_description" class="w-full mt-1 p-2 border rounded" rows="3">{{ old('meta_description', $seo->meta_description ?? '') }}</textarea>
             </div>
 
             {{-- SEO Title & Locale --}}
@@ -133,14 +135,15 @@
             <!-- Image Alt Text for SEO -->
             <div>
                 <label class="block mt-3">Alt Text (for SEO)
-                    <input type="text" name="img_alt" value="{{ old('img_alt', isset($seo) ? $seo->img_alt : '') }}"
+                    <input type="text" name="img_alt"
+                        value="{{ old('img_alt', isset($seo) ? $seo->img_alt : '') }}"
                         class="w-full mt-1 p-2 border rounded" placeholder="Enter image alt text (SEO friendly)">
                 </label>
             </div>
 
             <div class="col-span-2">
                 <label>Twitter Description</label>
-                <textarea name="twitter_description" class="w-full mt-1 p-2 border rounded summernote" rows="3">{{ old('twitter_description', $seo->twitter_description ?? '') }}</textarea>
+                <textarea name="twitter_description" class="w-full mt-1 p-2 border rounded" rows="3">{{ old('twitter_description', $seo->twitter_description ?? '') }}</textarea>
             </div>
 
             {{-- Short Slug --}}

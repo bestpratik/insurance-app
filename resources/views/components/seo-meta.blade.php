@@ -4,12 +4,13 @@
     $meta_keyword = $seo->meta_keyword ?? '';
     $og_title = $seo->og_title ?? $meta_title;
     $og_description = $seo->og_description ?? $meta_description;
-    $ogimage = $seo->ogimage ?? 'default.jpg';
+    // $ogimage = $seo->ogimage ?? 'default.jpg';
     $twitter_title = $seo->twitter_title ?? $meta_title;
     $twitter_description = $seo->twitter_description ?? $meta_description;
-    $twitter_image = $seo->twitter_image ?? 'default.jpg';
+    // $twitter_image = $seo->twitter_image ?? 'default.jpg';
 
-    $ogImageUrl = asset('uploads/seo/default.jpg');
+    // $ogImageUrl =  asset('uploads/seo/' . $ogimage) ?: asset('uploads/service/'. $image) ?: asset('uploads/blogs/' . $image) ?: asset('uploads/seo/default.jpg') ;
+    $ogImageUrl = null;
 
     // If service page
     if (isset($model) && strtolower(class_basename($model)) === 'service' && !empty($model->image)) {
@@ -22,7 +23,7 @@
     }
 
     // If SEO has custom uploaded image
-    elseif (!empty($seo->ogimage)) {
+    elseif ($seo->ogimage) {
         $ogImageUrl = asset('uploads/seo/' . $seo->ogimage);
     }
 @endphp
