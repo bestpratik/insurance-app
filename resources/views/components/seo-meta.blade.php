@@ -23,7 +23,7 @@
     }
 
     // If SEO has custom uploaded image
-    elseif ($seo->ogimage) {
+    elseif (isset($seo) && !empty($seo->ogimage)) {
         $ogImageUrl = asset('uploads/seo/' . $seo->ogimage);
     }
 @endphp
