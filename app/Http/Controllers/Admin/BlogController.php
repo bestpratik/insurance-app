@@ -193,40 +193,40 @@ class BlogController extends Controller
                     Str::limit(strip_tags($blog->description), 150),
                 'twitter_image' => $ogImageName,
             ]);
-
-            // Sync categories and tags
-            $blog->categories()->sync($request->categories ?? []);
-            $blog->tags()->sync($request->tags ?? []);
-
-            return redirect()->route('blog.index')->with('success', 'Blog updated successfully');
         }
 
-        function destroy($id)
-        {
-            $blog = Blog::find($id);
+        // Sync categories and tags
+        $blog->categories()->sync($request->categories ?? []);
+        $blog->tags()->sync($request->tags ?? []);
 
-            if ($blog->image && File::exists(public_path($blog->image))) {
-                File::delete(public_path($blog->image));
-            }
-            if ($blog->author_image && File::exists(public_path($blog->author_image))) {
-                File::delete(public_path($blog->author_image));
-            }
+        return redirect()->route('blog.index')->with('success', 'Blog updated successfully');
+    }
 
-            // Delete relations
-            $blog->categories()->detach();
-            $blog->tags()->detach();
+    function destroy($id)
+    {
+        $blog = Blog::find($id);
 
-            $blog->delete();
-            return redirect()->route('blog.index')->with('success', 'Blog deleted successfully');
+        if ($blog->image && File::exists(public_path($blog->image))) {
+            File::delete(public_path($blog->image));
+        }
+        if ($blog->author_image && File::exists(public_path($blog->author_image))) {
+            File::delete(public_path($blog->author_image));
         }
 
-        function status($id)
-        {
-            $blog = Blog::find($id);
-            $blog->status = !$blog->status;
-            $blog->save();
+        // Delete relations
+        $blog->categories()->detach();
+        $blog->tags()->detach();
 
-            return redirect()->route('blog.index')->with('success', 'Blog status updated successfully!');
-        }
+        $blog->delete();
+        return redirect()->route('blog.index')->with('success', 'Blog deleted successfully');
+    }
+
+    function status($id)
+    {
+        $blog = Blog::find($id);
+        $blog->status = !$blog->status;
+        $blog->save();
+
+        return redirect()->route('blog.index')->with('success', 'Blog status updated successfully!');
     }
 }
