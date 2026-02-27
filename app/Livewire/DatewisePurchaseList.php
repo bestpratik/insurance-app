@@ -32,13 +32,12 @@ class DatewisePurchaseList extends Component
             $this->validate();
             $this->errorMessage = null;
             $this->resetPage();
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->errorMessage = $e->validator->errors()->first();
             $this->resetPage();
         }
     }
- 
+
     public function render()
     {
         /*$query = Purchase::with(['insurance.provider', 'invoice'])
@@ -47,12 +46,30 @@ class DatewisePurchaseList extends Component
             ->whereNull('purchase_status')
             ->orderBy('id', 'desc');*/
 
-        $query = Purchase::with(['insurance.provider', 'invoice'])
-                ->where('status', 1)
-                ->whereNull('purchase_status')
-                ->orderBy('id', 'desc');
+        // $query = Purchase::with(['insurance.provider', 'invoice'])
+        //         ->where('status', 1)
+        //         ->whereNull('purchase_status')
+        //         ->orderBy('id', 'desc');
 
-        
+        $query = Purchase::with(['insurance.provider', 'invoice'])
+            ->where('status', 1)
+            ->whereNull('purchase_status')
+            ->where(function ($q) {
+
+                $q->whereHas('insurance', function ($iq) {
+                    $iq->where('purchase_mode', 'Offline');
+                })
+
+                    ->orWhere(function ($sub) {
+                        $sub->whereHas('insurance', function ($iq) {
+                            $iq->where('purchase_mode', 'Online');
+                        })
+                            ->whereNot('payment_status', 'Pending');
+                    });
+            })
+            ->orderBy('id', 'desc');
+
+
 
         if ($this->startDate && $this->endDate) {
             $query->whereBetween('purchase_date', [$this->startDate, $this->endDate]);
