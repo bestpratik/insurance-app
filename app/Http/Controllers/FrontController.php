@@ -70,7 +70,7 @@ class FrontController extends Controller
     public function services()
     {
         $services = Service::all();
-        return view('servicess', compact('services'));
+        return view('servicess', compact('services')); 
     }
 
     public function service_details($page_slug)
@@ -138,7 +138,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId'));
+        return view('policy_buyer', compact('insuranceId')); 
     }
 
 

@@ -42,7 +42,7 @@
                                       </svg> {{ $row->offer }}
                                   </span>
                               @endif
-
+ 
                               <h3 class="text-lg font-bold mb-2">{{ $row->title }}</h3>
                               <p class="text-sm text-gray-600 mb-4">{{ $row->sub_title }}</p>
 

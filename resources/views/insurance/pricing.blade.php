@@ -59,7 +59,7 @@
 
                         <label class="block">
                             <span class="text-gray-700">Broker Fee</span>
-                            <input name="admin_fee" type="number" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter admin fee" value="{{ old('admin_fee', $insurance->admin_fee) }}">
+                            <input name="admin_fee" type="number" step="0.01" class="w-full mt-1 p-2 border border-[#66666660] rounded" placeholder="Enter admin fee" value="{{ old('admin_fee', $insurance->admin_fee) }}">
                         </label>
 
                         <label class="block">

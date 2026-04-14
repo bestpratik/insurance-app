@@ -20,7 +20,7 @@
     <!-- TAB MENU -->
 
 
-     <livewire:policy-buyer-component :insuranceId="$insuranceId" /> 
+     <livewire:policy-buyer-component :insuranceId="$insuranceId" />  
 
  
 
