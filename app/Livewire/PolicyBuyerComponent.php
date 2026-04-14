@@ -24,10 +24,12 @@ class PolicyBuyerComponent extends Component
 
     public $currentStep = 1;
     public $insuranceId;
-    public $selectedinsuranceId;
+    // public $selectedinsuranceId;
     public $insuranceDetails;
     public $availableInsurances;
     public $productType;
+    public $excessType;
+    public $excessAmount = '0 - 1000';
 
     // Step 2: Property info
     public $insuranceType;
@@ -89,6 +91,10 @@ class PolicyBuyerComponent extends Component
     public $disableInsuranceSelect = false;
     public $selectedInsuranceName;
 
+    public $premium = 0;
+    public $ipt = 0;
+    public $brokerFee = 0;
+
 
     public function mount($insuranceId = null)
     {
@@ -129,13 +135,125 @@ class PolicyBuyerComponent extends Component
     }
 
 
+    public function updatedExcessType($value)
+    {
+        $this->selectedInsuranceId = null;
+
+        $this->excessAmount = '0 - 1000';
+
+        $this->matchInsurance();
+    }
+
+
+    public function updatedExcessAmount()
+    {
+        $this->matchInsurance();
+    }
+
+
+
+    // public function matchInsurance()
+    // {
+    //     if (!$this->excessType || !$this->excessAmount) return;
+
+    //     // Extract range → 0 - 1000 → [0,1000]
+    //     preg_match('/(\d+)\s*-\s*(\d+)/', $this->excessAmount, $matches);
+
+    //     $min = $matches[1] ?? null;
+    //     $max = $matches[2] ?? null;
+
+    //     // dd("Min: $min, Max: $max");
+
+    //     if (!$min || !$max) return;
+
+    //     foreach ($this->availableInsurances as $insurance) {
+
+    //         $name = $insurance->name;
+
+
+    //         if ($this->excessType === 'Nil Excess') {
+
+    //             if (
+    //                 str_contains($name, 'No Excess') &&
+    //                 // preg_match("/$min\s*-\s*$max/", $name)
+    //                 preg_match("/\($min-$max\)/", $name)
+    //             ) {
+    //                 $this->selectedInsuranceId = $insurance->id;
+    //                 $this->selectedInsuranceName = $insurance->name;
+    //                 return;
+    //             }
+    //         }
+
+
+    //         if ($this->excessType === 'One month rent Policy Excess') {
+
+    //             if (
+    //                 str_contains($name, 'With Excess') &&
+    //                 // preg_match("/$min\s*-\s*$max/", $name)
+    //                 preg_match("/\($min-$max\)/", $name)
+    //             ) {
+    //                 $this->selectedInsuranceId = $insurance->id;
+    //                 $this->selectedInsuranceName = $insurance->name;
+    //                 return;
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    public function matchInsurance()
+    {
+        if (!$this->excessType || !$this->excessAmount) return;
+
+        $range = str_replace(' ', '', $this->excessAmount);
+
+        foreach ($this->availableInsurances as $insurance) {
+
+            $name = str_replace(' ', '', $insurance->name);
+
+            if ($this->excessType === 'Nil Excess') {
+
+                if (
+                    str_contains($name, 'NoExcess') &&
+                    str_contains($name, "($range)")
+                ) {
+                    $this->selectedInsuranceId = $insurance->id;
+                    $this->selectedInsuranceName = $insurance->name;
+                    $this->fetchInsuranceDetails();
+                    return;
+                }
+            }
+
+            if ($this->excessType === 'One month rent Policy Excess') {
+
+                if (
+                    str_contains($name, 'WithExcess') &&
+                    str_contains($name, "($range)")
+                ) {
+                    $this->selectedInsuranceId = $insurance->id;
+                    $this->selectedInsuranceName = $insurance->name;
+                    $this->fetchInsuranceDetails();
+                    return;
+                }
+            }
+        }
+
+        $this->selectedInsuranceId = null;
+        $this->selectedInsuranceName = null;
+        $this->premium = 0;
+        $this->ipt = 0;
+        $this->brokerFee = 0;
+    }
+
+
+
     public function updatedProductType($value)
     {
         if ($value === 'Agent') {
             $this->policyHoldertype = 'Both';
         }
     }
-  
+
     public function updatedSelectedinsuranceId($value)
     {
         $this->fetchInsuranceDetails();
@@ -143,8 +261,12 @@ class PolicyBuyerComponent extends Component
 
     public function fetchInsuranceDetails()
     {
-        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
+        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedInsuranceId);
         // dd($this->insuranceDetails);
+
+        $this->premium = $this->insuranceDetails->gross_premium ?? 0;
+        $this->ipt = $this->insuranceDetails->ipt ?? 0;
+        $this->brokerFee = $this->insuranceDetails->admin_fee ?? 0;
     }
 
     public function updated($propertyName)
@@ -160,6 +282,9 @@ class PolicyBuyerComponent extends Component
     {
         if ($step == 1) {
             return [
+                // 'excessType' => 'required:if:selectedInsuranceName, Standard Landlord Legal Expenses & Rent Guarantee Insurance (30% off)',
+                'excessType' => 'required_if:selectedInsuranceName,Standard Landlord Legal Expenses & Rent Guarantee Insurance (30% off)',
+                'excessAmount' => 'required_if:excessType,One month rent Policy Excess,Nil Excess',
                 'productType' => 'required',
                 'selectedInsuranceId' => 'required|exists:insurances,id',
             ];
@@ -246,6 +371,15 @@ class PolicyBuyerComponent extends Component
         return [];
     }
 
+    public function messages()
+    {
+        return [
+            'excessType.required_if' => 'Please select a policy type',
+
+            'excessAmount.required_if' => 'Please select the monthly rental income cover amount.',
+        ];
+    }
+
     public function nextStep()
     {
         $this->validate($this->rulesForStep($this->currentStep));
@@ -275,7 +409,7 @@ class PolicyBuyerComponent extends Component
         // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
 
         $this->summaryData = [
-            'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
+            'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedInsuranceId)?->name ?? 'N/A',
             'Policy for:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
             'Rent Amount:' => '£- ' . $this->rentAmount,
@@ -286,7 +420,7 @@ class PolicyBuyerComponent extends Component
                 $this->addressTwo,
                 $this->addressThree,
                 $this->postCode,
-            ])), 
+            ])),
 
             'Policy Holder Type:' => $this->policyHoldertype,
             // 'Company Name:' => $this->policyHoldertype === 'Company' ? $this->companyName : 'N/A',
@@ -309,10 +443,10 @@ class PolicyBuyerComponent extends Component
             // 'Billing Address' => $billingAddress,
 
             'Billing Address:' => implode(', ', array_filter([
-                            $this->billingAddressOne,
-                            $this->billingAddressTwo,
-                            $this->billingPostcode,
-                        ])),
+                $this->billingAddressOne,
+                $this->billingAddressTwo,
+                $this->billingPostcode,
+            ])),
             // 'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
@@ -518,7 +652,7 @@ class PolicyBuyerComponent extends Component
         // return redirect()->route('purchase.success');
     }
 
-    
+
 
     //Policy holder email
     public function send_email_one($purchaseId)

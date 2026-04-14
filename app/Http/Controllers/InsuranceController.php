@@ -229,7 +229,7 @@ class InsuranceController extends Controller
             $insurance->payable_amount = $request->payable_amount;
             $insurance->ipt_on_billable_amount = $request->ipt_on_billable_amount;
             $insurance->admin_fee = $request->admin_fee;
-            // dd($insurance);
+            // dd($insurance); 
             $insurance->update();
             return redirect()->route('insurance.static.document',$insurance->uuid); 
     }
