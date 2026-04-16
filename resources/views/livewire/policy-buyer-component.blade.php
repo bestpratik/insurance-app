@@ -314,7 +314,7 @@
                             <!-- LEFT SIDE (Form Content) -->
                             <div class="lg:col-span-2">
                                 <!-- your existing form grid -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid gap-4 {{ $excessType ? 'md:grid-cols-1' : 'md:grid-cols-2' }}">
 
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-1">
@@ -556,7 +556,7 @@
                         }">
 
                             <!-- Title -->
-                            <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
+                            <p class="font-bold mb-1">Can We have the Property Details that You want to insure?</p>
 
                             <div class="grid md:grid-cols-3 gap-4">
                                 <div class="mb-2">
