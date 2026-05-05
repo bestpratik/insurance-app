@@ -150,6 +150,57 @@
                         </div>
                     </div>
                 @endforeach
+                <div
+                    class="bg-white border rounded-md shadow-md overflow-hidden relative group transition-all duration-500 hover:shadow-md w-full sm:w-[48%] lg:w-[31%]">
+                    <div class="relative">
+                        <img src="{{ asset('img/travel.jpg') }}"
+                            alt="Travel Insurance - Travel with confidence knowing you’re protected against the unexpected."
+                            class="w-full h-64 object-cover rounded-t-md group-hover:brightness-90 transition-all duration-300">
+
+                        <!-- 💰 Ribbon Price -->
+                        {{-- <div
+                                class="absolute top-5 left-[-40px] bg-red-600 text-white px-16 py-2 text-md font-semibold shadow-md rotate-[-45deg]">
+                                £239.99
+                            </div> --}}
+                    </div>
+
+                    <span
+                        class="w-full bg-[#072b47] text-white px-3 py-1 text-sm font-semibold flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 640 640" class="w-4 h-4">
+                            <path
+                                d="M256.1 72C322.4 72 376.1 125.7 376.1 192C376.1 258.3 322.4 312 256.1 312C189.8 312 136.1 258.3 136.1 192C136.1 125.7 189.8 72 256.1 72zM226.4 368L285.8 368C292.5 368 299 368.4 305.5 369.1C304.6 374 304.1 379 304.1 384.1L304.1 476.2C304.1 501.7 314.2 526.1 332.2 544.1L364.1 576L77.8 576C61.4 576 48.1 562.7 48.1 546.3C48.1 447.8 127.9 368 226.4 368zM352.1 476.2L352.1 384.1C352.1 366.4 366.4 352.1 384.1 352.1L476.2 352.1C488.9 352.1 501.1 357.2 510.1 366.2L606.1 462.2C624.8 480.9 624.8 511.3 606.1 530.1L530 606.2C511.3 624.9 480.9 624.9 462.1 606.2L366.1 510.2C357.1 501.2 352 489 352 476.3zM456.1 432C456.1 418.7 445.4 408 432.1 408C418.8 408 408.1 418.7 408.1 432C408.1 445.3 418.8 456 432.1 456C445.4 456 456.1 445.3 456.1 432z">
+                            </path>
+                        </svg>
+                        Travel Insurance Made Simple
+                    </span>
+
+                    <div class="p-6 pt-0 relative">
+                        <h3
+                            class="text-xl font-bold text-gray-800 mb-2 mt-2 group-hover:text-red-700 transition-all duration-300">
+                            Get Covered in Minutes with Moneywise
+                        </h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-2">
+                            Travel with confidence knowing you’re protected against the unexpected.
+                        </p>
+                        <h4 class="text-sm font-semibold text-gray-600 mb-1">Why Choose Moneywise Travel Insurance?</h4>
+                        <ul class="text-gray-600 mb-6">
+                            <li>✔ Fast, simple online quotes</li>
+                        </ul>
+
+                        <div class="flex gap-4 justify-between">
+                            <a href="{{ route('travel.details') }}"
+                                class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
+                                <span class="relative z-10">Know more</span>
+                            </a>
+
+                            <a href="https://moneywise.aneevo.com/"
+                                class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-lg hover:shadow-red-500/40 hover:before:h-40 hover:before:w-56">
+                                <span class="relative z-10">Get your quote</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -389,4 +440,3 @@
         </div>
     </section>
 </x-front>
-
