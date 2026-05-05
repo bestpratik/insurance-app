@@ -18,14 +18,12 @@
 
         <!-- Company History -->
         <section class="py-16 px-6">
-            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
-                <div>
+            <div class="max-w-7xl mx-auto">
+                 <img src="./img/Rectangle 17.png" alt="Travel Insurance"
+                class="w-full md:max-w-[700px] float-none md:float-right md:mr-6 mb-4 rounded-xl object-cover">
                     <h2 class="text-3xl font-semibold text-red-600 mb-4">{{ $claims->title ?? '' }}</h2>
                     <p class="text-lg leading-relaxed">{!! $claims->description ?? '' !!}</p>
-                </div>
-                <div class="bg-white shadow-lg rounded-xl p-6 border-l-4 border-red-600">
-                    <img src="./img/Rectangle 17.png" alt="Person" class="w-full" />
-                </div>
+                    
             </div>
         </section>
     </x-front>

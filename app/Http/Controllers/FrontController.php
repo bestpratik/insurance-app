@@ -93,6 +93,11 @@ class FrontController extends Controller
         return view('service_details', ['service' => $service, 'seo' => $seo, 'model' => $service]);
     }
 
+     public function travel()
+    {
+        return view('travel');
+    }
+
     public function faq()
     {
         $faqs = Faq::all();
