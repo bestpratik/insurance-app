@@ -177,7 +177,7 @@
                     <div class="p-6 pt-0 relative">
                         <h3
                             class="text-xl font-bold text-gray-800 mb-2 mt-2 group-hover:text-red-700 transition-all duration-300">
-                            Get Covered in Minutes with Moneywise
+                            Moneywise Travel Insurance
                         </h3>
                         <p class="text-gray-600 text-sm leading-relaxed mb-2">
                             Travel with confidence knowing you’re protected against the unexpected.
@@ -185,6 +185,7 @@
                         <h4 class="text-sm font-semibold text-gray-600 mb-1">Why Choose Moneywise Travel Insurance?</h4>
                         <ul class="text-gray-600 mb-6">
                             <li>✔ Fast, simple online quotes</li>
+                            <li>✔ Flexible cover options</li>
                         </ul>
 
                         <div class="flex gap-4 justify-between">
@@ -194,8 +195,8 @@
                             </a>
 
                             <a href="https://moneywise.aneevo.com/"
-                                class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-lg hover:shadow-red-500/40 hover:before:h-40 hover:before:w-56">
-                                <span class="relative z-10">Get your quote</span>
+                                class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden bg-green-600 text-white font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-green-800 before:duration-500 before:ease-out hover:shadow-lg hover:shadow-green-500/40 hover:before:h-40 hover:before:w-56">
+                                <span class="relative z-10">Buy Now</span>
                             </a>
                         </div>
                     </div>
