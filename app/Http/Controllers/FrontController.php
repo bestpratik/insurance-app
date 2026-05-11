@@ -69,7 +69,7 @@ class FrontController extends Controller
 
     public function services()
     {
-        $services = Service::all();
+        $services = Service::all(); 
         return view('servicess', compact('services')); 
     }
 

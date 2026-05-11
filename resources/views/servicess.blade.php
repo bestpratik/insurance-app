@@ -16,8 +16,9 @@
       </section>
 
       <section class="bg-gray-100 py-16">
-          <div class="max-w-4xl mx-auto px-8">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="max-w-7xl mx-auto px-8">
+              {{-- <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   @foreach ($services as $row)
                       <div
                           class="bg-white rounded-xl shadow-md overflow-hidden relative group transition transform hover:scale-[1.005] hover:shadow-xl">
@@ -60,6 +61,48 @@
                           </div>
                       </div>
                   @endforeach
+
+                <div
+    class="bg-white rounded-xl shadow-md overflow-hidden relative group transition transform hover:scale-[1.005] hover:shadow-xl">
+
+    <div class="relative">
+        <img src="{{ asset('img/travel.jpg') }}"
+            alt="Travel Insurance - Travel with confidence knowing you’re protected against the unexpected."
+            class="w-full h-64 object-cover rounded-t-xl">
+    </div>
+
+
+    <div class="p-6">
+        <h3 class="text-lg font-bold mb-2">
+            Get Covered in Minutes with Moneywise
+        </h3>
+
+        <p class="text-sm text-gray-600 mb-3 leading-relaxed">
+            Travel with confidence knowing you’re protected against the unexpected.
+        </p>
+
+        <h4 class="text-sm font-semibold text-gray-700 mb-1">
+            Why Choose Moneywise Travel Insurance?
+        </h4>
+
+        <ul class="text-sm text-gray-600 mb-5">
+            <li>✔ Fast, simple online quotes</li>
+        </ul>
+
+        <div class="flex gap-2 justify-between">
+            <a href="{{ route('travel.details') }}"
+                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
+                <span class="relative z-10">Know more</span>
+            </a>
+
+            <a href="https://moneywise.aneevo.com/"
+                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
+                <span class="relative z-10">Get your quote</span>
+            </a>
+        </div>
+    </div>
+</div>
+                  
               </div>
           </div>
       </section>
