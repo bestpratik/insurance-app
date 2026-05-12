@@ -310,7 +310,7 @@ class OnlinePurchaseList extends Component
             Mail::send('email.insurance_billing', $data, function ($messages) use ($finalRecipients, $allDocs, $email_subject) {
                 $messages->to($finalRecipients);
                 $messages->subject($email_subject);
-                $messages->bcc(['bestpratik@gmail.com']);
+                // $messages->bcc(['bestpratik@gmail.com']);
                 foreach ($allDocs as $attachment) {
                     $messages->attach($attachment);
                 }
@@ -502,7 +502,7 @@ class OnlinePurchaseList extends Component
                 $ccEmails = 'aadatia@moneywiseplc.co.uk';
 
                 $message->cc($ccEmails);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
         } catch (Exception $e) {
