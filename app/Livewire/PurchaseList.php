@@ -321,7 +321,7 @@ public function submitCancellation()
             Mail::send('email.insurance_billing', $data, function ($messages) use ($finalRecipients, $allDocs, $email_subject) {
                 $messages->to($finalRecipients);
                 $messages->subject($email_subject);
-                $messages->bcc(['bestpratik@gmail.com']);
+                // $messages->bcc(['bestpratik@gmail.com']);
                 foreach ($allDocs as $attachment) {
                     $messages->attach($attachment);
                 }
@@ -513,7 +513,7 @@ public function send_email_two($purchaseId, $resendEmails = [])
             $ccEmails = 'aadatia@moneywiseplc.co.uk';
 
             $message->cc($ccEmails);
-            $message->bcc(['bestpratik@gmail.com']);
+            // $message->bcc(['bestpratik@gmail.com']);
             $message->attach($filePath);
         });
     } catch (Exception $e) {

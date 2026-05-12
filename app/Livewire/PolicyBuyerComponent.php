@@ -803,7 +803,7 @@ class PolicyBuyerComponent extends Component
                     $messages->to($sendToemails);
                     $messages->subject($email_subject);
                     $messages->cc($ccEmails);
-                    $messages->bcc(['bestpratik@gmail.com']);
+                    // $messages->bcc(['bestpratik@gmail.com']);
 
                     foreach ($allDocs as $attachment) {
                         $messages->attach($attachment);
@@ -886,7 +886,7 @@ class PolicyBuyerComponent extends Component
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
                 // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
                 $message->cc($ccEmails);
-                $message->bcc(['bestpratik@gmail.com']);
+                // $message->bcc(['bestpratik@gmail.com']);
                 $message->attach($filePath);
             });
 
