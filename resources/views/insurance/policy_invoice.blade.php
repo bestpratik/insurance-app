@@ -2,252 +2,291 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Invoice Email</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      /* background-color: #f4f4f4; */
-    }
+    <meta charset="UTF-8">
+    <title>Invoice Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            /* background-color: #f4f4f4; */
+        }
 
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #ffffff;
-      border: 1px solid #ddd;
-      padding: 20px;
-    }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
 
-    .header {
-      background-color: #1e2b3e;
-      color: #ffffff;
-      padding: 20px;
-      position: relative;
-    }
+        .header {
+            background-color: #1e2b3e;
+            color: #ffffff;
+            padding: 20px;
+            position: relative;
+        }
 
-    .header img {
-      height: 40px;
-    }
+        .header img {
+            height: 40px;
+        }
 
-    .header-right {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      text-align: right;
-    }
+        .header-right {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            text-align: right;
+        }
 
-    .section {
-      padding: 20px 0;
-    }
+        .section {
+            padding: 20px 0;
+        }
 
-    .section strong {
-      display: inline-block;
-      width: 150px;
-    }
+        .section strong {
+            display: inline-block;
+            width: 150px;
+        }
 
-    .invoice-info {
-      margin-bottom: 20px;
-    }
+        .invoice-info {
+            margin-bottom: 20px;
+        }
 
-    .highlight {
-      color: #f26522;
-      font-weight: bold;
-    }
+        .highlight {
+            color: #f26522;
+            font-weight: bold;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
 
-    td {
-      vertical-align: top;
-      padding: 8px 10px;
-    }
+        td {
+            vertical-align: top;
+            padding: 8px 10px;
+        }
 
-    .left {
-      width: 60%;
-    }
+        .left {
+            width: 60%;
+        }
 
-    .right {
-      width: 40%;
-    }
+        .right {
+            width: 40%;
+        }
 
-    .label {
-      font-weight: bold;
-    }
+        .label {
+            font-weight: bold;
+        }
 
-    .orange {
-      color: #f26522;
-      font-weight: bold;
-    }
+        .orange {
+            color: #f26522;
+            font-weight: bold;
+        }
 
-    .red {
-      color: red;
-      font-weight: bold;
-    }
+        .red {
+            color: red;
+            font-weight: bold;
+        }
 
-    .unpaid {
-      color: red;
-      font-weight: bold;
-    }
+        .unpaid {
+            color: red;
+            font-weight: bold;
+        }
 
-    .box {
-      /* background-color: #f8f8f8; */
-      padding: 15px;
-      border: 1px solid #ddd;
-    }
+        .box {
+            /* background-color: #f8f8f8; */
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
 
-    .footer {
-      text-align: center;
-      font-size: 13px;
-      margin-top: 40px;
-      color: #555;
-    }
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 40px;
+            color: #555;
+        }
 
-    .text-danger {
-      color: red;
-    }
+        .text-danger {
+            color: red;
+        }
 
-    .text-success {
-      color: green;
-    }
-  </style>
+        .text-success {
+            color: green;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="container">
-    {{--<div class="header">
+    <div class="container">
+        {{-- <div class="header">
       <img src="data:image/png;base64,{{ base64_encode(file_get_contents( "http://insurance.moneywiseplc.co.uk/logo.jpg" )) }}" alt="Moneywise Logo" style="max-width: 180px; margin: 0 auto;">
     <div class="header-right">
       <div>Invoice No: <strong>{{$purchase->invoice->invoice_no ?? ''}}</strong></div>
       <div>Invoice Date: <strong>{{ \Carbon\Carbon::parse($purchase->invoice->invoice_date ?? '')->format('d M Y') }}</strong></div>
     </div>
-  </div>--}}
+  </div> --}}
 
-  <div class="header">
+        <div class="header">
 
-    <div class="header-left">
-      <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('img/logos.jpg'))) }}"
-        alt="Moneywise Logo"
-        style="max-width:180px;">
-    </div>
+            <div class="header-left">
+                <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('img/logos.jpg'))) }}"
+                    alt="Moneywise Logo" style="max-width:180px;">
+            </div>
 
-    <div class="header-right">
-      <div>Invoice No: <strong>{{ $purchase->invoice->invoice_no ?? '' }}</strong></div>
-      <div>
-        Invoice Date:
-        <strong>
-          {{ $purchase->invoice && $purchase->invoice->invoice_date 
-                    ? \Carbon\Carbon::parse($purchase->invoice->invoice_date)->format('d M Y') 
-                    : '' }}
-        </strong>
-      </div>
-    </div>
+            <div class="header-right">
+                <div>Invoice No: <strong>{{ $purchase->invoice->invoice_no ?? '' }}</strong></div>
+                <div>
+                    Invoice Date:
+                    <strong>
+                        {{ $purchase->invoice && $purchase->invoice->invoice_date
+                            ? \Carbon\Carbon::parse($purchase->invoice->invoice_date)->format('d M Y')
+                            : '' }}
+                    </strong>
+                </div>
+            </div>
 
-  </div>
+        </div>
 
-  <table>
-    <tr>
-      <td>
-        <p><strong>FAO:</strong>{{$purchase->invoice->billing_name ?? ''}}</p>
-        <p><strong>Email:</strong>{{$purchase->invoice->billing_email ?? ''}}<br>
-          <strong>Address:</strong>
-          {{$purchase->invoice->billing_address_one ?? ''}}
-          @if(!empty($purchase->invoice->billing_address_two ?? ''))
-          , {{$purchase->invoice->billing_address_two ?? ''}}
-          @endif
-          , {{$purchase->invoice->billing_postcode ?? ''}}
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><strong>Policy Information</strong></td>
-    </tr>
-    <tr>
-      <td class="left">
+        <table>
+            <tr>
+                <td>
+                    <p><strong>FAO:</strong>{{ $purchase->invoice->billing_name ?? '' }}</p>
+                    <p><strong>Email:</strong>{{ $purchase->invoice->billing_email ?? '' }}<br>
+                        <strong>Address:</strong>
+                        {{ $purchase->invoice->billing_address_one ?? '' }}
+                        @if (!empty($purchase->invoice->billing_address_two ?? ''))
+                            , {{ $purchase->invoice->billing_address_two ?? '' }}
+                        @endif
+                        , {{ $purchase->invoice->billing_postcode ?? '' }}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Policy Information</strong></td>
+            </tr>
+            <tr>
+                <td class="left">
 
 
-        <p><span class="label">Policy Number:</span>{{$purchase->policy_no ?? ''}}</p>
+                    <p><span class="label">Policy Number:</span>{{ $purchase->policy_no ?? '' }}</p>
 
-        <p><span class="label">Insurance:</span>{{$purchase->insurance->name ?? ''}} </p>
-        <p><span class="label">Landlord:</span><br>
-          @if($purchase->policy_holder_type == 'Company')
-          {{ $purchase->company_name ?? ''}}
-          @elseif($purchase->policy_holder_type == 'Individual')
-          {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }} {{ $purchase->policy_holder_lname ?? '' }}
-          @else
-          {{ $purchase->company_name ?? ''}} <br>
-          {{ $purchase->policy_holder_title ?? ''}} {{ $purchase->policy_holder_fname ?? ''}} {{ $purchase->policy_holder_lname ?? ''}}
-          @endif
-        </p>
-        <p><span class="label">Property Addresses:</span><br>
-          {{$purchase->door_no ?? ''}}, {{$purchase->address_one ?? ''}}
-          @if(!empty($purchase->address_two && $purchase->address_three))
-          , {{$purchase->address_two ?? ''}}, {{$purchase->address_three ?? ''}}
+                    <p><span class="label">Insurance:</span>{{ $purchase->insurance->name ?? '' }} </p>
+                    <p><span class="label">Landlord:</span><br>
+                        @if ($purchase->policy_holder_type == 'Company')
+                            {{ $purchase->company_name ?? '' }}
+                        @elseif($purchase->policy_holder_type == 'Individual')
+                            {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }}
+                            {{ $purchase->policy_holder_lname ?? '' }}
+                        @else
+                            {{ $purchase->company_name ?? '' }} <br>
+                            {{ $purchase->policy_holder_title ?? '' }} {{ $purchase->policy_holder_fname ?? '' }}
+                            {{ $purchase->policy_holder_lname ?? '' }}
+                        @endif
+                    </p>
+                    <p><span class="label">Property Addresses:</span><br>
+                        {{ $purchase->door_no ?? '' }}, {{ $purchase->address_one ?? '' }}
+                        @if (!empty($purchase->address_two && $purchase->address_three))
+                            , {{ $purchase->address_two ?? '' }}, {{ $purchase->address_three ?? '' }}
+                        @elseif(!empty($purchase->address_two))
+                            {{ $purchase->address_two ?? '' }}
+                        @else
+                            {{ $purchase->address_three ?? '' }}
+                        @endif
+                        , {{ $purchase->post_code ?? '' }}
 
-          @elseif(!empty($purchase->address_two))
-          {{$purchase->address_two ?? ''}}
-          @else
-          {{$purchase->address_three ?? ''}}
-          @endif
-          , {{$purchase->post_code ?? ''}}
+                    </p>
+                </td>
+                <td class="right">
+                    <p><span class="label">Policy Start
+                            Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}
+                    </p>
+                    <p><span class="label">Policy End
+                            Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}
+                    </p>
+                    <p><span class="label">Total Premium:</span> <span class="orange">£
+                            {{ $purchase->total_premium ?? '' }} </span></p>
+                    @if (!empty($purchase->admin_fee))
+                        <p><span class="label">Broker Fee:</span> <span class="orange">£
+                                {{ $purchase->admin_fee ?? '' }} </span></p>
+                    @endif
+                    <p><span class="label">Unit Price:</span> <span class="orange">£
+                            {{ $purchase->payable_amount ?? '' }} </span></p>
 
-        </p>
-      </td>
-      <td class="right">
-        <p><span class="label">Policy Start Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_start_date ?? '')->format('d M Y') }}</p>
-        <p><span class="label">Policy End Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}</p>
-        <p><span class="label">Total Premium:</span> <span class="orange">£ {{$purchase->total_premium ?? ''}} </span></p>
-        @if(!empty($purchase->admin_fee))
-        <p><span class="label">Broker Fee:</span> <span class="orange">£ {{$purchase->admin_fee ?? ''}} </span></p>
-        @endif
-        <p><span class="label">Unit Price:</span> <span class="orange">£ {{$purchase->payable_amount ?? ''}} </span></p>
-
-        <!-- <p><span class="label">Payment Status:</span> <span class="red">
-        @if($purchase->payment_status == 'Pending')
-            Unpaid
-        @else
-            PAID
-        @endif
+                    <!-- <p><span class="label">Payment Status:</span> <span class="red">
+        @if ($purchase->payment_status == 'Pending')
+Unpaid
+@else
+PAID
+@endif
       </span></p> -->
 
-        <p>
-          <span class="label">Payment Status:</span>
-          <span class="{{ $purchase->payment_status == 'Pending' ? 'text-danger' : 'text-success' }}">
-            {{ $purchase->payment_status == 'Pending' ? 'Unpaid' : 'PAID' }}
-          </span>
-        </p>
+                    <p>
+                        <span class="label">Payment Status:</span>
+                        <span class="{{ $purchase->payment_status == 'Pending' ? 'text-danger' : 'text-success' }}">
+                            {{ $purchase->payment_status == 'Pending' ? 'Unpaid' : 'PAID' }}
+                        </span>
+                    </p>
 
-      </td>
-    </tr>
-  </table>
+                </td>
+            </tr>
+
+            @if ($purchase->payment_status == 'Pending')
+                <tr>
+                    <td colspan="2" style="padding-top:15px;">
+
+                        <div style="text-align:center; font-weight:bold; font-size:16px;">
+                            Payment Instructions:
+                        </div>
+
+                        <div style="margin-top:5px; line-height:1.2; font-size:14px;">
+                            Please make the payment of
+                            <strong>£
+                                @if (!empty($purchase->admin_fee))
+                                    {{ number_format($purchase->admin_fee + $purchase->payable_amount, 2) }}
+                                @else
+                                    {{ number_format($purchase->payable_amount, 2) }}
+                                @endif
+                            </strong>
+                            to the account below within 1 days of receiving this email
+                            unless a dispute has been raised:
+                        </div>
+
+                        <div style="margin-top:5px;">
+                            <strong>Account Name:</strong> Moneywise Investments Plc<br>
+                            <strong>Account Number:</strong> 00789089<br>
+                            <strong>Sort Code:</strong> 56-00-31
+                        </div>
+
+                    </td>
+                </tr>
+            @endif
+        </table>
 
 
-  <!-- <div class="box">
+
+        <!-- <div class="box">
       <strong>Payment Instructions:</strong>
-      <p>Please make the payment of 
-        @if(!empty($purchase->admin_fee))
-          £{{$purchase->admin_fee + $purchase->payable_amount}}
-        @else
-          £{{$purchase->payable_amount ?? ''}} 
-        @endif
+      <p>Please make the payment of
+        @if (!empty($purchase->admin_fee))
+£{{ $purchase->admin_fee + $purchase->payable_amount }}
+@else
+£{{ $purchase->payable_amount ?? '' }}
+@endif
         to the account below within 3 days of receiving this email unless a dispute has
         been raised:</p>
-      <p><strong>Account Name:</strong> Moneywise Investments Plc<br> 
+      <p><strong>Account Name:</strong> Moneywise Investments Plc<br>
         <strong>Account Number:</strong> 00789089<br>
         <strong>Sort Code:</strong> 56-00-31
       </p>
     </div> -->
 
-  <div class="footer">
-    <p>Moneywise Investments Plc<br>
-      442 Romford Road, London, E7 8DF<br>
-      Company Registration No: 01358056</p>
-  </div>
-  </div>
+        <div class="footer">
+            <p>Moneywise Investments Plc<br>
+                442 Romford Road, London, E7 8DF<br>
+                Company Registration No: 01358056</p>
+        </div>
+    </div>
 
 </body>
 
