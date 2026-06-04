@@ -204,14 +204,11 @@
                     <p><span class="label">Policy End
                             Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}
                     </p>
-                    <p><span class="label">Total Premium:</span> <span class="orange">£
-                            {{ $purchase->total_premium ?? '' }} </span></p>
+                    <p><span class="label">Total Premium:</span> <span class="orange">£{{ $purchase->total_premium ?? '' }} </span></p>
                     @if (!empty($purchase->admin_fee))
-                        <p><span class="label">Broker Fee:</span> <span class="orange">£
-                                {{ $purchase->admin_fee ?? '' }} </span></p>
+                        <p><span class="label">Broker Fee:</span> <span class="orange">£{{ $purchase->admin_fee ?? '' }} </span></p>
                     @endif
-                    <p><span class="label">Unit Price:</span> <span class="orange">£
-                            {{ $purchase->payable_amount ?? '' }} </span></p>
+                    <p><span class="label">Unit Price:</span> <span class="orange">£{{ $purchase->payable_amount ?? '' }} </span></p>
 
                     <!-- <p><span class="label">Payment Status:</span> <span class="red">
         @if ($purchase->payment_status == 'Pending')
@@ -240,15 +237,13 @@ PAID
                         </div>
 
                         <div style="margin-top:5px; line-height:1.2; font-size:14px;">
-                            Please make the payment of
-                            <strong>£
+                            Please make the payment of<strong>
                                 @if (!empty($purchase->admin_fee))
-                                    {{ number_format($purchase->admin_fee + $purchase->payable_amount, 2) }}
+                                    £{{ number_format($purchase->admin_fee + $purchase->payable_amount, 2) }}
                                 @else
-                                    {{ number_format($purchase->payable_amount, 2) }}
+                                    £{{ number_format($purchase->payable_amount, 2) }}
                                 @endif
-                            </strong>
-                            to the account below within 1 days of receiving this email
+                            </strong>to the account below within 1 days of receiving this email
                             unless a dispute has been raised:
                         </div>
 
