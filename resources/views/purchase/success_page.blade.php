@@ -160,7 +160,7 @@
     }
 </script>
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+{{-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> --}}
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6y3AjuZl-L8qR8Mnm4DR5Fv2Xzl8IHjE&callback=initAutocomplete&libraries=places&v=weekly"
     defer></script>
