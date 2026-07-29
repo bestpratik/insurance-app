@@ -148,7 +148,8 @@
                             {{ date('d/m/Y', strtotime($row->policy_end_date)) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            New Business
+                            {{-- New Business --}}
+                            {{ ucfirst($row->insurance_type) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             £{{ number_format($row->net_premium, 2) }}
