@@ -24,7 +24,7 @@
                 @enderror
             </div>
             <div class="w-full sm:w-64">
-                <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Policy End Date</label>
+                <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">Policy Start Date</label>
                 <input type="date" id="endDate" wire:model="endDate" 
                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-2 px-3 border @error('endDate') border-red-500 @enderror">
                 @error('endDate')
