@@ -54,7 +54,7 @@ class DatewisePurchaseList extends Component
         $query = Purchase::with(['insurance.provider', 'invoice'])
             ->where('status', 1)
             ->whereNull('purchase_status')
-            ->where(function ($q) {
+            ->where(function ($q) { 
 
                 $q->whereHas('insurance', function ($iq) {
                     $iq->where('purchase_mode', 'Offline');
@@ -72,7 +72,7 @@ class DatewisePurchaseList extends Component
 
 
         if ($this->startDate && $this->endDate) {
-            $query->whereBetween('purchase_date', [$this->startDate, $this->endDate]);
+            $query->whereBetween('policy_start_date', [$this->startDate, $this->endDate]); 
         } else {
             return view('livewire.datewise-purchase-list', [
                 'purchases' => Purchase::where('id', '<', 0)->paginate($this->perPage)
