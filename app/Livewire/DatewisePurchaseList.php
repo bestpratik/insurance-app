@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Purchase;
 use Livewire\WithPagination;
+use App\Exports\DateWisePurchaseExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DatewisePurchaseList extends Component
 {
@@ -38,6 +40,17 @@ class DatewisePurchaseList extends Component
         }
     }
 
+
+    public function export()
+    {
+        $this->validate();
+
+        return Excel::download(
+            new DateWisePurchaseExport($this->startDate, $this->endDate),
+            'purchase-records-' . now()->format('Y-m-d') . '.xlsx'
+        );
+    }
+
     public function render()
     {
         /*$query = Purchase::with(['insurance.provider', 'invoice'])
@@ -54,7 +67,7 @@ class DatewisePurchaseList extends Component
         $query = Purchase::with(['insurance.provider', 'invoice'])
             ->where('status', 1)
             ->whereNull('purchase_status')
-            ->where(function ($q) { 
+            ->where(function ($q) {
 
                 $q->whereHas('insurance', function ($iq) {
                     $iq->where('purchase_mode', 'Offline');
@@ -67,12 +80,12 @@ class DatewisePurchaseList extends Component
                             ->whereNot('payment_status', 'Pending');
                     });
             })
-            ->orderBy('id', 'desc');
+            ->orderBy('policy_start_date', 'desc');
 
 
 
         if ($this->startDate && $this->endDate) {
-            $query->whereBetween('policy_start_date', [$this->startDate, $this->endDate]); 
+            $query->whereBetween('policy_start_date', [$this->startDate, $this->endDate]);
         } else {
             return view('livewire.datewise-purchase-list', [
                 'purchases' => Purchase::where('id', '<', 0)->paginate($this->perPage)
