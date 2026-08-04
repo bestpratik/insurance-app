@@ -1560,7 +1560,7 @@
 
                             Download Invoice
 
-                        </a> --}}
+                        </a> --}} 
 
                         <a href="" target="_blank"
                             class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow hover:bg-blue-700">
