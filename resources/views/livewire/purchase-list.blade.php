@@ -275,6 +275,12 @@
                                     <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
                                 </a>
 
+                                <a href="{{ route('purchase.renewal.overview', $row->id) }}"
+                                    title="Policy Renewal"
+                                    class="text-green-600 hover:text-green-800">
+                                        <x-heroicon-o-calendar-days class="w-5 h-5" />
+                                </a>
+
                                 <button wire:click="openPaymentCheckModal({{ $row->id }})"
                                     class="text-green-600 hover:text-yellow-900 focus:outline-none" 
                                     title="Check Payment">

@@ -189,6 +189,12 @@ class PurchaseController extends Controller
         // dd($purchase);
         return view('purchase.detail_page', compact('purchase'));     
     }
+    public function renewalOverviewPage($id){
+        
+        $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
+        // dd($purchase);
+        return view('purchase.renewal_page', compact('purchase'));     
+    }
 
       public function referralDetailsPage($id){
         

@@ -12,6 +12,7 @@ class Purchase extends Model
     protected $table = 'purchases';
     protected $fillable = [
         'insurance_id',
+        'old_purchase_id',
         'stripe_session_id',
         'user_id',
         'product_type',
