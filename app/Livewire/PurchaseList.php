@@ -265,6 +265,41 @@ public function submitCancellation()
         $this->closeReminderModal();
     }
 
+ 
+    public function sendReminderEmail(Purchase $purchase, array $recipients)
+    {
+        $purchase->loadMissing(['insurance.staticdocuments', 'insurance.dynamicdocument']);
+
+        $staticDocs = [];
+        foreach ($purchase->insurance->staticdocuments as $document) {
+            $filePath = public_path('uploads/insurance_document/' . $document->document);
+
+            if (file_exists($filePath)) {
+                $staticDocs[] = $filePath;
+            }
+        }
+
+        try {
+            Mail::send(
+                'email.insurance_renewal_reminder_notification',
+                ['purchase' => $purchase],
+                function ($message) use ($recipients, $staticDocs) {
+                    $message->to($recipients);
+                    $message->subject('Moneywise Investments Plc - Renewal notification.');
+
+                    foreach ($staticDocs as $attachment) {
+                        $message->attach($attachment);
+                    }
+                }
+            );
+
+            return true;
+        } catch (\Exception $e) {
+            logger()->error('Renewal reminder failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function submitResendingDoc()
     {
         $this->validate([
@@ -407,43 +442,7 @@ public function submitCancellation()
         }
     }
 
-    /**
-     * Send the renewal reminder with static policy documents attached and
-     * dynamic policy documents available as links in the email body.
-     */
-    public function sendReminderEmail(Purchase $purchase, array $recipients)
-    {
-        $purchase->loadMissing(['insurance.staticdocuments', 'insurance.dynamicdocument']);
-
-        $staticDocs = [];
-        foreach ($purchase->insurance->staticdocuments as $document) {
-            $filePath = public_path('uploads/insurance_document/' . $document->document);
-
-            if (file_exists($filePath)) {
-                $staticDocs[] = $filePath;
-            }
-        }
-
-        try {
-            Mail::send(
-                'email.insurance_renewal_reminder_notification',
-                ['purchase' => $purchase],
-                function ($message) use ($recipients, $staticDocs) {
-                    $message->to($recipients);
-                    $message->subject('Moneywise Investments Plc - Renewal notification.');
-
-                    foreach ($staticDocs as $attachment) {
-                        $message->attach($attachment);
-                    }
-                }
-            );
-
-            return true;
-        } catch (\Exception $e) {
-            logger()->error('Renewal reminder failed: ' . $e->getMessage());
-            return false;
-        }
-    }
+  
 
       public function openResendInvoiceModal($purchaseId) 
     {
