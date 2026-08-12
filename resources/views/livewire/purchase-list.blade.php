@@ -271,6 +271,12 @@
                                     <x-heroicon-o-paper-airplane class="w-5 h-5 text-blue-600" />
                                 </button>
 
+                                <button wire:click="openReminderModal({{ $row->id }})"
+                                    class="text-yellow-600 hover:text-yellow-900 focus:outline-none"
+                                    title="Send Reminder">
+                                    <x-heroicon-o-bell class="w-5 h-5" />
+                                </button>
+
                                 <a href="{{route('insurance.invoice.genarate',$row->id)}}" target="_blank" title="Download Invoice">
                                     <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
                                 </a>
@@ -408,6 +414,55 @@
     </div>
     @endif
     <!--Resend Invoice modal end-->
+
+    <!--Reminder modal start-->
+    @if($showReminderModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-8">
+        <div class="w-full max-w-xl rounded-3xl bg-white shadow-2xl shadow-slate-900/10 ring-1 ring-slate-200 overflow-hidden">
+            <div class="border-b border-slate-200 bg-slate-50 px-6 py-5">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Reminder Email Notification</p>
+                        <h2 class="mt-2 text-2xl font-semibold text-slate-900">Send reminder</h2>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">The recipients below will be notified. Add extra email addresses if needed.</p>
+                    </div>
+                    <button wire:click="closeReminderModal" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-100 hover:text-slate-700">
+                        <x-heroicon-o-x-mark class="h-5 w-5" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-6 py-6">
+                <div class="mb-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <p class="text-sm font-medium text-slate-700">Recipients</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        @if(!empty($reminderRecipients))
+                            @foreach($reminderRecipients as $recipient)
+                                <span class="inline-flex items-center rounded-full bg-slate-900/5 px-4 py-2 text-sm text-slate-700">{{ $recipient }}</span>
+                            @endforeach
+                        @else
+                            <span class="text-sm text-slate-500">No recipients available.</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label for="reminderEmailList" class="block text-sm font-medium text-slate-700">Add additional email(s) to notify separated by comma</label>
+                    <input wire:model="reminderEmailList" id="reminderEmailList" type="text"
+                        class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"
+                        placeholder="example1@mail.com, example2@mail.com" />
+                    @error('reminderEmailList') <p class="text-sm text-rose-500">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
+                    <button wire:click="closeReminderModal" class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">Close</button>
+                    <button wire:click="submitReminder" class="inline-flex items-center justify-center rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-sm shadow-sky-600/20 transition hover:bg-sky-700">Send Reminder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!--Reminder modal end-->
 
 
     <!-- modal  -->

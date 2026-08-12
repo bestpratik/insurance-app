@@ -193,7 +193,14 @@ class PurchaseController extends Controller
         
         $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
         // dd($purchase);
-        return view('purchase.renewal_page', compact('purchase'));     
+        return view('purchase.renewal_overview_page', compact('purchase'));     
+    }
+
+    public function insurancePurchaseRenewal($id){
+        
+        $purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->find($id);
+        // dd($purchase);
+        return view('purchase.renewal_page', compact('purchase'));      
     }
 
       public function referralDetailsPage($id){
@@ -268,7 +275,9 @@ class PurchaseController extends Controller
     public function downloadDynamicDocument($purchase_id, $document_id)
 {
     $insurancePurchase = Purchase::with('insurance')->findOrFail($purchase_id);
-    $dynamicDocument = Insurancedynamicdocument::findOrFail($document_id);
+    $dynamicDocument = Insurancedynamicdocument::where('id', $document_id)
+        ->where('insurance_id', $insurancePurchase->insurance_id)
+        ->firstOrFail();
 
     $insurartitle = "";
     if ($insurancePurchase->policy_holder_type == 'Company') {

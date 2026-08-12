@@ -48,6 +48,17 @@
 </script>
 
 <script>
+    Livewire.on('swal:successss', data => {
+        Swal.fire({
+            title: 'Reminder email sent successfully!',
+            text: data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+</script>
+
+<script>
     Livewire.on('swal:message', data => {
         Swal.fire({
             title: 'Purchase cancelled successfully!',

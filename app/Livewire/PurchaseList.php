@@ -42,10 +42,14 @@ class PurchaseList extends Component
     public $resendDocPurchaseId = null;
     public $sendMail = [];
 
+    public $showReminderModal = false;
+    public $reminderPurchaseId = null;
+    public $reminderEmailList = '';
+    public $reminderRecipients = [];
+
     public $showResendInvoiceModal = false;
     public $resendInvoice;
     public $resendInvoicePurchaseId = null;
-
 
     public $showPaymentCheckModal = false;
     public $checkPayment;
@@ -193,6 +197,74 @@ public function submitCancellation()
         $this->resendDocument = '';
     }
 
+    public function openReminderModal($purchaseId)
+    {
+        $this->reminderPurchaseId = $purchaseId;
+        $this->reminderEmailList = '';
+        $this->reminderRecipients = [];
+
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+        if ($purchase) {
+            $recipients = [];
+
+            if (!empty($purchase->policy_holder_company_email)) {
+                $recipients[] = $purchase->policy_holder_company_email;
+            }
+
+            if (!empty($purchase->policy_holder_email)) {
+                $recipients[] = $purchase->policy_holder_email;
+            }
+
+            if (!empty($purchase->invoice->billing_email)) {
+                $recipients[] = $purchase->invoice->billing_email;
+            }
+
+            $this->reminderRecipients = array_values(array_unique(array_filter($recipients)));
+        }
+
+        $this->showReminderModal = true;
+    }
+
+    public function closeReminderModal()
+    {
+        $this->showReminderModal = false;
+        $this->reminderPurchaseId = null;
+        $this->reminderEmailList = '';
+        $this->reminderRecipients = [];
+    }
+
+    public function submitReminder()
+    {
+        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($this->reminderPurchaseId);
+
+        if (!$purchase) {
+            $this->addError('reminderEmailList', 'Purchase not found.');
+            return;
+        }
+
+        $additionalEmails = collect(preg_split('/[\s,]+/', $this->reminderEmailList))
+            ->filter(fn ($email) => filter_var(trim($email), FILTER_VALIDATE_EMAIL))
+            ->map(fn ($email) => trim($email))
+            ->unique()
+            ->values()
+            ->toArray();
+
+        $finalRecipients = array_values(array_unique(array_filter(array_merge($this->reminderRecipients, $additionalEmails))));
+
+        if (empty($finalRecipients)) {
+            $this->addError('reminderEmailList', 'Please enter at least one valid email address.');
+            return;
+        }
+
+        if (!$this->sendReminderEmail($purchase, $finalRecipients)) {
+            $this->addError('reminderEmailList', 'The reminder email could not be sent. Please try again.');
+            return;
+        }
+
+        $this->dispatch('swal:successss', ['message' => 'Reminder email sent successfully.']);
+        $this->closeReminderModal();
+    }
+
     public function submitResendingDoc()
     {
         $this->validate([
@@ -229,6 +301,7 @@ public function submitCancellation()
 
     public function send_email_one($purchaseId, $sendMailArray)
     {
+        // dd($sendMailArray);
         
         $purchase = Purchase::with('invoice')->findOrFail($purchaseId);
 
@@ -330,6 +403,44 @@ public function submitCancellation()
             return true;
         } catch (\Exception $e) {
             logger()->error("Document resend failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send the renewal reminder with static policy documents attached and
+     * dynamic policy documents available as links in the email body.
+     */
+    public function sendReminderEmail(Purchase $purchase, array $recipients)
+    {
+        $purchase->loadMissing(['insurance.staticdocuments', 'insurance.dynamicdocument']);
+
+        $staticDocs = [];
+        foreach ($purchase->insurance->staticdocuments as $document) {
+            $filePath = public_path('uploads/insurance_document/' . $document->document);
+
+            if (file_exists($filePath)) {
+                $staticDocs[] = $filePath;
+            }
+        }
+
+        try {
+            Mail::send(
+                'email.insurance_renewal_reminder_notification',
+                ['purchase' => $purchase],
+                function ($message) use ($recipients, $staticDocs) {
+                    $message->to($recipients);
+                    $message->subject('Moneywise Investments Plc - Renewal notification.');
+
+                    foreach ($staticDocs as $attachment) {
+                        $message->attach($attachment);
+                    }
+                }
+            );
+
+            return true;
+        } catch (\Exception $e) {
+            logger()->error('Renewal reminder failed: ' . $e->getMessage());
             return false;
         }
     }

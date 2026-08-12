@@ -201,6 +201,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('purchase-success/{id}', [PurchaseController::class, 'successPage'])->name('purchase.success');
     Route::get('purchase/details/{id}', [PurchaseController::class, 'detailsPage'])->name('purchase.details');
     Route::get('purchase/renewal-overview/{id}', [PurchaseController::class, 'renewalOverviewPage'])->name('purchase.renewal.overview');
+    Route::get('insurance/purchase/renewal/{id}', [PurchaseController::class, 'insurancePurchaseRenewal'])->name('renewal.insurance.purchase');
+
+
 
     Route::get('referral/details/{id}', [PurchaseController::class, 'referralDetailsPage'])->name('referral.details');
 

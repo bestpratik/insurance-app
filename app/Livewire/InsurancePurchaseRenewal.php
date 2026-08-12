@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire;
- 
+
 use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
@@ -14,16 +14,19 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 
-  
+
 use Illuminate\Validation\Rule;
 
-class MasterInsurancePurchase extends Component
+class InsurancePurchaseRenewal extends Component
 {
     public $currentStep = 1;
 
+    public $purchaseId;
+    public $purchase;
+
     public $selectedinsuranceId;
     public $insuranceDetails;
-    public $availableInsurances;
+    public $renewalAvailableInsurances;
     public $productType;
 
     // Step 2: Property info
@@ -82,15 +85,84 @@ class MasterInsurancePurchase extends Component
 
     // Step 8: Summary data
     public $summaryData = [];
+    
 
-    public function mount()
+    public function mount($purchaseId = null)
     {
-        $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
-                    ->get();
+        $this->renewalAvailableInsurances = Insurance::where('purchase_mode', 'Offline')->where('type_of_insurance', 'Renewal')
+            ->get();
 
-        if ($this->availableInsurances) {
-            $this->insuranceDetails = $this->availableInsurances;
+        if ($this->renewalAvailableInsurances) {
+            $this->insuranceDetails = $this->renewalAvailableInsurances;
             // dd($this->insuranceDetails);
+        }
+
+
+        if ($purchaseId) {
+
+            $this->purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->findOrFail($purchaseId);
+
+            // STEP 1
+            // $this->selectedinsuranceId = $this->purchase->insurance_id;
+            $this->selectedinsuranceId = [];
+
+            // dd($this->selectedinsuranceId);
+            $this->productType = $this->purchase->product_type;
+
+            // load insurance details
+            $this->fetchInsuranceDetails();
+
+            // STEP 2
+            $this->insuranceType = $this->purchase->insurance_type;
+            $this->rentAmount = $this->purchase->rent_amount;
+            $this->doorNo = $this->purchase->door_no;
+            $this->addressOne = $this->purchase->address_one;
+            $this->addressTwo = $this->purchase->address_two;
+            $this->addressThree = $this->purchase->address_three;
+            $this->postCode = $this->purchase->post_code;
+
+            // STEP 3
+            $this->policyHoldertype = $this->purchase->policy_holder_type;
+            $this->companyName = $this->purchase->company_name;
+            $this->policyholderCompanyEmail = $this->purchase->policy_holder_company_email;
+
+            $this->policyholderTitle = $this->purchase->policy_holder_title;
+            $this->policyholderFirstName = $this->purchase->policy_holder_fname;
+            $this->policyholderLastName = $this->purchase->policy_holder_lname;
+            $this->policyholderEmail = $this->purchase->policy_holder_email;
+            $this->policyholderPhone = $this->purchase->policy_holder_phone;
+            $this->policyholderAlternativePhone = $this->purchase->policy_holder_alternative_phone;
+            $this->policyholderAddress1 = $this->purchase->policy_holder_address_one;
+            $this->policyholderAddress2 = $this->purchase->policy_holder_address_two;
+            $this->policyholderPostcode = $this->purchase->policy_holder_postcode;
+            $this->copyEmail = $this->purchase->copy_email;
+
+            // STEP 4
+            $this->policyStartDate = $this->purchase->policy_start_date;
+            $this->purchaseDate = $this->purchase->purchase_date;
+            $this->astStartDate = $this->purchase->ast_start_date;
+            $this->policyTerm = $this->purchase->policy_term;
+
+            // STEP 5
+            $this->tenantName = $this->purchase->tenant_name;
+            $this->tenantPhone = $this->purchase->tenant_phone;
+            $this->tenantEmail = $this->purchase->tenant_email;
+
+            // STEP 6
+            $this->paymentMethod = $this->purchase->payment_method;
+
+            // STEP 7
+            if ($this->purchase->invoice) {
+                $this->billingName = $this->purchase->invoice->billing_name;
+                $this->billingEmail = $this->purchase->invoice->billing_email;
+                $this->copyBillingEmail = $this->purchase->invoice->copy_email;
+                $this->billingPhone = $this->purchase->invoice->billing_phone;
+                $this->billingAddressOne = $this->purchase->invoice->billing_address_one;
+                $this->billingAddressTwo = $this->purchase->invoice->billing_address_two;
+                $this->billingPostcode = $this->purchase->invoice->billing_postcode;
+                $this->ponNo = $this->purchase->invoice->pon;
+                $this->isInvoice = $this->purchase->invoice->is_invoice;
+            }
         }
     }
 
@@ -106,7 +178,7 @@ class MasterInsurancePurchase extends Component
 
     public function fetchInsuranceDetails()
     {
-        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId); 
+        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
         // dd($this->insuranceDetails);
     }
 
@@ -225,10 +297,10 @@ class MasterInsurancePurchase extends Component
             : '';
 
         // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-        
+
 
         $this->summaryData = [
-            'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
+            'Insurance Selected:' => $this->renewalAvailableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
             'Policy for:' => $this->productType,
             'Insurance Type:' => $this->insuranceType,
             'Rent Amount:' => '£- ' . $this->rentAmount,
@@ -258,12 +330,12 @@ class MasterInsurancePurchase extends Component
             'Billing Phone' => $this->billingPhone,
             'Billing Postcode' => $this->billingPostcode,
             // 'Billing Address' => $billingAddress,
-            
+
             'Billing Address:' => implode(', ', array_filter([
-                            $this->billingAddressOne,
-                            $this->billingAddressTwo,
-                            $this->billingPostcode,
-                        ])),
+                $this->billingAddressOne,
+                $this->billingAddressTwo,
+                $this->billingPostcode,
+            ])),
             'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
@@ -278,14 +350,14 @@ class MasterInsurancePurchase extends Component
 
     // public function updateAddressFromJs($data)
     // {
-       
+
     //     $this->doorNo = $data['doorNo'];
     //     $this->addressOne = $data['addressOne'];
     //     $this->postCode = $data['postCode'];
     // }
-    
 
-    public function submitForm()
+
+    public function submitForm($purchaseId = null)
     {
         $allRules = array_merge(
             $this->rulesForStep(1),
@@ -306,9 +378,15 @@ class MasterInsurancePurchase extends Component
         // $policyEnd = $policyStart->copy()->addDays($validityDays);
         // $this->policyEndDate = $policyEnd->toDateString();
 
-    
+
 
         $purchase = new Purchase();
+
+        // $purchase = $this->purchaseId ? Purchase::findOrFail($this->purchaseId) : new Purchase();
+
+        // dd($purchase);
+
+        $purchase->old_purchase_id = $this->purchaseId;
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
@@ -321,8 +399,8 @@ class MasterInsurancePurchase extends Component
         $purchase->post_code = $this->postCode;
         $purchase->policy_holder_type = $this->policyHoldertype;
         $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
-        $purchase->policy_holder_address = $this->policyholderAddress1.' '.$this->policyholderAddress2.' '.$this->policyholderPostcode;
-        
+        $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
+
         // $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
         // $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
@@ -343,7 +421,7 @@ class MasterInsurancePurchase extends Component
             $purchase->policy_holder_lname = $this->policyholderLastName;
             $purchase->policy_holder_email = $this->policyholderEmail;
         }
-       
+
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
@@ -363,6 +441,7 @@ class MasterInsurancePurchase extends Component
         $purchase->ast_start_date = $this->astStartDate;
         $purchase->purchase_date = $this->purchaseDate;
         $purchase->policy_term = $this->policyTerm;
+
 
 
         $purchase->net_premium = $this->insuranceDetails->net_premium;
@@ -385,10 +464,12 @@ class MasterInsurancePurchase extends Component
 
         $purchase->payment_method = $this->paymentMethod;
 
-   
+
         $purchase->save();
 
         $invoice = new Invoice();
+
+        // $invoice = Invoice::firstOrNew(['purchase_id' => $purchase->id]);
         $invoice->purchase_id = $purchase->id;
         $invoice->billing_name = $this->billingName;
         $invoice->billing_email = $this->billingEmail;
@@ -417,16 +498,16 @@ class MasterInsurancePurchase extends Component
 
         $invoice->save();
 
-        
+
 
         //Policy holder email send
         $this->send_email_one($purchase->id);
-        if($invoice->is_invoice == 1){
+        if ($invoice->is_invoice == 1) {
 
             $this->send_email_two($purchase->id);
         }
 
-        
+
 
         return redirect()->route('purchase.success', ['id' => $purchase->id]);
 
@@ -498,7 +579,7 @@ class MasterInsurancePurchase extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name); 
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
@@ -552,38 +633,38 @@ class MasterInsurancePurchase extends Component
             // );
             $email_subject = $insurance->insurancemailtemplate->title ?? '';
             $data = array(
-                'body' => $insurance->insurancemailtemplate->description ?? '', 
+                'body' => $insurance->insurancemailtemplate->description ?? '',
                 'bodyValue' => $bodyValue
             );
 
-            
+
             try {
 
-                 $copyEmails = explode(',', $purchase->copy_email);
-                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                        return filter_var($email, FILTER_VALIDATE_EMAIL);
-                    });
+                $copyEmails = explode(',', $purchase->copy_email);
+                $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                    return filter_var($email, FILTER_VALIDATE_EMAIL);
+                });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
-                    foreach ($sendToemails as $email) {
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            throw new \Exception("Invalid To Email: $email");
-                            //  abort(404); 
-                        }
+                foreach ($sendToemails as $email) {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        throw new \Exception("Invalid To Email: $email");
+                        //  abort(404); 
                     }
+                }
 
-                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                        $messages->to($sendToemails);
-                        $messages->subject($email_subject);
-                        $messages->cc($ccEmails);
-                        // $messages->bcc(['bestpratik@gmail.com']);
+                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                    $messages->to($sendToemails);
+                    $messages->subject($email_subject);
+                    $messages->cc($ccEmails);
+                    // $messages->bcc(['bestpratik@gmail.com']);
 
-                        foreach ($allDocs as $attachment) {
-                            $messages->attach($attachment);
-                        }
-                    });
-                    
+                    foreach ($allDocs as $attachment) {
+                        $messages->attach($attachment);
+                    }
+                });
+
 
                 // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
                 //     //$messages->to($user['to']); 
@@ -640,21 +721,21 @@ class MasterInsurancePurchase extends Component
 
         try {
 
-             $copyEmails = explode(',', $purchase->copy_email);
-                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                        return filter_var($email, FILTER_VALIDATE_EMAIL);
-                    });
+            $copyEmails = explode(',', $purchase->copy_email);
+            $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+            $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
-                    foreach ($sendToBillingEmails as $email) {
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            throw new \Exception("Invalid To Email: $email");
-                            //  abort(404); 
-                        }
-                    }
+            foreach ($sendToBillingEmails as $email) {
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception("Invalid To Email: $email");
+                    //  abort(404); 
+                }
+            }
 
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) { 
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
                 $message->to($sendToBillingEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
@@ -669,12 +750,9 @@ class MasterInsurancePurchase extends Component
         }
     }
 
- 
-
-
 
     public function render()
     {
-        return view('livewire.master-insurance-purchase');
+        return view('livewire.insurance-purchase-renewal');
     }
 }
