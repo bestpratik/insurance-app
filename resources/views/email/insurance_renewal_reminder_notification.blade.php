@@ -20,7 +20,7 @@
                         <td style="padding: 32px;">
                             {{-- <h1 style="margin: 0 0 18px; font-size: 24px; line-height: 32px; font-weight: 700; color: #1e2b3e;">Your policy documents</h1> --}}
 
-                            <p style="margin: 0 0 16px; font-size: 16px; line-height: 24px;">Dear Customer,</p>
+                            <p style="margin: 0 0 16px; font-size: 16px; line-height: 24px;">Dear Client,</p>
 
                             <p style="margin: 0 0 24px; font-size: 16px; line-height: 24px;">Please review the policy documents attached to this email. You can also view your policy documents securely using the links below.</p>
 
