@@ -113,7 +113,8 @@ class InsurancePurchaseRenewal extends Component
             $this->fetchInsuranceDetails();
 
             // STEP 2
-            $this->insuranceType = $this->purchase->insurance_type;
+            // $this->insuranceType = $this->purchase->insurance_type;
+            $this->insuranceType = 'renewal';
             $this->rentAmount = $this->purchase->rent_amount;
             $this->doorNo = $this->purchase->door_no;
             $this->addressOne = $this->purchase->address_one;

@@ -218,7 +218,7 @@
                 <p class="font-bold mb-1">Can we have the Property that you want insured?</p>
 
                 <div class="grid md:grid-cols-3 gap-4">
-                    <div class="mb-2">
+                    {{-- <div class="mb-2">
                         <label class="block font-semibold mb-1">
                             Type Of Insurance <span class="text-red-600">*</span>
                         </label>
@@ -237,6 +237,30 @@
                         @error('insuranceType')
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
+                    </div> --}}
+
+                    <div class="mb-2">
+                        <label class="block font-semibold mb-1">
+                            Type Of Insurance <span class="text-red-600">*</span>
+                        </label>
+
+                        <div class="flex items-center">
+                            <input
+                                id="typeOfinsurancerenewal"
+                                type="radio"
+                                wire:model="insuranceType"
+                                value="renewal"
+                                class="mr-2"
+                                checked
+                            >
+                            <label for="typeOfinsurancerenewal">
+                                Renewal
+                            </label>
+                        </div>
+
+                        @error('insuranceType')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-2">
@@ -249,7 +273,7 @@
                         <span class="text-sm text-red-600">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
+                </div> 
 
                 <h5 class="text-lg font-semibold my-3">Property Details</h5>
 
