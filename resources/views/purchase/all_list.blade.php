@@ -38,7 +38,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
 
         function initActionMenus() {
@@ -125,9 +125,9 @@
         }
 
     });
-</script> --}}
+</script>
 
-{{-- <script>
+<script>
     document.addEventListener('click', function(event) {
 
         // Check if the click happened inside an action menu
@@ -144,7 +144,7 @@
         });
 
     });
-</script> --}}
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
