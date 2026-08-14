@@ -411,7 +411,7 @@
                                                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                           text-sm text-gray-700 hover:bg-gray-50 transition">
                                                 <x-heroicon-o-arrow-down-tray class="w-5 h-5 text-gray-600" />
-                                                <span>Download Invoice</span>
+                                                <span>Download Invoice</span> 
                                             </a>
 
                                             @if($daysUntilExpiry >= 0 && $daysUntilExpiry < 60)
