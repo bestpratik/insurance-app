@@ -145,7 +145,7 @@ class PurchaseList extends Component
         ]);
     }
 
-
+ 
 public function openCancelModal($purchaseId)
 {
     $this->cancelPurchaseId = $purchaseId;
