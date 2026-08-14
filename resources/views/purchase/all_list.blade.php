@@ -41,13 +41,95 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        function closeAllMenus() {
+            document.querySelectorAll('.action-menu[open]').forEach(function(menu) {
+                menu.removeAttribute('open');
+
+                const dropdown = menu.querySelector('.action-dropdown');
+
+                if (dropdown) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function positionMenu(menu) {
+
+            const button = menu.querySelector('summary');
+            const dropdown = menu.querySelector('.action-dropdown');
+
+            if (!button || !dropdown) return;
+
+            const buttonRect = button.getBoundingClientRect();
+
+            // Show temporarily so we can calculate its height
+            dropdown.classList.remove('hidden');
+
+            const dropdownRect = dropdown.getBoundingClientRect();
+
+            const gap = 8;
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+
+            const spaceBelow = viewportHeight - buttonRect.bottom;
+            const spaceAbove = buttonRect.top;
+
+            let top;
+
+            /*
+             * If there is enough room below,
+             * open BELOW the button.
+             */
+            if (spaceBelow >= dropdownRect.height + gap) {
+
+                top = buttonRect.bottom + gap;
+
+            }
+            /*
+             * Otherwise open ABOVE the button.
+             */
+            else if (spaceAbove >= dropdownRect.height + gap) {
+
+                top = buttonRect.top - dropdownRect.height - gap;
+
+            }
+            /*
+             * If there isn't enough room either side,
+             * choose the side with more space.
+             */
+            else {
+
+                if (spaceBelow > spaceAbove) {
+                    top = buttonRect.bottom + gap;
+                } else {
+                    top = buttonRect.top - dropdownRect.height - gap;
+                }
+            }
+
+            /*
+             * Horizontal positioning
+             */
+            let left = buttonRect.right - dropdownRect.width;
+
+            // Prevent going outside right side
+            if (left + dropdownRect.width > viewportWidth - 10) {
+                left = viewportWidth - dropdownRect.width - 10;
+            }
+
+            // Prevent going outside left side
+            if (left < 10) {
+                left = 10;
+            }
+
+            dropdown.style.top = `${top}px`;
+            dropdown.style.left = `${left}px`;
+        }
+
         function initActionMenus() {
 
-            const menus = document.querySelectorAll('.action-menu');
+            document.querySelectorAll('.action-menu').forEach(function(menu) {
 
-            menus.forEach(menu => {
-
-                if (menu.dataset.initialized) {
+                if (menu.dataset.initialized === 'true') {
                     return;
                 }
 
@@ -55,155 +137,97 @@
 
                 menu.addEventListener('toggle', function() {
 
+                    const dropdown = menu.querySelector('.action-dropdown');
+
                     if (!menu.open) {
+
+                        if (dropdown) {
+                            dropdown.classList.add('hidden');
+                        }
+
                         return;
                     }
 
-                    // Close all other menus
-                    document.querySelectorAll('.action-menu[open]').forEach(otherMenu => {
+                    // Close every other menu
+                    document.querySelectorAll('.action-menu[open]').forEach(function(
+                        otherMenu) {
+
                         if (otherMenu !== menu) {
+
                             otherMenu.removeAttribute('open');
+
+                            const otherDropdown =
+                                otherMenu.querySelector('.action-dropdown');
+
+                            if (otherDropdown) {
+                                otherDropdown.classList.add('hidden');
+                            }
                         }
                     });
 
-                    // Position the menu
-                    positionActionMenu(menu);
+                    // Position current menu
+                    requestAnimationFrame(function() {
+                        positionMenu(menu);
+                    });
+
                 });
-            });
-        }
 
-        function positionActionMenu(menu) {
-
-            const dropdown = menu.querySelector('.action-dropdown');
-
-            if (!dropdown) {
-                return;
-            }
-
-            // Reset position first
-            dropdown.classList.remove('bottom-full', 'top-11', 'mb-2', 'mt-2');
-            dropdown.classList.add('top-11');
-
-            // Wait for browser to calculate menu height
-            requestAnimationFrame(() => {
-
-                const button = menu.querySelector('summary');
-                const buttonRect = button.getBoundingClientRect();
-                const dropdownRect = dropdown.getBoundingClientRect();
-
-                const viewportHeight = window.innerHeight;
-
-                const spaceBelow = viewportHeight - buttonRect.bottom;
-                const spaceAbove = buttonRect.top;
-
-                // If not enough space below but enough space above
-                if (
-                    spaceBelow < dropdownRect.height + 20 &&
-                    spaceAbove > dropdownRect.height + 20
-                ) {
-                    dropdown.classList.remove('top-11', 'mt-2');
-                    dropdown.classList.add('bottom-full', 'mb-2');
-                } else {
-                    dropdown.classList.remove('bottom-full', 'mb-2');
-                    dropdown.classList.add('top-11', 'mt-2');
-                }
             });
         }
 
         // Initial load
         initActionMenus();
 
-        // Reinitialize after Livewire updates
-        document.addEventListener('livewire:navigated', initActionMenus);
 
-        if (window.Livewire) {
-            Livewire.hook('morph.updated', () => {
-                setTimeout(() => {
-                    initActionMenus();
-                }, 50);
-            });
-        }
+        /*
+         * Close when clicking outside
+         */
+        document.addEventListener('click', function(event) {
 
-    });
-</script>
-
-<script>
-    document.addEventListener('click', function(event) {
-
-        // Check if the click happened inside an action menu
-        const clickedMenu = event.target.closest('.action-menu');
-
-        // Close all open menus
-        document.querySelectorAll('.action-menu[open]').forEach(function(menu) {
-
-            // Keep the clicked menu open
-            if (menu !== clickedMenu) {
-                menu.removeAttribute('open');
+            if (!event.target.closest('.action-menu')) {
+                closeAllMenus();
             }
 
         });
 
-    });
-</script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+        /*
+         * Reposition open menu when scrolling
+         */
+        window.addEventListener('scroll', function() {
 
-        function initActionMenus() {
+            const openMenu = document.querySelector('.action-menu[open]');
 
-            document.querySelectorAll('.action-menu').forEach(function(menu) {
+            if (openMenu) {
+                positionMenu(openMenu);
+            }
 
-                if (menu.dataset.initialized) {
-                    return;
-                }
-
-                menu.dataset.initialized = 'true';
-
-                menu.addEventListener('toggle', function() {
-
-                    if (!menu.open) {
-                        return;
-                    }
-
-                    // Close all other menus
-                    document.querySelectorAll('.action-menu[open]').forEach(function(
-                    otherMenu) {
-
-                        if (otherMenu !== menu) {
-                            otherMenu.removeAttribute('open');
-                        }
-
-                    });
-
-                });
-
-            });
-
-        }
-
-        initActionMenus();
+        }, true);
 
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
+        /*
+         * Reposition when browser resizes
+         */
+        window.addEventListener('resize', function() {
 
-            const clickedMenu = event.target.closest('.action-menu');
+            const openMenu = document.querySelector('.action-menu[open]');
 
-            document.querySelectorAll('.action-menu[open]').forEach(function(menu) {
-
-                if (menu !== clickedMenu) {
-                    menu.removeAttribute('open');
-                }
-
-            });
+            if (openMenu) {
+                positionMenu(openMenu);
+            }
 
         });
 
 
-        // Reinitialize after Livewire updates
+        /*
+         * Livewire update
+         */
         document.addEventListener('livewire:navigated', function() {
+
             initActionMenus();
+
         });
+
 
         if (window.Livewire) {
 

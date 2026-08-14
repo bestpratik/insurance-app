@@ -354,10 +354,15 @@
                                         </summary>
 
                                         <!-- Action Menu -->
-                                        <div
+                                        {{-- <div
                                             class="action-dropdown absolute right-0 top-11 z-[9999]
                         w-56 rounded-xl border border-gray-200
-                        bg-white shadow-xl p-2">
+                        bg-white shadow-xl p-2"> --}}
+
+                                        <div
+                                        class="action-dropdown fixed z-[99999]
+                                        w-56 rounded-xl border border-gray-200
+                                        bg-white shadow-xl p-2 hidden">
 
                                             <!-- Edit -->
                                             <a href="{{ route('purchase.edit', $row->policy_no) }}"
