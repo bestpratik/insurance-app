@@ -187,7 +187,7 @@
 
             <!-- Option 3: Travel Insurance (Highlighted Green Badge) -->
             <a href="https://moneywise.aneevo.com/"
-                class="group flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500/40 shadow-sm hover:border-emerald-500 hover:shadow-md active:scale-[0.98] transition-all">
+                class="group flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500/40 shadow-sm hover:border-emerald-500 hover:shadow-md active:scale-[0.98] transition-all" target="_blank">
                 <div class="flex items-center space-x-3">
                     <div
                         class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700">

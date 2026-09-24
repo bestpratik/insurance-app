@@ -551,8 +551,8 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        // $sendToemails = ['aadatia@moneywiseplc.co.uk'];
-        $sendToemails = ['anuradham.dbt@gmail.com'];
+        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        // $sendToemails = ['anuradham.dbt@gmail.com'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF

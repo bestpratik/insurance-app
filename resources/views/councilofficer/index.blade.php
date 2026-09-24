@@ -1,178 +1,356 @@
 <x-app-layout>
+
     <div class="grid grid-cols-12 gap-4 md:gap-6">
 
         <div class="col-span-12">
-            <!-- Table Four -->
+
+            {{-- Success Message --}}
             @if (session('success'))
-                <div class="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50  dark:text-green-400">
-                    {{ session('success') }}
+                <div
+                    class="mb-5 flex items-center gap-3 rounded-xl
+                            border border-green-200 bg-green-50
+                            px-4 py-3 text-sm font-medium text-green-700">
+
+                    <div
+                        class="flex h-8 w-8 shrink-0 items-center justify-center
+                                rounded-full bg-green-100">
+                        <x-heroicon-o-check class="h-5 w-5 text-green-600" />
+                    </div>
+
+                    <span>{{ session('success') }}</span>
                 </div>
             @endif
-            <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white pt-4 ">
-                <div class="flex flex-col gap-5 px-6 mb-4 sm:flex-row sm:items-center sm:justify-between">
 
-                    <div>
-                        <h3 class="text-lg font-semibold  /90">
-                            Manage Council Officers
-                        </h3>
-                    </div>
 
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <div>
-                            <a href="{{ route('council-officers.create') }}"
-                                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500  dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-                                Add
-                            </a>
+            {{-- Main Card --}}
+            <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+                {{-- Header --}}
+                <div class="border-b border-gray-100 px-6 py-5">
+
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+                        {{-- Title --}}
+                        <div class="flex items-center gap-4">
+
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center justify-center
+                                        rounded-xl bg-blue-50">
+
+                                <x-heroicon-o-users class="h-6 w-6 text-[#112695]" />
+
+                            </div>
+
+                            <div>
+
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    Manage Council Officers
+                                </h3>
+
+                                <p class="mt-0.5 text-sm text-gray-500">
+                                    Manage council officers and their account information.
+                                </p>
+
+                            </div>
+
                         </div>
+
+
+                        {{-- Add Button --}}
+                        <a href="{{ route('council-officers.create') }}"
+                            class="inline-flex items-center justify-center gap-2
+                                   rounded-xl bg-[#112695] px-5 py-2.5
+                                   text-sm font-semibold text-white
+                                   shadow-sm transition
+                                   hover:bg-[#0d1d78]
+                                   focus:outline-none
+                                   focus:ring-2 focus:ring-[#112695]/30">
+
+                            <x-heroicon-o-user-plus class="h-5 w-5" />
+
+                            Add Officer
+
+                        </a>
+
                     </div>
+
                 </div>
 
+
+                {{-- Summary --}}
+                <div class="border-b border-gray-100 bg-gray-50/60 px-6 py-4">
+
+                    <div class="flex items-center gap-3">
+
+                        <div
+                            class="flex h-9 w-9 items-center justify-center
+                                    rounded-lg border border-gray-200 bg-white">
+
+                            <x-heroicon-o-users class="h-5 w-5 text-gray-500" />
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                                Total Officers
+                            </p>
+
+                            <p class="text-lg font-semibold text-gray-800">
+                                {{ $CouncilOfficers->count() }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Table --}}
                 <div class="max-w-full overflow-x-auto custom-scrollbar">
+
                     <table class="min-w-full">
-                        <!-- table header start -->
-                        <thead class="border-gray-100 border-y bg-gray-50 ">
+
+                        {{-- Header --}}
+                        <thead class="border-b border-gray-100 bg-gray-50">
+
                             <tr>
-                                <th class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex items-center gap-3">
-                                            <div>
-                                                <span class="block font-medium text-gray-500 text-theme-xs ">
-                                                    #
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs ">
-                                            Council Officer Name
-                                        </p>
-                                    </div>
+
+                                <th class="w-16 px-6 py-4 text-left">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        #
+                                    </span>
                                 </th>
 
-                                <th class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs ">
-                                            Email
-                                        </p>
-                                    </div>
+                                <th class="px-6 py-4 text-left">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Officer
+                                    </span>
                                 </th>
 
-                                <th class="px-6 py-3 whitespace-nowrap">
-                                    <div class="flex items-center justify-center">
-                                        <p class="font-medium text-gray-500 text-theme-xs ">
-                                            Action
-                                        </p>
-                                    </div>
+                                <th class="px-6 py-4 text-left">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Council
+                                    </span>
                                 </th>
+
+                                <th class="px-6 py-4 text-left">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Email Address
+                                    </span>
+                                </th>
+
+                                <th class="w-28 px-4 py-4 text-center">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Actions
+                                    </span>
+                                </th>
+
                             </tr>
+
                         </thead>
-                        <!-- table header end -->
 
-                        <!-- table body start -->
-                        <tbody class="divide-y divide-gray-100 ">
-                            @php
-                                $i = 0;
-                            @endphp
 
-                            @forelse ($CouncilOfficers as $row)
-                                @php
-                                    $i++;
-                                @endphp
-                                <tr>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
+                        {{-- Body --}}
+                        <tbody class="divide-y divide-gray-100">
 
-                                                <div>
-                                                    <span class="block font-medium text-gray-700 text-theme-sm ">
-                                                        {{ $i }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                            @forelse ($CouncilOfficers as $index => $row)
+                                <tr class="group transition hover:bg-gray-50/70">
 
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                        {{ $row->user->name ?? ''}}
-                                                    </span>
+                                    {{-- Number --}}
+                                    <td class="px-6 py-4 whitespace-nowrap">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        <span
+                                            class="flex h-8 w-8 items-center justify-center
+                                                     rounded-lg bg-gray-100
+                                                     text-xs font-semibold text-gray-500">
 
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <span class="text-theme-sm mb-0.5 block font-medium text-gray-700 ">
-                                                        {{ $row->user->email ?? ''}}
-                                                    </span>
+                                            {{ $index + 1 }}
 
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </span>
+
                                     </td>
 
 
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <div class="flex items-center justify-center gap-3">
+                                    {{-- Officer --}}
+                                    <td class="px-6 py-4 whitespace-nowrap">
+
+                                        <div class="flex items-center gap-3">
+
+                                            <div
+                                                class="flex h-10 w-10 shrink-0 items-center justify-center
+                                                        rounded-xl bg-blue-50">
+
+                                                <x-heroicon-o-user class="h-5 w-5 text-[#112695]" />
+
+                                            </div>
+
+                                            <div>
+
+                                                <p class="text-sm font-semibold text-gray-800">
+                                                    {{ $row->user->name ?? '—' }}
+                                                </p>
+
+                                                <p class="mt-0.5 text-xs text-gray-400">
+                                                    Council Officer
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    {{-- Council --}}
+                                    <td class="px-6 py-4 whitespace-nowrap">
+
+                                        <div class="flex items-center gap-2">
+
+                                            <div
+                                                class="flex h-8 w-8 items-center justify-center
+                                                        rounded-lg bg-gray-50">
+
+                                                <x-heroicon-o-building-office class="h-4 w-4 text-gray-500" />
+
+                                            </div>
+
+                                            <span class="text-sm font-medium text-gray-700">
+                                                {{ $row->council->council_name ?? '—' }}
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    {{-- Email --}}
+                                    <td class="px-6 py-4 whitespace-nowrap">
+
+                                        <div class="flex items-center gap-2">
+
+                                            <x-heroicon-o-envelope class="h-4 w-4 text-gray-400" />
+
+                                            <span class="text-sm text-gray-600">
+                                                {{ $row->user->email ?? '—' }}
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    {{-- Actions --}}
+                                    {{-- Actions --}}
+                                    <td class="w-24 px-4 py-4 whitespace-nowrap">
+                                        <div class="flex items-center justify-center gap-2">
 
                                             {{-- Edit --}}
-                                            <a href="{{ route('council-officers.edit', $row->id) }}" title="Edit"
-                                                class="inline-flex items-center justify-center
-                                                w-8 h-8 rounded-md
-                                                text-gray-500
-                                                hover:text-blue-600 hover:bg-blue-50
-                                                transition">
-                                                <x-heroicon-o-pencil-square class="w-5 h-5" />
+                                            <a href="{{ route('council-officers.edit', $row->id) }}"
+                                                title="Edit Officer"
+                                                class="inline-flex h-8 w-8 items-center justify-center
+                                                rounded-lg border border-gray-200
+                                                bg-white text-gray-500
+                                                transition-all duration-200
+                                                hover:border-blue-200
+                                                hover:bg-blue-50
+                                                hover:text-[#112695]">
+
+                                                <x-heroicon-o-pencil class="h-4 w-4" />
+
                                             </a>
 
+
                                             {{-- Delete --}}
-                                            <form action="{{ route('council-officers.destroy', $row->id) }}" method="POST"
-                                                onsubmit="return confirmDelete()" class="m-0">
+                                            <form action="{{ route('council-officers.destroy', $row->id) }}"
+                                                method="POST" onsubmit="return confirmDelete()" class="m-0">
+
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit" title="Delete"
-                                                    class="inline-flex items-center justify-center
-                                                    w-8 h-8 rounded-md
-                                                    text-gray-500
-                                                    hover:text-red-600 hover:bg-red-50
-                                                    transition">
-                                                    <x-heroicon-o-trash class="w-5 h-5" />
+                                                <button type="submit" title="Delete Officer"
+                                                    class="inline-flex h-8 w-8 items-center justify-center
+                       rounded-lg border border-gray-200
+                       bg-white text-gray-500
+                       transition-all duration-200
+                       hover:border-red-200
+                       hover:bg-red-50
+                       hover:text-red-500">
+
+                                                    <x-heroicon-o-trash class="h-4 w-4" />
+
                                                 </button>
+
                                             </form>
 
                                         </div>
                                     </td>
+
                                 </tr>
+
                             @empty
+
+                                {{-- Empty State --}}
                                 <tr>
-                                    <td colspan="9" class="text-center px-6 py-4 text-gray-500 ">
-                                        No data found.
+
+                                    <td colspan="5" class="px-6 py-14">
+
+                                        <div class="flex flex-col items-center justify-center text-center">
+
+                                            <div
+                                                class="flex h-16 w-16 items-center justify-center
+                                                        rounded-2xl bg-gray-100">
+
+                                                <x-heroicon-o-users class="h-8 w-8 text-gray-400" />
+
+                                            </div>
+
+                                            <h4 class="mt-4 text-sm font-semibold text-gray-800">
+                                                No council officers found
+                                            </h4>
+
+                                            <p class="mt-1 max-w-sm text-sm text-gray-500">
+                                                There are currently no council officers.
+                                                Create your first officer to get started.
+                                            </p>
+
+                                            <a href="{{ route('council-officers.create') }}"
+                                                class="mt-5 inline-flex items-center gap-2
+                                                       rounded-lg bg-[#112695] px-4 py-2
+                                                       text-sm font-medium text-white
+                                                       transition hover:bg-[#0d1d78]">
+
+                                                <x-heroicon-o-user-plus class="h-4 w-4" />
+
+                                                Add Officer
+
+                                            </a>
+
+                                        </div>
+
                                     </td>
+
                                 </tr>
                             @endforelse
 
-
                         </tbody>
-                        <!-- table body end -->
+
                     </table>
+
                 </div>
+
             </div>
-            <!-- Table Four -->
+
         </div>
+
     </div>
+
 </x-app-layout>
+
+
 <script type="text/javascript">
     function confirmDelete() {
-        return confirm('Are you sure you want to delete this data ?');
+        return confirm('Are you sure you want to delete this council officer?');
     }
 </script>

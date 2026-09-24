@@ -65,18 +65,61 @@ class CouncilOfficerController extends Controller
     
     public function edit(string $id)
     {
-        //
+        $councilOfficer = Councilofficer::with('user')
+            ->findOrFail($id);
+
+        $councils = Council::where('status', 1)->get();
+
+        return view('councilofficer.edit', compact('councilOfficer', 'councils'));
     }
 
     
     public function update(Request $request, string $id)
     {
-        //
+        $councilOfficer = Councilofficer::with('user')
+            ->findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'unique:users,email,' . $councilOfficer->user_id,
+            ],
+            'council_id' => 'required|exists:councils,id',
+            'password' => 'nullable|confirmed|min:8',
+        ]);
+
+        $user = $councilOfficer->user;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->council_id = $request->council_id;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        $councilOfficer->council_id = $request->council_id;
+        $councilOfficer->save();
+
+        return redirect('council-officers')
+            ->with('success', 'Council Officer updated successfully');
     }
 
     
     public function destroy(string $id)
     {
-        //
+        $councilOfficer = Councilofficer::findOrFail($id);
+
+        if ($councilOfficer) {
+            $councilOfficer->delete();
+            return redirect('council-officers')->with('success', 'Data deleted Successfully');
+        } else {
+            return redirect('council-officers')->with('success', 'No data find to delete');
+        }
+
     }
 }

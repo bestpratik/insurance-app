@@ -640,8 +640,8 @@ class PurchaseList extends Component
                 // $existingCopyEmails = array_filter(explode(',', $purchase->invoice->copy_email ?? ''));
                 // $ccEmails = array_unique(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
 
-                // $ccEmails = 'aadatia@moneywiseplc.co.uk';
-                $ccEmails = 'anuradham.dbt@gmail.com';
+                $ccEmails = 'aadatia@moneywiseplc.co.uk';
+                // $ccEmails = 'anuradham.dbt@gmail.com';
 
                 $message->cc($ccEmails);
                 // $message->bcc(['bestpratik@gmail.com']);

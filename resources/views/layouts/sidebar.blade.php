@@ -8,41 +8,110 @@
         <span class="sidebar-item-text">Dashboard</span>
     </a>
 
-@if(auth()->user()->isAdmin())
+    @if (auth()->user()->isAdmin())
+        <div x-data="{ open: {{ request()->is('insurances*') ? 'true' : 'false' }} }" x-init="open = {{ request()->is('insurances*') ? 'true' : 'false' }}" class="mb-2">
+            <button @click="open = !open"
+                class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md 
+            {{ request()->is('insurances*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
+                <div class="flex items-center">
+                    <x-heroicon-o-shield-check
+                        class="mr-3 h-6 w-6 {{ request()->is('insurances*') ? 'text-blue-700' : 'text-[#25304e]' }}" />
+                    <span class="sidebar-item-text">Insurances</span>
+                </div>
+                <svg class="h-5 w-5 {{ request()->is('insurances*') ? 'text-blue-700' : 'text-gray-400' }}"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
 
-    <div x-data="{ open: {{ request()->is('insurances*') ? 'true' : 'false' }} }" x-init="open = {{ request()->is('insurances*') ? 'true' : 'false' }}" class="mb-2">
-        <button @click="open = !open"
-            class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md 
-        {{ request()->is('insurances*') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
-            <div class="flex items-center">
-                <x-heroicon-o-shield-check
-                    class="mr-3 h-6 w-6 {{ request()->is('insurances*') ? 'text-blue-700' : 'text-[#25304e]' }}" />
-                <span class="sidebar-item-text">Insurances</span>
-            </div>
-            <svg class="h-5 w-5 {{ request()->is('insurances*') ? 'text-blue-700' : 'text-gray-400' }}"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd" />
-            </svg>
-        </button>
-
-        <div x-show="open" class="pl-8 space-y-1">
-            <a href="{{ route('insurances.create') }}"
-                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            <div x-show="open" class="pl-8 space-y-1">
+                <a href="{{ route('insurances.create') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
             {{ request()->is('insurances/create') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
-                <x-heroicon-o-user-plus class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">Create an Insurance</span>
-            </a>
+                    <x-heroicon-o-user-plus class="mr-3 h-5 w-5 text-gray-400" />
+                    <span class="sidebar-item-text">Create an Insurance</span>
+                </a>
 
-            <a href="{{ url('insurances') }}"
-                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+                <a href="{{ url('insurances') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
             {{ request()->is('insurances') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
-                <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 text-gray-400" />
-                <span class="sidebar-item-text">List of Insurances</span>
-            </a>
+                    <x-heroicon-o-bars-3 class="mr-3 h-5 w-5 text-gray-400" />
+                    <span class="sidebar-item-text">List of Insurances</span>
+                </a>
+            </div>
         </div>
-    </div>
+
+        <div x-data="{ open: {{ request()->is('councils*') || request()->is('council-create*') || request()->is('council-edit*') || request()->is('council-officers*') ? 'true' : 'false' }} }" x-init="open = {{ request()->is('councils*') || request()->is('council-create*') || request()->is('council-edit*') || request()->is('council-officers*') ? 'true' : 'false' }}" class="mb-2">
+
+            {{-- Council Parent --}}
+            <button @click="open = !open"
+                class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md
+        {{ request()->is('councils*') ||
+        request()->is('council-create*') ||
+        request()->is('council-edit*') ||
+        request()->is('council-officers*')
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
+
+                <div class="flex items-center">
+                    <x-heroicon-o-building-office-2
+                        class="mr-3 h-6 w-6
+                {{ request()->is('councils*') ||
+                request()->is('council-create*') ||
+                request()->is('council-edit*') ||
+                request()->is('council-officers*')
+                    ? 'text-blue-700'
+                    : 'text-[#25304e]' }}" />
+
+                    <span class="sidebar-item-text">Council</span>
+                </div>
+
+                <svg class="h-5 w-5
+            {{ request()->is('councils*') ||
+            request()->is('council-create*') ||
+            request()->is('council-edit*') ||
+            request()->is('council-officers*')
+                ? 'text-blue-700'
+                : 'text-gray-400' }}"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            {{-- Submenu --}}
+            <div x-show="open" class="pl-8 space-y-1">
+
+                {{-- Councils --}}
+                <a href="{{ route('councils') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('councils') || request()->is('council-create*') || request()->is('council-edit*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                    <x-heroicon-o-building-office class="mr-3 h-5 w-5 text-gray-400" />
+
+                    <span class="sidebar-item-text">Councils</span>
+                </a>
+
+                {{-- Council Officers --}}
+                <a href="{{ route('council-officers.index') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('council-officers*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                    <x-heroicon-o-users class="mr-3 h-5 w-5 text-gray-400" />
+
+                    <span class="sidebar-item-text">Council Officers</span>
+                </a>
+
+            </div>
+        </div>
     @endif
 
 
@@ -69,18 +138,17 @@
         <span class="sidebar-item-text">Purchased List</span>
     </a>
 
-    @if(auth()->user()->isAdmin())
-
-    <a href="{{ route('purchase.cancel.list') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
+    @if (auth()->user()->isAdmin())
+        <a href="{{ route('purchase.cancel.list') }}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
     @if (request()->is('purchases/list*')) bg-[#112695] text-white 
     @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-bars-3
-            class="mr-3 h-5 w-5 
+            <x-heroicon-o-bars-3
+                class="mr-3 h-5 w-5 
         @if (request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Cancelled List</span>
-    </a>
+            <span class="sidebar-item-text">Cancelled List</span>
+        </a>
     @endif
 
 
@@ -129,245 +197,245 @@
         <span class="sidebar-item-text">Bordereau Report</span>
     </a>
 
-@if(auth()->user()->isAdmin())
-    <!-- Provider -->
-    <a href="{{ url('providers') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+    @if (auth()->user()->isAdmin())
+        <!-- Provider -->
+        <a href="{{ url('providers') }}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
               @if (request()->is('providers*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-user-group
-            class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
-        <span class="sidebar-item-text">Provider</span>
-    </a>
+            <x-heroicon-o-user-group
+                class="mr-3 h-6 w-6 @if (request()->is('providers*')) text-white @else text-[25304e] @endif" />
+            <span class="sidebar-item-text">Provider</span>
+        </a>
 
 
-    @php
-        $frontendActive =
-            request()->is('about*') ||
-            request()->is('create-about') ||
-            request()->is('banner*') ||
-            request()->is('create-banner') ||
-            request()->is('fact*') ||
-            request()->is('create-fact') ||
-            request()->is('faq*') ||
-            request()->is('create-faq') ||
-            request()->is('services*') ||
-            request()->is('create-services') ||
-            request()->is('client*') ||
-            request()->is('create-client') ||
-            request()->is('contact*') ||
-            request()->is('create-contact') ||
-            request()->is('content*') ||
-            request()->is('create-content') ||
-            request()->is('contactform_list*') ||
-            request()->is('newsletter_list*') ||
-            request()->is('blogs*') ||
-            request()->is('create-blogs') ||
-            request()->is('blog-category*') ||
-            request()->is('create-blog-category') ||
-            request()->is('blog-tag*') ||
-            request()->is('create-blog-tag') ||
-            request()->is('rent*') ||
-            request()->is('create-rent') ||
-            request()->is('testimonial*') ||
-            request()->is('create-testimonial') ||
-            request()->is('claim*') ||
-            request()->is('create-claim') ||
-            request()->is('seo*') ||
-            request()->is('create-seo');
-    @endphp
+        @php
+            $frontendActive =
+                request()->is('about*') ||
+                request()->is('create-about') ||
+                request()->is('banner*') ||
+                request()->is('create-banner') ||
+                request()->is('fact*') ||
+                request()->is('create-fact') ||
+                request()->is('faq*') ||
+                request()->is('create-faq') ||
+                request()->is('services*') ||
+                request()->is('create-services') ||
+                request()->is('client*') ||
+                request()->is('create-client') ||
+                request()->is('contact*') ||
+                request()->is('create-contact') ||
+                request()->is('content*') ||
+                request()->is('create-content') ||
+                request()->is('contactform_list*') ||
+                request()->is('newsletter_list*') ||
+                request()->is('blogs*') ||
+                request()->is('create-blogs') ||
+                request()->is('blog-category*') ||
+                request()->is('create-blog-category') ||
+                request()->is('blog-tag*') ||
+                request()->is('create-blog-tag') ||
+                request()->is('rent*') ||
+                request()->is('create-rent') ||
+                request()->is('testimonial*') ||
+                request()->is('create-testimonial') ||
+                request()->is('claim*') ||
+                request()->is('create-claim') ||
+                request()->is('seo*') ||
+                request()->is('create-seo');
+        @endphp
 
-    <div x-data="{ open: {{ $frontendActive ? 'true' : 'false' }} }" x-init="open = {{ $frontendActive ? 'true' : 'false' }}" class="mb-2">
+        <div x-data="{ open: {{ $frontendActive ? 'true' : 'false' }} }" x-init="open = {{ $frontendActive ? 'true' : 'false' }}" class="mb-2">
 
-        <button @click="open = !open"
-            class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md 
+            <button @click="open = !open"
+                class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md 
         {{ $frontendActive ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
-            <div class="flex items-center">
-                <x-heroicon-o-eye class="mr-3 h-6 w-6 {{ $frontendActive ? 'text-blue-700' : 'text-[#25304e]' }}" />
-                <span class="sidebar-item-text">Home Pages</span>
-            </div>
-            <svg class="h-5 w-5 {{ $frontendActive ? 'text-blue-700' : 'text-gray-400' }}"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd" />
-            </svg>
-        </button>
+                <div class="flex items-center">
+                    <x-heroicon-o-eye
+                        class="mr-3 h-6 w-6 {{ $frontendActive ? 'text-blue-700' : 'text-[#25304e]' }}" />
+                    <span class="sidebar-item-text">Home Pages</span>
+                </div>
+                <svg class="h-5 w-5 {{ $frontendActive ? 'text-blue-700' : 'text-gray-400' }}"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
 
-        <div x-show="open" class="pl-8 space-y-1">
+            <div x-show="open" class="pl-8 space-y-1">
 
-            <!-- About -->
-            <a href="{{ url('about') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- About -->
+                <a href="{{ url('about') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('about*') || request()->is('create-about')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-information-circle
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-information-circle
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('about*') || request()->is('create-about')) text-white @else text-[#25304e] @endif" />
-                <span>About</span>
-            </a>
+                    <span>About</span>
+                </a>
 
-            <!-- Banner -->
-            <a href="{{ url('banner') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Banner -->
+                <a href="{{ url('banner') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('banner*') || request()->is('create-banner')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-photo
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-photo
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('banner*') || request()->is('create-banner')) text-white @else text-[#25304e] @endif" />
-                <span>Banner</span>
-            </a>
+                    <span>Banner</span>
+                </a>
 
-            <!-- Blog -->
-            <a href="{{ url('blogs') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Blog -->
+                <a href="{{ url('blogs') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('blogs*') || request()->is('create-blogs')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-document-text
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-document-text
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('blogs*') || request()->is('create-blogs')) text-white @else text-[#25304e] @endif" />
-                <span>Blog</span>
-            </a>
+                    <span>Blog</span>
+                </a>
 
-            <!-- Blog Category -->
-            <a href="{{ url('blog-category') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Blog Category -->
+                <a href="{{ url('blog-category') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('blog-category*') || request()->is('create-blog-category')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-folder-open
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-folder-open
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('blog-category*') || request()->is('create-blog-category')) text-white @else text-[#25304e] @endif" />
-                <span>Blog Category</span>
-            </a>
+                    <span>Blog Category</span>
+                </a>
 
-            <!-- Blog Tag -->
-            <a href="{{ url('blog-tag') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Blog Tag -->
+                <a href="{{ url('blog-tag') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('blog-tag*') || request()->is('create-blog-tag')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-tag
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-tag
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('blog-tag*') || request()->is('create-blog-tag')) text-white @else text-[#25304e] @endif" />
-                <span>Blog Tag</span>
-            </a>
+                    <span>Blog Tag</span>
+                </a>
 
-            <!-- Fact -->
-            <a href="{{ url('fact') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Fact -->
+                <a href="{{ url('fact') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('fact*') || request()->is('create-fact')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-chart-bar
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-chart-bar
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('fact*') || request()->is('create-fact')) text-white @else text-[#25304e] @endif" />
-                <span>Fact</span>
-            </a>
+                    <span>Fact</span>
+                </a>
 
-            <!-- FAQ -->
-            <a href="{{ url('faq') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- FAQ -->
+                <a href="{{ url('faq') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('faq*') || request()->is('create-faq')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-question-mark-circle
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-question-mark-circle
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('faq*') || request()->is('create-faq')) text-white @else text-[#25304e] @endif" />
-                <span>FAQ</span>
-            </a>
+                    <span>FAQ</span>
+                </a>
 
-            <!-- Services -->
-            <a href="{{ url('services') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Services -->
+                <a href="{{ url('services') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('services*') || request()->is('create-services')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-cog
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-cog
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('services*') || request()->is('create-services')) text-white @else text-[#25304e] @endif" />
-                <span>Service</span>
-            </a>
+                    <span>Service</span>
+                </a>
 
-            <!-- Testimonial -->
-            <a href="{{ url('testimonial') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Testimonial -->
+                <a href="{{ url('testimonial') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('testimonial*') || request()->is('create-testimonial')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-star
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-star
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('testimonial*') || request()->is('create-testimonial')) text-white @else text-[#25304e] @endif" />
-                <span>Testimonial</span>
-            </a>
+                    <span>Testimonial</span>
+                </a>
 
-            <!-- Client -->
-            <a href="{{ url('client') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Client -->
+                <a href="{{ url('client') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('client*') || request()->is('create-client')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-users
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-users
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('client*') || request()->is('create-client')) text-white @else text-[#25304e] @endif" />
-                <span>Client</span>
-            </a>
+                    <span>Client</span>
+                </a>
 
-            <!-- Claim -->
-            <a href="{{ url('claim') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Claim -->
+                <a href="{{ url('claim') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('claim*') || request()->is('create-claim')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-clipboard-document-check
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-clipboard-document-check
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('claim*') || request()->is('create-claim')) text-white @else text-[#25304e] @endif" />
-                <span>Claim</span>
-            </a>
+                    <span>Claim</span>
+                </a>
 
-            <!-- Contact -->
-            <a href="{{ url('contact') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Contact -->
+                <a href="{{ url('contact') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('contact*') || request()->is('create-contact')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-user-circle
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-user-circle
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('contact*') || request()->is('create-contact')) text-white @else text-[#25304e] @endif" />
-                <span>Contact</span>
-            </a>
+                    <span>Contact</span>
+                </a>
 
-            <!-- Terms & Conditions -->
-            <a href="{{ url('content') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Terms & Conditions -->
+                <a href="{{ url('content') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('content*') || request()->is('create-content')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-document-check
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-document-check
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('content*') || request()->is('create-content')) text-white @else text-[#25304e] @endif" />
-                <span>Terms & Conditions</span>
-            </a>
+                    <span>Terms & Conditions</span>
+                </a>
 
-            <!-- Rent Guarantee -->
-            <a href="{{ url('rent') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Rent Guarantee -->
+                <a href="{{ url('rent') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('rent*') || request()->is('create-rent')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-shield-check
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-shield-check
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('rent*') || request()->is('create-rent')) text-white @else text-[#25304e] @endif" />
-                <span>Rent Guarantee</span>
-            </a>
+                    <span>Rent Guarantee</span>
+                </a>
 
-            <!-- Contact Form List -->
-            <a href="{{ route('contactform.list') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Contact Form List -->
+                <a href="{{ route('contactform.list') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('contactform_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-bars-3
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-bars-3
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('contactform_list*')) text-white @else text-[#25304e] @endif" />
-                <span>Contact Form List</span>
-            </a>
+                    <span>Contact Form List</span>
+                </a>
 
-            <!-- Newsletter List -->
-            <a href="{{ route('newsletter.list') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- Newsletter List -->
+                <a href="{{ route('newsletter.list') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('newsletter_list*')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-newspaper
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-newspaper
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('newsletter_list*')) text-white @else text-[#25304e] @endif" />
-                <span>News Letter List</span>
-            </a>
+                    <span>News Letter List</span>
+                </a>
 
-            <!-- SEO Management -->
-            <a href="{{ route('seo') }}"
-                class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
+                <!-- SEO Management -->
+                <a href="{{ route('seo') }}"
+                    class="flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
             @if (request()->is('seo*') || request()->is('create-seo')) bg-[#112695] text-white @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-                <x-heroicon-o-magnifying-glass-circle
-                    class="w-5 h-5 mr-3 flex-shrink-0 
+                    <x-heroicon-o-magnifying-glass-circle
+                        class="w-5 h-5 mr-3 flex-shrink-0 
                 @if (request()->is('seo*') || request()->is('create-seo')) text-white @else text-[#25304e] @endif" />
-                <span>SEO Management</span>
-            </a>
+                    <span>SEO Management</span>
+                </a>
 
+            </div>
         </div>
-    </div>
-
     @endif
 
 
