@@ -11,7 +11,7 @@ use Hash;
 
 class CouncilOfficerController extends Controller
 {
-    
+
     public function index()
     {
         $CouncilOfficers = Councilofficer::with(['user', 'council'])->where('status', 1)->get();
@@ -19,29 +19,34 @@ class CouncilOfficerController extends Controller
         return view('councilofficer.index', compact('CouncilOfficers'));
     }
 
-    
+
     public function create()
     {
         $councils = Council::where('status', 1)->get();
         return view('councilofficer.create', compact('councils'));
     }
 
-    
+
     public function store(Request $request)
     {
-        $request->validate([
-            'council_id' => 'required',
-            'name' => 'required|string|max:255',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => 'required|confirmed|min:8',
-        ]);
+        $request->validate(
+            [
+                'council_id' => 'required',
+                'name' => 'required|string|max:255',
+                'email' => ['required', 'email', 'unique:users,email'],
+                'password' => 'required|confirmed|min:8',
+            ],
+            [
+                'council_id.required' => 'Please select a council.',
+            ]
+        );
 
-        
+
         $usertype = Usertype::where('slug', 'council-officer')->first();
         // dd($usertype);
 
         $user = new User;
-        $user->name = $request->name ;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->type = $usertype->id;
         $user->council_id = $request->council_id;
@@ -54,16 +59,15 @@ class CouncilOfficerController extends Controller
         $councilofficer->save();
 
         return redirect('council-officers')->with('success', 'Council Officer created successfully');
-
     }
 
-    
+
     public function show(string $id)
     {
         //
     }
 
-    
+
     public function edit(string $id)
     {
         $councilOfficer = Councilofficer::with('user')
@@ -74,7 +78,7 @@ class CouncilOfficerController extends Controller
         return view('councilofficer.edit', compact('councilOfficer', 'councils'));
     }
 
-    
+
     public function update(Request $request, string $id)
     {
         $councilOfficer = Councilofficer::with('user')
@@ -110,7 +114,7 @@ class CouncilOfficerController extends Controller
             ->with('success', 'Council Officer updated successfully');
     }
 
-    
+
     public function destroy(string $id)
     {
         $councilOfficer = Councilofficer::findOrFail($id);
@@ -121,6 +125,5 @@ class CouncilOfficerController extends Controller
         } else {
             return redirect('council-officers')->with('success', 'No data find to delete');
         }
-
     }
 }
