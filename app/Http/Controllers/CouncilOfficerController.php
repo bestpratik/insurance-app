@@ -30,6 +30,7 @@ class CouncilOfficerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'council_id' => 'required',
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => 'required|confirmed|min:8',
