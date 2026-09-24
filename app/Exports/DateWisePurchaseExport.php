@@ -16,51 +16,103 @@ class DateWisePurchaseExport implements FromCollection, WithHeadings, WithMappin
     public $startDate;
     public $endDate;
 
-    public function __construct($startDate, $endDate)
+    protected $userId;
+    protected $userType;
+
+    public function __construct($startDate, $endDate, $userId = null, $userType = null)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->userId = $userId;
+        $this->userType = $userType;
     }
+
+    // public function collection()
+    // {
+    //     return Purchase::where('status', 1)
+    //         ->whereNull('purchase_status')
+    //         ->whereBetween('policy_start_date', [$this->startDate, $this->endDate])
+    //         ->get([
+    //             'product_type',
+    //             'policy_no',
+    //             'policy_holder_fname',
+    //             'policy_holder_lname',
+    //             'policy_start_date',
+    //             'policy_end_date',
+    //             'insurance_type',
+    //             'net_premium',
+    //             'commission',
+    //             'gross_premium',
+    //             'ipt',
+    //             'total_premium',
+    //             'policy_holder_address',
+    //             'property_address',
+
+    //             'company_name',
+    //             'policy_holder_email',
+    //             'policy_holder_phone',
+    //             'ast_start_date',
+    //             'payable_amount',
+    //             'tenant_name',
+    //             'tenant_email',
+    //             'tenant_phone',
+    //             'rent_amount',
+    //             'insurance_type',
+    //             'policy_holder_postcode',
+    //             'post_code',
+    //             'purchase_date',
+    //             'ipt_on_billable_amount',
+    //             'admin_fee',
+    //             'payment_method',
+    //             'payment_status',
+    //         ]);
+    // }
+
+
 
     public function collection()
     {
-        return Purchase::where('status', 1)
+        $query = Purchase::where('status', 1)
             ->whereNull('purchase_status')
-            ->whereBetween('policy_start_date', [$this->startDate, $this->endDate])
-            ->get([
-                'product_type',
-                'policy_no',
-                'policy_holder_fname',
-                'policy_holder_lname',
-                'policy_start_date',
-                'policy_end_date',
-                'insurance_type',
-                'net_premium',
-                'commission',
-                'gross_premium',
-                'ipt',
-                'total_premium',
-                'policy_holder_address',
-                'property_address',
+            ->whereBetween('policy_start_date', [$this->startDate, $this->endDate]);
 
-                'company_name',
-                'policy_holder_email',
-                'policy_holder_phone',
-                'ast_start_date',
-                'payable_amount',
-                'tenant_name',
-                'tenant_email',
-                'tenant_phone',
-                'rent_amount',
-                'insurance_type',
-                'policy_holder_postcode',
-                'post_code',
-                'purchase_date',
-                'ipt_on_billable_amount',
-                'admin_fee',
-                'payment_method',
-                'payment_status',
-            ]);
+        if ($this->userType === 'council-officer') {
+            $query->where('user_id', $this->userId);
+        }
+
+        return $query->get([
+            'product_type',
+            'policy_no',
+            'policy_holder_fname',
+            'policy_holder_lname',
+            'policy_start_date',
+            'policy_end_date',
+            'insurance_type',
+            'net_premium',
+            'commission',
+            'gross_premium',
+            'ipt',
+            'total_premium',
+            'policy_holder_address',
+            'property_address',
+            'company_name',
+            'policy_holder_email',
+            'policy_holder_phone',
+            'ast_start_date',
+            'payable_amount',
+            'tenant_name',
+            'tenant_email',
+            'tenant_phone',
+            'rent_amount',
+            'insurance_type',
+            'policy_holder_postcode',
+            'post_code',
+            'purchase_date',
+            'ipt_on_billable_amount',
+            'admin_fee',
+            'payment_method',
+            'payment_status',
+        ]);
     }
 
     public function map($row): array
@@ -71,15 +123,15 @@ class DateWisePurchaseExport implements FromCollection, WithHeadings, WithMappin
         } elseif ($row->policy_holder_type == 'Individual') {
             $policyHolderName = trim(
                 ($row->policy_holder_title ?? '') . ' ' .
-                ($row->policy_holder_fname ?? '') . ' ' .
-                ($row->policy_holder_lname ?? '')
+                    ($row->policy_holder_fname ?? '') . ' ' .
+                    ($row->policy_holder_lname ?? '')
             );
         } else {
             $policyHolderName = trim(
                 ($row->company_name ?? '') . ' ' .
-                ($row->policy_holder_title ?? '') . ' ' .
-                ($row->policy_holder_fname ?? '') . ' ' .
-                ($row->policy_holder_lname ?? '')
+                    ($row->policy_holder_title ?? '') . ' ' .
+                    ($row->policy_holder_fname ?? '') . ' ' .
+                    ($row->policy_holder_lname ?? '')
             );
         }
 
@@ -176,7 +228,7 @@ class DateWisePurchaseExport implements FromCollection, WithHeadings, WithMappin
             'Admin Fee',
             'Payment Method',
             'Payment Status',
-            
+
         ];
     }
 }

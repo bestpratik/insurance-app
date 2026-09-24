@@ -43,15 +43,35 @@ class DatewisePurchaseList extends Component
     }
 
 
+    // public function export()
+    // {
+    //     $this->validate();
+
+    //     return Excel::download(
+    //         new DateWisePurchaseExport($this->startDate, $this->endDate),
+    //         'purchase-records-' . now()->format('Y-m-d') . '.xlsx'
+    //     );
+    // }
+
     public function export()
     {
         $this->validate();
 
+        $user = Auth::user();
+
+        $userType = UserType::find($user->type);
+
         return Excel::download(
-            new DateWisePurchaseExport($this->startDate, $this->endDate),
+            new DateWisePurchaseExport(
+                $this->startDate,
+                $this->endDate,
+                $user->id,
+                $userType?->slug
+            ),
             'purchase-records-' . now()->format('Y-m-d') . '.xlsx'
         );
     }
+
 
     private function purchaseQuery()
     {
