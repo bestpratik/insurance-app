@@ -9,11 +9,13 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InsuranceBillingEmail;
 use Illuminate\Support\Facades\File;
+use App\Models\UserType;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class OfflinePurchaseList extends Component
 {
-     use WithPagination;
+    use WithPagination;
     public $perPage = 10;
     public $policyNo;
     public $insuranceName;
@@ -54,23 +56,37 @@ class OfflinePurchaseList extends Component
     public $paymentStatus;
 
 
+    private function purchaseQuery()
+    {
+        $user = Auth::user();
+        $userType = UserType::find($user->type);
+        $query = Purchase::query();
+
+        if ($userType && $userType->slug === 'council-officer') {
+
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
+    }
+
     public function render()
     {
-        $query = Purchase::with(['insurance.provider', 'invoice'])
-        ->where('status', 1)
-        ->whereNull('purchase_status')
-        ->whereHas('insurance', function ($query) {
+        $query = $this->purchaseQuery()->with(['insurance.provider', 'invoice'])
+            ->where('status', 1)
+            ->whereNull('purchase_status')
+            ->whereHas('insurance', function ($query) {
                 $query
-            ->where('purchase_mode', 'Offline');
+                    ->where('purchase_mode', 'Offline');
             })
-        ->orderBy('id', 'desc');
+            ->orderBy('id', 'desc');
 
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
         }
 
         if (!empty($this->insuranceName)) {
-            $query->whereHas('insurance', function ($query) { 
+            $query->whereHas('insurance', function ($query) {
                 $query->where('name', 'like', '%' . $this->insuranceName . '%');
             });
         }
@@ -126,10 +142,10 @@ class OfflinePurchaseList extends Component
 
         return view('livewire.offline-purchase-list', [
             'result' => $purchases,
-        ]); 
+        ]);
     }
 
-      public function openCancelModal($purchaseId)
+    public function openCancelModal($purchaseId)
     {
         $this->cancelPurchaseId = $purchaseId;
         $this->cancelReason = '';
@@ -523,7 +539,7 @@ class OfflinePurchaseList extends Component
         $this->showPaymentCheckModal = true;
     }
 
-    public function closePaymentCheckModal() 
+    public function closePaymentCheckModal()
     {
         $this->showPaymentCheckModal = false;
         $this->checkPaymentPurchaseId = null;
@@ -551,6 +567,4 @@ class OfflinePurchaseList extends Component
 
         $this->closePaymentCheckModal();
     }
-
-
 }

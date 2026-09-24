@@ -6,8 +6,10 @@ use Livewire\Component;
 use App\Models\Purchase;
 use App\Models\Provider;
 use App\Models\Insurance;
+use App\Models\Usertype;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class DashboardComponent extends Component 
@@ -22,9 +24,23 @@ class DashboardComponent extends Component
     public $paymentStatus;
 
 
+      private function purchaseQuery()
+    {
+        $user = Auth::user();
+        $userType = UserType::find($user->type);
+        $query = Purchase::query();
+
+        if ($userType && $userType->slug === 'council-officer') {
+
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
+    }
     public function render()
     {
-        $query = Purchase::with(['insurance.provider','invoice'])
+        $query = $this->purchaseQuery()
+                ->with(['insurance.provider','invoice'])
                 ->where('status', 1)
                 ->whereBetween('created_at', [Carbon::now()->subDays(7), Carbon::now()])
                 ->whereNull('purchase_status')
@@ -52,6 +68,7 @@ class DashboardComponent extends Component
         $this->showPaymentCheckModal = true;
     }
 
+    
     public function closePaymentCheckModal()
     {
         $this->showPaymentCheckModal = false;
@@ -84,7 +101,8 @@ class DashboardComponent extends Component
 
     #[Computed]
     public function policySold(){
-        return Purchase::with('insurance', 'provider', 'invoice', 'user')
+        return $this->purchaseQuery()
+            ->with('insurance', 'provider', 'invoice', 'user')
             ->whereNull('purchase_status')
             ->where('status', 1)
             ->count();
@@ -92,14 +110,16 @@ class DashboardComponent extends Component
 
     #[Computed]
     public function paidPurchaseAmount(){
-        return Purchase::with('insurance', 'provider', 'invoice', 'user')
+        return $this->purchaseQuery()
+            ->with('insurance', 'provider', 'invoice', 'user')
             ->where('status', 1)
             ->sum('payable_amount');
     }
 
     #[Computed]
     public function unPaidPurchase(){
-        return Purchase::with('insurance', 'provider', 'invoice', 'user')
+        return $this->purchaseQuery()
+            ->with('insurance', 'provider', 'invoice', 'user')
             ->where('payment_method', 'pay_later')
             ->where('status', 1)
             ->count();
@@ -107,7 +127,8 @@ class DashboardComponent extends Component
 
      #[Computed]
     public function totalClient(){
-        return Purchase::with('insurance', 'provider', 'invoice', 'user')
+        return $this->purchaseQuery()
+            ->with('insurance', 'provider', 'invoice', 'user')
             ->distinct('policy_holder_email')
             ->where('status', 1)
             ->count();

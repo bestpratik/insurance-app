@@ -351,7 +351,7 @@
                        transition focus:outline-none">
 
                                             <x-heroicon-o-ellipsis-vertical class="w-5 h-5" />
-                                        </summary>
+                                        </summary> 
 
                                         <!-- Action Menu -->
                                         {{-- <div
@@ -364,13 +364,16 @@
                                         w-56 rounded-xl border border-gray-200
                                         bg-white shadow-xl p-2 hidden">
 
+                                        @if(auth()->user()->isAdmin())
                                             <!-- Edit -->
                                             <a href="{{ route('purchase.edit', $row->policy_no) }}"
                                                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
-                          text-sm text-gray-700 hover:bg-gray-50 transition">
+                                                text-sm text-gray-700 hover:bg-gray-50 transition">
                                                 <x-heroicon-o-pencil-square class="w-5 h-5 text-indigo-600" />
                                                 <span>Edit</span>
                                             </a>
+
+                                        @endif
 
                                             <!-- Details -->
                                             <a href="{{ route('purchase.details', $row->id) }}"
@@ -437,6 +440,8 @@
                                                 <span>Payment Status</span>
                                             </button>
 
+                                            @if(auth()->user()->isAdmin())
+
                                             <!-- Cancel Purchase -->
                                             <button wire:click="openCancelModal({{ $row->id }})"
                                                 @if (in_array($row->id, $cancelledPurchases)) disabled @endif
@@ -446,6 +451,8 @@
                                                 <x-heroicon-o-x-mark class="w-5 h-5 text-red-600" />
                                                 <span>Cancel Purchase</span>
                                             </button>
+
+                                            @endif
 
                                         </div>
                                     </details>

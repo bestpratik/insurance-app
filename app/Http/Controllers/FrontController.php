@@ -169,7 +169,8 @@ class FrontController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->type = 'user';
+        // $user->type = 'user';
+        $user->type = '1';
         $user->save();
 
         Auth::login($user);
@@ -244,9 +245,11 @@ class FrontController extends Controller
                     return redirect()->route('stripe.booking');
                 }
             }
-            if ($user->type === 'admin') {
+            if ($user->userType->slug === 'admin') {
                 return redirect()->route('dashboard')->with('success', 'Welcome admin!');
-            } elseif ($user->type === 'user') {
+            }  elseif ($user->userType->slug === 'council-officer') {
+                return redirect()->route('council.dashboard')->with('success', 'Welcome to Council Dashboard!');
+            } elseif ($user->userType->slug === 'user') {
                 return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
             } else {
                 // Default fallback
@@ -265,7 +268,7 @@ class FrontController extends Controller
         //     return redirect('/dashboard')->with('error', 'Unauthorized access.');
         // }
 
-        if (Auth::user()->type !== 'user') {
+        if (Auth::user()->userType->slug !== 'user') {
             return redirect('/dashboard');
         }
 
@@ -480,7 +483,8 @@ class FrontController extends Controller
                 $user->name = $googleUser->name;
                 $user->email = $googleUser->email;
                 $user->password = Hash::make('Password@123');
-                $user->type = 'user';
+                // $user->type = 'user';
+                $user->type = 2;
                 $user->provider_id = $googleUser->id;
                 $user->provider = 'google';
                 $user->save();
@@ -515,7 +519,8 @@ class FrontController extends Controller
                 $user->name = $facebookUser->name;
                 $user->email = $facebookUser->email;
                 $user->password = Hash::make('Password@123');
-                $user->type = 'user';
+                // $user->type = 'user';
+                $user->type = 2;
                 $user->provider_id = $facebookUser->id;
                 $user->provider = 'facebook';
                 $user->save();
@@ -569,7 +574,7 @@ class FrontController extends Controller
 
     public function policy_referral_form()
     {
-        return view('policy_referral_form');
+        return view('policy_referral_form'); 
     }
 
     public function blogs($type)

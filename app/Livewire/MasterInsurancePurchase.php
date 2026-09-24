@@ -310,6 +310,7 @@ class MasterInsurancePurchase extends Component
 
         $purchase = new Purchase();
         $purchase->insurance_id = $this->selectedinsuranceId;
+        $purchase->user_id = Auth::id();
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
         $purchase->insurance_type = $this->insuranceType;
@@ -565,6 +566,7 @@ class MasterInsurancePurchase extends Component
                     });
 
                     $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                     foreach ($sendToemails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -646,6 +648,7 @@ class MasterInsurancePurchase extends Component
                     });
 
                     $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                    // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                     foreach ($sendToBillingEmails as $email) {
                         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

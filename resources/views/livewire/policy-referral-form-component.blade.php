@@ -5,7 +5,7 @@
     </div>
     @endif
     <section class="my-16">
-        <div class="max-w-7xl mx-auto rounded-md p-2">
+        <div class="max-w-7xl mx-auto rounded-md p-2"> 
             <div class="relative">
                 <button id="scrollLeft"
                     class="absolute left-0 top-0 bottom-0 z-10 px-2 hidden md:flex items-center bg-red-600 text-white shadow-md rounded-l-md hover:bg-red-700 transition">
@@ -168,7 +168,7 @@
             <div id="tab1" class="tab-content bg-white p-6 rounded shadow">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
                     <!-- Types (Radio Buttons) -->
-                    <div>
+                    {{-- <div>
                         <label class="block text-gray-700 font-medium mb-1">
                             Policy Required For <span class="text-red-600 text-lg">*</span>
                         </label>
@@ -182,6 +182,33 @@
                                 <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
                                     value="I’m an Agent">
                                 <span>I’m an Agent</span>
+                            </label>
+                            <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
+                                    value="Others">
+                                <span>Others</span>
+                            </label>
+                        </div>
+                        @error('productType')
+                        <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
+                        @enderror
+                    </div> --}}
+
+
+                     <div>
+                        <label class="block text-gray-700 font-medium mb-1">
+                            Who is this policy for <span class="text-red-600 text-lg">*</span>
+                        </label>
+                        <div class="flex space-x-5">
+                            <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
+                                    value="I’m an Landlord">
+                                <span>Landlord</span>
+                            </label>
+                            <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
+                                <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
+                                    value="I’m an Agent">
+                                <span>Agent</span>
                             </label>
                             <label class="flex items-center space-x-2 px-3 py-1 rounded-full bg-[#66666610]">
                                 <input type="radio" wire:model="productType" class="text-blue-600 focus:ring-blue-500"
@@ -206,6 +233,10 @@
                             <option value="{{ $avinsurance->id }}">{{ $avinsurance->display_name ?? $avinsurance->name }}</option>
                             @endforeach
                         </select>
+
+                        @error('selectedinsuranceId')
+                        <span class="text-sm text-red-600 mt-1 block">{{ $message }}</span>
+                        @enderror
 
 
                     </div>

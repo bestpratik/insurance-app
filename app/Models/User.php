@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'council_id',
         'password',
     ];
 
@@ -45,11 +46,37 @@ class User extends Authenticatable
         ];
     }
 
+    public function userType()
+    {
+        return $this->belongsTo(Usertype::class, 'type', 'id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->userType?->slug === 'admin';
+    }
+
+    public function isCouncilOfficer()
+    {
+        return $this->userType?->slug === 'council-officer';
+    }
+
+    public function council()
+    {
+        return $this->belongsTo(Council::class, 'council_id', 'id');
+    }
+
+
+    public function councilOfficer()
+    {
+        return $this->hasOne(Councilofficer::class, 'user_id', 'id');
+    }
+
     // App\Models\User.php
 
     public function hasType($type)
     {
-        return $this->type === $type;
-    } 
-
+        // return $this->type === $type;
+        return $this->userType && $this->userType->slug === $type;
+    }
 }

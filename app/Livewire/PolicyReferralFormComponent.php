@@ -210,7 +210,12 @@ class PolicyReferralFormComponent extends Component
                 ],
                 'doorNo' => 'nullable',
                 'addressOne' => 'required|string',
-                'postCode' => 'required|string',
+                // 'postCode' => 'required|string',
+                'postCode' => [
+                    'required',
+                    'string',
+                    'regex:/^[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}$/i',
+                ],
                 'noOfBedrooms' => 'required',
             ];
 
@@ -236,7 +241,12 @@ class PolicyReferralFormComponent extends Component
             if ($this->policyHoldertype === 'Company') {
                 $rules['companyName'] = 'required|string';
                 $rules['policyholderCompanyEmail'] = 'required|email';
-                $rules['policyholderPostcode'] = 'required|string';
+                // $rules['policyholderPostcode'] = 'required|string';
+                $rules['policyholderPostcode'] = [
+                    'required',
+                    'string',
+                    'regex:/^[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}$/i',
+                ];
                 $rules['policyholderPhone'] = 'required|string';
             } elseif ($this->policyHoldertype === 'Individual') {
                 $rules['policyholderTitle'] = 'required|string';
@@ -295,7 +305,11 @@ class PolicyReferralFormComponent extends Component
                 'billingEmail' => 'required|email',
                 'billingPhone' => 'required',
                 'billingAddressOne' => 'required|string',
-                'billingPostcode' => 'required'
+                // 'billingPostcode' => 'required',
+                'billingPostcode' => [
+                    'required',
+                    'regex:/^[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}$/i',
+                ],
             ];
         }
 
@@ -304,7 +318,17 @@ class PolicyReferralFormComponent extends Component
 
     public function nextStep()
     {
-        $this->validate($this->rulesForStep($this->currentStep));
+        // $this->validate($this->rulesForStep($this->currentStep));
+
+        $this->validate(
+            $this->rulesForStep($this->currentStep),
+            [
+                'productType.required' => 'Please select who the policy is required for.',
+                'selectedinsuranceId.required' => 'Please select an insurance to continue.',
+                // 'selectedinsuranceId.exists' => 'The selected insurance product is invalid.',
+                // 'insurancesRequired.*' => 'Please select a valid insurance option.',
+            ]
+        );
 
         if ($this->currentStep < 8) {
             $this->currentStep++;
@@ -527,7 +551,8 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        // $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        $sendToemails = ['anuradham.dbt@gmail.com'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF

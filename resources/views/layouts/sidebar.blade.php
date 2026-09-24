@@ -8,7 +8,7 @@
         <span class="sidebar-item-text">Dashboard</span>
     </a>
 
-
+@if(auth()->user()->isAdmin())
 
     <div x-data="{ open: {{ request()->is('insurances*') ? 'true' : 'false' }} }" x-init="open = {{ request()->is('insurances*') ? 'true' : 'false' }}" class="mb-2">
         <button @click="open = !open"
@@ -43,6 +43,9 @@
             </a>
         </div>
     </div>
+    @endif
+
+
 
     <a href="{{ url('purchases') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
@@ -66,6 +69,8 @@
         <span class="sidebar-item-text">Purchased List</span>
     </a>
 
+    @if(auth()->user()->isAdmin())
+
     <a href="{{ route('purchase.cancel.list') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
     @if (request()->is('purchases/list*')) bg-[#112695] text-white 
@@ -76,6 +81,8 @@
         @else text-[#25304e] @endif" />
         <span class="sidebar-item-text">Cancelled List</span>
     </a>
+    @endif
+
 
     <a href="{{ url('online-purchase') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
@@ -122,7 +129,7 @@
         <span class="sidebar-item-text">Bordereau Report</span>
     </a>
 
-
+@if(auth()->user()->isAdmin())
     <!-- Provider -->
     <a href="{{ url('providers') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all
@@ -360,6 +367,8 @@
 
         </div>
     </div>
+
+    @endif
 
 
     <!-- Insurance -->

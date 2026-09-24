@@ -6,6 +6,11 @@ function contactHelper(){
     return $contact=DB::table('contact')->first();
 }
 
+function serviceHelper(){
+    return DB::table('services')->get();
+}
+
+
 // function termsConditions()
 // {
 //     $terms = DB::table('contents')->first();

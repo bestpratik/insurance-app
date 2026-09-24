@@ -9,6 +9,8 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InsuranceBillingEmail;
 use Illuminate\Support\Facades\File;
+use App\Models\UserType;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class OnlinePurchaseList extends Component
@@ -53,9 +55,23 @@ class OnlinePurchaseList extends Component
     public $paymentMethod;
     public $paymentStatus;
 
+         private function purchaseQuery()
+    {
+        $user = Auth::user();
+        $userType = UserType::find($user->type);
+        $query = Purchase::query();
+
+        if ($userType && $userType->slug === 'council-officer') {
+
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
+    }
+
     public function render()
     {
-        $query = Purchase::with(['insurance.provider', 'invoice'])
+        $query = $this->purchaseQuery()->with(['insurance.provider', 'invoice'])
         ->where('status', 1)
         ->whereNull('purchase_status')
         ->where('payment_status', 'Paid')

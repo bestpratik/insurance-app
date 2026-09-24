@@ -7,6 +7,8 @@ use App\Models\Purchase;
 use Livewire\WithPagination;
 use App\Exports\DateWisePurchaseExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UserType;
 
 class DatewisePurchaseList extends Component
 {
@@ -51,6 +53,20 @@ class DatewisePurchaseList extends Component
         );
     }
 
+    private function purchaseQuery()
+    {
+        $user = Auth::user();
+        $userType = UserType::find($user->type);
+        $query = Purchase::query();
+
+        if ($userType && $userType->slug === 'council-officer') {
+
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
+    }
+
     public function render()
     {
         /*$query = Purchase::with(['insurance.provider', 'invoice'])
@@ -64,7 +80,7 @@ class DatewisePurchaseList extends Component
         //         ->whereNull('purchase_status')
         //         ->orderBy('id', 'desc');
 
-        $query = Purchase::with(['insurance.provider', 'invoice'])
+        $query = $this->purchaseQuery()->with(['insurance.provider', 'invoice'])
             ->where('status', 1)
             ->whereNull('purchase_status')
             ->where(function ($q) {

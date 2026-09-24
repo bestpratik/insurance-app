@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Provider;
 use Illuminate\Support\Facades\File;
 use Cviebrock\EloquentSluggable\Sluggable;
-
+ 
 class ProviderController extends Controller
 {
     

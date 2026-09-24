@@ -57,6 +57,195 @@
 
     @include('layouts.front_footer')
 
+    @php
+        $service = serviceHelper();
+        //dd($service);
+
+
+        $icons = [
+            [
+                'icon' => 'fa-users',
+                'icon_bg' => 'bg-red-50',
+                'icon_border' => 'border-red-100',
+                'icon_color' => 'text-red-600',
+                'hover_border' => 'hover:border-red-300',
+                'hover_bg' => 'group-hover:bg-red-600',
+                'badge' => 'bg-red-100 text-red-700',
+            ],
+            [
+                'icon' => 'fa-shield-halved',
+                'icon_bg' => 'bg-blue-50',
+                'icon_border' => 'border-blue-100',
+                'icon_color' => 'text-[#144562]',
+                'hover_border' => 'hover:border-blue-300',
+                'hover_bg' => 'group-hover:bg-[#144562]',
+                'badge' => 'bg-blue-100 text-[#144562]',
+            ],
+        ];
+    @endphp
+
+
+    <!-- ================= LEFT FLOATING SQUARE TRIGGER (MOBILE ONLY) ================= -->
+    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-40 md:hidden">
+        <button id="quotePopupTrigger" aria-label="Quick Quote"
+            class="flex flex-col items-center justify-center w-14 h-16 bg-white text-[#a10c0c] rounded-r-xl shadow-2xl border-y border-r border-red-100 ring-1 ring-black/5 active:scale-95 transition-all duration-200">
+            <div class="relative">
+                <span class="absolute -top-1 -right-1 flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                </span>
+                <i class="fa-solid fa-file-invoice text-red-600 text-sm"></i>
+            </div>
+            <span
+                class="text-[10px] font-extrabold tracking-tight uppercase mt-1 leading-tight text-center text-[#144562]">
+                Get a Quote
+            </span>
+        </button>
+    </div>
+
+    <!-- ================= PREMIUM WHITE BOTTOM SHEET POPUP ================= -->
+    <div id="quoteSheetOverlay"
+        class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
+    </div>
+
+    <div id="quoteSheetDrawer"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-gray-100 p-5 transform translate-y-full transition-transform duration-300 ease-out md:hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
+                <h3 class="text-base font-bold text-[#144562]">Get an Instant Quote</h3>
+            </div>
+            <button id="quoteSheetClose" aria-label="Close"
+                class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:text-gray-800 transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-2 mb-4">Choose your policy type to proceed:</p>
+
+        <!-- 3 White Action Cards -->
+        <div class="space-y-3">
+
+            @foreach ($service as $index => $item)
+
+            @php
+                $style = $icons[$index] ?? $icons[0];
+            @endphp
+            <!-- Option 1: DSS / Benefit Tenants -->
+            <a href="{{ url('/policy-buyer/' . $item->page_slug) }}"
+                class="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-200/90 shadow-sm {{ $style['hover_border'] }} hover:shadow-md active:scale-[0.98] transition-all">
+
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl {{ $style['icon_bg'] }} border {{ $style['icon_border'] }} flex items-center justify-center {{ $style['icon_color'] }}">
+                        <i class="fa-solid {{ $style['icon'] }} text-sm"></i>
+                    </div>
+                  
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold text-gray-900 tracking-tight">
+                                {{ ucfirst(preg_replace('/^For\s+/i', '', $item->tag)) }}
+                            </span>
+                            <span
+                                class="text-[10px] font-bold px-1.5 py-0.5 rounded {{ $style['badge'] }}">£{{ number_format((float) $item->price, 0) }}</span>
+                        </div>
+                        <span class="text-[11px] text-gray-500 block">{{ $item->title }}</span>
+                    </div>
+                </div>
+                <div
+                    class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </div>
+            </a>
+
+            @endforeach
+
+            <!-- Option 2: Standard Tenants -->
+            {{-- <a href="https://insurance.moneywiseplc.co.uk/policy-buyer/standard-landlord-legal-expenses-rent-guarantee-insurance"
+                class="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-200/90 shadow-sm hover:border-blue-300 hover:shadow-md active:scale-[0.98] transition-all">
+                <div class="flex items-center space-x-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#144562]">
+                        <i class="fa-solid fa-shield-halved text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold text-gray-900 tracking-tight">Standard Tenants</span>
+                            <span
+                                class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-[#144562]">£156</span>
+                        </div>
+                        <span class="text-[11px] text-gray-500 block">Standard Rent Guarantee Protection</span>
+                    </div>
+                </div>
+                <div
+                    class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 flex items-center justify-center group-hover:bg-[#144562] group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </div>
+            </a> --}}
+
+            <!-- Option 3: Travel Insurance (Highlighted Green Badge) -->
+            <a href="https://moneywise.aneevo.com/"
+                class="group flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500/40 shadow-sm hover:border-emerald-500 hover:shadow-md active:scale-[0.98] transition-all">
+                <div class="flex items-center space-x-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700">
+                        <i class="fa-solid fa-plane-departure text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-bold text-emerald-950 tracking-tight">Travel Insurance</span>
+                            <span
+                                class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-600 text-white">Instant</span>
+                        </div>
+                        <span class="text-[11px] text-emerald-800/80 block">Single &amp; Annual multi-trip cover</span>
+                    </div>
+                </div>
+                <div
+                    class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center group-hover:bg-emerald-700 transition-colors">
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Bottom Direct Helpline -->
+        <div class="mt-4 pt-3 border-t border-gray-100 text-center">
+            <a href="tel:02085525521"
+                class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-red-700">
+                <i class="fa-solid fa-phone text-red-600"></i> Expert Advice: <span class="text-red-700 underline">020
+                    8552 5521</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const trigger = document.getElementById('quotePopupTrigger');
+            const overlay = document.getElementById('quoteSheetOverlay');
+            const drawer = document.getElementById('quoteSheetDrawer');
+            const closeBtn = document.getElementById('quoteSheetClose');
+
+            function openSheet() {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                drawer.classList.remove('translate-y-full');
+                document.body.classList.add('overflow-hidden');
+            }
+
+            function closeSheet() {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-y-full');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            if (trigger && overlay && drawer && closeBtn) {
+                trigger.addEventListener('click', openSheet);
+                closeBtn.addEventListener('click', closeSheet);
+                overlay.addEventListener('click', closeSheet);
+            }
+        })();
+    </script>
 
     <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black/40 hidden z-30"></div>

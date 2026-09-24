@@ -9,6 +9,8 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InsuranceBillingEmail;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UserType;
 use PDF;
 
 class ReferralListComponent extends Component
@@ -53,7 +55,19 @@ class ReferralListComponent extends Component
     public $paymentMethod;
     public $paymentStatus;
 
-    
+         private function policyQuery()
+    {
+        $user = Auth::user();
+        $userType = UserType::find($user->type);
+        $query = Policyreferralform::query();
+
+        if ($userType && $userType->slug === 'council-officer') {
+
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
+    }
 
     public function render()
     {
@@ -63,7 +77,9 @@ class ReferralListComponent extends Component
         //         ->orderBy('id', 'desc');
 
 
-        $query = Policyreferralform::with(['insurance.provider', 'invoice'])
+        $query = 
+        // Policyreferralform::with(['insurance.provider', 'invoice'])
+                $this->policyQuery()->with(['insurance.provider', 'invoice'])
                 ->where('status', 1)
                 ->whereNull('purchase_status')
                 ->orderBy('id', 'desc');

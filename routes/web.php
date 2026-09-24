@@ -25,6 +25,9 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserTypeController;
+use App\Http\Controllers\CouncilController;
+use App\Http\Controllers\CouncilOfficerController;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,6 +137,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/stripe/booking', [StripePaymentController::class, 'booking'])->name('stripe.booking');
 });
 
+Route::middleware(['auth', 'council'])->group(function () { 
+
+    Route::get('/council-dashboard', [CouncilController::class, 'dashboard'])
+        ->name('council.dashboard');
+
+});
+
+
+
 
 Route::get('policy-referral/success', [FrontController::class, 'policyReferralSuccessPage'])->name('policy-referral.success');
 
@@ -178,10 +190,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('providers', ProviderController::class);
     Route::resource('insurances', InsuranceController::class);
     Route::resource('purchases', PurchaseController::class);
+    Route::resource('usertypes', UserTypeController::class);
 
-    /*All Purchase List*/
+    Route::get('councils', [CouncilController::class, 'index'])->name('councils');
+    Route::get('council-create', [CouncilController::class, 'create'])->name('create.council');
+    Route::post('council-store', [CouncilController::class, 'store'])->name('store.council');
+    Route::get('council-edit/{id}', [CouncilController::class, 'edit'])->name('edit.council');
+    Route::put('council-edit/{id}', [CouncilController::class, 'update'])->name('update.council');
+    Route::delete('council-destroy/{id}', [CouncilController::class, 'destroy'])->name('destroy.council');
 
-    Route::get('/all-purchase-list', function () {
+    Route::resource('council-officers', CouncilOfficerController::class);
+
+
+
+    /*All Purchase List*/ 
+
+    Route::get('/all-purchase-list', function () { 
         return view('purchase.all_list');
     })->name('purchase.list');
 
