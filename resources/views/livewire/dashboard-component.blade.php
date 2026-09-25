@@ -1,7 +1,11 @@
 <div class="mt-5">
    
     <div class="bg-white rounded-lg p-6 shadow overflow-hidden">
-         <h4 class="text-xl font-bold text-start">Policy sold in 7 days</h4>
+        @if (auth()->user()->isCouncilOfficer())
+        <h4 class="text-xl font-bold text-start">Policy purchase in 7 days</h4>
+        @else
+        <h4 class="text-xl font-bold text-start">Policy sold in 7 days</h4>
+        @endif
         <div class="sm:w-64 my-3">
             <label for="storeFilter" class="text-sm font-medium text-gray-700 mb-1">Per Page</label>
             <select wire:model.live="perPage" class="pbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 inline min-w-[60px] py-1">

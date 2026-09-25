@@ -182,7 +182,7 @@ class CouncilController extends Controller
         ]
     ];
 
-    return view('council.dashboard', compact('data'));
+    return view('dashboard', compact('data'));
 }
     public function index()
     {

@@ -112,7 +112,7 @@
 
             </div>
         </div>
-    @endif
+    
 
 
 
@@ -126,6 +126,7 @@
         @else text-[#25304e] @endif" />
         <span class="sidebar-item-text">Process an Insurance Policy</span>
     </a>
+    @endif
 
     {{-- <a href="{{ route('purchase.list') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 

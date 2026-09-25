@@ -8,8 +8,12 @@
                             <x-heroicon-o-document-duplicate class="w-6 h-6" />
                         </div>
                         <div>
-                            <div class="text-lg font-bold">{{ $this->policySold() }}</div>
+                            <div class="text-lg font-bold">{{ $this->policySold() }}</div> 
+                            @if (auth()->user()->isCouncilOfficer())
+                            <div class="text-sm text-gray-500">Policies Purchase</div>
+                            @else
                             <div class="text-sm text-gray-500">Policies Sold</div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -43,6 +47,7 @@
                 </div>
 
                 <!-- Total Clients -->
+                @if (auth()->user()->isAdmin())
                 <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
                     <div class="flex items-center space-x-4">
                         <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
@@ -55,5 +60,6 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
 </div>

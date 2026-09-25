@@ -7,6 +7,7 @@
             <livewire:dashboard-card-component /> 
 
 
+            @if (auth()->user()->isAdmin())
             <!-- Welcome Box -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-10">
                 <div class="flex flex-col  justify-start w-full p-6 bg-white rounded-lg border">
@@ -20,6 +21,7 @@
                     <canvas id="revenuePieChart"></canvas>
                 </div>
             </div>
+            @endif
 
            
             <livewire:dashboard-component /> 
