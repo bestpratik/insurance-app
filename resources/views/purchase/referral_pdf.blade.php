@@ -200,7 +200,7 @@
                                                     $referral->policy_holder_post_code
                                                 ])) }}  {{ $referral->policy_holder_address }}</td> --}}
 
-                        <td>
+                        {{-- <td>
                             @php
                             $extraAddress = implode(', ', array_filter([
                             $referral->policy_holder_address_one,
@@ -213,6 +213,20 @@
                             @else
                             {{ $referral->policy_holder_address }}
                             @endif
+                        </td> --}}
+
+                        <td>
+                            @php
+                                $address = implode(', ', array_filter([
+                                    $referral->policy_holder_address,
+                                    $referral->policy_holder_address_one,
+                                    $referral->policy_holder_post_code,
+                                ], function ($value) {
+                                    return !empty(trim($value ?? ''));
+                                }));
+                            @endphp
+
+                            {{ $address }}
                         </td>
                     </tr>
 

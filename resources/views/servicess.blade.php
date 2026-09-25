@@ -68,13 +68,13 @@
     <div class="relative">
         <img src="{{ asset('img/travel.jpg') }}"
             alt="Travel Insurance - Travel with confidence knowing you’re protected against the unexpected."
-            class="w-full h-64 object-cover rounded-t-xl">
+            class="w-full h-64 object-cover rounded-t-xl"> 
     </div>
 
 
     <div class="p-6">
         <h3 class="text-lg font-bold mb-2">
-            Get Covered in Minutes with Moneywise
+            Moneywise Travel Insurance
         </h3>
 
         <p class="text-sm text-gray-600 mb-3 leading-relaxed">
@@ -95,9 +95,9 @@
                 <span class="relative z-10">Know more</span>
             </a>
 
-            <a href="https://moneywise.aneevo.com/"
-                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-red-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
-                <span class="relative z-10">Get your quote</span>
+            <a href="https://moneywise.aneevo.com/" target="_blank"
+                class="relative rounded-md flex h-[40px] w-40 items-center justify-center overflow-hidden bg-green-600 text-white transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-800 before:duration-500 before:ease-out hover:shadow-orange-800 hover:before:h-40 hover:before:w-56">
+                <span class="relative z-10">Buy Now</span>
             </a>
         </div>
     </div>

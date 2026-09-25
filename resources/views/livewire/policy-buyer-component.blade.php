@@ -7,7 +7,7 @@
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
-                </button>
+                </button> 
                 <button id="scrollRight"
                     class="absolute right-0 top-0 bottom-0 z-10 px-2 hidden md:flex items-center bg-red-600 text-white shadow-md rounded-r-md hover:bg-red-700 transition">
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

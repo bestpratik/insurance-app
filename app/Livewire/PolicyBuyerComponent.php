@@ -152,55 +152,6 @@ class PolicyBuyerComponent extends Component
 
 
 
-    // public function matchInsurance()
-    // {
-    //     if (!$this->excessType || !$this->excessAmount) return;
-
-    //     // Extract range → 0 - 1000 → [0,1000]
-    //     preg_match('/(\d+)\s*-\s*(\d+)/', $this->excessAmount, $matches);
-
-    //     $min = $matches[1] ?? null;
-    //     $max = $matches[2] ?? null;
-
-    //     // dd("Min: $min, Max: $max");
-
-    //     if (!$min || !$max) return;
-
-    //     foreach ($this->availableInsurances as $insurance) {
-
-    //         $name = $insurance->name;
-
-
-    //         if ($this->excessType === 'Nil Excess') {
-
-    //             if (
-    //                 str_contains($name, 'No Excess') &&
-    //                 // preg_match("/$min\s*-\s*$max/", $name)
-    //                 preg_match("/\($min-$max\)/", $name)
-    //             ) {
-    //                 $this->selectedInsuranceId = $insurance->id;
-    //                 $this->selectedInsuranceName = $insurance->name;
-    //                 return;
-    //             }
-    //         }
-
-
-    //         if ($this->excessType === 'One month rent Policy Excess') {
-
-    //             if (
-    //                 str_contains($name, 'With Excess') &&
-    //                 // preg_match("/$min\s*-\s*$max/", $name)
-    //                 preg_match("/\($min-$max\)/", $name)
-    //             ) {
-    //                 $this->selectedInsuranceId = $insurance->id;
-    //                 $this->selectedInsuranceName = $insurance->name;
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
-
-
     public function matchInsurance()
     {
         if (!$this->excessType || !$this->excessAmount) return;
@@ -510,13 +461,13 @@ class PolicyBuyerComponent extends Component
         // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
         // $purchase->policy_holder_email = $this->policyholderEmail;
 
-        // ✅ Save Company details if Company or Both
+    
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
             $purchase->company_name = $this->companyName;
             $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
         }
 
-        // ✅ Save Individual details if Individual or Both
+      
         if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
             $purchase->policy_holder_title = $this->policyholderTitle;
             $purchase->policy_holder_fname = $this->policyholderFirstName;
@@ -603,31 +554,6 @@ class PolicyBuyerComponent extends Component
 
         $invoice->save();
 
-
-
-        //Policy holder email send
-        // $this->send_email_one($purchase->id);
-
-        // if($invoice->is_invoice == 1){
-
-        //     $this->send_email_two($purchase->id);
-        // }
-
-        // if (!Auth::check()) {
-        //     session()->flash('error', 'You must be logged in to submit Policy Buyer Form.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->flash('error', 'You must be logged in to complete your purchase.');
-        //     return redirect()->route('user.login');
-        // }
-
-        // if (!$userId) {
-        //     session()->put('guest_redirect_intended', url()->current());
-        //     return redirect()->route('user.register'); 
-        // }
-
         if (!$userId) {
             $guestToken = (string) Str::uuid();
             $purchase->token  = $guestToken;
@@ -639,10 +565,10 @@ class PolicyBuyerComponent extends Component
             return redirect()->route('user.register');
         }
 
-        // ✅ Store purchase ID in session
+     
         session()->put('pending_purchase_id', $purchase->id);
 
-        // ✅ Redirect to Stripe
+  
         return redirect()->route('stripe.booking');
 
         // return redirect()->route('front.purchase.success'); 
@@ -655,246 +581,246 @@ class PolicyBuyerComponent extends Component
 
 
     //Policy holder email
-    public function send_email_one($purchaseId)
-    {
-        $purchase = Purchase::with('invoice')->findorfail($purchaseId);
-        if ($purchase) {
-            $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
-            //Load all documents
-            // - 1. Load static documents
-            $allDocs = [];
-            if ($insurance && $insurance->staticdocuments) {
-                foreach ($insurance->staticdocuments as $docs) {
-                    // $filePath = public_path('uploads/insurance_document/' . $docs->document);
-                    // if (file_exists($filePath)) {
-                    //     $allDocs[] = $filePath;
-                    // }
+    // public function send_email_one($purchaseId)
+    // {
+    //     $purchase = Purchase::with('invoice')->findorfail($purchaseId);
+    //     if ($purchase) {
+    //         $insurance = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($purchase->insurance_id);
+    //         //Load all documents
+    //         // - 1. Load static documents
+    //         $allDocs = [];
+    //         if ($insurance && $insurance->staticdocuments) {
+    //             foreach ($insurance->staticdocuments as $docs) {
+    //                 // $filePath = public_path('uploads/insurance_document/' . $docs->document);
+    //                 // if (file_exists($filePath)) {
+    //                 //     $allDocs[] = $filePath;
+    //                 // }
 
-                    $filePath = public_path('uploads/insurance_document/');
-                    if (file_exists($filePath)) {
-                        $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
-                        $newStaticPath = public_path($filePath . $newStaticName);
-                        $allDocs[] = $newStaticPath;
-                    }
-                }
-            }
+    //                 $filePath = public_path('uploads/insurance_document/');
+    //                 if (file_exists($filePath)) {
+    //                     $newStaticName = 'policy-wording-' . $purchase->policy_no . '.pdf';
+    //                     $newStaticPath = public_path($filePath . $newStaticName);
+    //                     $allDocs[] = $newStaticPath;
+    //                 }
+    //             }
+    //         }
 
-            //PDFs dynamic value for dynamic documents
-            $pdfDynamicval = array();
-            $pdfDynamicval[] = $insurance->name;
-            $pdfDynamicval[] = $purchase->policy_no;
-            $pdfDynamicval[] = $purchase->policy_holder_address;
-            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
-            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
-            $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
-            $pdfDynamicval[] = $purchase->policy_term;
-            $pdfDynamicval[] = $purchase->net_premium;
-            $pdfDynamicval[] = $purchase->ipt;
-            $pdfDynamicval[] = $purchase->gross_premium;
-            $pdfDynamicval[] = $purchase->rent_amount;
-            $pdfDynamicval[] = $purchase->payable_amount;
-            $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
+    //         //PDFs dynamic value for dynamic documents
+    //         $pdfDynamicval = array();
+    //         $pdfDynamicval[] = $insurance->name;
+    //         $pdfDynamicval[] = $purchase->policy_no;
+    //         $pdfDynamicval[] = $purchase->policy_holder_address;
+    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_start_date));
+    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->policy_end_date));
+    //         $pdfDynamicval[] = date('jS F Y', strtotime($purchase->purchase_date));
+    //         $pdfDynamicval[] = $purchase->policy_term;
+    //         $pdfDynamicval[] = $purchase->net_premium;
+    //         $pdfDynamicval[] = $purchase->ipt;
+    //         $pdfDynamicval[] = $purchase->gross_premium;
+    //         $pdfDynamicval[] = $purchase->rent_amount;
+    //         $pdfDynamicval[] = $purchase->payable_amount;
+    //         $riskAddress = $purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code;
 
-            $insurartitle = "";
-            if ($purchase->policy_holder_type == 'Company') {
-                $insurartitle = $purchase->company_name;
-            } elseif ($purchase->policy_holder_type == 'Individual') {
-                $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
-            } else {
-                $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
-            }
+    //         $insurartitle = "";
+    //         if ($purchase->policy_holder_type == 'Company') {
+    //             $insurartitle = $purchase->company_name;
+    //         } elseif ($purchase->policy_holder_type == 'Individual') {
+    //             $insurartitle = $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+    //         } else {
+    //             $insurartitle = $purchase->company_name . '/' . $purchase->policy_holder_title . ' ' . $purchase->policy_holder_fname . ' ' . $purchase->policy_holder_lname;
+    //         }
 
-            $pdfDynamicval[] = $riskAddress;
-            $pdfDynamicval[] = $insurartitle;
-            $pdfDynamicval[] = $insurance->details_of_cover;
+    //         $pdfDynamicval[] = $riskAddress;
+    //         $pdfDynamicval[] = $insurartitle;
+    //         $pdfDynamicval[] = $insurance->details_of_cover;
 
-            // - 2. Load dynamic documents
-            if ($insurance && $insurance->dynamicdocument) {
-                foreach ($insurance->dynamicdocument as $dydocs) {
-                    // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
+    //         // - 2. Load dynamic documents
+    //         if ($insurance && $insurance->dynamicdocument) {
+    //             foreach ($insurance->dynamicdocument as $dydocs) {
+    //                 // $file_name = $dydocs->title . rand(11, 999999) . '.pdf';
 
-                    $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
+    //                 $file_name = 'policy-wording-' . $purchase->policy_no . '.pdf';
 
-                    $data = array(
-                        'templateTitle' => $dydocs->title,
-                        'templateBody' => $dydocs->description,
-                        'templateHeder' => $dydocs->header,
-                        'templateFooter' => $dydocs->footer,
-                        'templatebodyValue' => $pdfDynamicval
-                    );
+    //                 $data = array(
+    //                     'templateTitle' => $dydocs->title,
+    //                     'templateBody' => $dydocs->description,
+    //                     'templateHeder' => $dydocs->header,
+    //                     'templateFooter' => $dydocs->footer,
+    //                     'templatebodyValue' => $pdfDynamicval
+    //                 );
 
-                    $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
-                    $pdf->save($pdfPath);
-                    if (file_exists($pdfPath)) {
-                        $allDocs[] = $pdfPath;
-                    }
-                }
-            }
+    //                 $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
+    //                 $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
+    //                 $pdf->save($pdfPath);
+    //                 if (file_exists($pdfPath)) {
+    //                     $allDocs[] = $pdfPath;
+    //                 }
+    //             }
+    //         }
 
-            //Load dynamic email template
-            /*Dynamic Value*/
-            $bodyValue = array();
-            /*Dynamic Value*/
-            $bodyValue[] = $insurance->name;
-            $bodyValue[] = $purchase->policy_no;
-            $bodyValue[] = $purchase->policy_holder_address;
-            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_start_date));
-            $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
-            $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
-            $bodyValue[] = $purchase->policy_term;
-            $bodyValue[] = $purchase->net_premium;
-            $bodyValue[] = $purchase->gross_premium;
-            $bodyValue[] = $purchase->ipt;
-            $bodyValue[] = $purchase->rent_amount;
-            $bodyValue[] = $purchase->payable_amount;
-            $bodyValue[] = $riskAddress;
-            $bodyValue[] = $insurartitle;
-            $bodyValue[] = $insurance->details_of_cover;
-
-
-            $sendToemails = [];
-
-            if ($purchase->policy_holder_type === 'Company') {
-                $sendToemails[] = $purchase->policy_holder_company_email;
-            } elseif ($purchase->policy_holder_type === 'Individual') {
-                $sendToemails[] = $purchase->policy_holder_email;
-            } elseif ($purchase->policy_holder_type === 'Both') {
-                $sendToemails[] = $purchase->policy_holder_email;
-                $sendToemails[] = $purchase->policy_holder_company_email;
-            }
+    //         //Load dynamic email template
+    //         /*Dynamic Value*/
+    //         $bodyValue = array();
+    //         /*Dynamic Value*/
+    //         $bodyValue[] = $insurance->name;
+    //         $bodyValue[] = $purchase->policy_no;
+    //         $bodyValue[] = $purchase->policy_holder_address;
+    //         $bodyValue[] = date('jS F Y', strtotime($purchase->policy_start_date));
+    //         $bodyValue[] = date('jS F Y', strtotime($purchase->policy_end_date));
+    //         $bodyValue[] = date('jS F Y', strtotime($purchase->purchase_date));
+    //         $bodyValue[] = $purchase->policy_term;
+    //         $bodyValue[] = $purchase->net_premium;
+    //         $bodyValue[] = $purchase->gross_premium;
+    //         $bodyValue[] = $purchase->ipt;
+    //         $bodyValue[] = $purchase->rent_amount;
+    //         $bodyValue[] = $purchase->payable_amount;
+    //         $bodyValue[] = $riskAddress;
+    //         $bodyValue[] = $insurartitle;
+    //         $bodyValue[] = $insurance->details_of_cover;
 
 
-            $sendToemails = array_filter($sendToemails, function ($email) {
-                return filter_var($email, FILTER_VALIDATE_EMAIL);
-            });
+    //         $sendToemails = [];
 
-            // dd($purchase->policy_holder_email, $purchase->policy_holder_company_email);
-
-
-            //Now send email
-            // $sendToemails = array(
-            //     $purchase->policy_holder_email,
-            // );
-            $email_subject = $insurance->insurancemailtemplate->title ?? '';
-            $data = array(
-                'body' => $insurance->insurancemailtemplate->description ?? '',
-                'bodyValue' => $bodyValue
-            );
+    //         if ($purchase->policy_holder_type === 'Company') {
+    //             $sendToemails[] = $purchase->policy_holder_company_email;
+    //         } elseif ($purchase->policy_holder_type === 'Individual') {
+    //             $sendToemails[] = $purchase->policy_holder_email;
+    //         } elseif ($purchase->policy_holder_type === 'Both') {
+    //             $sendToemails[] = $purchase->policy_holder_email;
+    //             $sendToemails[] = $purchase->policy_holder_company_email;
+    //         }
 
 
-            try {
+    //         $sendToemails = array_filter($sendToemails, function ($email) {
+    //             return filter_var($email, FILTER_VALIDATE_EMAIL);
+    //         });
 
-                $copyEmails = explode(',', $purchase->copy_email);
-                $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                    return filter_var($email, FILTER_VALIDATE_EMAIL);
-                });
-
-                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-
-                foreach ($sendToemails as $email) {
-                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        throw new \Exception("Invalid To Email: $email");
-                        //  abort(404); 
-                    }
-                }
-
-                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                    $messages->to($sendToemails);
-                    $messages->subject($email_subject);
-                    $messages->cc($ccEmails);
-                    // $messages->bcc(['bestpratik@gmail.com']);
-
-                    foreach ($allDocs as $attachment) {
-                        $messages->attach($attachment);
-                    }
-                });
+    //         // dd($purchase->policy_holder_email, $purchase->policy_holder_company_email);
 
 
-                // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
-                //     //$messages->to($user['to']); 
-                //     $messages->to($sendToemils);
-                //     $messages->subject($email_subject);
-                //     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
-                //     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
-                //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
-                //     $messages->cc($ccEmails);
-                //     // $messages->bcc(['bestpratik@gmail.com']);
-                //     foreach ($allDocs as $attachment) {
-                //         $messages->attach($attachment);
-                //     }
-                // });
+    //         //Now send email
+    //         // $sendToemails = array(
+    //         //     $purchase->policy_holder_email,
+    //         // );
+    //         $email_subject = $insurance->insurancemailtemplate->title ?? '';
+    //         $data = array(
+    //             'body' => $insurance->insurancemailtemplate->description ?? '',
+    //             'bodyValue' => $bodyValue
+    //         );
 
-                return true;
-            } catch (Exception $e) {
-                return $e->getMessage();
-            }
-        }
-    }
 
-    public function send_email_two($purchaseId)
-    {
-        $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
+    //         try {
 
-        if (!$purchase) {
-            return 'Purchase not found.';
-        }
+    //             $copyEmails = explode(',', $purchase->copy_email);
+    //             $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+    //                 return filter_var($email, FILTER_VALIDATE_EMAIL);
+    //             });
 
-        $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
-        $pdfContent = $pdf->output();
+    //             $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
 
-        // Define filename and path
-        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
-        $directory = public_path('uploads/invoice');
-        $filePath = $directory . '/' . $fileName;
-        // dd($filePath);
-        if (!File::exists($directory)) {
-            File::makeDirectory($directory, 0755, true);
-        }
+    //             foreach ($sendToemails as $email) {
+    //                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                     throw new \Exception("Invalid To Email: $email");
+    //                     //  abort(404); 
+    //                 }
+    //             }
 
-        file_put_contents($filePath, $pdfContent);
+    //             Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+    //                 $messages->to($sendToemails);
+    //                 $messages->subject($email_subject);
+    //                 $messages->cc($ccEmails);
+    //                 // $messages->bcc(['bestpratik@gmail.com']);
 
-        // Send email
-        $sendToBillingEmails = [$purchase->invoice->billing_email];
-        // dd($sendToBillingEmails);
-        $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
-        $data = [
-            'body' => 'Dear client,<br>
-                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
-        ];
-        // dd($data);?\
+    //                 foreach ($allDocs as $attachment) {
+    //                     $messages->attach($attachment);
+    //                 }
+    //             });
 
-        try {
 
-            $copyEmails = explode(',', $purchase->copy_email);
-            $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                return filter_var($email, FILTER_VALIDATE_EMAIL);
-            });
+    //             // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
+    //             //     //$messages->to($user['to']); 
+    //             //     $messages->to($sendToemils);
+    //             //     $messages->subject($email_subject);
+    //             //     // $messages->cc(['aadatia@moneywiseplc.co.uk']);
+    //             //     // $messages->cc(['aadatia@moneywiseplc.co.uk'],explode(',', $purchase->copy_email));
+    //             //     $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->copy_email));
+    //             //     $messages->cc($ccEmails);
+    //             //     // $messages->bcc(['bestpratik@gmail.com']);
+    //             //     foreach ($allDocs as $attachment) {
+    //             //         $messages->attach($attachment);
+    //             //     }
+    //             // });
 
-            $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+    //             return true;
+    //         } catch (Exception $e) {
+    //             return $e->getMessage();
+    //         }
+    //     }
+    // }
 
-            foreach ($sendToBillingEmails as $email) {
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    throw new \Exception("Invalid To Email: $email");
-                    //  abort(404); 
-                }
-            }
+    // public function send_email_two($purchaseId)
+    // {
+    //     $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
 
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
-                $message->to($sendToBillingEmails);
-                $message->subject($emailSubject);
-                // $message->cc(['aadatia@moneywiseplc.co.uk']);
-                // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
-                $message->cc($ccEmails);
-                // $message->bcc(['bestpratik@gmail.com']);
-                $message->attach($filePath);
-            });
+    //     if (!$purchase) {
+    //         return 'Purchase not found.';
+    //     }
 
-            return response()->download($filePath);
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-    }
+    //     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
+    //     $pdfContent = $pdf->output();
+
+    //     // Define filename and path
+    //     $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+    //     $directory = public_path('uploads/invoice');
+    //     $filePath = $directory . '/' . $fileName;
+    //     // dd($filePath);
+    //     if (!File::exists($directory)) {
+    //         File::makeDirectory($directory, 0755, true);
+    //     }
+
+    //     file_put_contents($filePath, $pdfContent);
+
+    //     // Send email
+    //     $sendToBillingEmails = [$purchase->invoice->billing_email];
+    //     // dd($sendToBillingEmails);
+    //     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
+    //     $data = [
+    //         'body' => 'Dear client,<br>
+    //              Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
+    //     ];
+    //     // dd($data);?\
+
+    //     try {
+
+    //         $copyEmails = explode(',', $purchase->copy_email);
+    //         $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+    //             return filter_var($email, FILTER_VALIDATE_EMAIL);
+    //         });
+
+    //         $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+
+    //         foreach ($sendToBillingEmails as $email) {
+    //             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                 throw new \Exception("Invalid To Email: $email");
+    //                 //  abort(404); 
+    //             }
+    //         }
+
+    //         Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
+    //             $message->to($sendToBillingEmails);
+    //             $message->subject($emailSubject);
+    //             // $message->cc(['aadatia@moneywiseplc.co.uk']);
+    //             // $ccEmails = array_merge(['anuradha.mondal2013@gmail.com'], explode(',', $purchase->invoice->copy_email));
+    //             $message->cc($ccEmails);
+    //             // $message->bcc(['bestpratik@gmail.com']);
+    //             $message->attach($filePath);
+    //         });
+
+    //         return response()->download($filePath);
+    //     } catch (Exception $e) {
+    //         return $e->getMessage();
+    //     }
+    // }
 
 
     public function render()

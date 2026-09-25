@@ -127,7 +127,7 @@
         <span class="sidebar-item-text">Process an Insurance Policy</span>
     </a>
 
-    <a href="{{ route('purchase.list') }}"
+    {{-- <a href="{{ route('purchase.list') }}"
         class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
     @if (request()->is('purchases/list*')) bg-[#112695] text-white 
     @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
@@ -136,7 +136,132 @@
         @if (request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
         <span class="sidebar-item-text">Purchased List</span>
-    </a>
+    </a> --}}
+
+
+
+
+    {{-- <a href="{{ url('online-purchase') }}"
+        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+    @if (request()->is('online-purchase') || request()->is('online-purchase/*')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-credit-card
+            class="mr-3 h-5 w-5
+            @if (request()->is('online-purchase') || request()->is('online-purchase/*')) text-white 
+            @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Online Purchase list</span>
+    </a> --}}
+
+    {{-- <a href="{{ url('offline-purchase') }}"
+        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+    @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+        <x-heroicon-o-credit-card
+            class="mr-3 h-5 w-5
+            @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) text-white 
+            @else text-[#25304e] @endif" />
+        <span class="sidebar-item-text">Offline Purchase list</span>
+    </a> --}}
+
+    @php
+        $purchasedInsuranceActive =
+            request()->is('purchases/list*') || request()->is('online-purchase*') || request()->is('offline-purchase*');
+    @endphp
+
+    <div x-data="{ open: {{ $purchasedInsuranceActive ? 'true' : 'false' }} }" x-init="open = {{ $purchasedInsuranceActive ? 'true' : 'false' }}" class="mb-2">
+
+        <!-- Parent -->
+        <button @click="open = !open"
+            class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md
+        {{ $purchasedInsuranceActive
+            ? 'bg-blue-100 text-blue-700'
+            : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
+
+            <div class="flex items-center">
+
+                <x-heroicon-o-shopping-bag
+                    class="mr-3 h-6 w-6
+                {{ $purchasedInsuranceActive ? 'text-blue-700' : 'text-[#25304e]' }}" />
+
+                <span class="sidebar-item-text">
+                    Purchased Insurances
+                </span>
+
+            </div>
+
+            <!-- Arrow -->
+            <svg class="h-5 w-5
+            {{ $purchasedInsuranceActive ? 'text-blue-700' : 'text-gray-400' }}"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+
+                <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+
+            </svg>
+
+        </button>
+
+
+        <!-- Submenu -->
+        <div x-show="open" class="pl-8 space-y-1">
+
+            <!-- All Purchase -->
+            <a href="{{ route('purchase.list') }}"
+                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('purchases/list*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                <x-heroicon-o-clipboard-document-list
+                    class="mr-3 h-5 w-5
+                    {{ request()->is('purchases/list*') ? 'text-blue-700' : 'text-gray-400' }}" />
+
+                <span class="sidebar-item-text">
+                    All Purchase
+                </span>
+
+            </a>
+
+
+            <!-- Online Purchase -->
+            <a href="{{ url('online-purchase') }}"
+                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('online-purchase*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                <x-heroicon-o-shopping-cart
+                    class="mr-3 h-5 w-5
+                    {{ request()->is('online-purchase*') ? 'text-blue-700' : 'text-gray-400' }}" />
+
+                <span class="sidebar-item-text">
+                    Online Purchase
+                </span>
+
+            </a>
+
+
+            <!-- Offline Purchase -->
+            <a href="{{ url('offline-purchase') }}"
+                class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('offline-purchase*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                <x-heroicon-o-building-storefront
+                    class="mr-3 h-5 w-5
+                    {{ request()->is('offline-purchase*') ? 'text-blue-700' : 'text-gray-400' }}" />
+
+                <span class="sidebar-item-text">
+                    Offline Purchase
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
 
     @if (auth()->user()->isAdmin())
         <a href="{{ route('purchase.cancel.list') }}"
@@ -151,53 +276,115 @@
         </a>
     @endif
 
+    @if (auth()->user()->isCouncilOfficer())
+        @php
+            $referralActive = request()->is('new-referral*') || request()->is('all-referral-list*');
+            $service = serviceHelper();
+        @endphp
 
-    <a href="{{ url('online-purchase') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
-    @if (request()->is('online-purchase') || request()->is('online-purchase/*')) bg-[#112695] text-white 
-    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-credit-card
-            class="mr-3 h-5 w-5
-            @if (request()->is('online-purchase') || request()->is('online-purchase/*')) text-white 
-            @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Online Purchase list</span>
-    </a>
+        <!-- Referral -->
+        <div x-data="{ open: {{ $referralActive ? 'true' : 'false' }} }" x-init="open = {{ $referralActive ? 'true' : 'false' }}" class="mb-2">
 
-    <a href="{{ url('offline-purchase') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
-    @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) bg-[#112695] text-white 
-    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-credit-card
-            class="mr-3 h-5 w-5
-            @if (request()->is('offline-purchase') || request()->is('offline-purchase/*')) text-white 
-            @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Offline Purchase list</span>
-    </a>
+            <!-- Parent -->
+            <button @click="open = !open"
+                class="group mb-2 flex justify-between items-center w-full px-2 py-2 text-sm font-medium rounded-md
+        {{ $referralActive ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-blue-100 hover:text-blue-700' }}">
 
-    <a href="{{ url('all-referral-list') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
-    @if (request()->is('all-referral-list') || request()->is('all-referral-list/*')) bg-[#112695] text-white 
-    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-credit-card
-            class="mr-3 h-5 w-5
-            @if (request()->is('all-referral-list') || request()->is('all-referral-list/*')) text-white 
-            @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Referral list</span>
-    </a>
+                <div class="flex items-center">
+
+                    <x-heroicon-o-user-group
+                        class="mr-3 h-6 w-6
+                {{ $referralActive ? 'text-blue-700' : 'text-[#25304e]' }}" />
+
+                    <span class="sidebar-item-text">
+                        Referral
+                    </span>
+
+                </div>
+
+                <!-- Arrow -->
+                <svg class="h-5 w-5
+            {{ $referralActive ? 'text-blue-700' : 'text-gray-400' }}"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+
+                </svg>
+
+            </button>
 
 
-    <a href="{{ route('purchase.datewise') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
-    @if (request()->is('date-wise-purchase-report')) bg-[#112695] text-white 
-    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-bars-3
-            class="mr-3 h-5 w-5 
-        @if (request()->is('date-wise-purchase-report')) text-white 
-        @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Bordereau Report</span>
-    </a>
+            <!-- Submenu -->
+            <div x-show="open" class="pl-8 space-y-1">
+
+                <!-- New Referral -->
+                <a href="{{ route('policy.referral.form') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('new-referral*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                    <x-heroicon-o-user-plus
+                        class="mr-3 h-5 w-5
+                {{ request()->is('new-referral*') ? 'text-blue-700' : 'text-gray-400' }}" />
+
+                    <span class="sidebar-item-text">
+                        New Referral
+                    </span>
+
+                </a>
+
+
+                <!-- Referral List -->
+                <a href="{{ url('all-referral-list') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+            {{ request()->is('all-referral-list*')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                    <x-heroicon-o-clipboard-document-list
+                        class="mr-3 h-5 w-5
+                {{ request()->is('all-referral-list*') ? 'text-blue-700' : 'text-gray-400' }}" />
+
+                    <span class="sidebar-item-text">
+                        Referral List
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+    @endif
+
 
     @if (auth()->user()->isAdmin())
+        <a href="{{ url('all-referral-list') }}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+    @if (request()->is('all-referral-list') || request()->is('all-referral-list/*')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            <x-heroicon-o-credit-card
+                class="mr-3 h-5 w-5
+            @if (request()->is('all-referral-list') || request()->is('all-referral-list/*')) text-white 
+            @else text-[#25304e] @endif" />
+            <span class="sidebar-item-text">Referral list</span>
+        </a>
+
+
+        <a href="{{ route('purchase.datewise') }}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
+    @if (request()->is('date-wise-purchase-report')) bg-[#112695] text-white 
+    @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
+            <x-heroicon-o-bars-3
+                class="mr-3 h-5 w-5 
+        @if (request()->is('date-wise-purchase-report')) text-white 
+        @else text-[#25304e] @endif" />
+            <span class="sidebar-item-text">Bordereau Report</span>
+        </a>
+
+
         <!-- Provider -->
         <a href="{{ url('providers') }}"
             class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all

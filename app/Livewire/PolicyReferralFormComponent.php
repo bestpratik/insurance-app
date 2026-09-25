@@ -219,7 +219,7 @@ class PolicyReferralFormComponent extends Component
                 'noOfBedrooms' => 'required',
             ];
 
-            // ✅ Fix the condition
+
             if ($this->insuranceType === 'renewal') {
                 $rules['rentArrears'] = 'required|in:Yes,No';
             }
@@ -506,8 +506,14 @@ class PolicyReferralFormComponent extends Component
         $invoice->billing_address_one = $this->billingAddressOne;
         $invoice->billing_address_two = $this->billingAddressTwo;
         $invoice->billing_postcode = $this->billingPostcode;
-        $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-       
+        // $invoice->billing_full_addresss = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
+        $invoice->billing_full_addresss = implode(', ', array_filter([
+            $this->billingAddressOne,
+            $this->billingAddressTwo,
+            $this->billingPostcode,
+        ], function ($value) {
+            return !empty(trim($value ?? ''));
+        }));
 
         $curDate = date('Y-m-d');
         $payment_due_date = date('Y-m-d', strtotime($curDate . ' + 7 days'));
@@ -551,8 +557,8 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
-        // $sendToemails = ['anuradham.dbt@gmail.com'];
+        // $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        $sendToemails = ['anuradham.dbt@gmail.com'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF

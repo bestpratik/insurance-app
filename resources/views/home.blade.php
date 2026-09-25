@@ -15,15 +15,32 @@
                             <h1 class="text-2xl sm:text-3xl font-bold mb-4">
                                 {{ $bann->title ?? '' }}
                             </h1>
+                            <h3 class="text-1xl sm:text-2xl font-bold mb-4">
+                                {{ $bann->sub_title ?? '' }}
+                            </h3>
                             <div class="flex flex-wrap justify-center sm:justify-start gap-4">
+                                @if($bann->button_link == 'https://moneywise.aneevo.com/')
+                               
+                                <a href="{{ $bann->button_link }}"
+                                    class="inline-block bg-[#16A34A] border-2 border-[#16A34A] text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-transparent hover:text-[#16A34A]">
+                                    {{ $bann->button_text }}
+                                </a>
+                                
+                                <a href="https://moneywise.aneevo.com/"
+                                    class="inline-block border-2 border-[#a10c0c] text-[#a10c0c] font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-[#a10c0c] hover:text-white">
+                                    Get Instant Quote
+                                </a>
+                                @else
                                 <a href="{{ $bann->button_link }}"
                                     class="inline-block bg-[#a10c0c] border-2 border-[#a10c0c] text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-transparent hover:text-[#a10c0c]">
                                     {{ $bann->button_text }}
                                 </a>
+
                                 <a href="{{ route('policy.referral.form') }}"
                                     class="inline-block border-2 border-[#a10c0c] text-[#a10c0c] font-semibold px-8 py-3 rounded-md transition-all duration-300 hover:bg-[#a10c0c] hover:text-white">
                                     Get Instant Quote
                                 </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -192,9 +209,9 @@
                             <a href="{{ route('travel.details') }}"
                                 class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden border border-red-600 text-red-600 font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-red-600 before:duration-500 before:ease-out hover:text-white hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-10">Know more</span>
-                            </a>
+                            </a> 
 
-                            <a href="https://moneywise.aneevo.com/"
+                            <a href="https://moneywise.aneevo.com/" target="_blank"
                                 class="relative rounded-md flex h-[42px] w-40 items-center justify-center overflow-hidden bg-green-600 text-white font-semibold transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-green-800 before:duration-500 before:ease-out hover:shadow-lg hover:shadow-green-500/40 hover:before:h-40 hover:before:w-56">
                                 <span class="relative z-10">Buy Now</span>
                             </a>
