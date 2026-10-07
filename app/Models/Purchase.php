@@ -15,6 +15,8 @@ class Purchase extends Model
         'old_purchase_id',
         'stripe_session_id',
         'user_id',
+        'council_id',
+        'billing_type',
         'product_type',
         'policy_no',
         'policy_holder_type',

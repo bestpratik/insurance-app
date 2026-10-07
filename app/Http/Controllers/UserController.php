@@ -88,6 +88,6 @@ class UserController extends Controller
                 $query
             ->where('purchase_mode', 'Offline');
             })->get();
-        return view('admin.offline_purchase_list', compact('offlinePurchase'));
+        return view('admin.offline_purchase_list', compact('offlinePurchase')); 
     }
 }

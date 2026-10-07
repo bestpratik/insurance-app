@@ -37,11 +37,11 @@
                     <div class="flex items-center gap-4">
 
                         {{-- Icon --}}
-                        <div class="flex h-12 w-12 shrink-0 items-center justify-center
+                        <div
+                            class="flex h-12 w-12 shrink-0 items-center justify-center
                                     rounded-xl bg-blue-50">
 
-                            <x-heroicon-o-pencil-square
-                                class="h-6 w-6 text-[#112695]" />
+                            <x-heroicon-o-pencil-square class="h-6 w-6 text-[#112695]" />
 
                         </div>
 
@@ -61,121 +61,231 @@
 
 
                 {{-- Form --}}
-                <form method="POST"
-                    action="{{ route('update.council', $council->id) }}">
+                <form method="POST" action="{{ route('update.council', $council->id) }}">
 
                     @csrf
                     @method('PUT')
 
                     <div class="p-6 sm:p-8">
 
+                        {{-- Basic Information --}}
+                        <div class="mb-8">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-1">
+                                Basic Information
+                            </h4>
+
+                            <p class="text-sm text-gray-500">
+                                Update the council's basic contact details.
+                            </p>
+                        </div>
+
                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 
                             {{-- Council Name --}}
                             <div>
-
-                                <label for="council_name"
-                                    class="mb-2 block text-sm font-medium text-gray-700">
-
+                                <label for="council_name" class="mb-2 block text-sm font-medium text-gray-700">
                                     Council Name
                                     <span class="text-red-500">*</span>
-
                                 </label>
 
                                 <div class="relative">
-
-                                    <div class="pointer-events-none absolute inset-y-0 left-0
-                                                flex items-center pl-3.5">
-
-                                        <x-heroicon-o-building-office
-                                            class="h-5 w-5 text-gray-400" />
-
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-building-office class="h-5 w-5 text-gray-400" />
                                     </div>
 
-                                    <input
-                                        id="council_name"
-                                        name="council_name"
-                                        type="text"
+                                    <input id="council_name" name="council_name" type="text"
                                         value="{{ old('council_name', $council->council_name) }}"
                                         placeholder="Enter council name"
                                         class="block w-full rounded-xl border border-gray-200
-                                               bg-gray-50 py-3 pl-11 pr-4 text-sm
-                                               text-gray-900
-                                               placeholder:text-gray-400
-                                               transition
-                                               focus:border-[#112695]
-                                               focus:bg-white
-                                               focus:ring-2
-                                               focus:ring-[#112695]/10">
-
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">
                                 </div>
 
                                 @error('council_name')
-                                    <p class="mt-1.5 text-sm text-red-500">
-                                        {{ $message }}
-                                    </p>
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
-
                             </div>
 
 
-                            {{-- Email --}}
+                            {{-- Council Email --}}
                             <div>
-
-                                <label for="council_email"
-                                    class="mb-2 block text-sm font-medium text-gray-700">
-
+                                <label for="council_email" class="mb-2 block text-sm font-medium text-gray-700">
                                     Email Address
                                     <span class="text-red-500">*</span>
-
                                 </label>
 
                                 <div class="relative">
-
-                                    <div class="pointer-events-none absolute inset-y-0 left-0
-                                                flex items-center pl-3.5">
-
-                                        <x-heroicon-o-envelope
-                                            class="h-5 w-5 text-gray-400" />
-
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-envelope class="h-5 w-5 text-gray-400" />
                                     </div>
 
-                                    <input
-                                        id="council_email"
-                                        name="council_email"
-                                        type="email"
+                                    <input id="council_email" name="council_email" type="email"
                                         value="{{ old('council_email', $council->council_email) }}"
                                         placeholder="Enter council email"
                                         class="block w-full rounded-xl border border-gray-200
-                                               bg-gray-50 py-3 pl-11 pr-4 text-sm
-                                               text-gray-900
-                                               placeholder:text-gray-400
-                                               transition
-                                               focus:border-[#112695]
-                                               focus:bg-white
-                                               focus:ring-2
-                                               focus:ring-[#112695]/10">
-
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">
                                 </div>
 
                                 @error('council_email')
-                                    <p class="mt-1.5 text-sm text-red-500">
-                                        {{ $message }}
-                                    </p>
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
-
                             </div>
 
                         </div>
 
 
-                     
+                        {{-- Billing Information --}}
+                        <div class="mt-10 mb-6 border-t border-gray-100 pt-8">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-1">
+                                Billing Information
+                            </h4>
+
+                            <p class="text-sm text-gray-500">
+                                Update the billing details used when this council is selected for billing.
+                            </p>
+                        </div>
+
+
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+                            {{-- Billing Email --}}
+                            <div>
+                                <label for="council_billing_email" class="mb-2 block text-sm font-medium text-gray-700">
+                                    Billing Email
+                                </label>
+
+                                <div class="relative">
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-envelope class="h-5 w-5 text-gray-400" />
+                                    </div>
+
+                                    <input id="council_billing_email" name="council_billing_email" type="email"
+                                        value="{{ old('council_billing_email', $council->council_billing_email) }}"
+                                        placeholder="Enter billing email"
+                                        class="block w-full rounded-xl border border-gray-200
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">
+                                </div>
+
+                                @error('council_billing_email')
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+
+                            {{-- Billing Phone --}}
+                            <div>
+                                <label for="council_billing_phone" class="mb-2 block text-sm font-medium text-gray-700">
+                                    Billing Phone
+                                </label>
+
+                                <div class="relative">
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-phone class="h-5 w-5 text-gray-400" />
+                                    </div>
+
+                                    <input id="council_billing_phone" name="council_billing_phone" type="text"
+                                        value="{{ old('council_billing_phone', $council->council_billing_phone) }}"
+                                        placeholder="Enter billing phone"
+                                        class="block w-full rounded-xl border border-gray-200
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">
+                                </div>
+
+                                @error('council_billing_phone')
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+
+                            {{-- Billing Address --}}
+                            <div>
+                                <label for="council_billing_address"
+                                    class="mb-2 block text-sm font-medium text-gray-700">
+                                    Billing Address
+                                </label>
+
+                                <div class="relative">
+                                    <div
+                                        class="pointer-events-none absolute top-3.5 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-map-pin class="h-5 w-5 text-gray-400" />
+                                    </div>
+
+                                    <textarea id="council_billing_address" name="council_billing_address" rows="3" placeholder="Enter billing address"
+                                        class="block w-full rounded-xl border border-gray-200
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">{{ old('council_billing_address', $council->council_billing_address) }}</textarea>
+                                </div>
+
+                                @error('council_billing_address')
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+
+                            {{-- Billing Postcode --}}
+                            <div>
+                                <label for="council_billing_postcode"
+                                    class="mb-2 block text-sm font-medium text-gray-700">
+                                    Billing Postcode
+                                </label>
+
+                                <div class="relative">
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0
+                            flex items-center pl-3.5">
+                                        <x-heroicon-o-map class="h-5 w-5 text-gray-400" />
+                                    </div>
+
+                                    <input id="council_billing_postcode" name="council_billing_postcode" type="text"
+                                        value="{{ old('council_billing_postcode', $council->council_billing_postcode) }}"
+                                        placeholder="Enter billing postcode"
+                                        class="block w-full rounded-xl border border-gray-200
+                           bg-gray-50 py-3 pl-11 pr-4 text-sm text-gray-900
+                           placeholder:text-gray-400 transition
+                           focus:border-[#112695]
+                           focus:bg-white
+                           focus:ring-2 focus:ring-[#112695]/10">
+                                </div>
+
+                                @error('council_billing_postcode')
+                                    <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                        </div>
 
                     </div>
 
 
                     {{-- Footer --}}
-                    <div class="flex flex-col-reverse gap-3 border-t border-gray-100
+                    <div
+                        class="flex flex-col-reverse gap-3 border-t border-gray-100
                                 bg-gray-50/70 px-6 py-4 sm:flex-row sm:justify-end">
 
                         {{-- Update --}}

@@ -110,8 +110,7 @@ class CouncilOfficerController extends Controller
         $councilOfficer->council_id = $request->council_id;
         $councilOfficer->save();
 
-        return redirect('council-officers')
-            ->with('success', 'Council Officer updated successfully');
+        return redirect('council-officers')->with('success', 'Council Officer updated successfully');
     }
 
 

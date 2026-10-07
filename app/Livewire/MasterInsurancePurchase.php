@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire;
- 
+
 use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use App\Models\Council;
 
-  
+
 use Illuminate\Validation\Rule;
 
 class MasterInsurancePurchase extends Component
@@ -68,6 +69,13 @@ class MasterInsurancePurchase extends Component
     public $paymentMethod;
 
     // Step 7: Biling Department
+
+    // public $billingType = '';
+    public $isCouncilBilling = false;
+    public $selectedCouncilId;
+
+    public $availableCouncils = [];
+
     public $billingName;
     public $billingEmail;
     public $copyBillingEmail;
@@ -83,21 +91,50 @@ class MasterInsurancePurchase extends Component
     // Step 8: Summary data
     public $summaryData = [];
 
+    // public function mount()
+    // {
+    //     $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
+    //         ->get();
+
+    //     if ($this->availableInsurances) {
+    //         $this->insuranceDetails = $this->availableInsurances;
+    //         // dd($this->insuranceDetails);
+    //     }
+    // }
+
     public function mount()
     {
         $this->availableInsurances = Insurance::where('purchase_mode', 'Offline')
-                    ->get();
+            ->get();
+
+        $this->availableCouncils = Council::orderBy('council_name', 'asc')->get();
+        // dd($this->availableCouncils);
 
         if ($this->availableInsurances) {
             $this->insuranceDetails = $this->availableInsurances;
-            // dd($this->insuranceDetails);
         }
     }
 
-    // public function updatedSelectedinsuranceId($value) 
-    // {
-    //     $this->insuranceDetails = Insurance::find($value);
-    // }
+    public function updatedSelectedCouncilId($value)
+    {
+        if (!$value) {
+            return;
+        }
+
+        $council = Council::find($value);
+
+        if (!$council) {
+            return;
+        }
+
+        // Automatically populate billing information
+        $this->billingName = $council->council_name;
+        $this->billingEmail = $council->council_billing_email;
+        $this->billingPhone = $council->council_billing_phone;
+        $this->billingAddressOne = $council->council_billing_address;
+        $this->billingAddressTwo = '';
+        $this->billingPostcode = $council->council_billing_postcode;
+    }
 
     public function updatedSelectedinsuranceId($value)
     {
@@ -106,7 +143,7 @@ class MasterInsurancePurchase extends Component
 
     public function fetchInsuranceDetails()
     {
-        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId); 
+        $this->insuranceDetails = Insurance::with('staticdocuments', 'dynamicdocument', 'insurancemailtemplate')->findOrFail($this->selectedinsuranceId);
         // dd($this->insuranceDetails);
     }
 
@@ -185,14 +222,31 @@ class MasterInsurancePurchase extends Component
             return [
                 'paymentMethod' => ['required', Rule::in(['pay_later', 'bank_transfer'])],
             ];
+            // } elseif ($step == 7) {
+            //     return [
+            //         'billingName' => 'required|string',
+            //         'billingEmail' => 'required|email',
+            //         'billingPhone' => 'required',
+            //         'billingAddressOne' => 'required|string',
+            //         'billingPostcode' => 'required'
+            //     ];
+            // }
+
         } elseif ($step == 7) {
-            return [
+
+            $rules = [
                 'billingName' => 'required|string',
                 'billingEmail' => 'required|email',
                 'billingPhone' => 'required',
                 'billingAddressOne' => 'required|string',
-                'billingPostcode' => 'required'
+                'billingPostcode' => 'required',
             ];
+
+            if ($this->isCouncilBilling) {
+                $rules['selectedCouncilId'] = 'required|exists:councils,id';
+            }
+
+            return $rules;
         }
 
         return [];
@@ -225,7 +279,7 @@ class MasterInsurancePurchase extends Component
             : '';
 
         // $billingAddress = trim("{$this->billingAddressOne}, {$this->billingAddressTwo}, {$this->billingPostcode}");
-        
+
 
         $this->summaryData = [
             'Insurance Selected:' => $this->availableInsurances->firstWhere('id', $this->selectedinsuranceId)?->name ?? 'N/A',
@@ -258,12 +312,12 @@ class MasterInsurancePurchase extends Component
             'Billing Phone' => $this->billingPhone,
             'Billing Postcode' => $this->billingPostcode,
             // 'Billing Address' => $billingAddress,
-            
+
             'Billing Address:' => implode(', ', array_filter([
-                            $this->billingAddressOne,
-                            $this->billingAddressTwo,
-                            $this->billingPostcode,
-                        ])),
+                $this->billingAddressOne,
+                $this->billingAddressTwo,
+                $this->billingPostcode,
+            ])),
             'Pon No' => $this->ponNo,
             // 'Policy End Date' => $this->policyEndDate,
             // 'Premium Amount' => $this->premiumAmount,
@@ -278,12 +332,12 @@ class MasterInsurancePurchase extends Component
 
     // public function updateAddressFromJs($data)
     // {
-       
+
     //     $this->doorNo = $data['doorNo'];
     //     $this->addressOne = $data['addressOne'];
     //     $this->postCode = $data['postCode'];
     // }
-    
+
 
     public function submitForm()
     {
@@ -306,7 +360,7 @@ class MasterInsurancePurchase extends Component
         // $policyEnd = $policyStart->copy()->addDays($validityDays);
         // $this->policyEndDate = $policyEnd->toDateString();
 
-    
+
 
         $purchase = new Purchase();
         $purchase->insurance_id = $this->selectedinsuranceId;
@@ -322,8 +376,8 @@ class MasterInsurancePurchase extends Component
         $purchase->post_code = $this->postCode;
         $purchase->policy_holder_type = $this->policyHoldertype;
         $purchase->property_address = $this->doorNo . ',' . $this->addressOne . ',' . $this->addressTwo . ',' . $this->addressThree . ',' . $this->postCode;
-        $purchase->policy_holder_address = $this->policyholderAddress1.' '.$this->policyholderAddress2.' '.$this->policyholderPostcode;
-        
+        $purchase->policy_holder_address = $this->policyholderAddress1 . ' ' . $this->policyholderAddress2 . ' ' . $this->policyholderPostcode;
+
         // $purchase->company_name = $this->policyHoldertype === 'Company' ? $this->companyName : null;
         // $purchase->policy_holder_company_email = $this->policyHoldertype === 'Company' ? $this->policyholderCompanyEmail : null;
         // $purchase->policy_holder_title = $this->policyHoldertype === 'Individual' ? $this->policyholderTitle : null;
@@ -344,7 +398,7 @@ class MasterInsurancePurchase extends Component
             $purchase->policy_holder_lname = $this->policyholderLastName;
             $purchase->policy_holder_email = $this->policyholderEmail;
         }
-       
+
         $purchase->policy_holder_phone = $this->policyholderPhone;
         $purchase->policy_holder_alternative_phone = $this->policyholderAlternativePhone;
         $purchase->policy_holder_postcode = $this->policyholderPostcode;
@@ -386,7 +440,12 @@ class MasterInsurancePurchase extends Component
 
         $purchase->payment_method = $this->paymentMethod;
 
-   
+        // Billing Type & Council
+        $purchase->billing_type = $this->isCouncilBilling ? 'Council' : null;
+        $purchase->council_id = $this->isCouncilBilling
+            ? $this->selectedCouncilId
+            : null;
+
         $purchase->save();
 
         $invoice = new Invoice();
@@ -418,16 +477,16 @@ class MasterInsurancePurchase extends Component
 
         $invoice->save();
 
-        
+
 
         //Policy holder email send
         $this->send_email_one($purchase->id);
-        if($invoice->is_invoice == 1){
+        if ($invoice->is_invoice == 1) {
 
             $this->send_email_two($purchase->id);
         }
 
-        
+
 
         return redirect()->route('purchase.success', ['id' => $purchase->id]);
 
@@ -499,7 +558,7 @@ class MasterInsurancePurchase extends Component
                     );
 
                     $pdf = PDF::loadView('purchase.pdfs.insurance_dynamic_document_email', ['data' => $data]);
-                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name); 
+                    $pdfPath = public_path('uploads/dynamicdoc/' . $file_name);
                     $pdf->save($pdfPath);
                     if (file_exists($pdfPath)) {
                         $allDocs[] = $pdfPath;
@@ -553,39 +612,39 @@ class MasterInsurancePurchase extends Component
             // );
             $email_subject = $insurance->insurancemailtemplate->title ?? '';
             $data = array(
-                'body' => $insurance->insurancemailtemplate->description ?? '', 
+                'body' => $insurance->insurancemailtemplate->description ?? '',
                 'bodyValue' => $bodyValue
             );
 
-            
+
             try {
 
-                 $copyEmails = explode(',', $purchase->copy_email);
-                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                        return filter_var($email, FILTER_VALIDATE_EMAIL);
-                    });
+                $copyEmails = explode(',', $purchase->copy_email);
+                $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                    return filter_var($email, FILTER_VALIDATE_EMAIL);
+                });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-                    // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-                    foreach ($sendToemails as $email) {
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            throw new \Exception("Invalid To Email: $email");
-                            //  abort(404); 
-                        }
+                foreach ($sendToemails as $email) {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        throw new \Exception("Invalid To Email: $email");
+                        //  abort(404); 
                     }
+                }
 
-                    Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
-                        $messages->to($sendToemails);
-                        $messages->subject($email_subject);
-                        $messages->cc($ccEmails);
-                        // $messages->bcc(['bestpratik@gmail.com']);
+                Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemails, $allDocs, $email_subject, $ccEmails) {
+                    $messages->to($sendToemails);
+                    $messages->subject($email_subject);
+                    $messages->cc($ccEmails);
+                    // $messages->bcc(['bestpratik@gmail.com']);
 
-                        foreach ($allDocs as $attachment) {
-                            $messages->attach($attachment);
-                        }
-                    });
-                    
+                    foreach ($allDocs as $attachment) {
+                        $messages->attach($attachment);
+                    }
+                });
+
 
                 // Mail::send('email.insurance_billing', $data, function ($messages) use ($sendToemils, $allDocs, $email_subject, $purchase) {
                 //     //$messages->to($user['to']); 
@@ -642,22 +701,22 @@ class MasterInsurancePurchase extends Component
 
         try {
 
-             $copyEmails = explode(',', $purchase->copy_email);
-                    $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
-                        return filter_var($email, FILTER_VALIDATE_EMAIL);
-                    });
+            $copyEmails = explode(',', $purchase->copy_email);
+            $validCopyEmails = array_filter(array_map('trim', $copyEmails), function ($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
 
-                    $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-                    // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+            $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+            // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
-                    foreach ($sendToBillingEmails as $email) {
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            throw new \Exception("Invalid To Email: $email");
-                            //  abort(404); 
-                        }
-                    }
+            foreach ($sendToBillingEmails as $email) {
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception("Invalid To Email: $email");
+                    //  abort(404); 
+                }
+            }
 
-            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) { 
+            Mail::send('email.invoice_mail', $data, function ($message) use ($sendToBillingEmails, $filePath, $emailSubject, $ccEmails) {
                 $message->to($sendToBillingEmails);
                 $message->subject($emailSubject);
                 // $message->cc(['aadatia@moneywiseplc.co.uk']);
@@ -672,7 +731,7 @@ class MasterInsurancePurchase extends Component
         }
     }
 
- 
+
 
 
 

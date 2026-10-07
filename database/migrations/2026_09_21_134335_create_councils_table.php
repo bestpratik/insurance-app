@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('council_name')->nullable();
             $table->string('council_email')->nullable();
+            $table->string('council_billing_email')->nullable();
+            $table->string('council_billing_phone')->nullable();
+            $table->text('council_billing_address')->nullable();
+            $table->string('council_billing_postcode')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

@@ -203,8 +203,15 @@ class CouncilController extends Controller
         ]);
 
         $council = new Council;
+        
         $council->council_name = $request->council_name;
         $council->council_email = $request->council_email;
+        $council->council_billing_email = $request->council_billing_email;
+        $council->council_billing_phone = $request->council_billing_phone;
+        $council->council_billing_address = $request->council_billing_address;
+        $council->council_billing_postcode = $request->council_billing_postcode;
+        $council->status = 1;
+
         $council->save();
 
         return redirect('councils')->with('success', 'Council created successfully');
@@ -226,6 +233,10 @@ class CouncilController extends Controller
         $council = Council::find($id);
         $council->council_name = $request->council_name;
         $council->council_email = $request->council_email;
+        $council->council_billing_email = $request->council_billing_email;
+        $council->council_billing_phone = $request->council_billing_phone;
+        $council->council_billing_address = $request->council_billing_address;
+        $council->council_billing_postcode = $request->council_billing_postcode;
         $council->update();
 
         return redirect('councils')->with('success', 'Council updated successfully');

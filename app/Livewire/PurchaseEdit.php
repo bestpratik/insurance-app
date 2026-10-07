@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Purchase;
 use App\Models\Insurance;
+use App\Models\Council;
 
 class PurchaseEdit extends Component
 {
@@ -16,7 +17,7 @@ class PurchaseEdit extends Component
     public $rentAmount;
     public $selectedinsuranceId;
 
-    public $policyHoldertype = 'Individual'; 
+    public $policyHoldertype = 'Individual';
     public $companyName;
     public $policyholderTitle;
     public $policyholderFirstName;
@@ -51,7 +52,12 @@ class PurchaseEdit extends Component
     public $billingAddressTwo;
     public $billingPostcode;
     public $ponNo;
-    
+
+    // Billing Type
+    public $isCouncilBilling = false;
+    public $selectedCouncilId;
+    public $availableCouncils = [];
+
     // property
     public $doorNo;
     public $addressOne;
@@ -64,14 +70,16 @@ class PurchaseEdit extends Component
 
 
 
-    public function mount($policyNo = null) 
+    public function mount($policyNo = null)
     {
-      
-        $this->purchaseData= Purchase::with('invoice')->where('policy_no', $policyNo)->firstOrFail();
-        $this->purchaseId = $this->purchaseData->id;
-        $this->insuranceList=Insurance::all();
 
-        if($this->purchaseId){
+        $this->purchaseData = Purchase::with('invoice')->where('policy_no', $policyNo)->firstOrFail();
+        $this->purchaseId = $this->purchaseData->id;
+        $this->insuranceList = Insurance::all();
+
+        $this->availableCouncils = Council::orderBy('council_name', 'asc')->get();
+
+        if ($this->purchaseId) {
             $this->productType = $this->purchaseData->product_type;
             $this->insuranceType = $this->purchaseData->insurance_type;
             $this->selectedinsuranceId = $this->purchaseData->insurance_id;
@@ -80,7 +88,7 @@ class PurchaseEdit extends Component
             $this->addressOne = $this->purchaseData->address_one;
             $this->addressTwo = $this->purchaseData->address_two;
             $this->addressThree = $this->purchaseData->address_three;
-            $this->postCode = $this->purchaseData->post_code; 
+            $this->postCode = $this->purchaseData->post_code;
 
 
             // policy holder
@@ -107,7 +115,7 @@ class PurchaseEdit extends Component
             $this->tenantPhone = $this->purchaseData->tenant_phone;
             $this->tenantEmail = $this->purchaseData->tenant_email;
 
-             $this->paymentMethod = $this->purchaseData->payment_method;
+            $this->paymentMethod = $this->purchaseData->payment_method;
 
 
             //  billing
@@ -119,7 +127,9 @@ class PurchaseEdit extends Component
             $this->billingPostcode = $this->purchaseData->invoice->billing_postcode ?? '';
             $this->ponNo = $this->purchaseData->invoice->pon ?? '';
 
-
+            // Billing Type
+            $this->isCouncilBilling = $this->purchaseData->billing_type === 'Council';
+            $this->selectedCouncilId = $this->purchaseData->council_id;
         }
 
         //dd($purchaseId);
@@ -127,10 +137,30 @@ class PurchaseEdit extends Component
 
     }
 
+    public function updatedSelectedCouncilId($value)
+    {
+        if (!$value) {
+            return;
+        }
+
+        $council = Council::find($value);
+
+        if (!$council) {
+            return;
+        }
+
+        $this->billingName = $council->council_name;
+        $this->billingEmail = $council->council_billing_email;
+        $this->billingPhone = $council->council_billing_phone;
+        $this->billingAddressOne = $council->council_billing_address;
+        $this->billingAddressTwo = '';
+        $this->billingPostcode = $council->council_billing_postcode;
+    }
+
     public function update()
     {
         $purchase = Purchase::find($this->purchaseId);
-            $this->validate([
+        $this->validate([
             'productType' => 'required',
             'selectedinsuranceId' => 'required',
             'insuranceType' => 'required',
@@ -148,11 +178,16 @@ class PurchaseEdit extends Component
             'doorNo' => 'nullable',
             'addressOne' => 'required',
 
+            'selectedCouncilId' => $this->isCouncilBilling
+                ? 'required|exists:councils,id'
+                : 'nullable',
+
+
         ]);
 
 
         try {
-           
+
 
             // dd([
             //     'product_type' => $this->productType,
@@ -191,7 +226,7 @@ class PurchaseEdit extends Component
             //     'payment_method' => $this->paymentMethod,
             // ]);
 
-           $purchase->update([
+            $purchase->update([
                 'product_type' => $this->productType,
                 'insurance_type' => $this->insuranceType,
                 'insurance_id' => $this->selectedinsuranceId,
@@ -226,29 +261,33 @@ class PurchaseEdit extends Component
 
                 // Payment method
                 'payment_method' => $this->paymentMethod,
+
+                // Billing Type
+                'billing_type' => $this->isCouncilBilling ? 'Council' : null,
+                'council_id' => $this->isCouncilBilling
+                    ? $this->selectedCouncilId
+                    : null,
+                    
             ]);
 
-              // Emit browser event for success
+            // Emit browser event for success
             $this->dispatch('swal');
 
             //dd($purchase->invoice);
 
-           if ($purchase->invoice) {
-            $purchase->invoice->update([
-                'billing_name'         => $this->billingName,
-                'billing_email'        => $this->billingEmail,
-                'billing_phone'        => $this->billingPhone,
-                'billing_address_one'  => $this->billingAddressOne,
-                'billing_address_two'  => $this->billingAddressTwo,
-                'billing_postcode'     => $this->billingPostcode,
-                'pon'                  => $this->ponNo,
-            ]);
-        }
-
-
-
+            if ($purchase->invoice) {
+                $purchase->invoice->update([
+                    'billing_name'         => $this->billingName,
+                    'billing_email'        => $this->billingEmail,
+                    'billing_phone'        => $this->billingPhone,
+                    'billing_address_one'  => $this->billingAddressOne,
+                    'billing_address_two'  => $this->billingAddressTwo,
+                    'billing_postcode'     => $this->billingPostcode,
+                    'pon'                  => $this->ponNo,
+                ]);
+            }
         } catch (\Exception $e) {
-            
+
             session()->flash('error', 'Update failed: ' . $e->getMessage());
         }
     }

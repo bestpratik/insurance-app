@@ -10,6 +10,10 @@ class Council extends Model
     protected $fillable = [
         'council_name',
         'council_email',
+        'council_billing_email',
+        'council_billing_phone',
+        'council_billing_address',
+        'council_billing_postcode',
         'created_at',
         'updated_at',
     ];

@@ -1,5 +1,5 @@
 <div class="p-4">
-    <!-- Filter Section -->
+    <!-- Filter Section --> 
     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label>

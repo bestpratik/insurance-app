@@ -62,10 +62,17 @@ class OfflinePurchaseList extends Component
         $userType = UserType::find($user->type);
         $query = Purchase::query();
 
+        // if ($userType && $userType->slug === 'council-officer') {
+
+        //     $query->where('user_id', $user->id);
+        // }
+
         if ($userType && $userType->slug === 'council-officer') {
 
-            $query->where('user_id', $user->id);
+            $query->whereNotNull('council_id')
+                ->where('council_id', $user->council_id);
         }
+
 
         return $query;
     }
@@ -145,6 +152,12 @@ class OfflinePurchaseList extends Component
         ]);
     }
 
+
+    private function getAccessiblePurchase($purchaseId)
+    {
+        return $this->purchaseQuery()->findOrFail($purchaseId);
+    }
+
     public function openCancelModal($purchaseId)
     {
         $this->cancelPurchaseId = $purchaseId;
@@ -165,7 +178,8 @@ class OfflinePurchaseList extends Component
             'cancelReason' => 'required|string|min:5',
         ]);
 
-        $purchase = Purchase::find($this->cancelPurchaseId);
+        // $purchase = Purchase::find($this->cancelPurchaseId);
+        $purchase = $this->getAccessiblePurchase($this->cancelPurchaseId);
 
         if ($purchase) {
             $purchase->purchase_status = 'Cancelled';
@@ -202,7 +216,10 @@ class OfflinePurchaseList extends Component
             'resendDocument' => 'required',
         ]);
 
-        $purchase = Purchase::find($this->resendDocPurchaseId);
+        // $purchase = Purchase::find($this->resendDocPurchaseId);
+        $purchase = $this->getAccessiblePurchase($this->resendDocPurchaseId);
+
+
         if (!$purchase) {
             $this->addError('resendDocument', 'Purchase not found.');
             return;
@@ -351,91 +368,6 @@ class OfflinePurchaseList extends Component
         $this->resendInvoice = '';
     }
 
-    // public function submitResendInvoice()
-    // {
-    //     $this->validate([
-    //         'resendInvoice' => 'required|email',
-    //     ]);
-
-    //     $purchase = Purchase::find($this->resendInvoicePurchaseId);
-    //     // dd($purchase);
-    //     if (!$purchase) {
-    //         $this->addError('resendInvoice', 'Purchase not found.');
-    //         return;
-    //     }
-
-    //     $emailList = collect(preg_split('/[\s,]+/', $this->resendInvoice))
-    //         ->filter()
-    //         ->map(fn($email) => trim($email))
-    //         ->unique()
-    //         ->toArray();
-
-    //     if (empty($emailList)) {
-    //         $this->addError('resendInvoice', 'Please enter at least one valid email address.');
-    //         return;
-    //     }
-
-    //     $this->send_email_two($purchase->id, $emailList);
-
-    //     // session()->flash('message', 'Documents resent successfully.');
-    //     // $this->closeResendModal();
-    //     $this->dispatch('swal:success', ['message' => 'Documents resent successfully.']);
-    //     $this->closeResendModal();
-    // }
-
-    // public function send_email_two($purchaseId, $resendEmails = [])
-    // {
-    //     $purchase = Purchase::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($purchaseId);
-
-    //     if (!$purchase) {
-    //         return 'Purchase not found.';
-    //     }
-
-    //     $pdf = PDF::loadView('insurance.policy_invoice', compact('purchase'))->setPaper('a4');
-    //     $pdfContent = $pdf->output();
-
-    //     $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
-    //     $directory = public_path('uploads/invoice');
-    //     $filePath = $directory . '/' . $fileName;
-
-    //     if (!File::exists($directory)) {
-    //         File::makeDirectory($directory, 0755, true);
-    //     }
-
-    //     file_put_contents($filePath, $pdfContent);
-
-    //     // Email details
-    //     $sendToEmails = [$purchase->invoice->billing_email];
-    //     $emailSubject = 'Moneywise Investments PLC - Invoice for Policy - ' . $purchase->policy_no;
-
-    //     $data = [
-    //         'body' => 'Dear client,<br>
-    //                 Please find the attached invoice for policy no. ' . $purchase->policy_no . '.'
-    //     ];
-
-    //     try {
-    //         Mail::send('email.invoice_mail', $data, function ($message) use ($sendToEmails, $filePath, $emailSubject, $purchase, $resendEmails) {
-    //             $message->to($sendToEmails);
-    //             $message->subject($emailSubject);
-
-    //             $ccEmails = array_merge(['anuradham.dbt@gmail.com'], explode(',', $purchase->invoice->copy_email));
-    //             $message->cc($ccEmails);
-
-    //             // $existingCopyEmails = explode(',', $purchase->invoice->copy_email ?? '');
-    //             // $ccEmails = array_filter(array_merge(['anuradham.dbt@gmail.com'], $existingCopyEmails, $resendEmails));
-    //             // $ccEmails = array_map('trim', $ccEmails);
-    //             // $ccEmails = array_unique($ccEmails);
-
-    //             // $message->cc($ccEmails);
-    //             // $message->bcc(['bestpratik@gmail.com']);
-    //             $message->attach($filePath);
-    //         });
-
-    //         return response()->download($filePath);
-    //     } catch (Exception $e) {
-    //         return $e->getMessage();
-    //     }
-    // }
 
 
     public function submitResendInvoice()
@@ -444,7 +376,8 @@ class OfflinePurchaseList extends Component
             'resendInvoice' => 'required',
         ]);
 
-        $purchase = Purchase::find($this->resendInvoicePurchaseId);
+        // $purchase = Purchase::find($this->resendInvoicePurchaseId);
+        $purchase = $this->getAccessiblePurchase($this->resendInvoicePurchaseId);
 
         if (!$purchase) {
             $this->addError('resendInvoice', 'Purchase not found.');
@@ -553,7 +486,8 @@ class OfflinePurchaseList extends Component
         //     'paymentStatus' => 'required',
         // ]);
 
-        $purchase = Purchase::find($this->checkPaymentPurchaseId);
+        // $purchase = Purchase::find($this->checkPaymentPurchaseId);
+        $purchase = $this->getAccessiblePurchase($this->checkPaymentPurchaseId);
 
         if ($purchase) {
             $purchase->payment_method = $this->paymentMethod;
