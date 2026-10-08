@@ -478,7 +478,7 @@
 
                         <div>
                             <label class="block mb-1">Contact Phone <span class="text-red-600">*</span></label>
-                            <input type="number" placeholder="Enter..." wire:model="policyholderPhone"
+                            <input type="tel" placeholder="Enter..." wire:model="policyholderPhone" autocomplete="tel"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
                             @error('policyholderPhone')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
@@ -623,7 +623,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tenant Phone</label>
-                            <input type="number"
+                            <input type="tel" placeholder="Enter phone number..." autocomplete="tel"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="tenantPhone">
                             @error('tenantPhone')
@@ -967,9 +967,14 @@
                                 <span class="text-red-600 text-lg">*</span>
                             </label>
 
-                            <input type="number"
+                            {{-- <input type="tel"
                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                        focus:ring-blue-500 focus:border-blue-500"
+                                wire:model="billingPhone"> --}}
+
+                            <input type="tel" placeholder="Enter phone number..." autocomplete="tel"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+    focus:ring-blue-500 focus:border-blue-500"
                                 wire:model="billingPhone">
 
                             @error('billingPhone')
