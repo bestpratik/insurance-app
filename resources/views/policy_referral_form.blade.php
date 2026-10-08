@@ -15,11 +15,13 @@
                     <p class="text-lg md:text-xl">Building lasting financial relationships since 1978</p>
                 </div>
             </div>
-        </section> 
+        </section>  
         
 
         <!-- TAB MENU -->
-         <livewire:policy-referral-form-component />      
+         {{-- <livewire:policy-referral-form-component />       --}}
+
+            <livewire:policy-referral-form-component :council-id="$councilId" />
         <!-- SCRIPT -->
         <!-- <script>
         const tabButtons = document.querySelectorAll(".tab-btn");

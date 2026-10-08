@@ -1,6 +1,6 @@
 <div class="p-4">
     <!-- Filter Section -->
-     
+
     <!-- <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
             <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Policy No</label>
@@ -61,8 +61,10 @@
 
     <!-- Loader -->
     <div wire:loading class="absolute right-3 top-[42px] transform -translate-y-1/2">
-        <svg class="animate-spin h-5 w-5 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <svg class="animate-spin h-5 w-5 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+            </circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
         </svg>
     </div>
@@ -84,94 +86,149 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Sl No
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Property Address
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Tenancy Term
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Referral Date
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Landlord or Agent
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Name
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Contact No
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Email Address
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Action
                         </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($result as $row)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->id }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ implode(', ', array_filter([
-                                                    $row->door_no,
-                                                    $row->address_one,
-                                                    $row->address_two ?: null,
-                                                    $row->address_three ?: null,
-                                                    $row->post_code
-                                                ])) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> 
-                            {{ $row->policy_term }} year
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                           {{ \Carbon\Carbon::parse($row->ast_start_date)->format('jS M Y') }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->product_type }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @if($row->policy_holder_type === 'Individual')
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
-                            @elseif($row->policy_holder_type === 'Company')
-                                {{ $row->contact_person_name }}
-                            @else
-                                {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }} {{ $row->policy_holder_lname }}
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_phone }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $row->policy_holder_email }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <div class="flex items-center space-x-2">
-                                
-                                <a href="{{route('referral.details', $row->id)}}" class="text-indigo-600 hover:text-indigo-900" title="Details View">
-                                    <x-heroicon-o-eye class="w-5 h-5" />
-                                </a>
-                               <a href="{{ route('referral.download', $row->id) }}"  
-   class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
-    <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" /> Download Referral
-</a>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $row->id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ implode(
+                                    ', ',
+                                    array_filter([
+                                        $row->door_no,
+                                        $row->address_one,
+                                        $row->address_two ?: null,
+                                        $row->address_three ?: null,
+                                        $row->post_code,
+                                    ]),
+                                ) }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $row->policy_term }} year
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ \Carbon\Carbon::parse($row->ast_start_date)->format('jS M Y') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $row->product_type }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @if ($row->policy_holder_type === 'Individual')
+                                    {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }}
+                                    {{ $row->policy_holder_lname }}
+                                @elseif($row->policy_holder_type === 'Company')
+                                    {{ $row->contact_person_name }}
+                                @else
+                                    {{ $row->policy_holder_title }} {{ $row->policy_holder_fname }}
+                                    {{ $row->policy_holder_lname }}
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $row->policy_holder_phone }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $row->policy_holder_email }}
+                            </td>
+                            {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div class="flex items-center space-x-2">
 
-                            </div>
-                        </td>
-                    </tr>
+                                    <a href="{{ route('referral.details', $row->id) }}"
+                                        class="text-indigo-600 hover:text-indigo-900" title="Details View">
+                                        <x-heroicon-o-eye class="w-5 h-5" />
+                                    </a>
+                                    <a href="{{ route('referral.download', $row->id) }}"
+                                        class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+                                        <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" /> Download
+                                        Referral
+                                    </a>
+
+                                    <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
+                                        class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                            text-sm text-gray-700 hover:bg-gray-50 transition">
+                                        <x-heroicon-o-calendar-days class="w-5 h-5 text-red-600" />
+                                        <span>Policy Referral Renewal</span>
+                                    </a>
+
+                                    <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
+                                        class="inline-flex items-center gap-2 px-1 py-2
+                                        text-sm text-gray-700 hover:text-gray-900 transition whitespace-nowrap">
+                                        <x-heroicon-o-calendar-days class="w-5 h-5 text-red-600 flex-shrink-0" />
+                                        <span>Policy Referral Renewal</span>
+                                    </a>
+
+                                </div>
+                            </td> --}}
+
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div class="flex items-center gap-2">
+
+                                    <a href="{{ route('referral.details', $row->id) }}"
+                                        class="text-indigo-600 hover:text-indigo-900" title="Details View">
+                                        <x-heroicon-o-eye class="w-5 h-5" />
+                                    </a>
+
+                                    <a href="{{ route('referral.download', $row->id) }}"
+                                        class="inline-flex items-center px-3 py-2 bg-red-600 text-white
+                                            text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
+                                        <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" />
+                                        Download Referral
+                                    </a>
+
+                                    <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
+                                        class="inline-flex items-center gap-2 px-1 py-2
+                                            text-sm text-gray-700 hover:text-gray-900 transition whitespace-nowrap">
+                                        <x-heroicon-o-calendar-days class="w-5 h-5 text-green-600 flex-shrink-0" />
+                                        <span>Policy Referral Renewal</span>
+                                    </a>
+
+                                </div>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="21" class="px-6 py-4 text-center text-sm text-gray-500">
-                            No data found.
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="21" class="px-6 py-4 text-center text-sm text-gray-500">
+                                No data found.
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -184,105 +241,123 @@
     </div>
 
 
- 
 
-    <!--Cancel modal start--> 
-    @if($showCancelModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-            <button wire:click="closeCancelModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-            </button>
 
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
+    <!--Cancel modal start-->
+    @if ($showCancelModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+                <button wire:click="closeCancelModal"
+                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+                </button>
 
-            <div>
-                <label for="cancelReason" class="block text-gray-700 mb-2"><span
-                        class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
-                <textarea wire:model="cancelReason" id="cancelReason"
-                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your reason..."></textarea>
-                @error('cancelReason') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Cancel Request</h2>
 
-            <div class="mt-6 flex justify-end space-x-4">
-                <button wire:click="closeCancelModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-                <button wire:click="submitCancellation" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
+                <div>
+                    <label for="cancelReason" class="block text-gray-700 mb-2"><span
+                            class="text-red-600 text-xl">*</span>Reason for cancellation:</label>
+                    <textarea wire:model="cancelReason" id="cancelReason"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your reason..."></textarea>
+                    @error('cancelReason')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button wire:click="closeCancelModal"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                    <button wire:click="submitCancellation"
+                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Confirm Cancel</button>
+                </div>
             </div>
         </div>
-    </div>
     @endif
 
     <!--Cancel modal end-->
 
 
     <!--Resend modal start-->
-    @if($showResendDocumentModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-            <button wire:click="closeResendModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-            </button>
+    @if ($showResendDocumentModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+                <button wire:click="closeResendModal"
+                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+                </button>
 
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Documents</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Documents</h2>
 
-            <div>
+                <div>
 
-                <label for="resendDocument" class="block text-gray-700"><span
-                        class="text-red-600 text-xl">*</span>Emails:</label>
-                <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
-                <textarea wire:model="resendDocument" id="resendDocument"
-                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your email..."></textarea>
-                @error('resendDocument') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+                    <label for="resendDocument" class="block text-gray-700"><span
+                            class="text-red-600 text-xl">*</span>Emails:</label>
+                    <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)
+                    </p>
+                    <textarea wire:model="resendDocument" id="resendDocument"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your email..."></textarea>
+                    @error('resendDocument')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <div class="mt-6 flex justify-end space-x-4">
-                <button wire:click="closeResendModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-                <button wire:click="submitResendingDoc" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button wire:click="closeResendModal"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                    <button wire:click="submitResendingDoc"
+                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                </div>
             </div>
         </div>
-    </div>
     @endif
     <!--Resend modal end-->
 
 
     <!--Resend Invoice modal start-->
-    @if($showResendInvoiceModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-            <button wire:click="closeResendInvoiceModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
-            </button>
+    @if ($showResendInvoiceModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
+                <button wire:click="closeResendInvoiceModal"
+                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
+                </button>
 
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Invoice</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Resend Invoice</h2>
 
-            <div>
+                <div>
 
-                <label for="resendInvoice" class="block text-gray-700"><span
-                        class="text-red-600 text-xl">*</span>Emails:</label>
-                <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)</p>
-                <textarea wire:model="resendInvoice" id="resendInvoice"
-                    class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your email..."></textarea>
-                @error('resendInvoice') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+                    <label for="resendInvoice" class="block text-gray-700"><span
+                            class="text-red-600 text-xl">*</span>Emails:</label>
+                    <p class="block text-gray-700 mb-2 text-sm">(Please enter the email addresses, separated by commas)
+                    </p>
+                    <textarea wire:model="resendInvoice" id="resendInvoice"
+                        class="w-full h-28 border rounded p-2 text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Enter your email..."></textarea>
+                    @error('resendInvoice')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <div class="mt-6 flex justify-end space-x-4">
-                <button wire:click="closeResendInvoiceModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-                <button wire:click="submitResendInvoice" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button wire:click="closeResendInvoiceModal"
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                    <button wire:click="submitResendInvoice"
+                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                </div>
             </div>
         </div>
-    </div>
     @endif
     <!--Resend Invoice modal end-->
 
 
     <!-- modal  -->
-    @if($showPaymentCheckModal)
+    @if ($showPaymentCheckModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white max-w-lg w-full rounded-lg shadow-lg p-6 relative">
-                <button wire:click="closePaymentCheckModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <button wire:click="closePaymentCheckModal"
+                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                     <x-heroicon-o-x-mark class="h-6 w-6 text-gray-500 hover:text-gray-700 border rounded-full p-1" />
                 </button>
 
@@ -295,29 +370,37 @@
                             <div class="flex items-center space-x-3">
                                 <!-- Pay Later -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentMethod" value="pay_later" wire:model="paymentMethod" 
-                                        class="peer hidden" {{ $paymentMethod == 'pay_later' ? 'checked' : '' }} />
-                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
-                                        <img src="{{asset('paylater.jpg')}}" alt="Pay Later" class="h-20 mb-1" />
+                                    <input type="radio" name="paymentMethod" value="pay_later"
+                                        wire:model="paymentMethod" class="peer hidden"
+                                        {{ $paymentMethod == 'pay_later' ? 'checked' : '' }} />
+                                    <div
+                                        class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{ asset('paylater.jpg') }}" alt="Pay Later" class="h-20 mb-1" />
                                     </div>
                                 </label>
 
                                 <!-- Bank Transfer -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentMethod" value="bank_transfer" wire:model="paymentMethod"
-                                        class="peer hidden" {{ $paymentMethod == 'bank_transfer' ? 'checked' : '' }} />
-                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
-                                        <img src="{{asset('bank-transper.jpg')}}" alt="Bank Transfer" class="h-20 mb-1" />
+                                    <input type="radio" name="paymentMethod" value="bank_transfer"
+                                        wire:model="paymentMethod" class="peer hidden"
+                                        {{ $paymentMethod == 'bank_transfer' ? 'checked' : '' }} />
+                                    <div
+                                        class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{ asset('bank-transper.jpg') }}" alt="Bank Transfer"
+                                            class="h-20 mb-1" />
                                     </div>
                                 </label>
- 
+
                                 <!-- Stripe -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentMethod" value="stripe" wire:model="paymentMethod"
-                                        class="peer hidden" {{ $paymentMethod == 'stripe' ? 'checked' : '' }} />
-                                    <div class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
-                                        <img src="{{ asset('Stripe_Logo,_revised_2016.svg.png') }}" alt="Stripe" class="h-10 mb-1" />
-                                      
+                                    <input type="radio" name="paymentMethod" value="stripe"
+                                        wire:model="paymentMethod" class="peer hidden"
+                                        {{ $paymentMethod == 'stripe' ? 'checked' : '' }} />
+                                    <div
+                                        class="w-36 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-blue-500 p-2 flex flex-col items-center justify-center hover:border-blue-400 transition-all duration-200">
+                                        <img src="{{ asset('Stripe_Logo,_revised_2016.svg.png') }}" alt="Stripe"
+                                            class="h-10 mb-1" />
+
                                     </div>
                                 </label>
 
@@ -331,25 +414,28 @@
                             <div class="flex items-center space-x-6">
                                 <!-- Paid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="Paid" wire:model="paymentStatus"
-                                        class="peer hidden" {{ $paymentStatus == 'Paid' ? 'checked' : '' }} />
-                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
-                                        <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M5 13l4 4L19 7" />
+                                    <input type="radio" name="paymentStatus" value="Paid"
+                                        wire:model="paymentStatus" class="peer hidden"
+                                        {{ $paymentStatus == 'Paid' ? 'checked' : '' }} />
+                                    <div
+                                        class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-green-500 bg-green-50 peer-checked:bg-green-100 p-2 flex flex-col items-center justify-center hover:border-green-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-green-600 mb-1" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                         </svg>
                                         <span class="text-sm font-medium text-center text-green-800">Paid</span>
                                     </div>
                                 </label>
- 
+
                                 <!-- Unpaid -->
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="paymentStatus" value="Pending" wire:model="paymentStatus" 
-                                        class="peer hidden" {{ $paymentStatus == 'Pending' ? 'checked' : '' }} />
-                                    <div class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
-                                        <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor" stroke-width="2"
-                                            viewBox="0 0 24 24">
+                                    <input type="radio" name="paymentStatus" value="Pending"
+                                        wire:model="paymentStatus" class="peer hidden"
+                                        {{ $paymentStatus == 'Pending' ? 'checked' : '' }} />
+                                    <div
+                                        class="w-40 h-24 border-4 rounded-lg border-gray-300 peer-checked:border-red-500 bg-red-50 peer-checked:bg-red-100 p-2 flex flex-col items-center justify-center hover:border-red-400 transition-all duration-200">
+                                        <svg class="h-8 w-8 text-red-600 mb-1" fill="none" stroke="currentColor"
+                                            stroke-width="2" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M6 18L18 6M6 6l12 12" />
                                         </svg>
@@ -362,14 +448,16 @@
 
 
                     <div class="mt-6 flex justify-end space-x-4">
-                        <button wire:click="closePaymentCheckModal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
-                        <button wire:click="submitPaymentCheckModal" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
+                        <button wire:click="closePaymentCheckModal"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+                        <button wire:click="submitPaymentCheckModal"
+                            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Submit</button>
                     </div>
                 </div>
-        </div>
+            </div>
     @endif
     <!-- modal  -->
 
 
 
-    </div>
+</div>

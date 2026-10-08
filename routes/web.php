@@ -212,7 +212,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/all-referral-list', function () {
         return view('purchase.referral_list');
     })->name('referral.list');
-
+ 
 
     Route::get('/all-purchase-cancel-list', function () {
         return view('purchase.all_cancel_list');
@@ -227,6 +227,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('purchase/renewal-overview/{id}', [PurchaseController::class, 'renewalOverviewPage'])->name('purchase.renewal.overview');
     Route::get('insurance/purchase/renewal/{id}', [PurchaseController::class, 'insurancePurchaseRenewal'])->name('renewal.insurance.purchase');
 
+    
+
+    Route::get('policy-referral/renewal-overview/{id}', [PurchaseController::class, 'renewalPolicyreferralOverviewPage'])->name('purchase.policy.referral.renewal.overview');
+
+    Route::get('insurance/policyreferral/renewal/{id}', [PurchaseController::class, 'insurancePolicyreferralRenewal'])->name('renewal.insurance.policyreferral');
 
 
     Route::get('referral/details/{id}', [PurchaseController::class, 'referralDetailsPage'])->name('referral.details');

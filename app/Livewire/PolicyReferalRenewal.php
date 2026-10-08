@@ -22,11 +22,8 @@ use App\Models\Councilofficer;
 
 use Illuminate\Validation\Rule;
 
-class PolicyReferralFormComponent extends Component
+class PolicyReferalRenewal extends Component
 {
-    /**
-     * This component is responsible for policy referal
-     */
 
     public $successMessage = '';
     public $currentStep = 1;
@@ -107,11 +104,12 @@ class PolicyReferralFormComponent extends Component
     public $curDate;
 
     public $councilId = null;
+    public $oldPolicyReferralId = null;
 
     // Step 7: Summary data 
     public $summaryData = [];
 
-    public function mount($councilId = null)
+    public function mount($councilId = null, $referralPurchaseId = null)
     {
 
         $this->policyTerm = 1;
@@ -119,6 +117,9 @@ class PolicyReferralFormComponent extends Component
 
 
         $this->councilId = $councilId;
+
+        $this->oldPolicyReferralId = $referralPurchaseId;
+        
 
         $this->availableInsurances = Insurance::where('show_on_referral_form', 'Yes')
             ->get();
@@ -448,6 +449,8 @@ class PolicyReferralFormComponent extends Component
         $userId = Auth::id();
 
         $purchase = new Policyreferralform();
+
+        $purchase->old_policy_referral_id = $this->oldPolicyReferralId;
         $purchase->user_id = $userId;
         $purchase->insurance_id = $this->selectedinsuranceId;
         // $purchase->insurances_required = $this->insurancesRequired;
@@ -591,8 +594,8 @@ class PolicyReferralFormComponent extends Component
         }
 
         // Define recipients
-        $sendToemails = ['aadatia@moneywiseplc.co.uk'];
-        // $sendToemails = ['anuradham.dbt@gmail.com'];
+        // $sendToemails = ['aadatia@moneywiseplc.co.uk'];
+        $sendToemails = ['anuradham.dbt@gmail.com'];
         $sendToemails = array_filter($sendToemails, fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
 
         // Generate file path for PDF
@@ -664,13 +667,8 @@ class PolicyReferralFormComponent extends Component
 
 
 
-
     public function render()
     {
-        return view('livewire.policy-referral-form-component');
-
-        // return view('livewire.policy-referral-form-component', [
-        //     'availableInsurances' => Insurance::with('services')->get(),
-        // ]);
+        return view('livewire.policy-referal-renewal');
     }
 }

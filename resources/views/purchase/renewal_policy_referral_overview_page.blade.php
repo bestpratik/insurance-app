@@ -17,11 +17,11 @@
             <div class="mb-8">
 
                 <h1 class="text-3xl font-bold text-slate-800">
-                    Policy Overview
+                    Referral Policy Overview
                 </h1>
 
                 <p class="mt-2 text-gray-500">
-                    View complete policy information, customer details,
+                    View complete Referral policy information, customer details,
                     property information and downloadable documents.
                 </p>
 
@@ -41,14 +41,14 @@
 
                             <h2 class="text-2xl font-semibold text-white">
 
-                                Insurance Purchase Details
+                                Referral Insurance Purchase Details
 
                             </h2>
 
                             <p class="text-blue-100 mt-1">
 
-                                Policy Number :
-                                <strong>{{ $purchase->policy_no }}</strong>
+                                Referral Policy Number :
+                                <strong>{{ $referralPurchase->policy_no }}</strong>
 
                             </p>
 
@@ -90,11 +90,11 @@
                             <div>
 
                                 <h2 class="text-xl font-semibold text-blue-700">
-                                    Policy Information
+                                    Referral Policy Information
                                 </h2>
 
                                 <p class="text-sm text-gray-500">
-                                    Basic insurance policy information
+                                    Basic referral insurance policy information
                                 </p>
 
                             </div>
@@ -109,7 +109,7 @@
 
                                 <!-- Policy Number -->
 
-                                <div class="flex">
+                                {{-- <div class="flex">
 
                                     <div class="w-48">
 
@@ -122,12 +122,12 @@
                                     <div>
 
                                         <p class="text-gray-800">
-                                            {{ $purchase->policy_no }}
+                                            {{ $referralPurchase->policy_no }}
                                         </p>
 
                                     </div>
 
-                                </div>
+                                </div> --}}
 
                                 <!-- Insurance Name -->
 
@@ -160,7 +160,7 @@
                                     </div>
 
                                     <div class="col-span-8 break-words">
-                                        {{ $purchase->insurance->name }}
+                                        {{ $referralPurchase->insurance->name }}
                                     </div>
 
                                 </div>
@@ -182,7 +182,7 @@
                                         <span
                                             class="inline-flex rounded-full bg-green-100 px-3 py-1 text-green-700 font-semibold">
 
-                                            £{{ number_format($purchase->rent_amount ?? 0, 2) }}
+                                            £{{ number_format($referralPurchase->rent_amount ?? 0, 2) }}
 
                                         </span>
 
@@ -206,7 +206,7 @@
 
                                         <p class="text-gray-800">
 
-                                            {{ $purchase->insurance->provider->name ?? '-' }}
+                                            {{ $referralPurchase->insurance->provider->name ?? '-' }}
 
                                         </p>
 
@@ -231,7 +231,7 @@
                                         <span
                                             class="rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-sm font-semibold">
 
-                                            {{ $purchase->insurance->type_of_insurance ?? '-' }}
+                                            {{ $referralPurchase->insurance->type_of_insurance ?? '-' }}
 
                                         </span>
 
@@ -288,11 +288,11 @@
                             <div>
 
                                 <h2 class="text-xl font-semibold text-blue-700">
-                                    Purchase Details
+                                    Referral Purchase Details
                                 </h2>
 
                                 <p class="text-sm text-gray-500">
-                                    Policy purchase information and important dates
+                                    Referral policy purchase information and important dates
                                 </p>
 
                             </div>
@@ -330,7 +330,7 @@
 
                                     <div>
                                         <p class="text-gray-800">
-                                            {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($referralPurchase->purchase_date)->format('d M Y') }}
                                         </p>
                                     </div>
                                 </div>
@@ -346,7 +346,7 @@
                                     <div>
                                         <span
                                             class="inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
-                                            {{ \Carbon\Carbon::parse($purchase->policy_start_date)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($referralPurchase->policy_start_date)->format('d M Y') }}
                                         </span>
                                     </div>
                                 </div>
@@ -362,7 +362,7 @@
                                     <div>
                                         <span
                                             class="inline-flex rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">
-                                            {{ \Carbon\Carbon::parse($purchase->policy_end_date)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($referralPurchase->policy_end_date)->format('d M Y') }}
                                         </span>
                                     </div>
                                 </div>
@@ -378,7 +378,7 @@
                                     <div>
                                         <span
                                             class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
-                                            {{ \Carbon\Carbon::parse($purchase->ast_start_date)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($referralPurchase->ast_start_date)->format('d M Y') }}
                                         </span>
                                     </div>
                                 </div>
@@ -393,8 +393,8 @@
 
                                     <div>
                                         @php
-                                            $start = \Carbon\Carbon::parse($purchase->policy_start_date);
-                                            $end = \Carbon\Carbon::parse($purchase->policy_end_date);
+                                            $start = \Carbon\Carbon::parse($referralPurchase->policy_start_date);
+                                            $end = \Carbon\Carbon::parse($referralPurchase->policy_end_date);
                                         @endphp
 
                                         <span
@@ -419,10 +419,10 @@
                         $address = implode(
                             ', ',
                             array_filter([
-                                $purchase->door_no,
-                                $purchase->address_one,
-                                $purchase->address_two,
-                                $purchase->address_three,
+                                $referralPurchase->door_no,
+                                $referralPurchase->address_one,
+                                $referralPurchase->address_two,
+                                $referralPurchase->address_three,
                             ]),
                         );
                     @endphp
@@ -487,7 +487,7 @@
 
                                             <p class="text-gray-500 text-sm">
 
-                                                {{ $purchase->post_code }}
+                                                {{ $referralPurchase->post_code }}
 
                                             </p>
 
@@ -509,7 +509,7 @@
 
                                     <p class="mt-2 text-gray-800">
 
-                                        {{ $purchase->door_no ?: '-' }}
+                                        {{ $referralPurchase->door_no ?: '-' }}
 
                                     </p>
 
@@ -528,7 +528,7 @@
                                     <span
                                         class="inline-flex mt-2 rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700">
 
-                                        {{ $purchase->post_code }}
+                                        {{ $referralPurchase->post_code }}
 
                                     </span>
 
@@ -546,7 +546,7 @@
 
                                     <p class="mt-2 text-gray-800">
 
-                                        {{ $purchase->address_one ?: '-' }}
+                                        {{ $referralPurchase->address_one ?: '-' }}
 
                                     </p>
 
@@ -564,7 +564,7 @@
 
                                     <p class="mt-2 text-gray-800">
 
-                                        {{ $purchase->address_two ?: '-' }}
+                                        {{ $referralPurchase->address_two ?: '-' }}
 
                                     </p>
 
@@ -582,7 +582,7 @@
 
                                     <p class="mt-2 text-gray-800">
 
-                                        {{ $purchase->address_three ?: '-' }}
+                                        {{ $referralPurchase->address_three ?: '-' }}
 
                                     </p>
 
@@ -600,18 +600,18 @@
 
                     @php
 
-                        if ($purchase->policy_holder_type == 'Company') {
-                            $displayName = $purchase->company_name;
-                        } elseif ($purchase->policy_holder_type == 'Individual') {
+                        if ($referralPurchase->policy_holder_type == 'Company') {
+                            $displayName = $referralPurchase->company_name;
+                        } elseif ($referralPurchase->policy_holder_type == 'Individual') {
                             $displayName = trim(
-                                ($purchase->policy_holder_title ?? '') .
+                                ($referralPurchase->policy_holder_title ?? '') .
                                     ' ' .
-                                    ($purchase->policy_holder_fname ?? '') .
+                                    ($referralPurchase->policy_holder_fname ?? '') .
                                     ' ' .
-                                    ($purchase->policy_holder_lname ?? ''),
+                                    ($referralPurchase->policy_holder_lname ?? ''),
                             );
                         } else {
-                            $displayName = $purchase->company_name;
+                            $displayName = $referralPurchase->company_name;
                         }
 
                         $initial = strtoupper(substr($displayName, 0, 1));
@@ -675,7 +675,7 @@
                                         <span
                                             class="mt-2 inline-flex rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700">
 
-                                            {{ $purchase->policy_holder_type }}
+                                            {{ $referralPurchase->policy_holder_type }}
 
                                         </span>
 
@@ -701,7 +701,7 @@
 
                                             <p class="mt-2 text-gray-800">
 
-                                                {{ $purchase->company_name ?: '-' }}
+                                                {{ $referralPurchase->company_name ?: '-' }}
 
                                             </p>
 
@@ -719,7 +719,7 @@
 
                                             <p class="mt-2 text-gray-800">
 
-                                                {{ trim(($purchase->policy_holder_title ?? '') . ' ' . ($purchase->policy_holder_fname ?? '') . ' ' . ($purchase->policy_holder_lname ?? '')) ?: '-' }}
+                                                {{ trim(($referralPurchase->policy_holder_title ?? '') . ' ' . ($referralPurchase->policy_holder_fname ?? '') . ' ' . ($purchase->policy_holder_lname ?? '')) ?: '-' }}
 
                                             </p>
 
@@ -743,7 +743,7 @@
 
                                                     <span class="text-gray-700">
 
-                                                        {{ $purchase->policy_holder_address ?: 'N/A' }}
+                                                        {{ $referralPurchase->policy_holder_address ?: 'N/A' }}
 
                                                     </span>
 
@@ -763,9 +763,9 @@
 
                     </div>
 
-                    @if (!empty($purchase->tenant_name || $purchase->tenant_email || $purchase->tenant_phone))
+                    @if (!empty($referralPurchase->tenant_name || $referralPurchase->tenant_email || $referralPurchase->tenant_phone))
                         @php
-                            $tenantInitial = strtoupper(substr($purchase->tenant_name ?? 'T', 0, 1));
+                            $tenantInitial = strtoupper(substr($referralPurchase->tenant_name ?? 'T', 0, 1));
                         @endphp
 
                         <!-- ===========================================
@@ -820,7 +820,7 @@
 
                                             <h3 class="mt-5 text-xl font-semibold text-gray-800">
 
-                                                {{ $purchase->tenant_name }}
+                                                {{ $referralPurchase->tenant_name }}
 
                                             </h3>
 
@@ -851,7 +851,7 @@
 
                                                 <p class="mt-2 text-gray-800 font-medium">
 
-                                                    {{ $purchase->tenant_name ?: '-' }}
+                                                    {{ $referralPurchase->tenant_name ?: '-' }}
 
                                                 </p>
 
@@ -867,7 +867,7 @@
 
                                                 <p class="mt-2 text-gray-800">
 
-                                                    {{ $purchase->tenant_phone ?: '-' }}
+                                                    {{ $referralPurchase->tenant_phone ?: '-' }}
 
                                                 </p>
 
@@ -888,7 +888,7 @@
 
                                                     <span class="text-gray-800">
 
-                                                        {{ $purchase->tenant_email ?: '-' }}
+                                                        {{ $referralPurchase->tenant_email ?: '-' }}
 
                                                     </span>
 
@@ -923,10 +923,10 @@
 
                                                 <p class="mt-2 text-gray-800">
 
-                                                    {{-- {{ $purchase->door_no }},
-                                                    {{ $purchase->address_one }} --}}
+                                                    {{-- {{ $referralPurchase->door_no }},
+                                                    {{ $referralPurchase->address_one }} --}}
 
-                                                    {{ collect([$purchase->door_no, $purchase->address_one])->filter()->implode(', ') }}
+                                                    {{ collect([$referralPurchase->door_no, $referralPurchase->address_one])->filter()->implode(', ') }}
 
                                                 </p>
 
@@ -1013,7 +1013,7 @@
 
                                                 <p class="mt-1 text-gray-800 font-medium">
 
-                                                    {{ $purchase->invoice->billing_name ?? '-' }}
+                                                    {{ $referralPurchase->invoice->billing_name ?? '-' }}
 
                                                 </p>
 
@@ -1038,7 +1038,7 @@
 
                                                 <p class="mt-1 text-gray-800">
 
-                                                    {{ $purchase->invoice->billing_email ?? '-' }}
+                                                    {{ $referralPurchase->invoice->billing_email ?? '-' }}
 
                                                 </p>
 
@@ -1063,7 +1063,7 @@
 
                                                 <p class="mt-1 text-gray-800">
 
-                                                    {{ $purchase->invoice->billing_phone ?? '-' }}
+                                                    {{ $referralPurchase->invoice->billing_phone ?? '-' }}
 
                                                 </p>
 
@@ -1090,9 +1090,9 @@
                                         $billingAddress = implode(
                                             ', ',
                                             array_filter([
-                                                $purchase->invoice->billing_address_one ?? '',
-                                                $purchase->invoice->billing_address_two ?? '',
-                                                $purchase->invoice->billing_postcode ?? '',
+                                                $referralPurchase->invoice->billing_address_one ?? '',
+                                                $referralPurchase->invoice->billing_address_two ?? '',
+                                                $referralPurchase->invoice->billing_postcode ?? '',
                                             ]),
                                         );
 
@@ -1184,17 +1184,17 @@
                                     <span
                                         class="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
 
-                                        {{ $purchase->insurance->staticdocuments->count() }}
+                                        {{ $referralPurchase->insurance->staticdocuments->count() }}
 
                                     </span>
 
                                 </div>
 
-                                @if ($purchase->insurance && $purchase->insurance->staticdocuments->count())
+                                @if ($referralPurchase->insurance && $referralPurchase->insurance->staticdocuments->count())
 
                                     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
 
-                                        @foreach ($purchase->insurance->staticdocuments as $doc)
+                                        @foreach ($referralPurchase->insurance->staticdocuments as $doc)
                                             <div
                                                 class="rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-lg transition duration-300">
 
@@ -1285,17 +1285,17 @@
                                     <span
                                         class="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
 
-                                        {{ $purchase->insurance->dynamicdocument->count() }}
+                                        {{ $referralPurchase->insurance->dynamicdocument->count() }}
 
                                     </span>
 
                                 </div>
 
-                                @if ($purchase->insurance->dynamicdocument->count())
+                                @if ($referralPurchase->insurance->dynamicdocument->count())
 
                                     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
 
-                                        @foreach ($purchase->insurance->dynamicdocument as $document)
+                                        @foreach ($referralPurchase->insurance->dynamicdocument as $document)
                                             <div
                                                 class="rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-lg transition">
 
@@ -1329,7 +1329,7 @@
 
                                                     </div>
 
-                                                    <a href="{{ route('insurance.document.download', ['purchase_id' => $purchase->id, 'document_id' => $document->id]) }}"
+                                                    <a href="{{ route('insurance.document.download', ['purchase_id' => $referralPurchase->id, 'document_id' => $document->id]) }}"
                                                         target="_blank"
                                                         class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition">
 
@@ -1440,7 +1440,7 @@
 
                                     </div>
 
-                                    <a href="{{ route('insurance.invoice.genarate', $purchase->id) }}"
+                                    <a href="{{ route('insurance.invoice.genarate', $referralPurchase->id) }}"
                                         target="_blank"
                                         class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition">
 
@@ -1481,7 +1481,7 @@
 
                                         <!-- Download -->
 
-                                        <a href="{{ route('insurance.invoice.genarate', $purchase->id) }}"
+                                        <a href="{{ route('insurance.invoice.genarate', $referralPurchase->id) }}"
                                             target="_blank"
                                             class="rounded-lg border border-gray-300 bg-white p-4 hover:border-green-500 hover:bg-green-50 transition text-center">
 
@@ -1555,7 +1555,7 @@
 
                         </button>
 
-                        <a href="{{ route('insurance.invoice.genarate', $purchase->id) }}" target="_blank"
+                        <a href="{{ route('insurance.invoice.genarate', $referralPurchase->id) }}" target="_blank"
                             class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow hover:bg-blue-700">
 
                             <x-heroicon-o-arrow-down-tray class="w-5 h-5" />
@@ -1564,7 +1564,7 @@
 
                         </a> --}}
 
-                        <a href="{{ route('renewal.insurance.purchase', $purchase->id) }}" target="_blank"
+                        <a href="{{ route('renewal.insurance.policyreferral', $referralPurchase->id) }}" target="_blank"
                             class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow hover:bg-blue-700">
 
                             <x-heroicon-o-check-badge class="w-5 h-5" />

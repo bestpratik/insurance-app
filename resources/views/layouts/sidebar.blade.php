@@ -112,20 +112,20 @@
 
             </div>
         </div>
-    
 
 
 
-    <a href="{{ url('purchases') }}"
-        class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
+
+        <a href="{{ url('purchases') }}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md 
     @if (request()->is('purchases') && !request()->is('purchases/list*')) bg-[#112695] text-white 
     @else text-gray-600 hover:bg-blue-100 hover:text-blue-700 @endif">
-        <x-heroicon-o-credit-card
-            class="mr-3 h-5 w-5 
+            <x-heroicon-o-credit-card
+                class="mr-3 h-5 w-5 
         @if (request()->is('purchases') && !request()->is('purchases/list*')) text-white 
         @else text-[#25304e] @endif" />
-        <span class="sidebar-item-text">Process an Insurance Policy</span>
-    </a>
+            <span class="sidebar-item-text">Process an Insurance Policy</span>
+        </a>
     @endif
 
     {{-- <a href="{{ route('purchase.list') }}"
@@ -320,16 +320,19 @@
             <!-- Submenu -->
             <div x-show="open" class="pl-8 space-y-1">
 
+                
                 <!-- New Referral -->
-                <a href="{{ route('policy.referral.form') }}"
-                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
-            {{ request()->is('new-referral*')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+                {{-- <a href="{{ route('policy.referral.form', ['council_id' => auth()->user()->councilOfficer->council_id]) }}" --}}
 
-                    <x-heroicon-o-user-plus
-                        class="mr-3 h-5 w-5
-                {{ request()->is('new-referral*') ? 'text-blue-700' : 'text-gray-400' }}" />
+                    <a href="{{ route('policy.referral.form') }}"
+                    class="group flex items-center px-2 py-2 text-sm font-medium rounded-md
+                    {{ request()->is('new-referral*')
+                        ? 'bg-blue-50 text-blue-700'
+                        : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700' }}">
+
+                            <x-heroicon-o-user-plus
+                                class="mr-3 h-5 w-5
+                    {{ request()->is('new-referral*') ? 'text-blue-700' : 'text-gray-400' }}" />
 
                     <span class="sidebar-item-text">
                         New Referral

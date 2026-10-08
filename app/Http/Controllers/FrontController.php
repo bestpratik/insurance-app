@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Councilofficer;
 
 
 class FrontController extends Controller
@@ -69,8 +70,8 @@ class FrontController extends Controller
 
     public function services()
     {
-        $services = Service::all(); 
-        return view('servicess', compact('services')); 
+        $services = Service::all();
+        return view('servicess', compact('services'));
     }
 
     public function service_details($page_slug)
@@ -93,7 +94,7 @@ class FrontController extends Controller
         return view('service_details', ['service' => $service, 'seo' => $seo, 'model' => $service]);
     }
 
-     public function travel()
+    public function travel()
     {
         return view('travel');
     }
@@ -143,7 +144,7 @@ class FrontController extends Controller
             }
         }
 
-        return view('policy_buyer', compact('insuranceId')); 
+        return view('policy_buyer', compact('insuranceId'));
     }
 
 
@@ -247,7 +248,7 @@ class FrontController extends Controller
             }
             if ($user->userType->slug === 'admin') {
                 return redirect()->route('dashboard')->with('success', 'Welcome admin!');
-            }  elseif ($user->userType->slug === 'council-officer') {
+            } elseif ($user->userType->slug === 'council-officer') {
                 return redirect()->route('council.dashboard')->with('success', 'Welcome to Council Dashboard!');
             } elseif ($user->userType->slug === 'user') {
                 return redirect()->route('dashboard.frontend')->with('success', 'Login successful!');
@@ -572,9 +573,31 @@ class FrontController extends Controller
         return view('terms_conditions', compact('terms'));
     }
 
-    public function policy_referral_form()
+
+    // public function policy_referral_form(Request $request)
+    // {
+    //     return view('policy_referral_form', [
+    //         'councilId' => $request->council_id ?? null,
+    //     ]);
+    // }
+
+    public function policy_referral_form(Request $request)
     {
-        return view('policy_referral_form');  
+        $councilId = null;
+
+        if (auth()->check() && auth()->user()->isCouncilOfficer()) {
+            $councilOfficer = Councilofficer::where('user_id', auth()->id())
+                ->where('status', 1)
+                ->first();
+
+            if ($councilOfficer) {
+                $councilId = $councilOfficer->council_id;
+            }
+        }
+
+        return view('policy_referral_form', [
+            'councilId' => $councilId,
+        ]);
     }
 
     public function blogs($type)

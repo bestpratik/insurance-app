@@ -23,7 +23,7 @@
                 <livewire:insurance-purchase-renewal :purchaseId="$purchase->id" />     
                 <!-- content here -->
             </div>
-            <!-- Table Four -->
+            <!-- Table Four --> 
         </div>
     </div>
 </x-app-layout>

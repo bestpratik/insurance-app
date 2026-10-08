@@ -428,7 +428,7 @@
                                                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                           text-sm text-gray-700 hover:bg-gray-50 transition">
                                                 <x-heroicon-o-calendar-days class="w-5 h-5 text-green-600" />
-                                                <span>Policy Renewal</span>
+                                                <span>Policy Renewal</span> 
                                             </a>
                                             @endif
 
