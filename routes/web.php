@@ -231,7 +231,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('policy-referral/renewal-overview/{id}', [PurchaseController::class, 'renewalPolicyreferralOverviewPage'])->name('purchase.policy.referral.renewal.overview');
 
-    Route::get('insurance/policyreferral/renewal/{id}', [PurchaseController::class, 'insurancePolicyreferralRenewal'])->name('renewal.insurance.policyreferral');
+    Route::get('insurance/referral/{id}', [PurchaseController::class, 'insurancePolicyreferralRenewal'])->name('renewal.insurance.policyreferral');
+    Route::get('insurance/policyreferral/renewal/{id}', [PurchaseController::class, 'insurancePolicyreferralRenewal']);
 
 
     Route::get('referral/details/{id}', [PurchaseController::class, 'referralDetailsPage'])->name('referral.details');

@@ -17,10 +17,14 @@
                         </h3>
                     </div>
 
-                </div>
+                </div> 
 
                 <!-- content here -->
-                <livewire:insurance-purchase-renewal :purchaseId="$purchase->id" />     
+                @if ($isPolicyReferralRenewal ?? false)
+                    <livewire:insurance-purchase-renewal :policyreferral-id="$purchase->id" />
+                @else
+                    <livewire:insurance-purchase-renewal :purchaseId="$purchase->id" />
+                @endif
                 <!-- content here -->
             </div>
             <!-- Table Four --> 
@@ -35,4 +39,3 @@
         return confirm('Are you sure you want to delete this data ?');
     }
 </script>
-

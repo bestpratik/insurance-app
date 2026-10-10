@@ -206,19 +206,88 @@
                                         <x-heroicon-o-eye class="w-5 h-5" />
                                     </a>
 
-                                    <a href="{{ route('referral.download', $row->id) }}"
-                                        class="inline-flex items-center px-3 py-2 bg-red-600 text-white
-                                            text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">
-                                        <x-heroicon-o-document-text class="w-5 h-5 mr-2 text-white" />
+                                    {{-- <a href="{{ route('referral.download', $row->id) }}"
+                                        class="inline-flex items-center px-2 py-1 bg-red-600 text-white
+                                            text-xs font-medium rounded-md hover:bg-red-700 transition-colors">
+                                        <x-heroicon-o-document-text class="w-4 h-4 mr-1 text-white" />
                                         Download Referral
-                                    </a>
+                                    </a> --}}
 
-                                    <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
+                                    {{-- Premium Download Referral Button --}}
+                                    <div class="relative group">
+                                        <a href="{{ route('referral.download', $row->id) }}"
+                                            aria-label="Download Referral"
+                                            class="inline-flex items-center justify-center w-10 h-10
+               rounded-xl bg-gradient-to-br from-red-500 to-red-700
+               text-white shadow-sm
+               hover:from-red-600 hover:to-red-800
+               hover:shadow-md hover:-translate-y-0.5
+               transition-all duration-200
+               focus:outline-none focus:ring-2 focus:ring-red-400
+               focus:ring-offset-2">
+
+                                            <x-heroicon-o-document-arrow-down class="w-5 h-5" />
+                                        </a>
+
+                                        {{-- Tooltip --}}
+                                        <span
+                                            class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+               px-3 py-1.5 rounded-lg bg-gray-900 text-white
+               text-xs font-medium whitespace-nowrap
+               opacity-0 invisible group-hover:opacity-100
+               group-hover:visible transition-all duration-200
+               pointer-events-none z-50">
+
+                                            Download Referral
+
+                                            <span
+                                                class="absolute top-full left-1/2 -translate-x-1/2
+                     border-4 border-transparent border-t-gray-900">
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    {{-- <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
                                         class="inline-flex items-center gap-2 px-1 py-2
                                             text-sm text-gray-700 hover:text-gray-900 transition whitespace-nowrap">
                                         <x-heroicon-o-calendar-days class="w-5 h-5 text-green-600 flex-shrink-0" />
-                                        <span>Policy Referral Renewal</span>
-                                    </a>
+                                  
+                                        <span>Process</span>
+                                    </a> --}}
+
+                                    {{-- Premium Process Button --}}
+                                    <div class="relative group">
+                                        <a href="{{ route('purchase.policy.referral.renewal.overview', $row->id) }}"
+                                            aria-label="Process Renewal"
+                                            class="inline-flex items-center justify-center w-10 h-10
+               rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700
+               text-white shadow-sm
+               hover:from-emerald-600 hover:to-emerald-800
+               hover:shadow-md hover:-translate-y-0.5
+               transition-all duration-200
+               focus:outline-none focus:ring-2 focus:ring-emerald-400
+               focus:ring-offset-2">
+
+                                            <x-heroicon-o-arrow-right-circle class="w-5 h-5" />
+                                        </a>
+
+                                        {{-- Tooltip --}}
+                                        <span
+                                            class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+               px-3 py-1.5 rounded-lg bg-gray-900 text-white
+               text-xs font-medium whitespace-nowrap
+               opacity-0 invisible group-hover:opacity-100
+               group-hover:visible transition-all duration-200
+               pointer-events-none z-50">
+
+                                            Process
+
+                                            <span
+                                                class="absolute top-full left-1/2 -translate-x-1/2
+                   border-4 border-transparent border-t-gray-900">
+                                            </span>
+                                        </span>
+                                    </div>
 
                                 </div>
                             </td>

@@ -6,12 +6,14 @@ use Livewire\Component;
 use App\Models\Insurance;
 use App\Models\Purchase;
 use App\Models\Invoice;
+use App\Models\Policyreferralform;
 use Carbon\Carbon;
 use App\Mail\InsuranceBillingEmail;
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 
@@ -23,6 +25,8 @@ class InsurancePurchaseRenewal extends Component
 
     public $purchaseId;
     public $purchase;
+
+    public $policyreferralId;
 
     public $selectedinsuranceId;
     public $insuranceDetails;
@@ -85,9 +89,9 @@ class InsurancePurchaseRenewal extends Component
 
     // Step 8: Summary data
     public $summaryData = [];
-    
 
-    public function mount($purchaseId = null)
+
+    public function mount($purchaseId = null, $policyreferralId = null)
     {
         $this->renewalAvailableInsurances = Insurance::where('purchase_mode', 'Offline')->where('type_of_insurance', 'Renewal')
             ->get();
@@ -97,74 +101,206 @@ class InsurancePurchaseRenewal extends Component
             // dd($this->insuranceDetails);
         }
 
+        if ($purchaseId !== null && $policyreferralId === null) {
 
-        if ($purchaseId) {
+            $this->purchaseId = $purchaseId;
+            $this->policyreferralId = null;
 
-            $this->purchase = Purchase::with(['insurance.staticdocuments','insurance.dynamicdocument','invoice'])->findOrFail($purchaseId);
-
-            // STEP 1
-            // $this->selectedinsuranceId = $this->purchase->insurance_id;
-            $this->selectedinsuranceId = [];
-
-            // dd($this->selectedinsuranceId);
-            $this->productType = $this->purchase->product_type;
-
-            // load insurance details
-            $this->fetchInsuranceDetails();
-
-            // STEP 2
-            // $this->insuranceType = $this->purchase->insurance_type;
-            $this->insuranceType = 'renewal';
-            $this->rentAmount = $this->purchase->rent_amount;
-            $this->doorNo = $this->purchase->door_no;
-            $this->addressOne = $this->purchase->address_one;
-            $this->addressTwo = $this->purchase->address_two;
-            $this->addressThree = $this->purchase->address_three;
-            $this->postCode = $this->purchase->post_code;
-
-            // STEP 3
-            $this->policyHoldertype = $this->purchase->policy_holder_type;
-            $this->companyName = $this->purchase->company_name;
-            $this->policyholderCompanyEmail = $this->purchase->policy_holder_company_email;
-
-            $this->policyholderTitle = $this->purchase->policy_holder_title;
-            $this->policyholderFirstName = $this->purchase->policy_holder_fname;
-            $this->policyholderLastName = $this->purchase->policy_holder_lname;
-            $this->policyholderEmail = $this->purchase->policy_holder_email;
-            $this->policyholderPhone = $this->purchase->policy_holder_phone;
-            $this->policyholderAlternativePhone = $this->purchase->policy_holder_alternative_phone;
-            $this->policyholderAddress1 = $this->purchase->policy_holder_address_one;
-            $this->policyholderAddress2 = $this->purchase->policy_holder_address_two;
-            $this->policyholderPostcode = $this->purchase->policy_holder_postcode;
-            $this->copyEmail = $this->purchase->copy_email;
-
-            // STEP 4
-            $this->policyStartDate = $this->purchase->policy_start_date;
-            $this->purchaseDate = $this->purchase->purchase_date;
-            $this->astStartDate = $this->purchase->ast_start_date;
-            $this->policyTerm = $this->purchase->policy_term;
-
-            // STEP 5
-            $this->tenantName = $this->purchase->tenant_name;
-            $this->tenantPhone = $this->purchase->tenant_phone;
-            $this->tenantEmail = $this->purchase->tenant_email;
-
-            // STEP 6
-            $this->paymentMethod = $this->purchase->payment_method;
-
-            // STEP 7
-            if ($this->purchase->invoice) {
-                $this->billingName = $this->purchase->invoice->billing_name;
-                $this->billingEmail = $this->purchase->invoice->billing_email;
-                $this->copyBillingEmail = $this->purchase->invoice->copy_email;
-                $this->billingPhone = $this->purchase->invoice->billing_phone;
-                $this->billingAddressOne = $this->purchase->invoice->billing_address_one;
-                $this->billingAddressTwo = $this->purchase->invoice->billing_address_two;
-                $this->billingPostcode = $this->purchase->invoice->billing_postcode;
-                $this->ponNo = $this->purchase->invoice->pon;
-                $this->isInvoice = $this->purchase->invoice->is_invoice;
-            }
+            $this->purchase = Purchase::with([
+                'insurance.staticdocuments',
+                'insurance.dynamicdocument',
+                'invoice'
+            ])->findOrFail($purchaseId);
         }
+
+        // CASE 2: Policy referral renewal
+        elseif ($policyreferralId !== null && $purchaseId === null) {
+
+            $this->purchaseId = null;
+            $this->policyreferralId = $policyreferralId;
+
+            $this->purchase = Policyreferralform::with([
+                'insurance.staticdocuments',
+                'insurance.dynamicdocument',
+                'invoice'
+            ])->findOrFail($policyreferralId);
+        }
+
+        elseif ($purchaseId !== null || $policyreferralId !== null) {
+            abort(404, 'Provide exactly one renewal source record.');
+        }
+
+        // No source record was provided.
+        else {
+            abort(404, 'Renewal source record not found.');
+        }
+
+        $this->selectedinsuranceId = null;
+
+        $this->productType = $this->purchase->product_type;
+
+        // Do not call fetchInsuranceDetails() here.
+        // No renewal insurance has been selected yet.
+
+        // STEP 2: Property information
+        $this->insuranceType = 'renewal';
+        $this->rentAmount = $this->purchase->rent_amount;
+        $this->doorNo = $this->purchase->door_no;
+        $this->addressOne = $this->purchase->address_one;
+        $this->addressTwo = $this->purchase->address_two;
+        $this->addressThree = $this->purchase->address_three;
+        $this->postCode = $this->purchase->post_code;
+
+        // STEP 3: Policy holder information
+        $this->policyHoldertype = $this->purchase->policy_holder_type;
+        $this->companyName = $this->purchase->company_name;
+
+        $this->policyholderCompanyEmail =
+            $this->purchase->policy_holder_company_email;
+
+        $this->policyholderTitle =
+            $this->purchase->policy_holder_title;
+
+        $this->policyholderFirstName =
+            $this->purchase->policy_holder_fname;
+
+        $this->policyholderLastName =
+            $this->purchase->policy_holder_lname;
+
+        $this->policyholderEmail =
+            $this->purchase->policy_holder_email;
+
+        $this->policyholderPhone =
+            $this->purchase->policy_holder_phone;
+
+        $this->policyholderAlternativePhone =
+            $this->purchase->policy_holder_alternative_phone;
+
+        $this->policyholderAddress1 =
+            $this->purchase->policy_holder_address_one;
+
+        $this->policyholderAddress2 =
+            $this->purchase->policy_holder_address_two;
+
+        $this->policyholderPostcode =
+            $this->purchase->policy_holder_postcode;
+
+        $this->copyEmail = $this->purchase->copy_email;
+
+        // STEP 4: Policy details
+        $this->policyStartDate = $this->purchase->policy_start_date;
+        $this->purchaseDate = $this->purchase->purchase_date;
+        $this->astStartDate = $this->purchase->ast_start_date;
+        $this->policyTerm = $this->purchase->policy_term;
+
+        // STEP 5: Tenant information
+        $this->tenantName = $this->purchase->tenant_name;
+        $this->tenantPhone = $this->purchase->tenant_phone;
+        $this->tenantEmail = $this->purchase->tenant_email;
+
+        // STEP 6: Payment method
+        $this->paymentMethod = $this->purchase->payment_method;
+
+        // STEP 7: Billing information
+        if ($this->purchase->invoice) {
+
+            $this->billingName =
+                $this->purchase->invoice->billing_name;
+
+            $this->billingEmail =
+                $this->purchase->invoice->billing_email;
+
+            $this->copyBillingEmail =
+                $this->purchase->invoice->copy_email;
+
+            $this->billingPhone =
+                $this->purchase->invoice->billing_phone;
+
+            $this->billingAddressOne =
+                $this->purchase->invoice->billing_address_one;
+
+            $this->billingAddressTwo =
+                $this->purchase->invoice->billing_address_two;
+
+            $this->billingPostcode =
+                $this->purchase->invoice->billing_postcode;
+
+            $this->ponNo =
+                $this->purchase->invoice->pon;
+
+            $this->isInvoice =
+                $this->purchase->invoice->is_invoice;
+        }
+
+        // if ($purchaseId) {
+
+        //     $this->purchase = Purchase::with(['insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->findOrFail($purchaseId);
+
+        //     $this->policyreferralId = $this->purchase->policyreferral_id;
+
+        //     // STEP 1
+        //     // $this->selectedinsuranceId = $this->purchase->insurance_id;
+        //     $this->selectedinsuranceId = [];
+
+        //     // dd($this->selectedinsuranceId);
+        //     $this->productType = $this->purchase->product_type;
+
+        //     // load insurance details
+        //     $this->fetchInsuranceDetails();
+
+        //     // STEP 2
+        //     // $this->insuranceType = $this->purchase->insurance_type;
+        //     $this->insuranceType = 'renewal';
+        //     $this->rentAmount = $this->purchase->rent_amount;
+        //     $this->doorNo = $this->purchase->door_no;
+        //     $this->addressOne = $this->purchase->address_one;
+        //     $this->addressTwo = $this->purchase->address_two;
+        //     $this->addressThree = $this->purchase->address_three;
+        //     $this->postCode = $this->purchase->post_code;
+
+        //     // STEP 3
+        //     $this->policyHoldertype = $this->purchase->policy_holder_type;
+        //     $this->companyName = $this->purchase->company_name;
+        //     $this->policyholderCompanyEmail = $this->purchase->policy_holder_company_email;
+
+        //     $this->policyholderTitle = $this->purchase->policy_holder_title;
+        //     $this->policyholderFirstName = $this->purchase->policy_holder_fname;
+        //     $this->policyholderLastName = $this->purchase->policy_holder_lname;
+        //     $this->policyholderEmail = $this->purchase->policy_holder_email;
+        //     $this->policyholderPhone = $this->purchase->policy_holder_phone;
+        //     $this->policyholderAlternativePhone = $this->purchase->policy_holder_alternative_phone;
+        //     $this->policyholderAddress1 = $this->purchase->policy_holder_address_one;
+        //     $this->policyholderAddress2 = $this->purchase->policy_holder_address_two;
+        //     $this->policyholderPostcode = $this->purchase->policy_holder_postcode;
+        //     $this->copyEmail = $this->purchase->copy_email;
+
+        //     // STEP 4
+        //     $this->policyStartDate = $this->purchase->policy_start_date;
+        //     $this->purchaseDate = $this->purchase->purchase_date;
+        //     $this->astStartDate = $this->purchase->ast_start_date;
+        //     $this->policyTerm = $this->purchase->policy_term;
+
+        //     // STEP 5
+        //     $this->tenantName = $this->purchase->tenant_name;
+        //     $this->tenantPhone = $this->purchase->tenant_phone;
+        //     $this->tenantEmail = $this->purchase->tenant_email;
+
+        //     // STEP 6
+        //     $this->paymentMethod = $this->purchase->payment_method;
+
+        //     // STEP 7
+        //     if ($this->purchase->invoice) {
+        //         $this->billingName = $this->purchase->invoice->billing_name;
+        //         $this->billingEmail = $this->purchase->invoice->billing_email;
+        //         $this->copyBillingEmail = $this->purchase->invoice->copy_email;
+        //         $this->billingPhone = $this->purchase->invoice->billing_phone;
+        //         $this->billingAddressOne = $this->purchase->invoice->billing_address_one;
+        //         $this->billingAddressTwo = $this->purchase->invoice->billing_address_two;
+        //         $this->billingPostcode = $this->purchase->invoice->billing_postcode;
+        //         $this->ponNo = $this->purchase->invoice->pon;
+        //         $this->isInvoice = $this->purchase->invoice->is_invoice;
+        //     }
+        // }
     }
 
     // public function updatedSelectedinsuranceId($value) 
@@ -387,7 +523,27 @@ class InsurancePurchaseRenewal extends Component
 
         // dd($purchase);
 
-        $purchase->old_purchase_id = $this->purchaseId;
+        // $purchase->old_purchase_id = $this->purchaseId;
+        // $purchase->policyreferral_id = $this->policyreferralId;
+
+        // Set the correct original record ID.
+        if ($this->purchaseId !== null) {
+
+            // Purchase renewal
+            $purchase->old_purchase_id = $this->purchaseId;
+            $purchase->policyreferral_id = null;
+        } elseif ($this->policyreferralId !== null) {
+
+            // Policy referral renewal
+            $purchase->old_purchase_id = null;
+            $purchase->policyreferral_id = $this->policyreferralId;
+        } else {
+
+            throw new \RuntimeException(
+                'Original renewal record not found.'
+            );
+        }
+
         $purchase->insurance_id = $this->selectedinsuranceId;
         $purchase->product_type = $this->productType;
         $purchase->insurance_type = $this->insuranceType;
@@ -409,13 +565,13 @@ class InsurancePurchaseRenewal extends Component
         // $purchase->policy_holder_lname = $this->policyHoldertype === 'Individual' ? $this->policyholderLastName : null;
         // $purchase->policy_holder_email = $this->policyholderEmail; 
 
-        // ✅ Save Company details if Company or Both
+
         if (in_array($this->policyHoldertype, ['Company', 'Both'])) {
             $purchase->company_name = $this->companyName;
             $purchase->policy_holder_company_email = $this->policyholderCompanyEmail;
         }
 
-        // ✅ Save Individual details if Individual or Both
+
         if (in_array($this->policyHoldertype, ['Individual', 'Both'])) {
             $purchase->policy_holder_title = $this->policyholderTitle;
             $purchase->policy_holder_fname = $this->policyholderFirstName;
@@ -501,16 +657,40 @@ class InsurancePurchaseRenewal extends Component
 
 
 
-        //Policy holder email send
-        $this->send_email_one($purchase->id);
-        if ($invoice->is_invoice == 1) {
+        $emailDeliveryFailed = false;
 
-            $this->send_email_two($purchase->id);
+        try {
+            if ($this->send_email_one($purchase->id) !== true) {
+                $emailDeliveryFailed = true;
+                Log::warning('Renewal policy email could not be sent.', [
+                    'purchase_id' => $purchase->id,
+                ]);
+            }
+
+            if ($invoice->is_invoice == 1 && is_string($this->send_email_two($purchase->id))) {
+                $emailDeliveryFailed = true;
+                Log::warning('Renewal invoice email could not be sent.', [
+                    'purchase_id' => $purchase->id,
+                ]);
+            }
+        } catch (\Throwable $exception) {
+            $emailDeliveryFailed = true;
+            Log::error('Renewal was saved, but email delivery failed.', [
+                'purchase_id' => $purchase->id,
+                'exception' => $exception,
+            ]);
         }
 
+        $redirect = redirect()->route('purchase.success', ['id' => $purchase->id]);
 
+        if ($emailDeliveryFailed) {
+            return $redirect->with(
+                'warning',
+                'The renewal was saved, but an email could not be sent. Please contact support if needed.'
+            );
+        }
 
-        return redirect()->route('purchase.success', ['id' => $purchase->id]);
+        return $redirect;
 
 
         // session()->flash('message', 'Insurance purchase successfully created!');
@@ -646,7 +826,8 @@ class InsurancePurchaseRenewal extends Component
                     return filter_var($email, FILTER_VALIDATE_EMAIL);
                 });
 
-                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                // $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                 foreach ($sendToemails as $email) {
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -727,7 +908,8 @@ class InsurancePurchaseRenewal extends Component
                 return filter_var($email, FILTER_VALIDATE_EMAIL);
             });
 
-            $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+            // $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+            $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
             foreach ($sendToBillingEmails as $email) {
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

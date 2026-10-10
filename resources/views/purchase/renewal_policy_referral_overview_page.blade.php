@@ -1,9 +1,106 @@
 <x-app-layout>
 
-    <div class="grid py-10 bg-gradient-to-br from-slate-100 via-blue-50 to-white">
+<style>
+    /* Premium Corporate — Referral Policy Overview */
+    .referral-overview-page {
+        min-height: 100vh;
+        padding: 2rem 0 3.5rem;
+        background:
+            radial-gradient(circle at 8% 0%, rgba(219,234,254,.75), transparent 28rem),
+            linear-gradient(135deg, #f8fafc 0%, #eef4fb 52%, #f8fafc 100%);
+    }
+    .referral-overview-page .referral-page-container { max-width: 86rem; }
+    .referral-overview-page .referral-page-title {
+        display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.75rem;
+    }
+    .referral-overview-page .referral-title-icon {
+        display:flex; align-items:center; justify-content:center; flex-shrink:0;
+        width:3.25rem; height:3.25rem; border-radius:1rem; color:#fff;
+        background:linear-gradient(145deg,#173b70,#2563a8);
+        box-shadow:0 10px 22px rgba(30,64,120,.18);
+    }
+    .referral-overview-page .referral-page-title h1 {
+        margin:0; color:#10233f; font-size:clamp(1.65rem,2.5vw,2.15rem);
+        font-weight:800; letter-spacing:-.035em; line-height:1.2;
+    }
+    .referral-overview-page .referral-page-title p { margin-top:.5rem; max-width:48rem; color:#64748b; line-height:1.65; }
+    .referral-overview-page .referral-main-card {
+        overflow:hidden; border:1px solid #dce5f0; border-radius:1.4rem;
+        background:#fff; box-shadow:0 24px 65px rgba(15,35,65,.09);
+    }
+    .referral-overview-page .referral-main-header {
+        position:relative; overflow:hidden; padding:2rem 2.25rem;
+        color:#fff; background:linear-gradient(115deg,#10294b 0%,#17477b 58%,#2563a8 100%);
+    }
+    .referral-overview-page .referral-main-header:after {
+        content:""; position:absolute; width:17rem; height:17rem; right:-5rem; top:-9rem;
+        border:1px solid rgba(255,255,255,.16); border-radius:50%;
+        box-shadow:0 0 0 2rem rgba(255,255,255,.035),0 0 0 4rem rgba(255,255,255,.025);
+        pointer-events:none;
+    }
+    .referral-overview-page .referral-main-header h2 { position:relative; z-index:1; font-size:clamp(1.25rem,2vw,1.7rem); font-weight:750; letter-spacing:-.025em; }
+    .referral-overview-page .referral-main-header p { position:relative; z-index:1; color:#dbeafe; }
+    .referral-overview-page .referral-policy-number {
+        display:inline-flex; align-items:center; gap:.5rem; margin-top:.85rem; padding:.45rem .8rem;
+        border:1px solid rgba(255,255,255,.22); border-radius:.65rem; background:rgba(255,255,255,.09);
+        font-size:.875rem;
+    }
+    .referral-overview-page .referral-main-body { padding:clamp(1rem,3vw,2.25rem); }
+    .referral-overview-page .dashboard-card {
+        border:1px solid #e0e8f2 !important; border-radius:1rem !important;
+        background:#fff; box-shadow:0 5px 18px rgba(15,35,65,.035) !important;
+        transition:border-color .2s ease, box-shadow .2s ease;
+    }
+    .referral-overview-page .dashboard-card:hover { border-color:#c5d7eb !important; box-shadow:0 10px 26px rgba(15,35,65,.065) !important; }
+    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 {
+        padding:1.15rem 1.4rem !important; background:linear-gradient(90deg,#f0f6fd,#f8fbff) !important;
+        border-bottom:1px solid #e2eaf4 !important;
+    }
+    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 h2 {
+        color:#173b68 !important; font-size:1.02rem !important; font-weight:750 !important; letter-spacing:-.01em;
+    }
+    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 p { margin-top:.2rem; color:#718096 !important; font-size:.82rem; }
+    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 .rounded-full {
+        width:2.65rem; height:2.65rem; border-radius:.8rem !important; background:#dcecff !important;
+    }
+    .referral-overview-page .dashboard-card > .p-6 { padding:clamp(1rem,2.3vw,1.6rem) !important; }
+    .referral-overview-page .dashboard-card .uppercase.text-xs { color:#718096 !important; font-size:.68rem !important; letter-spacing:.095em; }
+    .referral-overview-page .dashboard-card .font-medium.text-gray-800,
+    .referral-overview-page .dashboard-card .font-semibold.text-gray-800 { color:#1e293b !important; font-weight:650; overflow-wrap:anywhere; }
+    .referral-overview-page .dashboard-card .text-gray-500 { color:#64748b !important; }
+    .referral-overview-page .dashboard-card .border-t { border-color:#edf2f7 !important; }
+    .referral-overview-page .referral-action-footer {
+        display:flex; justify-content:flex-end; gap:.75rem; flex-wrap:wrap;
+        padding:1.35rem clamp(1rem,3vw,2.25rem); border-top:1px solid #e6edf5; background:#f8fafc;
+    }
+    .referral-overview-page .referral-process-button {
+        display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+        padding:.85rem 1.25rem; border:1px solid #1d4f91; border-radius:.75rem;
+        color:#fff; font-weight:700; text-decoration:none;
+        background:linear-gradient(135deg,#1d4f91,#2563b8); box-shadow:0 7px 16px rgba(37,99,184,.2);
+        transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+    .referral-overview-page .referral-process-button:hover { color:#fff; filter:brightness(1.06); transform:translateY(-1px); box-shadow:0 10px 22px rgba(37,99,184,.26); }
+    .referral-overview-page .referral-process-button:focus-visible { outline:3px solid #93c5fd; outline-offset:3px; }
+    @media(max-width:640px) {
+        .referral-overview-page { padding-top:1.25rem; }
+        .referral-overview-page .referral-main-header { padding:1.35rem 1.2rem; }
+        .referral-overview-page .referral-page-title { gap:.75rem; }
+        .referral-overview-page .referral-title-icon { width:2.75rem; height:2.75rem; border-radius:.8rem; }
+        .referral-overview-page .referral-action-footer > * { width:100%; }
+    }
+    @media print {
+        .referral-overview-page { padding:0; background:#fff; }
+        .referral-overview-page .referral-main-card, .referral-overview-page .dashboard-card { box-shadow:none !important; }
+        .referral-overview-page .referral-action-footer { display:none !important; }
+    }
+</style>
+
+
+    <div class="referral-overview-page">
         {{-- <div class="grid grid-cols-12 gap-4 md:gap-6"> --}}
 
-        <div class="max-w-7xl mx-auto px-5">
+        <div class="referral-page-container max-w-7xl mx-auto px-5">
 
             {{-- Success Message --}}
             @if (session('success'))
@@ -14,26 +111,23 @@
 
             <!-- Page Heading -->
 
-            <div class="mb-8">
-
-                <h1 class="text-3xl font-bold text-slate-800">
-                    Referral Policy Overview
-                </h1>
-
-                <p class="mt-2 text-gray-500">
-                    View complete Referral policy information, customer details,
-                    property information and downloadable documents.
-                </p>
-
+            <div class="referral-page-title">
+                <div class="referral-title-icon">
+                    <x-heroicon-o-shield-check class="h-7 w-7" />
+                </div>
+                <div>
+                    <h1>Referral Policy Overview</h1>
+                    <p>Review policy information, purchase details, property and customer records in one place.</p>
+                </div>
             </div>
 
             <!-- Main Card -->
 
-            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="referral-main-card">
 
                 <!-- Top Blue Header -->
 
-                <div class="bg-gradient-to-r from-blue-800 to-blue-600 px-8 py-6">
+                <div class="referral-main-header">
 
                     <div class="flex justify-between items-center">
 
@@ -45,12 +139,10 @@
 
                             </h2>
 
-                            <p class="text-blue-100 mt-1">
-
-                                Referral Policy Number :
-                                <strong>{{ $referralPurchase->policy_no }}</strong>
-
-                            </p>
+                            <div class="referral-policy-number">
+                                <span class="font-medium">Referral Policy Number</span>
+                                <strong>{{ $referralPurchase->policy_no ?? '—' }}</strong>
+                            </div>
 
                         </div>
 
@@ -70,7 +162,7 @@
 
                 <!-- Page Content -->
 
-                <div class="p-8 space-y-10">
+                <div class="referral-main-body space-y-7">
 
                     <!-- ===========================================
      Policy Information
@@ -1138,12 +1230,10 @@
                     </div>
 
                     <!-- ===========================================
-     Policy Documents
-============================================ -->
+                        Policy Documents
+                    ============================================ -->
 
-                    <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-
-                        <!-- Header -->
+                    {{-- <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
                         <div class="flex items-center gap-3 px-6 py-4 bg-blue-50 border-b">
 
@@ -1168,8 +1258,6 @@
                         </div>
 
                         <div class="p-6">
-
-                            <!-- Static Documents -->
 
                             <div>
 
@@ -1266,11 +1354,7 @@
 
                             </div>
 
-                            <!-- Divider -->
-
                             <div class="my-10 border-t"></div>
-
-                            <!-- Dynamic Documents -->
 
                             <div>
 
@@ -1364,16 +1448,14 @@
 
                         </div>
 
-                    </div>
+                    </div> --}}
 
 
                     <!-- ===========================================
-     Action Center
-============================================ -->
+                        Action Center
+                    ============================================ -->
 
-                    <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-
-                        <!-- Header -->
+                    {{-- <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
                         <div class="flex items-center gap-3 px-6 py-4 bg-blue-50 border-b">
 
@@ -1401,13 +1483,10 @@
 
                         </div>
 
-                        <!-- Body -->
 
                         <div class="p-8">
 
                             <div class="grid lg:grid-cols-2 gap-8">
-
-                                <!-- Invoice Card -->
 
                                 <div
                                     class="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-white p-6">
@@ -1452,90 +1531,13 @@
 
                                 </div>
 
-                                <!-- Quick Actions -->
-
-                                {{-- <div class="rounded-xl border border-gray-200 bg-gray-50 p-6">
-
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-6">
-
-                                        Quick Actions
-
-                                    </h3>
-
-                                    <div class="grid grid-cols-2 gap-4">
-
-                                        <!-- Print -->
-
-                                        <button onclick="window.print()"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-blue-500 hover:bg-blue-50 transition">
-
-                                            <x-heroicon-o-printer class="mx-auto h-7 w-7 text-blue-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Print
-
-                                            </p>
-
-                                        </button>
-
-                                        <!-- Download -->
-
-                                        <a href="{{ route('insurance.invoice.genarate', $referralPurchase->id) }}"
-                                            target="_blank"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-green-500 hover:bg-green-50 transition text-center">
-
-                                            <x-heroicon-o-arrow-down-tray class="mx-auto h-7 w-7 text-green-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Download
-
-                                            </p>
-
-                                        </a>
-
-                                        <!-- Back -->
-
-                                        <a href="{{ url()->previous() }}"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-yellow-500 hover:bg-yellow-50 transition text-center">
-
-                                            <x-heroicon-o-arrow-left class="mx-auto h-7 w-7 text-yellow-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Back
-
-                                            </p>
-
-                                        </a>
-
-                                        <!-- Process -->
-
-                                        <button
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-purple-500 hover:bg-purple-50 transition">
-
-                                            <x-heroicon-o-check-badge class="mx-auto h-7 w-7 text-purple-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Process
-
-                                            </p>
-
-                                        </button>
-
-                                    </div>
-
-                                </div> --}}
-
                             </div>
 
                         </div>
 
-                    </div>
+                    </div> --}}
 
-                    <div class="flex flex-wrap justify-end gap-4 mt-8">
+                    <div class="referral-action-footer">
 
                         {{-- <a href="{{ url()->previous() }}"
                             class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 shadow-sm hover:bg-gray-100">
@@ -1564,29 +1566,23 @@
 
                         </a> --}}
 
-                        <a href="{{ route('renewal.insurance.policyreferral', $referralPurchase->id) }}" target="_blank"
+                        {{-- <a href="{{ route('renewal.insurance.policyreferral', $referralPurchase->id) }}" target="_blank"
                             class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white shadow hover:bg-blue-700">
 
                             <x-heroicon-o-check-badge class="w-5 h-5" />
-                            {{-- <x-heroicon-o-arrow-long-right class="w-5 h-5" /> --}}
 
                             Process
 
 
-                        </a>
+                        </a> --}}
 
-                        {{-- <button
-                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-purple-500 hover:bg-purple-50 transition">
-
-                            <x-heroicon-o-check-badge class="mx-auto h-7 w-7 text-purple-600" />
-
-                            <p class="mt-3 font-medium">
-
-                                Process
-
-                            </p>
-
-                        </button> --}}
+                        <a href="{{ route('renewal.insurance.policyreferral', $referralPurchase->id) }}"
+                            target="_blank"
+                            class="referral-process-button">
+                            <x-heroicon-o-check-badge class="w-5 h-5" />
+                            <span>Process</span>
+                            <x-heroicon-o-arrow-right class="w-4 h-4" />
+                        </a> 
 
                     </div>
 

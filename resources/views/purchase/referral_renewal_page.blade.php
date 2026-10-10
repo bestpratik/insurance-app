@@ -20,7 +20,10 @@
 
         <!-- TAB MENU -->
 
-        <livewire:policy-referal-renewal :referral-purchase-id="$referralPurchase->id" />
+        {{-- <livewire:policy-referal-renewal :referral-purchase-id="$referralPurchase->id" /> --}}
+
+
+        <livewire:insurance-purchase-renewal :policyreferral-id="$referralPurchase->id"/>
 
 
     </x-front>

@@ -181,9 +181,10 @@ class PurchaseController extends Controller
 
     public function successPage($id)
     {
-        // dd($id);
-        $purchase = Purchase::find($id);
-        return view('purchase.success_page', compact('purchase'));
+        $purchase = Purchase::findOrFail($id);
+        $isReferralRenewal = $purchase->policyreferral_id !== null;
+
+        return view('purchase.success_page', compact('purchase', 'isReferralRenewal'));
     }
 
 
@@ -222,7 +223,10 @@ class PurchaseController extends Controller
 
         $referralPurchase = Policyreferralform::with(['insurance', 'insurance.staticdocuments', 'insurance.dynamicdocument', 'invoice'])->find($id);
         // dd($referralPurchase);
-        return view('purchase.referral_renewal_page', compact('referralPurchase'));
+        return view('purchase.renewal_page', [
+            'purchase' => $referralPurchase,
+            'isPolicyReferralRenewal' => true,
+        ]);
     }
 
     public function referralDetailsPage($id)

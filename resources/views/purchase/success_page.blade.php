@@ -1,13 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Insurance Success
+            {{ $isReferralRenewal ? 'Referral Renewal Success' : 'Insurance Success' }}
         </h2>
     </x-slot>
     @if($message = Session::get('message'))
         <div class="alert alert-success alert-dismissible">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
             {{ $message }}
+        </div>
+    @endif
+    @if($warning = Session::get('warning'))
+        <div class="alert alert-warning" role="alert">
+            {{ $warning }}
         </div>
     @endif
 
@@ -65,11 +70,13 @@
                             <path class="stroke-current" fill="none" stroke-width="3"
                                 d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                         </svg>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Insurance successfully purchased!</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                            {{ $isReferralRenewal ? 'Referral insurance successfully purchased!' : 'Insurance successfully purchased!' }}
+                        </h2>
                         <p class="text-gray-600 mb-6">Thank You</p>
                         <a href="{{ route('purchase.details', $purchase->id) }}"
                             class="inline-block px-5 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition">
-                            Purchase Details
+                            {{ $isReferralRenewal ? 'Referral Renewal Details' : 'Purchase Details' }}
                         </a>
                     </div>
                 </section>
