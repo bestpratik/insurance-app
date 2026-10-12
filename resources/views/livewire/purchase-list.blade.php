@@ -907,16 +907,7 @@
                         sm:justify-end">
 
                     {{-- Cancel --}}
-                    {{-- <button type="button" wire:click="closeCouncilModal"
-                        class="inline-flex min-h-11 items-center justify-center
-                           rounded-xl border border-slate-200
-                           bg-white px-5 py-2.5 text-sm font-semibold
-                           text-slate-700 shadow-sm transition duration-200
-                           hover:border-slate-300 hover:bg-slate-50
-                           focus:outline-none focus:ring-4
-                           focus:ring-slate-100">
-                        Cancel
-                    </button> --}}
+                   
 
 
                     {{-- Add / Update --}}
