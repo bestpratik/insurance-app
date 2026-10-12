@@ -808,11 +808,13 @@
                                 <h2
                                     class="text-xl font-bold tracking-tight
                                        text-slate-900">
-                                    {{ $selectedCouncilId ? 'Edit Council' : 'Add Council' }}
+                                    {{ $councilModalMode === 'edit' ? 'Edit Council' : 'Add Council' }}
                                 </h2>
 
                                 <p class="mt-1 text-sm leading-5 text-slate-500">
-                                    {{ $selectedCouncilId ? 'Update the council assigned to this purchase.' : 'Assign a council to this purchase.' }}
+                                    {{ $councilModalMode === 'edit'
+                                        ? 'Update the council assigned to this purchase.'
+                                        : 'Assign a council to this purchase.' }}
                                 </p>
                             </div>
 
@@ -923,7 +925,7 @@
                            disabled:opacity-60">
 
                         <span wire:loading.remove wire:target="saveCouncil" class="inline-flex items-center gap-2">
-                            @if ($selectedCouncilId)
+                            @if ($councilModalMode === 'edit')
                                 <x-heroicon-o-check-circle class="h-5 w-5" />
                                 Update Council
                             @else

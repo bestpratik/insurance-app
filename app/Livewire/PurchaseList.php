@@ -64,6 +64,8 @@ class PurchaseList extends Component
     public $councilPurchaseId = null;
     public $selectedCouncilId = null;
 
+    public $councilModalMode = 'add';
+
 
     private function purchaseQuery()
     {
@@ -184,16 +186,27 @@ class PurchaseList extends Component
         $purchase = Purchase::findOrFail($purchaseId);
 
         // Load the previously assigned council.
-        $this->selectedCouncilId = $purchase->council_id;
+        // $this->selectedCouncilId = $purchase->council_id;
+
+        if ($purchase->council_id) {
+            $this->councilModalMode = 'edit';
+            $this->selectedCouncilId = $purchase->council_id;
+        } else {
+            $this->councilModalMode = 'add';
+            $this->selectedCouncilId = null;
+        }
+
 
         $this->showCouncilModal = true;
     }
+
 
     public function closeCouncilModal()
     {
         $this->showCouncilModal = false;
         $this->councilPurchaseId = null;
         $this->selectedCouncilId = null;
+        $this->councilModalMode = 'add';
 
         $this->resetValidation();
     }
