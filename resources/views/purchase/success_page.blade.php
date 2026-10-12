@@ -76,7 +76,7 @@
                         <p class="text-gray-600 mb-6">Thank You</p>
                         <a href="{{ route('purchase.details', $purchase->id) }}"
                             class="inline-block px-5 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition">
-                            {{ $isReferralRenewal ? 'Referral Renewal Details' : 'Purchase Details' }}
+                            {{ $isReferralRenewal ? 'Referral Process Details' : 'Purchase Details' }}
                         </a>
                     </div>
                 </section>

@@ -799,7 +799,7 @@ class InsurancePurchaseRenewal extends Component
                 $sendToemails[] = $purchase->policy_holder_email;
                 $sendToemails[] = $purchase->policy_holder_company_email;
             }
-
+ 
 
             $sendToemails = array_filter($sendToemails, function ($email) {
                 return filter_var($email, FILTER_VALIDATE_EMAIL);

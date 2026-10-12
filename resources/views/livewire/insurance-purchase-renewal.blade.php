@@ -69,7 +69,7 @@
                    text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-500
                @endif">
             <x-heroicon-o-credit-card class="h-6 w-6 " />
-            <span class="text-sm hidden md:inline">Payment Method</span>
+            <span class="text-sm hidden md:inline">Payment Method</span> 
         </a>
 
         {{-- Step 7: Billing Department --}}

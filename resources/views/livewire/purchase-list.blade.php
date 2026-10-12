@@ -1,4 +1,5 @@
 <div class="p-4">
+
     <!-- Filter Section -->
     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <div class="sm:w-64">
@@ -331,12 +332,12 @@
                             </div>
                         </td> --}}
 
-                        @php
-                            $policyEndDate = \Carbon\Carbon::parse($row->policy_end_date);
-                            $today = \Carbon\Carbon::today();
+                            @php
+                                $policyEndDate = \Carbon\Carbon::parse($row->policy_end_date);
+                                $today = \Carbon\Carbon::today();
 
-                            $daysUntilExpiry = $today->diffInDays($policyEndDate, false);
-                        @endphp
+                                $daysUntilExpiry = $today->diffInDays($policyEndDate, false);
+                            @endphp
 
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="relative flex justify-center action-menu-wrapper">
@@ -351,7 +352,7 @@
                        transition focus:outline-none">
 
                                             <x-heroicon-o-ellipsis-vertical class="w-5 h-5" />
-                                        </summary> 
+                                        </summary>
 
                                         <!-- Action Menu -->
                                         {{-- <div
@@ -360,20 +361,19 @@
                         bg-white shadow-xl p-2"> --}}
 
                                         <div
-                                        class="action-dropdown fixed z-[99999]
+                                            class="action-dropdown fixed z-[99999]
                                         w-56 rounded-xl border border-gray-200
                                         bg-white shadow-xl p-2 hidden">
 
-                                        @if(auth()->user()->isAdmin())
-                                            <!-- Edit -->
-                                            <a href="{{ route('purchase.edit', $row->policy_no) }}"
-                                                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                            @if (auth()->user()->isAdmin())
+                                                <!-- Edit -->
+                                                <a href="{{ route('purchase.edit', $row->policy_no) }}"
+                                                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                                                 text-sm text-gray-700 hover:bg-gray-50 transition">
-                                                <x-heroicon-o-pencil-square class="w-5 h-5 text-indigo-600" />
-                                                <span>Edit</span>
-                                            </a>
-
-                                        @endif
+                                                    <x-heroicon-o-pencil-square class="w-5 h-5 text-indigo-600" />
+                                                    <span>Edit</span>
+                                                </a>
+                                            @endif
 
                                             <!-- Details -->
                                             <a href="{{ route('purchase.details', $row->id) }}"
@@ -382,6 +382,18 @@
                                                 <x-heroicon-o-eye class="w-5 h-5 text-indigo-600" />
                                                 <span>Details</span>
                                             </a>
+
+                                            <!-- Add / Edit Council -->
+                                            <button type="button" wire:click="openCouncilModal({{ $row->id }})"
+                                                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                                    text-sm text-gray-700 hover:bg-gray-50 transition">
+
+                                                <x-heroicon-o-building-office-2 class="w-5 h-5 text-indigo-600" />
+
+                                                <span>
+                                                    {{ $row->council_id ? 'Edit Council' : 'Add Council' }}
+                                                </span>
+                                            </button>
 
                                             <!-- Resend Documents -->
                                             <button wire:click="openResendModal({{ $row->id }})"
@@ -403,14 +415,14 @@
                                                 <span>Resend Invoice</span>
                                             </button>
 
-                                            @if($daysUntilExpiry >= 0 && $daysUntilExpiry < 60)
-                                            <!-- Send Reminder -->
-                                            <button wire:click="openReminderModal({{ $row->id }})"
-                                                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                            @if ($daysUntilExpiry >= 0 && $daysUntilExpiry < 60)
+                                                <!-- Send Reminder -->
+                                                <button wire:click="openReminderModal({{ $row->id }})"
+                                                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                            text-sm text-gray-700 hover:bg-gray-50 transition">
-                                                <x-heroicon-o-bell class="w-5 h-5 text-yellow-600" />
-                                                <span>Renewal Reminder</span>
-                                            </button>
+                                                    <x-heroicon-o-bell class="w-5 h-5 text-yellow-600" />
+                                                    <span>Renewal Reminder</span>
+                                                </button>
                                             @endif
 
                                             <!-- Download Invoice -->
@@ -419,17 +431,17 @@
                                                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                           text-sm text-gray-700 hover:bg-gray-50 transition">
                                                 <x-heroicon-o-arrow-down-tray class="w-5 h-5 text-gray-600" />
-                                                <span>Download Invoice</span> 
+                                                <span>Download Invoice</span>
                                             </a>
 
-                                            @if($daysUntilExpiry >= 0 && $daysUntilExpiry < 60)
-                                            <!-- Policy Renewal -->
-                                            <a href="{{ route('purchase.renewal.overview', $row->id) }}"
-                                                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                            @if ($daysUntilExpiry >= 0 && $daysUntilExpiry < 60)
+                                                <!-- Policy Renewal -->
+                                                <a href="{{ route('purchase.renewal.overview', $row->id) }}"
+                                                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                           text-sm text-gray-700 hover:bg-gray-50 transition">
-                                                <x-heroicon-o-calendar-days class="w-5 h-5 text-green-600" />
-                                                <span>Policy Renewal</span> 
-                                            </a>
+                                                    <x-heroicon-o-calendar-days class="w-5 h-5 text-green-600" />
+                                                    <span>Policy Renewal</span>
+                                                </a>
                                             @endif
 
                                             <!-- Check Payment -->
@@ -440,18 +452,16 @@
                                                 <span>Payment Status</span>
                                             </button>
 
-                                            @if(auth()->user()->isAdmin())
-
-                                            <!-- Cancel Purchase -->
-                                            <button wire:click="openCancelModal({{ $row->id }})"
-                                                @if (in_array($row->id, $cancelledPurchases)) disabled @endif
-                                                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
+                                            @if (auth()->user()->isAdmin())
+                                                <!-- Cancel Purchase -->
+                                                <button wire:click="openCancelModal({{ $row->id }})"
+                                                    @if (in_array($row->id, $cancelledPurchases)) disabled @endif
+                                                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg
                                                     text-sm text-red-600 hover:bg-red-50 transition
                                                     disabled:opacity-50 disabled:cursor-not-allowed">
-                                                <x-heroicon-o-x-mark class="w-5 h-5 text-red-600" />
-                                                <span>Cancel Purchase</span>
-                                            </button>
-
+                                                    <x-heroicon-o-x-mark class="w-5 h-5 text-red-600" />
+                                                    <span>Cancel Purchase</span>
+                                                </button>
                                             @endif
 
                                         </div>
@@ -756,5 +766,203 @@
     <!-- modal  -->
 
 
+
+    {{-- Premium Add / Edit Council Modal --}}
+    @if ($showCouncilModal)
+        <div class="fixed inset-0 z-[99999] flex items-center justify-center
+               bg-slate-950/50 px-4 py-6 backdrop-blur-[3px]"
+            wire:key="council-modal-{{ $councilPurchaseId }}">
+            <div
+                class="w-full max-w-lg overflow-visible rounded-2xl
+                   border border-slate-200/80 bg-white
+                   shadow-2xl shadow-slate-950/20
+                   animate-council-modal">
+
+                {{-- Modal Header --}}
+                <div
+                    class="relative overflow-hidden rounded-t-2xl
+                        border-b border-slate-100 bg-white px-6 py-5">
+
+                    {{-- Decorative background --}}
+                    <div
+                        class="pointer-events-none absolute -right-8 -top-12
+                            h-32 w-32 rounded-full bg-indigo-50/80">
+                    </div>
+
+                    <div class="relative flex items-start justify-between gap-4">
+
+                        <div class="flex items-center gap-4">
+
+                            {{-- Council Icon --}}
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center
+                                    justify-center rounded-xl
+                                    border border-indigo-100 bg-indigo-50
+                                    text-indigo-600">
+
+                                <x-heroicon-o-building-office-2 class="h-6 w-6" />
+
+                            </div>
+
+                            <div>
+                                <h2
+                                    class="text-xl font-bold tracking-tight
+                                       text-slate-900">
+                                    {{ $selectedCouncilId ? 'Edit Council' : 'Add Council' }}
+                                </h2>
+
+                                <p class="mt-1 text-sm leading-5 text-slate-500">
+                                    {{ $selectedCouncilId ? 'Update the council assigned to this purchase.' : 'Assign a council to this purchase.' }}
+                                </p>
+                            </div>
+
+                        </div>
+
+                        {{-- Close Button --}}
+                        <button type="button" wire:click="closeCouncilModal" aria-label="Close modal"
+                            class="flex h-9 w-9 shrink-0 items-center
+                               justify-center rounded-lg
+                               border border-slate-200 bg-white
+                               text-slate-400 transition duration-200
+                               hover:border-slate-300 hover:bg-slate-50
+                               hover:text-slate-700
+                               focus:outline-none focus:ring-4
+                               focus:ring-indigo-100">
+                            <x-heroicon-o-x-mark class="h-5 w-5" />
+                        </button>
+
+                    </div>
+                </div>
+
+
+                {{-- Modal Body --}}
+                <div class="space-y-5 px-6 py-6">
+
+                    {{-- Field Heading --}}
+                    <div>
+                        <label for="councilSelect2"
+                            class="mb-2 flex items-center gap-1.5
+                               text-sm font-semibold text-slate-800">
+                            Select Council
+                            <span class="text-rose-500">*</span>
+                        </label>
+
+                        <p class="mb-3 text-sm leading-5 text-slate-500">
+                            Choose the council responsible for this purchase.
+                        </p>
+
+                        {{-- Select2 Dropdown --}}
+                        <div wire:ignore>
+                            <select id="councilSelect2" class="w-full" data-placeholder="Search or select a council">
+                                <option value=""></option>
+
+                                @foreach ($councils as $council)
+                                    <option value="{{ $council->id }}"
+                                        {{ (string) $selectedCouncilId === (string) $council->id ? 'selected' : '' }}>
+                                        {{ $council->council_name }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        {{-- Validation Message --}}
+                        @error('selectedCouncilId')
+                            <p
+                                class="mt-2 flex items-center gap-1.5
+                                  text-sm font-medium text-rose-600">
+                                <x-heroicon-o-exclamation-circle class="h-4 w-4 shrink-0" />
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+
+
+                    {{-- Informational Note --}}
+                    <div
+                        class="flex items-start gap-3 rounded-xl
+                            border border-indigo-100 bg-indigo-50/70 p-4">
+
+                        <x-heroicon-o-information-circle class="mt-0.5 h-5 w-5 shrink-0 text-indigo-600" />
+
+                        <p class="text-sm leading-6 text-slate-600">
+                            The selected council will be assigned to this purchase.
+                            {{-- and the billing type will be updated to
+                            <span class="font-semibold text-indigo-700">
+                                Council
+                            </span>. --}}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Modal Footer --}}
+                <div
+                    class="flex flex-col-reverse gap-3 rounded-b-2xl
+                        border-t border-slate-100 bg-slate-50/80
+                        px-6 py-4 sm:flex-row sm:items-center
+                        sm:justify-end">
+
+                    {{-- Cancel --}}
+                    {{-- <button type="button" wire:click="closeCouncilModal"
+                        class="inline-flex min-h-11 items-center justify-center
+                           rounded-xl border border-slate-200
+                           bg-white px-5 py-2.5 text-sm font-semibold
+                           text-slate-700 shadow-sm transition duration-200
+                           hover:border-slate-300 hover:bg-slate-50
+                           focus:outline-none focus:ring-4
+                           focus:ring-slate-100">
+                        Cancel
+                    </button> --}}
+
+
+                    {{-- Add / Update --}}
+                    <button type="button" wire:click="saveCouncil" wire:loading.attr="disabled"
+                        wire:target="saveCouncil"
+                        class="inline-flex min-h-11 items-center justify-center
+                           gap-2 rounded-xl bg-indigo-600
+                           px-5 py-2.5 text-sm font-semibold text-white
+                           shadow-lg shadow-indigo-600/20
+                           transition duration-200
+                           hover:bg-indigo-700
+                           hover:shadow-indigo-700/25
+                           focus:outline-none focus:ring-4
+                           focus:ring-indigo-200
+                           disabled:cursor-not-allowed
+                           disabled:opacity-60">
+
+                        <span wire:loading.remove wire:target="saveCouncil" class="inline-flex items-center gap-2">
+                            @if ($selectedCouncilId)
+                                <x-heroicon-o-check-circle class="h-5 w-5" />
+                                Update Council
+                            @else
+                                <x-heroicon-o-plus-circle class="h-5 w-5" />
+                                Add Council
+                            @endif
+                        </span>
+
+                        <span wire:loading.flex wire:target="saveCouncil" class="items-center gap-2">
+                            <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                    stroke="currentColor" stroke-width="4" />
+
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0
+                                   C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+
+                            Saving...
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    @endif
 
 </div>

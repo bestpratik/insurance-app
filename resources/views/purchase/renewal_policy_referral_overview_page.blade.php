@@ -1,100 +1,256 @@
 <x-app-layout>
 
-<style>
-    /* Premium Corporate — Referral Policy Overview */
-    .referral-overview-page {
-        min-height: 100vh;
-        padding: 2rem 0 3.5rem;
-        background:
-            radial-gradient(circle at 8% 0%, rgba(219,234,254,.75), transparent 28rem),
-            linear-gradient(135deg, #f8fafc 0%, #eef4fb 52%, #f8fafc 100%);
-    }
-    .referral-overview-page .referral-page-container { max-width: 86rem; }
-    .referral-overview-page .referral-page-title {
-        display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.75rem;
-    }
-    .referral-overview-page .referral-title-icon {
-        display:flex; align-items:center; justify-content:center; flex-shrink:0;
-        width:3.25rem; height:3.25rem; border-radius:1rem; color:#fff;
-        background:linear-gradient(145deg,#173b70,#2563a8);
-        box-shadow:0 10px 22px rgba(30,64,120,.18);
-    }
-    .referral-overview-page .referral-page-title h1 {
-        margin:0; color:#10233f; font-size:clamp(1.65rem,2.5vw,2.15rem);
-        font-weight:800; letter-spacing:-.035em; line-height:1.2;
-    }
-    .referral-overview-page .referral-page-title p { margin-top:.5rem; max-width:48rem; color:#64748b; line-height:1.65; }
-    .referral-overview-page .referral-main-card {
-        overflow:hidden; border:1px solid #dce5f0; border-radius:1.4rem;
-        background:#fff; box-shadow:0 24px 65px rgba(15,35,65,.09);
-    }
-    .referral-overview-page .referral-main-header {
-        position:relative; overflow:hidden; padding:2rem 2.25rem;
-        color:#fff; background:linear-gradient(115deg,#10294b 0%,#17477b 58%,#2563a8 100%);
-    }
-    .referral-overview-page .referral-main-header:after {
-        content:""; position:absolute; width:17rem; height:17rem; right:-5rem; top:-9rem;
-        border:1px solid rgba(255,255,255,.16); border-radius:50%;
-        box-shadow:0 0 0 2rem rgba(255,255,255,.035),0 0 0 4rem rgba(255,255,255,.025);
-        pointer-events:none;
-    }
-    .referral-overview-page .referral-main-header h2 { position:relative; z-index:1; font-size:clamp(1.25rem,2vw,1.7rem); font-weight:750; letter-spacing:-.025em; }
-    .referral-overview-page .referral-main-header p { position:relative; z-index:1; color:#dbeafe; }
-    .referral-overview-page .referral-policy-number {
-        display:inline-flex; align-items:center; gap:.5rem; margin-top:.85rem; padding:.45rem .8rem;
-        border:1px solid rgba(255,255,255,.22); border-radius:.65rem; background:rgba(255,255,255,.09);
-        font-size:.875rem;
-    }
-    .referral-overview-page .referral-main-body { padding:clamp(1rem,3vw,2.25rem); }
-    .referral-overview-page .dashboard-card {
-        border:1px solid #e0e8f2 !important; border-radius:1rem !important;
-        background:#fff; box-shadow:0 5px 18px rgba(15,35,65,.035) !important;
-        transition:border-color .2s ease, box-shadow .2s ease;
-    }
-    .referral-overview-page .dashboard-card:hover { border-color:#c5d7eb !important; box-shadow:0 10px 26px rgba(15,35,65,.065) !important; }
-    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 {
-        padding:1.15rem 1.4rem !important; background:linear-gradient(90deg,#f0f6fd,#f8fbff) !important;
-        border-bottom:1px solid #e2eaf4 !important;
-    }
-    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 h2 {
-        color:#173b68 !important; font-size:1.02rem !important; font-weight:750 !important; letter-spacing:-.01em;
-    }
-    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 p { margin-top:.2rem; color:#718096 !important; font-size:.82rem; }
-    .referral-overview-page .dashboard-card > .flex.items-center.gap-3.px-6.py-4 .rounded-full {
-        width:2.65rem; height:2.65rem; border-radius:.8rem !important; background:#dcecff !important;
-    }
-    .referral-overview-page .dashboard-card > .p-6 { padding:clamp(1rem,2.3vw,1.6rem) !important; }
-    .referral-overview-page .dashboard-card .uppercase.text-xs { color:#718096 !important; font-size:.68rem !important; letter-spacing:.095em; }
-    .referral-overview-page .dashboard-card .font-medium.text-gray-800,
-    .referral-overview-page .dashboard-card .font-semibold.text-gray-800 { color:#1e293b !important; font-weight:650; overflow-wrap:anywhere; }
-    .referral-overview-page .dashboard-card .text-gray-500 { color:#64748b !important; }
-    .referral-overview-page .dashboard-card .border-t { border-color:#edf2f7 !important; }
-    .referral-overview-page .referral-action-footer {
-        display:flex; justify-content:flex-end; gap:.75rem; flex-wrap:wrap;
-        padding:1.35rem clamp(1rem,3vw,2.25rem); border-top:1px solid #e6edf5; background:#f8fafc;
-    }
-    .referral-overview-page .referral-process-button {
-        display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
-        padding:.85rem 1.25rem; border:1px solid #1d4f91; border-radius:.75rem;
-        color:#fff; font-weight:700; text-decoration:none;
-        background:linear-gradient(135deg,#1d4f91,#2563b8); box-shadow:0 7px 16px rgba(37,99,184,.2);
-        transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
-    }
-    .referral-overview-page .referral-process-button:hover { color:#fff; filter:brightness(1.06); transform:translateY(-1px); box-shadow:0 10px 22px rgba(37,99,184,.26); }
-    .referral-overview-page .referral-process-button:focus-visible { outline:3px solid #93c5fd; outline-offset:3px; }
-    @media(max-width:640px) {
-        .referral-overview-page { padding-top:1.25rem; }
-        .referral-overview-page .referral-main-header { padding:1.35rem 1.2rem; }
-        .referral-overview-page .referral-page-title { gap:.75rem; }
-        .referral-overview-page .referral-title-icon { width:2.75rem; height:2.75rem; border-radius:.8rem; }
-        .referral-overview-page .referral-action-footer > * { width:100%; }
-    }
-    @media print {
-        .referral-overview-page { padding:0; background:#fff; }
-        .referral-overview-page .referral-main-card, .referral-overview-page .dashboard-card { box-shadow:none !important; }
-        .referral-overview-page .referral-action-footer { display:none !important; }
-    }
-</style>
+    <style>
+        /* Premium Corporate — Referral Policy Overview */
+        .referral-overview-page {
+            min-height: 100vh;
+            padding: 2rem 0 3.5rem;
+            background:
+                radial-gradient(circle at 8% 0%, rgba(219, 234, 254, .75), transparent 28rem),
+                linear-gradient(135deg, #f8fafc 0%, #eef4fb 52%, #f8fafc 100%);
+        }
+
+        .referral-overview-page .referral-page-container {
+            max-width: 86rem;
+        }
+
+        .referral-overview-page .referral-page-title {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .referral-overview-page .referral-title-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 3.25rem;
+            height: 3.25rem;
+            border-radius: 1rem;
+            color: #fff;
+            background: linear-gradient(145deg, #173b70, #2563a8);
+            box-shadow: 0 10px 22px rgba(30, 64, 120, .18);
+        }
+
+        .referral-overview-page .referral-page-title h1 {
+            margin: 0;
+            color: #10233f;
+            font-size: clamp(1.65rem, 2.5vw, 2.15rem);
+            font-weight: 800;
+            letter-spacing: -.035em;
+            line-height: 1.2;
+        }
+
+        .referral-overview-page .referral-page-title p {
+            margin-top: .5rem;
+            max-width: 48rem;
+            color: #64748b;
+            line-height: 1.65;
+        }
+
+        .referral-overview-page .referral-main-card {
+            overflow: hidden;
+            border: 1px solid #dce5f0;
+            border-radius: 1.4rem;
+            background: #fff;
+            box-shadow: 0 24px 65px rgba(15, 35, 65, .09);
+        }
+
+        .referral-overview-page .referral-main-header {
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 2.25rem;
+            color: #fff;
+            background: linear-gradient(115deg, #10294b 0%, #17477b 58%, #2563a8 100%);
+        }
+
+        .referral-overview-page .referral-main-header:after {
+            content: "";
+            position: absolute;
+            width: 17rem;
+            height: 17rem;
+            right: -5rem;
+            top: -9rem;
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 50%;
+            box-shadow: 0 0 0 2rem rgba(255, 255, 255, .035), 0 0 0 4rem rgba(255, 255, 255, .025);
+            pointer-events: none;
+        }
+
+        .referral-overview-page .referral-main-header h2 {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(1.25rem, 2vw, 1.7rem);
+            font-weight: 750;
+            letter-spacing: -.025em;
+        }
+
+        .referral-overview-page .referral-main-header p {
+            position: relative;
+            z-index: 1;
+            color: #dbeafe;
+        }
+
+        .referral-overview-page .referral-policy-number {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            margin-top: .85rem;
+            padding: .45rem .8rem;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: .65rem;
+            background: rgba(255, 255, 255, .09);
+            font-size: .875rem;
+        }
+
+        .referral-overview-page .referral-main-body {
+            padding: clamp(1rem, 3vw, 2.25rem);
+        }
+
+        .referral-overview-page .dashboard-card {
+            border: 1px solid #e0e8f2 !important;
+            border-radius: 1rem !important;
+            background: #fff;
+            box-shadow: 0 5px 18px rgba(15, 35, 65, .035) !important;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .referral-overview-page .dashboard-card:hover {
+            border-color: #c5d7eb !important;
+            box-shadow: 0 10px 26px rgba(15, 35, 65, .065) !important;
+        }
+
+        .referral-overview-page .dashboard-card>.flex.items-center.gap-3.px-6.py-4 {
+            padding: 1.15rem 1.4rem !important;
+            background: linear-gradient(90deg, #f0f6fd, #f8fbff) !important;
+            border-bottom: 1px solid #e2eaf4 !important;
+        }
+
+        .referral-overview-page .dashboard-card>.flex.items-center.gap-3.px-6.py-4 h2 {
+            color: #173b68 !important;
+            font-size: 1.02rem !important;
+            font-weight: 750 !important;
+            letter-spacing: -.01em;
+        }
+
+        .referral-overview-page .dashboard-card>.flex.items-center.gap-3.px-6.py-4 p {
+            margin-top: .2rem;
+            color: #718096 !important;
+            font-size: .82rem;
+        }
+
+        .referral-overview-page .dashboard-card>.flex.items-center.gap-3.px-6.py-4 .rounded-full {
+            width: 2.65rem;
+            height: 2.65rem;
+            border-radius: .8rem !important;
+            background: #dcecff !important;
+        }
+
+        .referral-overview-page .dashboard-card>.p-6 {
+            padding: clamp(1rem, 2.3vw, 1.6rem) !important;
+        }
+
+        .referral-overview-page .dashboard-card .uppercase.text-xs {
+            color: #718096 !important;
+            font-size: .68rem !important;
+            letter-spacing: .095em;
+        }
+
+        .referral-overview-page .dashboard-card .font-medium.text-gray-800,
+        .referral-overview-page .dashboard-card .font-semibold.text-gray-800 {
+            color: #1e293b !important;
+            font-weight: 650;
+            overflow-wrap: anywhere;
+        }
+
+        .referral-overview-page .dashboard-card .text-gray-500 {
+            color: #64748b !important;
+        }
+
+        .referral-overview-page .dashboard-card .border-t {
+            border-color: #edf2f7 !important;
+        }
+
+        .referral-overview-page .referral-action-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: .75rem;
+            flex-wrap: wrap;
+            padding: 1.35rem clamp(1rem, 3vw, 2.25rem);
+            border-top: 1px solid #e6edf5;
+            background: #f8fafc;
+        }
+
+        .referral-overview-page .referral-process-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            padding: .85rem 1.25rem;
+            border: 1px solid #1d4f91;
+            border-radius: .75rem;
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(135deg, #1d4f91, #2563b8);
+            box-shadow: 0 7px 16px rgba(37, 99, 184, .2);
+            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+
+        .referral-overview-page .referral-process-button:hover {
+            color: #fff;
+            filter: brightness(1.06);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(37, 99, 184, .26);
+        }
+
+        .referral-overview-page .referral-process-button:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        @media(max-width:640px) {
+            .referral-overview-page {
+                padding-top: 1.25rem;
+            }
+
+            .referral-overview-page .referral-main-header {
+                padding: 1.35rem 1.2rem;
+            }
+
+            .referral-overview-page .referral-page-title {
+                gap: .75rem;
+            }
+
+            .referral-overview-page .referral-title-icon {
+                width: 2.75rem;
+                height: 2.75rem;
+                border-radius: .8rem;
+            }
+
+            .referral-overview-page .referral-action-footer>* {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            .referral-overview-page {
+                padding: 0;
+                background: #fff;
+            }
+
+            .referral-overview-page .referral-main-card,
+            .referral-overview-page .dashboard-card {
+                box-shadow: none !important;
+            }
+
+            .referral-overview-page .referral-action-footer {
+                display: none !important;
+            }
+        }
+    </style>
 
 
     <div class="referral-overview-page">
@@ -139,10 +295,10 @@
 
                             </h2>
 
-                            <div class="referral-policy-number">
+                            {{-- <div class="referral-policy-number">
                                 <span class="font-medium">Referral Policy Number</span>
                                 <strong>{{ $referralPurchase->policy_no ?? '—' }}</strong>
-                            </div>
+                            </div> --}}
 
                         </div>
 
@@ -483,7 +639,7 @@
                                         </p>
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         @php
                                             $start = \Carbon\Carbon::parse($referralPurchase->policy_start_date);
                                             $end = \Carbon\Carbon::parse($referralPurchase->policy_end_date);
@@ -492,6 +648,20 @@
                                         <span
                                             class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
                                             {{ $start->diffInMonths($end) }} Months
+                                        </span>
+                                    </div> --}}
+
+                                    <div>
+                                        @php
+                                            $start = \Carbon\Carbon::parse($referralPurchase->policy_start_date);
+                                            $end = \Carbon\Carbon::parse($referralPurchase->policy_end_date);
+
+                                            $duration = (int) floor($start->diffInMonths($end));
+                                        @endphp
+
+                                        <span
+                                            class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
+                                            {{ $duration }} {{ $duration === 1 ? 'Month' : 'Months' }}
                                         </span>
                                     </div>
                                 </div>
@@ -1577,12 +1747,11 @@
                         </a> --}}
 
                         <a href="{{ route('renewal.insurance.policyreferral', $referralPurchase->id) }}"
-                            target="_blank"
-                            class="referral-process-button">
+                            target="_blank" class="referral-process-button">
                             <x-heroicon-o-check-badge class="w-5 h-5" />
                             <span>Process</span>
                             <x-heroicon-o-arrow-right class="w-4 h-4" />
-                        </a> 
+                        </a>
 
                     </div>
 

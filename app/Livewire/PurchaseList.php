@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\UserType;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use App\Models\Council;
 
 class PurchaseList extends Component
 {
@@ -59,6 +60,11 @@ class PurchaseList extends Component
     public $paymentMethod;
     public $paymentStatus;
 
+    public $showCouncilModal = false;
+    public $councilPurchaseId = null;
+    public $selectedCouncilId = null;
+
+
     private function purchaseQuery()
     {
         $user = Auth::user();
@@ -100,7 +106,7 @@ class PurchaseList extends Component
             })
             ->orderBy('id', 'desc');
 
-        
+
 
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
@@ -160,9 +166,57 @@ class PurchaseList extends Component
         }
 
         $purchases = $query->paginate($this->perPage);
+        $councils = Council::orderBy('council_name')->get();
+
         return view('livewire.purchase-list', [
             'result' => $purchases,
+            'councils' => $councils,
         ]);
+    }
+
+
+    public function openCouncilModal($purchaseId)
+    {
+        $this->resetValidation();
+
+        $this->councilPurchaseId = $purchaseId;
+
+        $purchase = Purchase::findOrFail($purchaseId);
+
+        // Load the previously assigned council.
+        $this->selectedCouncilId = $purchase->council_id;
+
+        $this->showCouncilModal = true;
+    }
+
+    public function closeCouncilModal()
+    {
+        $this->showCouncilModal = false;
+        $this->councilPurchaseId = null;
+        $this->selectedCouncilId = null;
+
+        $this->resetValidation();
+    }
+
+    public function saveCouncil()
+    {
+        $this->validate([
+            'selectedCouncilId' => 'required|exists:councils,id',
+        ]);
+
+        $purchase = Purchase::findOrFail($this->councilPurchaseId);
+
+        // Save the selected council against the purchase.
+        $purchase->council_id = $this->selectedCouncilId;
+        $purchase->billing_type = 'Council';
+
+        $purchase->save();
+
+        $this->dispatch('swal:successmsg', [
+            'message' => 'Council assigned successfully!',
+        ]);
+
+        $this->closeCouncilModal();
     }
 
 

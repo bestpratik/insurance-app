@@ -391,7 +391,7 @@
                                         </p>
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         @php
                                             $start = \Carbon\Carbon::parse($purchase->policy_start_date);
                                             $end = \Carbon\Carbon::parse($purchase->policy_end_date);
@@ -400,6 +400,20 @@
                                         <span
                                             class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
                                             {{ $start->diffInMonths($end) }} Months
+                                        </span>
+                                    </div> --}}
+
+                                    <div>
+                                        @php
+                                            $start = \Carbon\Carbon::parse($purchase->policy_start_date);
+                                            $end = \Carbon\Carbon::parse($purchase->policy_end_date);
+
+                                            $duration = (int) floor($start->diffInMonths($end));
+                                        @endphp
+
+                                        <span
+                                            class="inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
+                                            {{ $duration }} {{ $duration === 1 ? 'Month' : 'Months' }}
                                         </span>
                                     </div>
                                 </div>
@@ -1138,10 +1152,10 @@
                     </div>
 
                     <!-- ===========================================
-     Policy Documents
-============================================ -->
+                        Policy Documents
+                    ============================================ -->
 
-                    <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                    {{-- <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
                         <!-- Header -->
 
@@ -1364,16 +1378,254 @@
 
                         </div>
 
+                    </div> --}}
+
+
+                    {{-- ==========================================
+    Policy Documents
+========================================== --}}
+
+                    <div class="dashboard-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                        {{-- Header --}}
+                        <div class="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-6 py-4">
+
+                            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100">
+                                <x-heroicon-o-folder-open class="h-5 w-5 text-blue-600" />
+                            </div>
+
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-800">
+                                    Policy Documents
+                                </h2>
+
+                                <p class="text-xs text-slate-500">
+                                    Download your policy-related documents
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="space-y-7 p-6">
+
+                            {{-- Static Documents --}}
+                            <div>
+
+                                <div class="mb-4 flex items-center justify-between">
+
+                                    <h3 class="text-sm font-semibold text-slate-800">
+                                        Static Documents
+                                    </h3>
+
+                                    <span
+                                        class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600">
+                                        {{ $purchase->insurance->staticdocuments->count() }}
+                                    </span>
+
+                                </div>
+
+                                @if ($purchase->insurance && $purchase->insurance->staticdocuments->count())
+
+                                    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+                                        @foreach ($purchase->insurance->staticdocuments as $doc)
+                                            <div
+                                                class="group rounded-xl border border-slate-200 bg-white p-4 transition duration-200 hover:border-blue-300 hover:shadow-md">
+
+                                                {{-- <div class="flex items-start gap-3">
+
+                                                    <div
+                                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-50">
+
+                                                        <svg class="h-5 w-5 text-red-500" fill="currentColor"
+                                                            viewBox="0 0 24 24" aria-hidden="true">
+
+                                                            <path
+                                                                d="M7 2h7l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+
+                                                        </svg>
+
+                                                    </div>
+
+                                                    <div class="min-w-0 flex-1">
+
+                                                        <h4 class="text-sm font-semibold leading-5 text-slate-800">
+                                                            {{ $doc->title }}
+                                                        </h4>
+
+                                                        <p class="mt-1 text-xs text-slate-500">
+                                                            PDF Document
+                                                        </p>
+
+                                                    </div>
+
+                                                </div> --}}
+
+                                                <div class="flex items-start gap-3">
+
+                                                    {{-- PDF Icon with Label --}}
+                                                    <div class="flex shrink-0 flex-col items-center gap-1">
+
+                                                        <div
+                                                            class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50">
+                                                            <svg class="h-5 w-5 text-red-500" fill="currentColor"
+                                                                viewBox="0 0 24 24" aria-hidden="true">
+                                                                <path
+                                                                    d="M7 2h7l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+                                                            </svg>
+                                                        </div>
+
+                                                        <span
+                                                            class="text-[10px] font-bold uppercase tracking-wide text-red-500">
+                                                            PDF
+                                                        </span>
+
+                                                    </div>
+
+                                                    {{-- Document Details --}}
+                                                    <div class="min-w-0 flex-1">
+
+                                                        <h4 class="text-sm font-semibold leading-5 text-slate-800">
+                                                            {{ $doc->title }}
+                                                        </h4>
+
+                                                        <p class="mt-1 text-xs text-slate-500">
+                                                            PDF Document
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                                {{-- Download Button --}}
+                                                <a href="{{ asset('uploads/insurance_document/' . $doc->document) }}"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
+
+                                                    <x-heroicon-o-arrow-down-tray class="h-4 w-4" />
+
+                                                    Download
+
+                                                </a>
+
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                @else
+                                    <div
+                                        class="rounded-lg border border-dashed border-slate-200 px-4 py-6 text-center">
+
+                                        <x-heroicon-o-document class="mx-auto h-6 w-6 text-slate-400" />
+
+                                        <p class="mt-2 text-sm text-slate-500">
+                                            No static documents available.
+                                        </p>
+
+                                    </div>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Divider --}}
+                            <div class="border-t border-slate-200"></div>
+
+
+                            {{-- Dynamic Documents --}}
+                            <div>
+
+                                <div class="mb-4 flex items-center justify-between">
+
+                                    <h3 class="text-sm font-semibold text-slate-800">
+                                        Dynamic Documents
+                                    </h3>
+
+                                    <span
+                                        class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600">
+                                        {{ $purchase->insurance->dynamicdocument->count() }}
+                                    </span>
+
+                                </div>
+
+                                @if ($purchase->insurance->dynamicdocument->count())
+
+                                    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+                                        @foreach ($purchase->insurance->dynamicdocument as $document)
+                                            <div
+                                                class="group rounded-xl border border-slate-200 bg-white p-4 transition duration-200 hover:border-emerald-300 hover:shadow-md">
+
+                                                <div class="flex items-start gap-3">
+
+                                                    {{-- Small Generated Document Icon --}}
+                                                    <div
+                                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
+
+                                                        <x-heroicon-o-document-text class="h-5 w-5 text-emerald-600" />
+
+                                                    </div>
+
+                                                    {{-- Document Details --}}
+                                                    <div class="min-w-0 flex-1">
+
+                                                        <h4 class="text-sm font-semibold leading-5 text-slate-800">
+                                                            {{ $document->title }}
+                                                        </h4>
+
+                                                        <p class="mt-1 text-xs text-slate-500">
+                                                            Generated Document
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                                {{-- Download Button --}}
+                                                <a href="{{ route('insurance.document.download', [
+                                                    'purchase_id' => $purchase->id,
+                                                    'document_id' => $document->id,
+                                                ]) }}"
+                                                    target="_blank" rel="noopener noreferrer"
+                                                    class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-emerald-700">
+
+                                                    <x-heroicon-o-arrow-down-tray class="h-4 w-4" />
+
+                                                    Download
+
+                                                </a>
+
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                @else
+                                    <div
+                                        class="rounded-lg border border-dashed border-slate-200 px-4 py-6 text-center">
+
+                                        <x-heroicon-o-document-text class="mx-auto h-6 w-6 text-slate-400" />
+
+                                        <p class="mt-2 text-sm text-slate-500">
+                                            No dynamic documents available.
+                                        </p>
+
+                                    </div>
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
                     </div>
 
 
                     <!-- ===========================================
-     Action Center
-============================================ -->
+                        Action Center
+                    ============================================ -->
 
-                    <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-
-                        <!-- Header -->
+                    {{-- <div class="dashboard-card rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
                         <div class="flex items-center gap-3 px-6 py-4 bg-blue-50 border-b">
 
@@ -1401,13 +1653,9 @@
 
                         </div>
 
-                        <!-- Body -->
-
                         <div class="p-8">
 
                             <div class="grid lg:grid-cols-2 gap-8">
-
-                                <!-- Invoice Card -->
 
                                 <div
                                     class="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-white p-6">
@@ -1452,82 +1700,85 @@
 
                                 </div>
 
-                                <!-- Quick Actions -->
+                            </div>
 
-                                {{-- <div class="rounded-xl border border-gray-200 bg-gray-50 p-6">
+                        </div>
 
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-6">
+                    </div> --}}
 
-                                        Quick Actions
+                    {{-- ==========================================
+    Action Center
+========================================== --}}
 
-                                    </h3>
+                    <div class="dashboard-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-                                    <div class="grid grid-cols-2 gap-4">
+                        {{-- Header --}}
+                        <div class="flex items-center gap-3 border-b border-blue-100 bg-blue-50/70 px-6 py-4">
 
-                                        <!-- Print -->
+                            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100">
+                                <x-heroicon-o-document-duplicate class="h-5 w-5 text-blue-600" />
+                            </div>
 
-                                        <button onclick="window.print()"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-blue-500 hover:bg-blue-50 transition">
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-800">
+                                    Action Center
+                                </h2>
 
-                                            <x-heroicon-o-printer class="mx-auto h-7 w-7 text-blue-600" />
+                                <p class="text-xs text-slate-500">
+                                    Download your invoice and manage your insurance policy
+                                </p>
+                            </div>
 
-                                            <p class="mt-3 font-medium">
+                        </div>
 
-                                                Print
 
+                        {{-- Body --}}
+                        <div class="p-6">
+
+                            <div class="grid gap-4 md:grid-cols-2">
+
+                                {{-- Invoice Card --}}
+                                <div
+                                    class="rounded-xl border border-slate-200 bg-white p-4 transition duration-200 hover:border-blue-300 hover:shadow-md">
+
+                                    <div class="flex items-start gap-3">
+
+                                        {{-- Compact Invoice Icon --}}
+                                        <div
+                                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50">
+
+                                            <x-heroicon-o-document-text class="h-6 w-6 text-blue-600" />
+
+                                        </div>
+
+                                        {{-- Invoice Details --}}
+                                        <div class="min-w-0 flex-1">
+
+                                            <h3 class="text-sm font-semibold text-slate-800">
+                                                Insurance Invoice
+                                            </h3>
+
+                                            <p class="mt-1 text-xs leading-5 text-slate-500">
+                                                Download your official invoice in PDF format, including payment details
+                                                and policy information.
                                             </p>
 
-                                        </button>
-
-                                        <!-- Download -->
-
-                                        <a href="{{ route('insurance.invoice.genarate', $purchase->id) }}"
-                                            target="_blank"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-green-500 hover:bg-green-50 transition text-center">
-
-                                            <x-heroicon-o-arrow-down-tray class="mx-auto h-7 w-7 text-green-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Download
-
-                                            </p>
-
-                                        </a>
-
-                                        <!-- Back -->
-
-                                        <a href="{{ url()->previous() }}"
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-yellow-500 hover:bg-yellow-50 transition text-center">
-
-                                            <x-heroicon-o-arrow-left class="mx-auto h-7 w-7 text-yellow-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Back
-
-                                            </p>
-
-                                        </a>
-
-                                        <!-- Process -->
-
-                                        <button
-                                            class="rounded-lg border border-gray-300 bg-white p-4 hover:border-purple-500 hover:bg-purple-50 transition">
-
-                                            <x-heroicon-o-check-badge class="mx-auto h-7 w-7 text-purple-600" />
-
-                                            <p class="mt-3 font-medium">
-
-                                                Process
-
-                                            </p>
-
-                                        </button>
+                                        </div>
 
                                     </div>
 
-                                </div> --}}
+                                    {{-- Download Invoice --}}
+                                    <a href="{{ route('insurance.invoice.genarate', $purchase->id) }}"
+                                        target="_blank" rel="noopener noreferrer"
+                                        class="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
+
+                                        <x-heroicon-o-arrow-down-tray class="h-4 w-4" />
+
+                                        Download Invoice
+
+                                    </a>
+
+                                </div>
 
                             </div>
 
@@ -1573,7 +1824,7 @@
                             Process
 
 
-                        </a> 
+                        </a>
 
                         {{-- <button
                             class="rounded-lg border border-gray-300 bg-white p-4 hover:border-purple-500 hover:bg-purple-50 transition">
