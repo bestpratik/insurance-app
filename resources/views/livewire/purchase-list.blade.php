@@ -906,9 +906,6 @@
                         px-6 py-4 sm:flex-row sm:items-center
                         sm:justify-end">
 
-                    {{-- Cancel --}}
-                   
-
 
                     {{-- Add / Update --}}
                     <button type="button" wire:click="saveCouncil" wire:loading.attr="disabled"
