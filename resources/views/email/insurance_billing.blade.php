@@ -124,10 +124,10 @@
             '%detailsofCover%' => $bodyValue[14] ?? '',
         ];
 
-         //dd($placeholders);
+         
 
         $output_string = str_replace(array_keys($placeholders), array_values($placeholders), $body);
-        
+        // dd($output_string);
     @endphp
 
     {!! $output_string !!}

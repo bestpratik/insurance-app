@@ -455,6 +455,7 @@ class PurchaseList extends Component
             $purchase->ipt,
             $purchase->gross_premium,
             $purchase->rent_amount,
+            $purchase->payable_amount,
         ];
 
         $riskAddress = trim($purchase->door_no . ' ' . $purchase->address_one . ' ' . $purchase->address_two . ' ' . $purchase->address_three . ' ' . $purchase->post_code);
