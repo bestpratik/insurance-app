@@ -204,7 +204,7 @@
                     <p><span class="label">Policy End
                             Date:</span>{{ \Carbon\Carbon::parse($purchase->policy_end_date ?? '')->format('d M Y') }}
                     </p>
-                    <p><span class="label">Total Premium:</span> <span class="orange">£{{ $purchase->total_premium ?? '' }} </span></p>
+                    <p><span class="label">Total Premium:</span> <span class="orange">£{{ $purchase->payable_amount ?? '' }} </span></p>
                     @if (!empty($purchase->admin_fee))
                         <p><span class="label">Broker Fee:</span> <span class="orange">£{{ $purchase->admin_fee ?? '' }} </span></p>
                     @endif

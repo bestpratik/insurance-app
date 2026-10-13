@@ -826,8 +826,8 @@ class InsurancePurchaseRenewal extends Component
                     return filter_var($email, FILTER_VALIDATE_EMAIL);
                 });
 
-                // $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-                $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+                $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+                // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
                 foreach ($sendToemails as $email) {
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -881,7 +881,7 @@ class InsurancePurchaseRenewal extends Component
         $pdfContent = $pdf->output();
 
         // Define filename and path
-        $fileName = 'policy_invoice_' . $purchaseId . '.pdf';
+        $fileName = 'policy_invoice_' . $purchaseId . '.pdf'; 
         $directory = public_path('uploads/invoice');
         $filePath = $directory . '/' . $fileName;
         // dd($filePath);
@@ -908,8 +908,8 @@ class InsurancePurchaseRenewal extends Component
                 return filter_var($email, FILTER_VALIDATE_EMAIL);
             });
 
-            // $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
-            $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
+            $ccEmails = array_merge(['aadatia@moneywiseplc.co.uk'], $validCopyEmails);
+            // $ccEmails = array_merge(['anuradham.dbt@gmail.com'], $validCopyEmails);
 
             foreach ($sendToBillingEmails as $email) {
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
