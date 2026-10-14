@@ -31,7 +31,18 @@ class PurchaseList extends Component
     public $purchaseDate;
     public $tenantName;
     public $tenantEmail;
+    public $billingName;
     public $detailsofCover;
+
+    /**
+     * Search filters can be changed while the user is on a later page. Return
+     * to the first page so matching purchases are not hidden by the old page
+     * number (for example, page 76 from the unfiltered list).
+     */
+    public function updatedBillingName(): void
+    {
+        $this->resetPage();
+    }
 
 
     public $showCancelModal = false;
@@ -110,6 +121,7 @@ class PurchaseList extends Component
 
 
 
+
         if (!empty($this->policyNo)) {
             $query->where('policy_no', 'LIKE', '%' . $this->policyNo . '%');
         }
@@ -165,6 +177,15 @@ class PurchaseList extends Component
 
         if (!empty($this->tenantEmail)) {
             $query->where('tenant_email', $this->tenantEmail);
+        }
+
+
+        if (trim($this->billingName ?? '') !== '') {
+            $billingName = trim($this->billingName);
+
+            $query->whereHas('invoice', function ($subQuery) use ($billingName) {
+                $subQuery->where('billing_name', 'LIKE', '%' . $billingName . '%');
+            });
         }
 
         $purchases = $query->paginate($this->perPage);

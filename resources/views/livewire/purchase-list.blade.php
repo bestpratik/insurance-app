@@ -67,6 +67,12 @@
                 class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
         </div>
 
+        <div class="sm:w-64">
+            <label for="storeFilter" class="block text-sm font-medium text-gray-700 mb-1">Billing Name</label>
+            <input type="text" wire:model.live="billingName" placeholder="Search..."
+                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 h-10 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pr-4 pl-[42px] text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden">
+        </div>
+
     </div>
 
 
@@ -165,7 +171,8 @@
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Purchased By
+                            {{-- Purchased By --}}
+                            Billing Name
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -266,7 +273,8 @@
                                 {{ date('jS F Y', strtotime($row->purchase_date)) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                N/A
+                                {{-- N/A --}}
+                                {{ $row->invoice->billing_name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 @if ($row->invoice)
