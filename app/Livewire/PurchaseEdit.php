@@ -32,6 +32,7 @@ class PurchaseEdit extends Component
 
     // Step 4: Policy Details
     public $policyStartDate;
+    public $policyEndDate;
     public $astStartDate;
     public $policyTerm;
     // public $premiumAmount;
@@ -107,6 +108,7 @@ class PurchaseEdit extends Component
             $this->policyholderPostcode = $this->purchaseData->policy_holder_postcode;
 
             $this->policyStartDate = $this->purchaseData->policy_start_date;
+            $this->policyEndDate = $this->purchaseData->policy_end_date;
             $this->astStartDate = $this->purchaseData->ast_start_date;
             $this->policyTerm = $this->purchaseData->policy_term;
 
@@ -251,6 +253,7 @@ class PurchaseEdit extends Component
                 'policy_holder_address_two' => $this->policyholderAddress2,
                 'policy_holder_postcode' => $this->policyholderPostcode,
                 'policy_start_date' => $this->policyStartDate,
+                'policy_end_date' => $this->policyEndDate,
                 'ast_start_date' => $this->astStartDate,
                 'policy_term' => $this->policyTerm,
 
