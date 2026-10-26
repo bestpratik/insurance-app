@@ -443,7 +443,6 @@
                                                 <span>Download Invoice</span>
                                             </a>
 
-                                            {{-- @if ($daysUntilExpiry >= 0 && $daysUntilExpiry < 60) --}}
                                             @if ($daysUntilExpiry <= 60)
                                                 <!-- Policy Renewal -->
                                                 <a href="{{ route('purchase.renewal.overview', $row->id) }}"
